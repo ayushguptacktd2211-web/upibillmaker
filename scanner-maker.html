@@ -88,6 +88,14 @@
         page-break-inside: avoid !important;
       }
     }
+    body.input-is-focused #floating-view-btn {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translateY(20px) scale(0.9) !important;
+    }
+    #floating-view-btn {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
@@ -169,16 +177,6 @@
     </div>
   </header>
 
-  <!-- Mobile Tab Switcher -->
-  <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-2 sticky top-16 z-30 no-print flex gap-2">
-    <button id="mob-tab-edit" onclick="switchMobileTab('edit')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-purple-600 text-white flex items-center justify-center gap-1.5">
-      <i data-lucide="edit" class="w-3.5 h-3.5"></i> Edit Standee
-    </button>
-    <button id="mob-tab-preview" onclick="switchMobileTab('preview')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5">
-      <i data-lucide="eye" class="w-3.5 h-3.5"></i> View Standee
-    </button>
-  </div>
-
   <!-- Hero Section -->
   <section class="pt-6 pb-8 bg-gradient-to-b from-purple-50/50 via-white to-slate-50 border-b border-slate-200 no-print text-center px-4">
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-900 text-xs font-bold mb-3">
@@ -192,7 +190,6 @@
       Create professional, print-ready UPI payment standees with your shop logo and business name. Lock in any fixed amount (e.g. ₹50, ₹100, ₹500) or keep it open for any customer payment!
     </p>
   </section>
-
 
   <!-- Top Leaderboard Advertisement Slot -->
   <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
@@ -208,10 +205,8 @@
     </div>
   </div>
 
-
-
   <!-- Mobile Quick Jump Bar (Preview vs Edit) -->
-  <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-2 sticky top-16 z-30 no-print flex gap-2">
+  <div class="lg:hidden bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 py-2 sticky top-[53px] z-30 no-print flex gap-2">
     <a href="#col-preview" class="flex-1 py-2 text-xs font-bold rounded-lg bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-colors">
       <i data-lucide="eye" class="w-3.5 h-3.5"></i> Live Standee Preview
     </a>
@@ -220,9 +215,7 @@
     </a>
   </div>
 
-
-
-  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+  <main class="max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-8">
     <div id="col-preview" class="w-full space-y-4 flex flex-col items-center">
 
       <!-- Preview Header & Actions Bar -->
@@ -347,7 +340,7 @@
     </div>
 
 
-    <div id="col-form" class="w-full bg-white p-5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 no-print">
+    <div id="col-form" class="w-full bg-white p-3.5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 no-print">
       
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
         <h2 class="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
@@ -799,7 +792,61 @@
     const brandingCb = document.getElementById('enable-branding');
     if (brandingCb) brandingCb.addEventListener('change', updateStandee);
 
-    window.addEventListener('DOMContentLoaded', initStandee);
+    // Dynamic Direction for Floating Button (View Standee vs Edit Form)
+    function updateStandeeFloatingBtnState() {
+      const floatBtn = document.getElementById('floating-view-btn');
+      const floatText = document.getElementById('floating-view-text');
+      const floatIcon = document.getElementById('floating-view-icon');
+      if (!floatBtn) return;
+
+      const previewEl = document.getElementById('col-preview');
+      if (!previewEl) return;
+
+      const rect = previewEl.getBoundingClientRect();
+      const isPreviewVisible = rect.bottom > 250 && rect.top < 150;
+
+      if (isPreviewVisible) {
+        floatBtn.setAttribute('href', '#col-form');
+        if (floatText) floatText.innerText = 'Edit Details ↓';
+        if (floatIcon) {
+          floatIcon.setAttribute('data-lucide', 'edit-3');
+          if (window.lucide) lucide.createIcons();
+        }
+      } else {
+        floatBtn.setAttribute('href', '#col-preview');
+        if (floatText) floatText.innerText = 'Live Preview ↑';
+        if (floatIcon) {
+          floatIcon.setAttribute('data-lucide', 'eye');
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    // Auto-hide floating button when typing in inputs on mobile
+    document.addEventListener('focusin', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
+        document.body.classList.add('input-is-focused');
+      }
+    });
+
+    document.addEventListener('focusout', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
+        document.body.classList.remove('input-is-focused');
+      }
+    });
+
+    window.addEventListener('scroll', updateStandeeFloatingBtnState, { passive: true });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initStandee();
+      updateStandeeFloatingBtnState();
+    });
   </script>
+
+  <!-- Modern Floating View Bill / Edit Jump Pill -->
+  <a href="#col-preview" id="floating-view-btn" class="fixed bottom-5 right-4 z-40 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-bold px-3.5 py-2 rounded-full shadow-lg shadow-purple-700/30 flex items-center gap-1.5 backdrop-blur-md border border-white/25 transition-all active:scale-95 no-print cursor-pointer">
+    <i data-lucide="eye" id="floating-view-icon" class="w-3.5 h-3.5 text-white"></i>
+    <span id="floating-view-text">Live Preview ↑</span>
+  </a>
 </body>
 </html>

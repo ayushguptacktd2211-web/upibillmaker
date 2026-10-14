@@ -68,6 +68,29 @@
         page-break-inside: avoid !important;
       }
     }
+
+    /* Mobile Fit Viewport & Responsive Preview */
+    #hotel-preview-viewport {
+      width: 100%;
+      position: relative;
+      transition: height 0.15s ease-out;
+    }
+    #hotel-preview-viewport.is-fit-screen {
+      overflow: hidden !important;
+    }
+    #hotel-preview-viewport.is-scrollable {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    body.input-is-focused #floating-view-btn {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: translateY(20px) scale(0.9) !important;
+    }
+    #floating-view-btn {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
@@ -169,7 +192,7 @@
   </div>
 
   <!-- Mobile Quick Jump Bar (Preview vs Edit) -->
-  <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-2 sticky top-16 z-30 no-print flex gap-2">
+  <div class="lg:hidden bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 py-2 sticky top-[53px] z-30 no-print flex gap-2 shadow-2xs">
     <a href="#col-preview" class="flex-1 py-2 text-xs font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-colors">
       <i data-lucide="eye" class="w-3.5 h-3.5"></i> Live Bill Preview
     </a>
@@ -178,7 +201,7 @@
     </a>
   </div>
 
-  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+  <main class="max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
     <div id="col-preview" class="w-full space-y-4">
 
       <!-- Preview Header & Actions Bar -->
@@ -196,10 +219,17 @@
       </div>
 
       <!-- Action Buttons Bar -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
-        <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
-          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
-          <span>12%/18% Hotel GST & SAC 9963 Ready</span>
+      <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
+        <div class="flex items-center justify-between w-full sm:w-auto gap-2">
+          <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+            <span>Hotel Folio & GST</span>
+          </div>
+          <!-- Mobile Fit to Screen Toggle -->
+          <button type="button" id="btn-toggle-hotel-fit" onclick="toggleHotelPreviewFit()" class="md:hidden inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg transition-colors cursor-pointer" title="Toggle between Fit-to-Screen and 100% Zoom">
+            <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-indigo-600"></i>
+            <span id="hotel-fit-toggle-label">Fit Screen</span>
+          </button>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm shadow-indigo-600/20 transition-all cursor-pointer">
@@ -208,14 +238,15 @@
           <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
             <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
           </button>
-          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
             <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
           </button>
         </div>
       </div>
 
-      <!-- Authentic Hotel Folio Paper Frame -->
-      <div id="hotel-bill-preview" class="w-full bg-white p-6 sm:p-8 rounded-none border border-slate-200 shadow-lg space-y-4 font-sans text-xs relative">
+      <!-- Mobile Fit Viewport Wrapper -->
+      <div id="hotel-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
+        <div id="hotel-bill-preview" class="w-full bg-white p-5 sm:p-8 rounded-none border border-slate-200 shadow-lg space-y-4 font-sans text-xs relative">
         
         <!-- Centered Statutory Header -->
         <div class="text-center pb-3 border-b-2 border-slate-800">
@@ -338,6 +369,7 @@
           Generated by UPIBillMaker.com
         </div>
 
+        </div>
       </div>
     </div>
 
@@ -357,20 +389,20 @@
     </div>
 
 
-    <div id="col-form" class="w-full bg-white p-5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 no-print">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-        <h2 class="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
+    <div id="col-form" class="w-full bg-white p-3.5 sm:p-8 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm space-y-5 sm:space-y-6 no-print">
+      <div class="flex flex-wrap items-center justify-between gap-2.5 pb-3 border-b border-slate-100">
+        <h2 class="font-heading font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
           <i data-lucide="edit-3" class="w-4 h-4 text-amber-600"></i> Hotel & Booking Details
         </h2>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="loadHotelSampleData()" class="text-[11px] font-semibold text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 px-2 py-0.5 rounded border border-amber-200">Sample</button>
-          <button type="button" onclick="clearHotelForm()" class="text-[11px] font-semibold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded border border-slate-300">Clear</button>
+        <div class="flex flex-wrap items-center gap-2">
+          <button type="button" onclick="loadHotelSampleData()" class="text-[11px] font-semibold text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 px-2.5 py-1 rounded border border-amber-200 cursor-pointer">Sample</button>
+          <button type="button" onclick="clearHotelForm()" class="text-[11px] font-semibold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded border border-slate-300 cursor-pointer">Clear</button>
           <div class="flex items-center gap-1.5 ml-1">
             <span class="text-xs font-semibold text-slate-600">Payment:</span>
             <div class="inline-flex p-0.5 bg-slate-200 rounded-lg text-xs" id="hotel-status-toggle">
-              <button type="button" id="btn-hotel-status-pending" onclick="setHotelStatus('pending')" class="px-2 py-0.5 text-xs font-bold rounded bg-amber-500 text-white">Due</button>
-              <button type="button" id="btn-hotel-status-cash" onclick="setHotelStatus('cash')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700">Cash</button>
-              <button type="button" id="btn-hotel-status-online" onclick="setHotelStatus('online')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700">UPI/Online</button>
+              <button type="button" id="btn-hotel-status-pending" onclick="setHotelStatus('pending')" class="px-2 py-0.5 text-xs font-bold rounded bg-amber-500 text-white cursor-pointer">Due</button>
+              <button type="button" id="btn-hotel-status-cash" onclick="setHotelStatus('cash')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700 cursor-pointer">Cash</button>
+              <button type="button" id="btn-hotel-status-online" onclick="setHotelStatus('online')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700 cursor-pointer">UPI/Online</button>
             </div>
             <input type="hidden" id="hotel-status" value="pending">
           </div>
@@ -466,27 +498,35 @@
           </button>
         </div>
 
-        <!-- Column Header Labels -->
-        <div class="grid grid-cols-12 gap-2 text-[10px] font-bold text-slate-400 uppercase px-1">
+        <!-- Column Header Labels (Hidden on mobile) -->
+        <div class="hidden sm:grid grid-cols-12 gap-2 text-[10px] font-bold text-slate-400 uppercase px-1">
           <div class="col-span-7">Service / Room Description</div>
           <div class="col-span-2 text-center">Nights/Qty</div>
           <div class="col-span-2 text-right">Rate (₹)</div>
           <div class="col-span-1 text-center"></div>
         </div>
         
-        <!-- Hotel Items Dynamic Container (Grid-Aligned) -->
+        <!-- Hotel Items Dynamic Container -->
         <div id="hotel-items-box" class="space-y-2 text-xs">
-          <div class="h-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2 rounded-lg border border-slate-200">
-            <div class="col-span-7">
-              <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" placeholder="Service / Room (e.g. Deluxe Room Tariff)">
+          <div class="h-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center">
+            <div class="sm:col-span-7 flex items-center gap-1.5">
+              <div class="flex-1 min-w-0">
+                <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Service / Room</label>
+                <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" placeholder="Service / Room (e.g. Deluxe Room Tariff)">
+              </div>
+              <button type="button" class="sm:hidden btn-del-hotel text-rose-500 hover:text-rose-700 p-1.5 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
             </div>
-            <div class="col-span-2">
-              <input type="number" class="h-qty w-full text-center px-1.5 py-1.5 bg-white rounded border border-slate-300 text-xs" placeholder="Qty" value="1">
+            <div class="grid grid-cols-2 gap-2 sm:contents">
+              <div class="sm:col-span-2 min-w-0">
+                <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nights/Qty</label>
+                <input type="number" class="h-qty w-full text-center px-2 py-1.5 bg-white rounded border border-slate-300 text-xs" placeholder="Qty" value="1">
+              </div>
+              <div class="sm:col-span-2 min-w-0">
+                <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Rate (₹)</label>
+                <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" placeholder="Rate ₹">
+              </div>
             </div>
-            <div class="col-span-2">
-              <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" placeholder="Rate ₹">
-            </div>
-            <div class="col-span-1 text-center">
+            <div class="hidden sm:block sm:col-span-1 text-center">
               <button type="button" class="btn-del-hotel text-rose-500 hover:text-rose-700 p-1 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
             </div>
           </div>
@@ -747,6 +787,7 @@
         const upiUrl = `upi://pay?pa=${encodeURIComponent(receiverUpi)}&pn=${encodeURIComponent((hName || 'Hotel').substring(0, 25))}&am=${grandTotal.toFixed(2)}&cu=INR&tn=${encodeURIComponent('Hotel Bill ' + (rNo || 'Stay'))}`;
         new QRCode(qrBox, { text: upiUrl, width: 64, height: 64 });
       }
+      fitHotelPreviewToScreen();
     }
 
     // Two-Way Live WYSIWYG Editing Sync
@@ -773,18 +814,26 @@
     document.getElementById('btn-add-hotel-item').addEventListener('click', () => {
       const c = document.getElementById('hotel-items-box');
       const div = document.createElement('div');
-      div.className = 'h-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2 rounded-lg border border-slate-200';
+      div.className = 'h-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center';
       div.innerHTML = `
-        <div class="col-span-7">
-          <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" placeholder="Service / Room (e.g. Deluxe Room Tariff)">
+        <div class="sm:col-span-7 flex items-center gap-1.5">
+          <div class="flex-1 min-w-0">
+            <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Service / Room</label>
+            <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" placeholder="Service / Room (e.g. Deluxe Room Tariff)">
+          </div>
+          <button type="button" class="sm:hidden btn-del-hotel text-rose-500 hover:text-rose-700 p-1.5 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
         </div>
-        <div class="col-span-2">
-          <input type="number" class="h-qty w-full text-center px-1.5 py-1.5 bg-white rounded border border-slate-300 text-xs" placeholder="Qty" value="1">
+        <div class="grid grid-cols-2 gap-2 sm:contents">
+          <div class="sm:col-span-2 min-w-0">
+            <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nights/Qty</label>
+            <input type="number" class="h-qty w-full text-center px-2 py-1.5 bg-white rounded border border-slate-300 text-xs" placeholder="Qty" value="1">
+          </div>
+          <div class="sm:col-span-2 min-w-0">
+            <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Rate (₹)</label>
+            <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" placeholder="Rate ₹" value="0">
+          </div>
         </div>
-        <div class="col-span-2">
-          <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" placeholder="Rate ₹" value="0">
-        </div>
-        <div class="col-span-1 text-center">
+        <div class="hidden sm:block sm:col-span-1 text-center">
           <button type="button" class="btn-del-hotel text-rose-500 hover:text-rose-700 p-1 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
         </div>
       `;
@@ -850,31 +899,47 @@
 
       const c = document.getElementById('hotel-items-box');
       c.innerHTML = `
-        <div class="h-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2 rounded-lg border border-slate-200">
-          <div class="col-span-7">
-            <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" value="Deluxe Suite Room Tariff (2 Nights)">
+        <div class="h-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center">
+          <div class="sm:col-span-7 flex items-center gap-1.5">
+            <div class="flex-1 min-w-0">
+              <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Service / Room</label>
+              <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" value="Deluxe Suite Room Tariff (2 Nights)">
+            </div>
+            <button type="button" class="sm:hidden btn-del-hotel text-rose-500 hover:text-rose-700 p-1.5 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
           </div>
-          <div class="col-span-2">
-            <input type="number" class="h-qty w-full text-center px-1.5 py-1.5 bg-white rounded border border-slate-300 text-xs" value="2">
+          <div class="grid grid-cols-2 gap-2 sm:contents">
+            <div class="sm:col-span-2 min-w-0">
+              <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nights/Qty</label>
+              <input type="number" class="h-qty w-full text-center px-2 py-1.5 bg-white rounded border border-slate-300 text-xs" value="2">
+            </div>
+            <div class="sm:col-span-2 min-w-0">
+              <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Rate (₹)</label>
+              <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" value="3500">
+            </div>
           </div>
-          <div class="col-span-2">
-            <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" value="3500">
-          </div>
-          <div class="col-span-1 text-center">
+          <div class="hidden sm:block sm:col-span-1 text-center">
             <button type="button" class="btn-del-hotel text-rose-500 hover:text-rose-700 p-1 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
           </div>
         </div>
-        <div class="h-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2 rounded-lg border border-slate-200">
-          <div class="col-span-7">
-            <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" value="Restaurant & Room Dining (Buffet + Lunch)">
+        <div class="h-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center">
+          <div class="sm:col-span-7 flex items-center gap-1.5">
+            <div class="flex-1 min-w-0">
+              <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Service / Room</label>
+              <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" value="Restaurant & Room Dining (Buffet + Lunch)">
+            </div>
+            <button type="button" class="sm:hidden btn-del-hotel text-rose-500 hover:text-rose-700 p-1.5 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
           </div>
-          <div class="col-span-2">
-            <input type="number" class="h-qty w-full text-center px-1.5 py-1.5 bg-white rounded border border-slate-300 text-xs" value="1">
+          <div class="grid grid-cols-2 gap-2 sm:contents">
+            <div class="sm:col-span-2 min-w-0">
+              <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nights/Qty</label>
+              <input type="number" class="h-qty w-full text-center px-2 py-1.5 bg-white rounded border border-slate-300 text-xs" value="1">
+            </div>
+            <div class="sm:col-span-2 min-w-0">
+              <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Rate (₹)</label>
+              <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" value="1450">
+            </div>
           </div>
-          <div class="col-span-2">
-            <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" value="1450">
-          </div>
-          <div class="col-span-1 text-center">
+          <div class="hidden sm:block sm:col-span-1 text-center">
             <button type="button" class="btn-del-hotel text-rose-500 hover:text-rose-700 p-1 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
           </div>
         </div>
@@ -899,17 +964,25 @@
 
       const c = document.getElementById('hotel-items-box');
       c.innerHTML = `
-        <div class="h-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2 rounded-lg border border-slate-200">
-          <div class="col-span-7">
-            <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" placeholder="Service / Room (e.g. Deluxe Room Tariff)">
+        <div class="h-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center">
+          <div class="sm:col-span-7 flex items-center gap-1.5">
+            <div class="flex-1 min-w-0">
+              <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Service / Room</label>
+              <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" placeholder="Service / Room (e.g. Deluxe Room Tariff)">
+            </div>
+            <button type="button" class="sm:hidden btn-del-hotel text-rose-500 hover:text-rose-700 p-1.5 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
           </div>
-          <div class="col-span-2">
-            <input type="number" class="h-qty w-full text-center px-1.5 py-1.5 bg-white rounded border border-slate-300 text-xs" placeholder="Qty" value="1">
+          <div class="grid grid-cols-2 gap-2 sm:contents">
+            <div class="sm:col-span-2 min-w-0">
+              <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nights/Qty</label>
+              <input type="number" class="h-qty w-full text-center px-2 py-1.5 bg-white rounded border border-slate-300 text-xs" placeholder="Qty" value="1">
+            </div>
+            <div class="sm:col-span-2 min-w-0">
+              <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Rate (₹)</label>
+              <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" placeholder="Rate ₹">
+            </div>
           </div>
-          <div class="col-span-2">
-            <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" placeholder="Rate ₹">
-          </div>
-          <div class="col-span-1 text-center">
+          <div class="hidden sm:block sm:col-span-1 text-center">
             <button type="button" class="btn-del-hotel text-rose-500 hover:text-rose-700 p-1 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
           </div>
         </div>
@@ -954,6 +1027,9 @@
               clonedCard.style.setProperty('border', 'none', 'important');
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
+              clonedCard.style.transform = 'none';
+              clonedCard.style.width = '794px';
+              clonedCard.style.maxWidth = '794px';
             }
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
@@ -1069,6 +1145,9 @@
               clonedCard.style.setProperty('border', 'none', 'important');
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
+              clonedCard.style.transform = 'none';
+              clonedCard.style.width = '794px';
+              clonedCard.style.maxWidth = '794px';
             }
             const origQr = document.getElementById('hotel-qr');
             const cloneQr = clonedDoc.getElementById('hotel-qr');
@@ -1156,6 +1235,91 @@
       }, 3000);
     }
 
+    // Responsive Mobile Fit to Screen for Hotel Bill Preview
+    let isHotelFitToScreen = true;
+
+    function fitHotelPreviewToScreen() {
+      const container = document.getElementById('hotel-bill-preview');
+      const viewport = document.getElementById('hotel-preview-viewport');
+      if (!container || !viewport) return;
+
+      if (window.innerWidth < 768 && isHotelFitToScreen) {
+        viewport.classList.add('is-fit-screen');
+        viewport.classList.remove('is-scrollable');
+        const baseWidth = 680;
+        const availableWidth = viewport.clientWidth;
+        const scale = Math.min(1, availableWidth / baseWidth);
+
+        container.style.width = baseWidth + 'px';
+        container.style.minWidth = baseWidth + 'px';
+        container.style.transformOrigin = 'top left';
+        container.style.transform = `scale(${scale})`;
+        viewport.style.height = Math.ceil(container.offsetHeight * scale) + 'px';
+      } else {
+        viewport.classList.remove('is-fit-screen');
+        viewport.classList.add('is-scrollable');
+        container.style.width = '100%';
+        container.style.minWidth = 'auto';
+        container.style.transform = 'none';
+        viewport.style.height = 'auto';
+      }
+    }
+
+    function toggleHotelPreviewFit() {
+      isHotelFitToScreen = !isHotelFitToScreen;
+      const label = document.getElementById('hotel-fit-toggle-label');
+      if (label) {
+        label.innerText = isHotelFitToScreen ? 'Fit Screen' : '1:1 Actual';
+      }
+      fitHotelPreviewToScreen();
+    }
+
+    // Dynamic Direction for Floating Button (View Bill vs Edit Form)
+    function updateHotelFloatingBtnState() {
+      const floatBtn = document.getElementById('floating-view-btn');
+      const floatText = document.getElementById('floating-view-text');
+      const floatIcon = document.getElementById('floating-view-icon');
+      if (!floatBtn) return;
+
+      const previewEl = document.getElementById('col-preview');
+      if (!previewEl) return;
+
+      const rect = previewEl.getBoundingClientRect();
+      const isPreviewVisible = rect.bottom > 250 && rect.top < 150;
+
+      if (isPreviewVisible) {
+        floatBtn.setAttribute('href', '#col-form');
+        if (floatText) floatText.innerText = 'Edit Form ↓';
+        if (floatIcon) {
+          floatIcon.setAttribute('data-lucide', 'edit-3');
+          if (window.lucide) lucide.createIcons();
+        }
+      } else {
+        floatBtn.setAttribute('href', '#col-preview');
+        if (floatText) floatText.innerText = 'Live Preview ↑';
+        if (floatIcon) {
+          floatIcon.setAttribute('data-lucide', 'eye');
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    // Auto-hide floating button when typing in inputs on mobile
+    document.addEventListener('focusin', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
+        document.body.classList.add('input-is-focused');
+      }
+    });
+
+    document.addEventListener('focusout', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
+        document.body.classList.remove('input-is-focused');
+      }
+    });
+
+    window.addEventListener('resize', fitHotelPreviewToScreen);
+    window.addEventListener('scroll', updateHotelFloatingBtnState, { passive: true });
+
     window.addEventListener('DOMContentLoaded', () => {
       const nameInput = document.getElementById('hotel-name');
       if (!nameInput || !nameInput.value.trim()) {
@@ -1163,13 +1327,15 @@
       } else {
         updateHotelBill();
       }
+      setTimeout(fitHotelPreviewToScreen, 100);
+      updateHotelFloatingBtnState();
     });
   </script>
 
-  <!-- Floating View Bill Jump Pill -->
-  <a href="#col-preview" id="floating-view-btn" class="fixed bottom-6 right-6 z-40 bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 backdrop-blur-sm border border-slate-700/60 transition-transform active:scale-95 no-print">
-    <i data-lucide="eye" class="w-4 h-4 text-indigo-400"></i>
-    <span>View Live Bill ↑</span>
+  <!-- Modern Floating View Bill / Edit Jump Pill -->
+  <a href="#col-preview" id="floating-view-btn" class="fixed bottom-5 right-4 z-40 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white text-xs font-bold px-3.5 py-2 rounded-full shadow-lg shadow-indigo-700/30 flex items-center gap-1.5 backdrop-blur-md border border-white/25 transition-all active:scale-95 no-print cursor-pointer">
+    <i data-lucide="eye" id="floating-view-icon" class="w-3.5 h-3.5 text-white"></i>
+    <span id="floating-view-text">Live Preview ↑</span>
   </a>
 
 </body>
