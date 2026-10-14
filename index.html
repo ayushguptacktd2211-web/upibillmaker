@@ -1,0 +1,3108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UPI Bill Maker – Free GST & Non-GST Invoice Maker with Auto-Pay QR Code</title>
+  <meta name="description" content="Generate official GST Tax Invoices and Non-GST digital receipts with custom logo, CGST/SGST/IGST breakdown, HSN/SAC codes, and auto-pay UPI QR code. 100% free.">
+  <meta name="keywords" content="gst bill maker with qr code, upi invoice generator, upi bill maker, b2b gst invoice generator, hsn code invoice maker, free gst bill generator india">
+  <link rel="canonical" href="https://upibillmaker.com/">
+  
+  <!-- Open Graph / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://upibillmaker.com/">
+  <meta property="og:title" content="UPI Bill Maker – Free GST & Non-GST Invoices with Auto-Pay QR Code">
+  <meta property="og:description" content="Create professional GST Tax Invoices with CGST/SGST, HSN codes, custom logo, and exact-amount UPI QR code.">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- html2canvas & jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Google Fonts: Inter, Outfit, & Dancing Script -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; }
+    .font-signature { font-family: 'Dancing Script', cursive; }
+
+    /* Google AdSense Auto-Ads Layout Protection */
+    .google-anno-skip {
+      contain: layout paint;
+    }
+    .google-anno-skip .google-auto-placed,
+    #invoice-preview-container .google-auto-placed,
+    #col-main-form .google-auto-placed,
+    #col-main-preview .google-auto-placed,
+    #logo-maker-modal .google-auto-placed {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .google-auto-placed {
+      margin: 20px auto !important;
+      text-align: center !important;
+      max-width: 100% !important;
+      clear: both !important;
+    }
+
+    /* =========================================================================
+       INVOICE BILL FORMAT TEMPLATES (4 DISTINCT HIGH-END SAAS DESIGNS)
+       ========================================================================= */
+
+    /* 1. Format: Modern Tax Invoice (Clean Standard Authentic) */
+    #invoice-preview-container.format-modern {
+      border-radius: 0px !important;
+      border: 1px solid #e2e8f0 !important;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* 2. Format: Classic Corporate (Tally / Ledger Grid Standard) */
+    #invoice-preview-container.format-classic {
+      border-radius: 0px !important;
+      border: 2px solid #0f172a !important;
+      box-shadow: none !important;
+    }
+    #invoice-preview-container.format-classic #prev-doc-type {
+      background: #0f172a !important;
+      color: #ffffff !important;
+      padding: 4px 12px !important;
+      letter-spacing: 0.15em !important;
+    }
+    #invoice-preview-container.format-classic table {
+      border: 1.5px solid #0f172a !important;
+    }
+    #invoice-preview-container.format-classic thead tr {
+      background: #e2e8f0 !important;
+      border-bottom: 2px solid #0f172a !important;
+      color: #0f172a !important;
+    }
+    #invoice-preview-container.format-classic th,
+    #invoice-preview-container.format-classic td {
+      border-right: 1px solid #cbd5e1 !important;
+      padding: 6px 8px !important;
+    }
+    #invoice-preview-container.format-classic th:last-child,
+    #invoice-preview-container.format-classic td:last-child {
+      border-right: none !important;
+    }
+    #invoice-preview-container.format-classic tbody tr {
+      border-bottom: 1px solid #e2e8f0 !important;
+    }
+    #invoice-preview-container.format-classic tbody tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    #invoice-preview-container.format-classic #prev-grand-total {
+      color: #0f172a !important;
+      border-bottom: 3px double #0f172a;
+    }
+
+    /* 3. Format: Executive Navy (Corporate Tax Invoice) */
+    #invoice-preview-container.format-executive {
+      border-radius: 0px !important;
+      border: 2px solid #0f172a !important;
+      box-shadow: none !important;
+    }
+    #invoice-preview-container.format-executive thead tr {
+      background: #0f172a !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-executive th {
+      color: #f8fafc !important;
+      padding: 7px 10px !important;
+    }
+    #invoice-preview-container.format-executive tbody tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    #invoice-preview-container.format-executive #prev-grand-total {
+      color: #0f172a !important;
+    }
+
+    /* 4. Format: Minimalist Clean (Studio B&W) */
+    #invoice-preview-container.format-minimal {
+      border-radius: 0px !important;
+      border: 1px solid #000000 !important;
+      box-shadow: none !important;
+    }
+    #invoice-preview-container.format-minimal thead tr {
+      border-top: 2px solid #000000 !important;
+      border-bottom: 2px solid #000000 !important;
+      color: #000000 !important;
+      font-weight: 800 !important;
+      background: transparent !important;
+    }
+    #invoice-preview-container.format-minimal th {
+      color: #000000 !important;
+    }
+    #invoice-preview-container.format-minimal tbody tr {
+      border-bottom: 1px solid #e5e7eb !important;
+    }
+    #invoice-preview-container.format-minimal #prev-grand-total {
+      color: #000000 !important;
+      font-weight: 900 !important;
+    }
+
+    /* Direct WYSIWYG Editable Fields in Preview */
+    .editable-field {
+      border-radius: 4px;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+      cursor: text;
+    }
+    .editable-field:hover {
+      background-color: rgba(16, 185, 129, 0.08) !important;
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.35) !important;
+    }
+    .editable-field:focus {
+      outline: none !important;
+      background-color: rgba(16, 185, 129, 0.12) !important;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.65) !important;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      /* Hide all non-printable UI elements completely so they take 0 height */
+      header, footer, nav, section, .no-print, #col-main-form, .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden, #logo-maker-modal {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      main, #tool-section {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      #col-main-preview {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+      #invoice-preview-container {
+        display: block !important;
+        position: relative !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+        page-break-inside: avoid;
+      }
+      .editable-field, .editable-field:hover, .editable-field:focus {
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+    }
+  </style>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I generate official GST Tax Invoices with CGST and SGST?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! You can toggle GST Tax Invoice mode. It allows you to enter Seller GSTIN, Buyer GSTIN, HSN/SAC codes, and automatically calculates CGST + SGST for intra-state sales or IGST for inter-state sales."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can non-GST registered businesses also use this tool?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Non-GST businesses, private tutors, and small shops can uncheck the GST option to create clean commercial cash memos and receipts without tax complications."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- Navigation Bar -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-md shadow-brand-600/20">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-heading font-extrabold text-xl text-slate-900 tracking-tight">
+            UPI<span class="text-brand-600">BillMaker</span>
+          </span>
+          <p class="text-[11px] text-slate-500 hidden sm:block -mt-1">Free GST & Non-GST Invoice Maker</p>
+        </div>
+      </a>
+
+      <!-- Clean Minimal Nav Links -->
+      <nav class="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-700">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg text-brand-700 bg-brand-50 font-bold flex items-center gap-1.5">
+          <i data-lucide="receipt" class="w-4 h-4"></i>
+          <span>Invoice Maker</span>
+        </a>
+        <a href="scanner-maker.html" class="px-3 py-1.5 rounded-lg text-purple-700 hover:bg-purple-50 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i>
+          <span>UPI Scanner Maker</span>
+        </a>
+        
+        <!-- Clean Templates Dropdown -->
+        <div class="relative group">
+          <button type="button" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors">
+            <i data-lucide="layout-grid" class="w-4 h-4 text-slate-500"></i>
+            <span>All Templates</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform"></i>
+          </button>
+          
+          <div class="absolute left-0 top-full pt-1 w-56 hidden group-hover:block z-50">
+            <div class="bg-white rounded-xl shadow-xl border border-slate-200 py-2 text-xs space-y-0.5">
+              <a href="index.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-brand-700 font-medium">
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-brand-600"></i> Retail & General GST Bill
+              </a>
+              <a href="medical-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-teal-700 font-medium">
+                <i data-lucide="activity" class="w-4 h-4 text-teal-600"></i> Pharmacy & Medical Bill
+              </a>
+              <a href="restaurant-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-orange-700 font-medium">
+                <i data-lucide="utensils" class="w-4 h-4 text-orange-600"></i> Restaurant / Cafe Food Bill
+              </a>
+              <a href="hotel-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-indigo-700 font-medium">
+                <i data-lucide="hotel" class="w-4 h-4 text-indigo-600"></i> Hotel & Homestay Receipt
+              </a>
+              <a href="rent-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-emerald-700 font-medium">
+                <i data-lucide="home" class="w-4 h-4 text-emerald-600"></i> House Rent Receipt (HRA)
+              </a>
+              <a href="tuition-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-blue-700 font-medium">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i> Coaching / Tuition Fee
+              </a>
+              <a href="scanner-maker.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-purple-700 font-medium border-t border-slate-100">
+                <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i> UPI Standee & Sticker Maker
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="downloadAsPDF()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm transition-all shadow-brand-600/20 cursor-pointer">
+          <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+          <span>Download PDF</span>
+        </button>
+        <button onclick="downloadAsPNG()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-300 cursor-pointer">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Save PNG</span>
+        </button>
+        <button onclick="window.print()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-300 cursor-pointer">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span>Print</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative pt-10 pb-12 overflow-hidden bg-gradient-to-b from-slate-100 via-white to-slate-50 border-b border-slate-200 no-print">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold mb-4">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        GST & Non-GST Compliant • CGST/SGST/IGST • HSN Codes • Auto-Pay QR
+      </div>
+      
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight sm:leading-tight mb-4">
+        Free GST Tax Invoice & Cash Memo Maker with <br class="hidden sm:inline">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-emerald-600">Logo & Auto-Pay UPI QR Code</span>
+      </h1>
+      
+      <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-6">
+        Generate compliant B2B/B2C GST Tax Invoices or simple Non-GST digital receipts. Customers scan the QR code to pay the exact amount via GPay, PhonePe, or Paytm in 5 seconds.
+      </p>
+
+      <!-- Trust Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-medium text-slate-600">
+        <span class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
+          <i data-lucide="file-check" class="w-4 h-4 text-brand-600"></i> GSTIN & HSN/SAC Support
+        </span>
+        <span class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
+          <i data-lucide="image" class="w-4 h-4 text-indigo-600"></i> Business Logo Upload
+        </span>
+        <span class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
+          <i data-lucide="divide" class="w-4 h-4 text-emerald-600"></i> CGST + SGST / IGST Split
+        </span>
+        <span class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border border-slate-200 shadow-2xs">
+          <i data-lucide="share-2" class="w-4 h-4 text-teal-600"></i> 1-Click WhatsApp Share
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top Leaderboard Advertisement Slot -->
+  <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
+    <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+    <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <span class="text-xs text-slate-400 font-medium select-none">Responsive Ad Banner Slot</span>
+    </div>
+  </div>
+
+  <!-- Mobile Quick Jump Bar (Preview vs Edit) -->
+  <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-2 sticky top-16 z-30 no-print flex gap-2">
+    <a href="#col-main-preview" class="flex-1 py-2 text-xs font-bold rounded-lg bg-brand-600 hover:bg-brand-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-colors">
+      <i data-lucide="eye" class="w-3.5 h-3.5"></i> Live Bill Preview
+    </a>
+    <a href="#col-main-form" class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5 transition-colors">
+      <i data-lucide="edit" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
+    </a>
+  </div>
+
+  <!-- Main Tool Workspace (Centered Form with Preview Below for High Ads & SaaS UX) -->
+  <main id="tool-section" class="google-anno-skip max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    
+    
+
+    <!-- Live Interactive Preview Section (Centered, Stacked Below Form) -->
+      <div id="col-main-preview" class="google-anno-skip w-full space-y-4">
+        
+        <!-- Preview Section Header -->
+        <div class="flex items-center justify-between px-1 no-print">
+          <div>
+            <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
+              <svg class="w-5 h-5 text-brand-600 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <span>Live Interactive Bill Preview</span>
+            </h3>
+            <p class="text-xs text-slate-500">Real-time live rendering • High-resolution A4 ready</p>
+          </div>
+          <a href="#col-main-form" class="text-xs font-semibold text-brand-600 hover:text-brand-800 flex items-center gap-1 transition-colors">
+            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
+          </a>
+        </div>
+
+        
+        <!-- Action Buttons Bar -->
+        <div class="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
+          <div class="flex items-center gap-2">
+            <label for="invoice-format-select" class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-brand-600 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              <span>Bill Format:</span>
+            </label>
+            <select id="invoice-format-select" onchange="setInvoiceFormat(this.value)" class="text-xs font-bold bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer">
+              <option value="format-modern" selected>Modern SaaS (Default)</option>
+              <option value="format-classic">Classic Corporate (Grid)</option>
+              <option value="format-executive">Executive Navy (Premium)</option>
+              <option value="format-minimal">Minimalist Clean (Studio)</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm transition-all shadow-brand-600/20 cursor-pointer">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
+            </button>
+            <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg cursor-pointer">
+              <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+            </button>
+            <button type="button" onclick="printInvoice()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg cursor-pointer">
+              <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+            </button>
+            <button type="button" id="btn-share-whatsapp" class="hidden md:inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm cursor-pointer">
+              <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <!-- The Live Rendered Sheet (Authentic Real Indian Invoice Format) -->
+        <div id="invoice-preview-container" class="format-modern google-anno-skip bg-white rounded-none border border-slate-200 shadow-lg p-6 sm:p-8 transition-all relative">
+          
+          <!-- Top Tax Invoice Legal Title Bar -->
+          <div class="text-center pb-3 mb-3 border-b-2 border-slate-800">
+            <h2 id="prev-doc-type" class="font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase">
+              TAX INVOICE
+            </h2>
+            <p class="text-[10px] font-semibold text-slate-500 tracking-widest uppercase mt-0.5">
+              (Issued under Section 31 of CGST Act, 2017 • Original for Recipient)
+            </p>
+          </div>
+
+          <!-- Invoice Header: Two Column Structured Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pb-3 border-b border-slate-300">
+            <!-- Left 7 Cols: Seller / Supplier Details -->
+            <div class="sm:col-span-7 flex items-start gap-3">
+              <div id="invoice-logo-wrapper" class="hidden flex-shrink-0 max-h-16 max-w-[130px] items-center justify-start overflow-hidden">
+                <img id="invoice-logo-img" src="" alt="Business Logo" class="max-h-14 max-w-full object-contain">
+              </div>
+              <div class="space-y-0.5">
+                <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block">Supplier / Billed From:</span>
+                <h3 id="prev-seller-name" contenteditable="true" spellcheck="false" class="editable-field font-heading font-extrabold text-lg sm:text-xl text-slate-900 tracking-tight leading-snug" data-bind="seller-name" title="Click to edit business name">
+                  Sharma Electronics & Services
+                </h3>
+                <p id="prev-seller-tagline" contenteditable="true" spellcheck="false" class="editable-field text-xs font-medium text-slate-600" data-bind="seller-tagline" title="Click to edit tagline">Laptop, Mobile & CCTV Sales & Repair</p>
+                <p id="prev-seller-address" contenteditable="true" spellcheck="false" class="editable-field text-xs text-slate-600 block mt-1" data-bind="seller-address" title="Click to edit address">Shop 12, Commercial Complex, Sector 18, Noida, UP - 201301</p>
+                <p id="prev-seller-phone" contenteditable="true" spellcheck="false" class="editable-field text-xs text-slate-700 font-medium block" data-bind="seller-phone" title="Click to edit phone">+91 98765 43210</p>
+                
+                <div id="prev-seller-gstin-box" class="pt-1 text-xs text-slate-800 font-mono">
+                  <span class="font-bold">GSTIN: <span id="prev-seller-gstin" contenteditable="true" spellcheck="false" class="editable-field" data-bind="seller-gstin" title="Click to edit GSTIN">07AABCS1429B1Z8</span></span>
+                  <span class="text-slate-400 mx-1.5">•</span>
+                  <span>State: <span id="prev-seller-state" class="font-medium">07 - Delhi</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right 5 Cols: Structured Invoice Details Table -->
+            <div class="sm:col-span-5 text-xs">
+              <div class="border border-slate-300 rounded-none bg-slate-50/60 p-2.5 space-y-1.5">
+                <div class="flex justify-between items-center border-b border-slate-200 pb-1">
+                  <span class="font-bold text-slate-600 uppercase text-[10px]">Invoice No:</span>
+                  <span id="prev-invoice-no" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900" data-bind="invoice-no" title="Click to edit Invoice #">INV-1001</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-slate-200 pb-1">
+                  <span class="font-bold text-slate-600 uppercase text-[10px]">Invoice Date:</span>
+                  <span id="prev-invoice-date" class="font-mono text-slate-800 font-medium"></span>
+                </div>
+                <div class="flex justify-between items-center border-b border-slate-200 pb-1">
+                  <span class="font-bold text-slate-600 uppercase text-[10px]">Place of Supply:</span>
+                  <span id="prev-supply-state" class="font-medium text-slate-800">07 - Delhi</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-slate-600 uppercase text-[10px]">Payment Status:</span>
+                  <div role="button" tabindex="0" onclick="toggleBillStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none">
+                    <span id="prev-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-amber-700">
+                      DUE (PENDING)
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Billed To (Buyer Info) -->
+          <div class="py-3 border-b border-slate-300 grid grid-cols-1 sm:grid-cols-12 gap-3 text-xs">
+            <div class="sm:col-span-7">
+              <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Details of Receiver (Billed To):</span>
+              <h4 id="prev-client-name" contenteditable="true" spellcheck="false" class="editable-field font-bold text-sm text-slate-900" data-bind="client-name" title="Click to edit Customer Name">Rahul Verma</h4>
+              <p id="prev-client-phone" contenteditable="true" spellcheck="false" class="editable-field text-slate-600 font-mono text-[11px] block" data-bind="client-phone" title="Click to edit Customer Phone">+91 98111 22233</p>
+              <p id="prev-buyer-gstin-row" class="font-mono text-slate-800 font-bold mt-0.5 hidden">
+                Buyer GSTIN: <span id="prev-buyer-gstin"></span>
+              </p>
+            </div>
+            <div class="sm:col-span-5 text-left sm:text-right text-slate-600 space-y-0.5">
+              <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Dispatch / Tax Category:</span>
+              <p class="font-medium text-slate-800">Standard Commercial Tax Sale</p>
+              <p class="text-[11px] text-slate-500">Reverse Charge Applicable: <strong>No</strong></p>
+            </div>
+          </div>
+
+          <!-- Dynamic Industry Meta Strip (Auto-populated only when fields have values) -->
+          <div id="prev-industry-meta-strip" class="hidden my-2.5 py-2 px-3 bg-slate-50 border border-slate-300 text-xs text-slate-700"></div>
+
+          <!-- Items Table (Crisp Accounting Ledger Grid with S.No) -->
+          <div class="py-3 overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse border border-slate-300">
+              <thead>
+                <tr class="bg-slate-100 border-b-2 border-slate-800 text-slate-800 font-bold uppercase text-[10px] tracking-wider">
+                  <th class="py-2 px-2 text-center w-10 border-r border-slate-300">#</th>
+                  <th class="py-2 px-3 border-r border-slate-300">Description of Goods / Services</th>
+                  <th id="th-hsn" class="py-2 px-2 text-center w-20 border-r border-slate-300">HSN/SAC</th>
+                  <th class="py-2 px-2 text-center w-14 border-r border-slate-300">Qty</th>
+                  <th class="py-2 px-3 text-right w-24 border-r border-slate-300">Rate (₹)</th>
+                  <th class="py-2 px-3 text-right w-28">Amount (₹)</th>
+                  <th class="py-2 px-2 text-center w-6 no-print"></th>
+                </tr>
+              </thead>
+              <tbody id="prev-items-body" class="divide-y divide-slate-200 text-slate-800">
+                <!-- Dynamically populated rows with S.No, direct inline editing, and borders -->
+              </tbody>
+              <tfoot class="no-print">
+                <tr>
+                  <td colspan="7" class="pt-2">
+                    <button type="button" onclick="addNewItemRowDirectly()" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200 px-3 py-1.5 rounded transition-colors cursor-pointer">
+                      <svg class="w-3.5 h-3.5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                      <span>+ Add Line Item</span>
+                    </button>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- Statutory Amount in Words Bar -->
+          <div class="border-b border-slate-300 pb-2 mb-3 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
+            <div>
+              <span class="font-bold text-slate-800">Amount in Words:</span>
+              <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1">INR Zero Rupees Only</span>
+            </div>
+            <div class="text-[10px] text-slate-500 uppercase tracking-widest">E. & O.E.</div>
+          </div>
+
+          <!-- Bottom Section: Bank/UPI Details (Left) + Tax Calculation & Totals (Right) -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-1">
+            
+            <!-- Left 7 Cols: Bank & UPI Payment Details + Standalone Terms -->
+            <div class="sm:col-span-7 flex flex-col justify-between space-y-2.5">
+              <div id="upi-payment-block" class="border border-slate-300 bg-slate-50/40 p-3 text-xs space-y-2">
+                <div class="font-bold text-[10px] uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 flex items-center justify-between">
+                  <span>Bank & UPI Payment Details</span>
+                  <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="bg-white border border-slate-300 p-1 flex-shrink-0">
+                    <div id="qrcode-container" class="w-24 h-24 flex items-center justify-center"></div>
+                  </div>
+                  <div class="space-y-1 text-[11px] text-slate-700">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      <span class="font-bold text-slate-800">Payee UPI ID:</span>
+                      <span id="prev-vpa" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="seller-upi" title="Click to edit UPI ID">sharma@okhdfcbank</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500">Scan using any UPI App (GPay, PhonePe, Paytm, BHIM).</p>
+                    <p class="text-[10px] text-slate-500">Amount is pre-filled on camera scan.</p>
+                    <div class="no-print pt-0.5">
+                      <a id="btn-upi-deeplink" href="#" class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 hover:text-emerald-800 underline">
+                        Tap to pay on mobile <i data-lucide="external-link" class="w-3 h-3"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Terms & Conditions as its own authentic accounting block -->
+              <div id="terms-conditions-block" class="pt-1 text-xs text-slate-600">
+                <span class="font-bold text-[10px] text-slate-700 uppercase tracking-wider block mb-0.5">Terms & Conditions:</span>
+                <p id="prev-notes" contenteditable="true" spellcheck="false" class="editable-field text-[11px] text-slate-600 italic block leading-relaxed" data-bind="invoice-notes" title="Click to edit terms & notes">Thank you for your business!</p>
+              </div>
+            </div>
+
+            <!-- Right 5 Cols: Calculations Ledger & Authorized Signatory -->
+            <div class="sm:col-span-5 flex flex-col justify-between space-y-4">
+              <!-- Calculations Ledger -->
+              <div class="space-y-1.5 text-xs border border-slate-300 p-3 bg-white">
+                <div class="flex justify-between text-slate-600">
+                  <span>Taxable Value:</span>
+                  <span id="prev-subtotal" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                </div>
+                <div id="prev-discount-row" class="flex justify-between text-emerald-700 hidden">
+                  <span>Discount:</span>
+                  <span id="prev-discount" class="font-medium font-mono">-₹0.00</span>
+                </div>
+                <div id="prev-cgst-row" class="flex justify-between text-slate-600 hidden">
+                  <span id="prev-cgst-label">CGST (9%):</span>
+                  <span id="prev-cgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                </div>
+                <div id="prev-sgst-row" class="flex justify-between text-slate-600 hidden">
+                  <span id="prev-sgst-label">SGST (9%):</span>
+                  <span id="prev-sgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                </div>
+                <div id="prev-igst-row" class="flex justify-between text-slate-600 hidden">
+                  <span id="prev-igst-label">IGST (18%):</span>
+                  <span id="prev-igst" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                </div>
+                <div class="border-t-2 border-slate-900 pt-2 flex justify-between items-center text-slate-900">
+                  <span class="font-bold text-sm uppercase">Total Due:</span>
+                  <span id="prev-grand-total" class="font-heading font-black text-xl text-slate-900 font-mono">₹0.00</span>
+                </div>
+              </div>
+
+              <!-- Authorized Signatory -->
+              <div class="text-right pt-2">
+                <p class="text-[10px] font-bold text-slate-600">For <span id="prev-seller-sign-name" class="text-slate-900">Your Business Name</span></p>
+                <div class="h-10 flex items-center justify-end my-1">
+                  <div class="font-signature text-2xl text-slate-900 leading-none editable-field" id="prev-signature-cursive" contenteditable="true" spellcheck="false" data-bind="signatory-name" title="Click to edit signatory">
+                    Authorized Signatory
+                  </div>
+                </div>
+                <p class="text-[9px] uppercase tracking-wider font-bold text-slate-500 border-t border-slate-400 pt-0.5 inline-block min-w-[130px] text-center">
+                  Authorized Signatory
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Statutory Notice -->
+          <div class="mt-4 pt-2 text-center border-t border-slate-200 text-[10px] text-slate-500">
+            <span>This is a Computer Generated Tax Invoice • Compliant with Section 31 of CGST Act, 2017</span>
+          </div>
+
+          <!-- Subtle Watermark Branding (Can be toggled off) -->
+          <div id="prev-branding" class="mt-0.5 text-center text-[10px] text-slate-400 font-medium select-none">
+            Generated by UPIBillMaker.com
+          </div>
+
+        </div>
+
+      </div>
+
+    <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
+    <div class="w-full my-6 no-print text-center">
+      <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="0987654321"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <span class="text-xs text-slate-400 font-medium select-none">In-Content Ad Banner Slot</span>
+      </div>
+    </div>
+
+    <!-- Top Form Controls (Centered) -->
+    <div id="col-main-form" class="google-anno-skip w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8 no-print space-y-6">
+        
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div>
+            <h2 class="font-heading text-xl font-bold text-slate-900 flex items-center gap-2">
+              <i data-lucide="edit-3" class="w-5 h-5 text-brand-600"></i> Invoice & GST Details
+            </h2>
+            <p class="text-xs text-slate-500">Pick an industry template or customize line items</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <a href="#col-main-preview" class="text-xs font-bold text-brand-600 hover:text-brand-800 flex items-center gap-1 transition-colors"><i data-lucide="eye" class="w-3.5 h-3.5"></i> View Bill Preview ↑</a>
+          </div>
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="loadSampleDemoData()" class="text-xs text-brand-600 hover:text-brand-800 flex items-center gap-1 font-semibold transition-colors" title="Fill 1-click sample data for demonstration">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Sample Demo
+            </button>
+            <button id="btn-reset" class="text-xs text-slate-400 hover:text-rose-600 flex items-center gap-1 font-medium transition-colors">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- Professional Industry Template Selector (Zero Emojis) -->
+        <div class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+              <i data-lucide="layout-template" class="w-3.5 h-3.5 text-brand-600"></i> Select Industry Template
+            </span>
+            <span class="text-[10px] text-slate-400 font-medium">1-Click Auto Configuration</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+            <button type="button" id="tab-tpl-shop" onclick="switchTemplate('shop')" class="tpl-btn px-2.5 py-2 rounded-lg font-bold border flex items-center justify-center gap-1.5 transition-all text-white bg-brand-600 border-brand-700 shadow-xs">
+              <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+              <span>Retail & Shop</span>
+            </button>
+            <button type="button" id="tab-tpl-medical" onclick="switchTemplate('medical')" class="tpl-btn px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-teal-500 hover:text-teal-700">
+              <i data-lucide="activity" class="w-3.5 h-3.5 text-teal-600"></i>
+              <span>Medical / Rx</span>
+            </button>
+            <button type="button" id="tab-tpl-restaurant" onclick="switchTemplate('restaurant')" class="tpl-btn px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-orange-500 hover:text-orange-700">
+              <i data-lucide="utensils" class="w-3.5 h-3.5 text-orange-600"></i>
+              <span>Restaurant</span>
+            </button>
+            <button type="button" id="tab-tpl-hotel" onclick="switchTemplate('hotel')" class="tpl-btn px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-indigo-500 hover:text-indigo-700">
+              <i data-lucide="hotel" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>Hotel & Stay</span>
+            </button>
+            <button type="button" id="tab-tpl-rent" onclick="switchTemplate('rent')" class="tpl-btn px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-emerald-500 hover:text-emerald-700">
+              <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>Rent (HRA)</span>
+            </button>
+            <button type="button" id="tab-tpl-tuition" onclick="switchTemplate('tuition')" class="tpl-btn px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-blue-500 hover:text-blue-700">
+              <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>Tuition Fee</span>
+            </button>
+          </div>
+        </div>
+
+        <form id="bill-form" class="space-y-6">
+
+          <!-- 1. Logo & Business Info -->
+          <div class="bg-slate-50/80 p-4 rounded-xl border border-slate-200 space-y-3.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="building" class="w-3.5 h-3.5 text-brand-600"></i> Business / Seller Profile
+              </span>
+              <span class="text-[11px] text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded font-medium">Auto-Saved</span>
+            </div>
+
+            <!-- Logo Upload Row -->
+            <div class="flex items-center gap-4 bg-white p-3 rounded-lg border border-slate-200">
+              <div id="logo-preview-box" class="w-16 h-16 rounded-lg bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center overflow-hidden flex-shrink-0">
+                <i data-lucide="upload-cloud" class="w-6 h-6 text-slate-400"></i>
+              </div>
+              <div class="flex-1">
+                <label class="block text-xs font-bold text-slate-800 mb-1">Company / Shop Logo</label>
+                <div class="flex items-center gap-2">
+                  <label class="cursor-pointer inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-md transition-colors">
+                    <i data-lucide="upload" class="w-3 h-3"></i> Upload Logo
+                    <input type="file" id="logo-input" accept="image/*" class="hidden">
+                  </label>
+                  <button type="button" onclick="openLogoMakerModal()" class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-md transition-colors">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-600"></i> Free Logo Maker
+                  </button>
+                  <button type="button" id="btn-remove-logo" class="text-xs text-rose-600 hover:underline hidden">Remove</button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-1">Upload an image or generate a free branded logo in 1 click</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Business Name</label>
+                <input type="text" id="seller-name" placeholder="e.g. Apex Tech Solutions" value="Sharma Electronics & Services"
+                       class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Tagline / Business Category</label>
+                <input type="text" id="seller-tagline" placeholder="e.g. Laptop, Mobile & CCTV Sales & Repair" value="Laptop, Mobile & CCTV Sales & Repair"
+                       class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Phone / WhatsApp</label>
+                <input type="text" id="seller-phone" placeholder="e.g. +91 98765 43210" value="+91 98765 43210"
+                       class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Shop / Business Address</label>
+                <input type="text" id="seller-address" placeholder="e.g. Shop 12, Commercial Market, Sector 18" value="Shop 12, Commercial Complex, Sector 18, Noida, UP - 201301"
+                       class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
+              </div>
+            </div>
+
+            <!-- UPI QR Payment Options & Toggle -->
+            <div class="pt-3 border-t border-slate-200 space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-800 font-bold">
+                  <input type="checkbox" id="enable-upi-qr" checked class="w-4 h-4 rounded text-emerald-600 border-slate-300 focus:ring-emerald-500">
+                  <span class="flex items-center gap-1.5 text-emerald-900">
+                    <i data-lucide="qr-code" class="w-3.5 h-3.5 text-emerald-600"></i> Include Auto-Pay UPI QR Code on Bill
+                  </span>
+                </label>
+                <span id="qr-toggle-badge" class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">Active</span>
+              </div>
+              
+              <div id="upi-input-group" class="space-y-1">
+                <div class="flex items-center justify-between text-xs">
+                  <label class="font-semibold text-slate-700">Receiver UPI ID / VPA</label>
+                  <span class="text-[10px] text-slate-400">e.g. yourname@okhdfcbank, 9876543210@paytm</span>
+                </div>
+                <div class="relative">
+                  <input type="text" id="seller-upi" placeholder="e.g. yourbusiness@okhdfcbank (untick above for plain bill)" value="sharma@okhdfcbank"
+                         class="w-full text-sm font-mono font-medium px-3 py-2 bg-emerald-50/50 rounded-lg border border-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <p class="text-[10px] text-slate-500">Untick box above if you want a clean bill without scanner or UPI details.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. GST & TAX SETTINGS (THE POWERHOUSE MODULE) -->
+          <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-200/80 space-y-3.5">
+            <div class="flex items-center justify-between">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="enable-gst" checked class="w-4 h-4 text-indigo-600 rounded border-indigo-300 focus:ring-indigo-500">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-950 flex items-center gap-1">
+                  <i data-lucide="file-check-2" class="w-4 h-4 text-indigo-600"></i> Enable Official GST Details (Tax Invoice)
+                </span>
+              </label>
+              <span id="gst-indicator" class="text-[10px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">
+                GST Active
+              </span>
+            </div>
+
+            <!-- GST Specific Fields Container -->
+            <div id="gst-fields-wrapper" class="space-y-3 pt-1">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold text-slate-800 mb-1">Seller GSTIN</label>
+                  <input type="text" id="seller-gstin" maxlength="15" placeholder="e.g. 07AABCS1429B1Z8" value="07AABCS1429B1Z8"
+                         class="w-full text-sm font-mono font-bold uppercase px-3 py-2 bg-white rounded-lg border border-indigo-300 focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Seller State / Code</label>
+                  <select id="seller-state" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+                    <option value="07 - Delhi" selected>07 - Delhi</option>
+                    <option value="27 - Maharashtra">27 - Maharashtra</option>
+                    <option value="09 - Uttar Pradesh">09 - Uttar Pradesh</option>
+                    <option value="19 - West Bengal">19 - West Bengal</option>
+                    <option value="33 - Tamil Nadu">33 - Tamil Nadu</option>
+                    <option value="29 - Karnataka">29 - Karnataka</option>
+                    <option value="24 - Gujarat">24 - Gujarat</option>
+                    <option value="08 - Rajasthan">08 - Rajasthan</option>
+                    <option value="06 - Haryana">06 - Haryana</option>
+                    <option value="03 - Punjab">03 - Punjab</option>
+                    <option value="10 - Bihar">10 - Bihar</option>
+                    <option value="36 - Telangana">36 - Telangana</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Buyer / Client GSTIN (For B2B)</label>
+                  <input type="text" id="buyer-gstin" maxlength="15" placeholder="e.g. 07AAAPL1234C1ZV" value=""
+                         class="w-full text-sm font-mono uppercase px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+                  <p class="text-[10px] text-slate-400 mt-0.5">Leave blank for consumer (B2C) sales</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Place of Supply (Customer State)</label>
+                  <select id="supply-state" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+                    <option value="Intra-State (Same State - CGST + SGST)" selected>Intra-State (Same State - CGST + SGST)</option>
+                    <option value="Inter-State (Different State - IGST)">Inter-State (Different State - IGST)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Customer Info & Status -->
+          <div class="bg-slate-50/80 p-4 rounded-xl border border-slate-200 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-slate-200/60">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="user" class="w-3.5 h-3.5 text-brand-600"></i> Customer & Invoice Info
+              </span>
+              <span class="text-[10px] text-slate-400 font-medium">All fields optional</span>
+            </div>
+
+            <!-- Payment Status Selector (Full-width 3-segment clean control) -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1.5">Invoice Payment Status</label>
+              <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-200/70 rounded-lg text-xs" id="status-toggle-group">
+                <button type="button" id="btn-status-pending" onclick="setBillStatus('pending')" class="py-1.5 text-xs font-bold rounded-md bg-amber-500 text-white shadow-2xs transition-all text-center">
+                  Due / Pending
+                </button>
+                <button type="button" id="btn-status-cash" onclick="setBillStatus('cash')" class="py-1.5 text-xs font-medium rounded-md text-slate-700 hover:text-slate-900 transition-all text-center">
+                  Paid (Cash)
+                </button>
+                <button type="button" id="btn-status-online" onclick="setBillStatus('online')" class="py-1.5 text-xs font-medium rounded-md text-slate-700 hover:text-slate-900 transition-all text-center">
+                  Paid (UPI)
+                </button>
+              </div>
+              <input type="hidden" id="bill-status" value="pending">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Customer / Client Name</label>
+                <input type="text" id="client-name" placeholder="e.g. Rahul Verma / Client Name" value="Rahul Verma"
+                       class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Customer Phone</label>
+                <input type="text" id="client-phone" placeholder="e.g. +91 98111 22233" value="+91 98111 22233"
+                       class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-1">
+              <!-- Invoice No with 1-Click Auto Gen -->
+              <div class="sm:col-span-4">
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-xs font-semibold text-slate-700">Invoice / Bill No</label>
+                  <button type="button" onclick="generateAutoInvoiceNo()" class="text-[10px] font-bold text-brand-600 hover:text-brand-800 transition-colors" title="Generate New Invoice Number">
+                    Auto #
+                  </button>
+                </div>
+                <input type="text" id="invoice-no" placeholder="e.g. INV-1001" value="INV-1001"
+                       class="w-full text-sm font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500">
+              </div>
+
+              <!-- Invoice Date with Quick Pickers -->
+              <div class="sm:col-span-4">
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-xs font-semibold text-slate-700">Invoice Date</label>
+                  <div class="flex items-center gap-1.5">
+                    <button type="button" onclick="setCurrentDate()" class="text-[10px] font-bold text-brand-600 hover:text-brand-800 transition-colors" title="Set to Today">
+                      Today
+                    </button>
+                    <span class="text-slate-300">•</span>
+                    <button type="button" onclick="setYesterdayDate()" class="text-[10px] text-slate-500 hover:text-slate-800 transition-colors" title="Set to Yesterday">
+                      Yesterday
+                    </button>
+                  </div>
+                </div>
+                <input type="date" id="invoice-date"
+                       class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 cursor-pointer">
+              </div>
+
+              <!-- Bill Time with 1-Click Now and Clear -->
+              <div class="sm:col-span-4">
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-xs font-semibold text-slate-700">Bill Time (Optional)</label>
+                  <div class="flex items-center gap-1.5">
+                    <button type="button" onclick="setCurrentDateTime()" class="text-[10px] font-bold text-emerald-600 hover:text-emerald-800 transition-colors" title="Set exact current time">
+                      Now
+                    </button>
+                    <span class="text-slate-300">•</span>
+                    <button type="button" onclick="clearInvoiceTime()" class="text-[10px] text-slate-400 hover:text-rose-600 transition-colors" title="Clear Time">
+                      Clear
+                    </button>
+                  </div>
+                </div>
+                <input type="time" id="invoice-time"
+                       class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 cursor-pointer">
+              </div>
+            </div>
+          </div>
+
+          <!-- Industry-Specific Dynamic Fields -->
+          <div id="industry-specific-fields" class="space-y-3 hidden">
+            <!-- Medical / Pharmacy Fields -->
+            <div id="field-group-medical" class="hidden bg-teal-50/70 p-3.5 rounded-xl border border-teal-200 text-xs space-y-2.5">
+              <span class="font-bold text-teal-900 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="activity" class="w-3.5 h-3.5 text-teal-600"></i> Pharmacy & Healthcare Information
+              </span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-teal-900 mb-1">Drug License (DL) No (Optional)</label>
+                  <input type="text" id="tpl-dl-no" placeholder="e.g. DL-20B/1452 & 21B/1453" class="w-full font-mono px-2.5 py-1.5 bg-white rounded border border-teal-300">
+                </div>
+                <div>
+                  <label class="block font-semibold text-teal-900 mb-1">Prescribing Doctor & Reg No (Optional)</label>
+                  <input type="text" id="tpl-doctor-name" placeholder="e.g. Dr. A. K. Sharma (MCI-18492)" class="w-full px-2.5 py-1.5 bg-white rounded border border-teal-300">
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-teal-900 mb-1">Patient Age / Gender (Optional)</label>
+                  <input type="text" id="tpl-patient-meta" placeholder="e.g. Age: 32 Yrs / Male" class="w-full px-2.5 py-1.5 bg-white rounded border border-teal-300">
+                </div>
+                <div>
+                  <label class="block font-semibold text-teal-900 mb-1">Diagnosis / Rx Reference (Optional)</label>
+                  <input type="text" id="tpl-rx-ref" placeholder="e.g. OPD Consultation / Viral Fever" class="w-full px-2.5 py-1.5 bg-white rounded border border-teal-300">
+                </div>
+              </div>
+            </div>
+
+            <!-- Restaurant & Cafe Fields -->
+            <div id="field-group-restaurant" class="hidden bg-orange-50/70 p-3.5 rounded-xl border border-orange-200 text-xs space-y-2.5">
+              <span class="font-bold text-orange-900 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="utensils" class="w-3.5 h-3.5 text-orange-600"></i> Dining & Table Information
+              </span>
+              <div class="grid grid-cols-3 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-orange-900 mb-1">Table / Token No</label>
+                  <input type="text" id="tpl-table-no" placeholder="e.g. Table T-04" class="w-full font-semibold px-2.5 py-1.5 bg-white rounded border border-orange-300">
+                </div>
+                <div>
+                  <label class="block font-semibold text-orange-900 mb-1">KOT / Order No</label>
+                  <input type="text" id="tpl-kot-no" placeholder="e.g. KOT-8821" class="w-full font-mono px-2.5 py-1.5 bg-white rounded border border-orange-300">
+                </div>
+                <div>
+                  <label class="block font-semibold text-orange-900 mb-1">Server / Waiter</label>
+                  <input type="text" id="tpl-server-name" placeholder="e.g. Amit K." class="w-full px-2.5 py-1.5 bg-white rounded border border-orange-300">
+                </div>
+              </div>
+            </div>
+
+            <!-- Hotel & Stay Fields -->
+            <div id="field-group-hotel" class="hidden bg-indigo-50/70 p-3.5 rounded-xl border border-indigo-200 text-xs space-y-2.5">
+              <span class="font-bold text-indigo-900 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="hotel" class="w-3.5 h-3.5 text-indigo-600"></i> Room & Stay Information
+              </span>
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-indigo-900 mb-1">Room No & Category</label>
+                  <input type="text" id="tpl-room-no" placeholder="e.g. Deluxe Room 302" class="w-full font-semibold px-2.5 py-1.5 bg-white rounded border border-indigo-300">
+                </div>
+                <div>
+                  <label class="block font-semibold text-indigo-900 mb-1">Guest ID / Aadhar Ref</label>
+                  <input type="text" id="tpl-guest-id" placeholder="e.g. Aadhar XXXX-5512" class="w-full font-mono px-2.5 py-1.5 bg-white rounded border border-indigo-300">
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-indigo-900 mb-1">Check-in Date & Time</label>
+                  <input type="text" id="tpl-checkin" placeholder="e.g. 14 Oct 2026, 12:00 PM" class="w-full px-2.5 py-1.5 bg-white rounded border border-indigo-300">
+                </div>
+                <div>
+                  <label class="block font-semibold text-indigo-900 mb-1">Check-out Date & Time</label>
+                  <input type="text" id="tpl-checkout" placeholder="e.g. 16 Oct 2026, 11:00 AM" class="w-full px-2.5 py-1.5 bg-white rounded border border-indigo-300">
+                </div>
+              </div>
+            </div>
+
+            <!-- Rent (HRA) Fields -->
+            <div id="field-group-rent" class="hidden bg-emerald-50/70 p-3.5 rounded-xl border border-emerald-200 text-xs space-y-2.5">
+              <span class="font-bold text-emerald-900 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-600"></i> HRA House Rent Details
+              </span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-emerald-900 mb-1">Landlord PAN Number (Optional)</label>
+                  <input type="text" id="tpl-landlord-pan" placeholder="e.g. ABCDE1234F" class="w-full font-mono uppercase px-2.5 py-1.5 bg-white rounded border border-emerald-300">
+                </div>
+                <div>
+                  <label class="block font-semibold text-emerald-900 mb-1">Rent Period / Month *</label>
+                  <input type="text" id="tpl-rent-period" placeholder="e.g. October 2026" class="w-full font-semibold px-2.5 py-1.5 bg-white rounded border border-emerald-300">
+                </div>
+              </div>
+              <div>
+                <label class="block font-semibold text-emerald-900 mb-1">Rented House Address *</label>
+                <input type="text" id="tpl-rent-address" placeholder="e.g. Flat 402, Green Valley Apartments, Sector 45" class="w-full px-2.5 py-1.5 bg-white rounded border border-emerald-300">
+              </div>
+            </div>
+
+            <!-- Tuition / Coaching Fields -->
+            <div id="field-group-tuition" class="hidden bg-blue-50/70 p-3.5 rounded-xl border border-blue-200 text-xs space-y-2.5">
+              <span class="font-bold text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-600"></i> Student & Course Information
+              </span>
+              <div class="grid grid-cols-3 gap-2.5">
+                <div>
+                  <label class="block font-semibold text-blue-900 mb-1">Student Roll No / ID</label>
+                  <input type="text" id="tpl-student-roll" placeholder="e.g. ROLL-24B" class="w-full font-mono px-2.5 py-1.5 bg-white rounded border border-blue-300">
+                </div>
+                <div>
+                  <label class="block font-semibold text-blue-900 mb-1">Class / Subject</label>
+                  <input type="text" id="tpl-course" placeholder="e.g. Class 12 - Physics" class="w-full px-2.5 py-1.5 bg-white rounded border border-blue-300">
+                </div>
+                <div>
+                  <label class="block font-semibold text-blue-900 mb-1">Fee Month</label>
+                  <input type="text" id="tpl-tuition-month" placeholder="e.g. October 2026" class="w-full px-2.5 py-1.5 bg-white rounded border border-blue-300">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Line Items Table with HSN/SAC -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                <i data-lucide="list-ordered" class="w-3.5 h-3.5 text-brand-600"></i> Items / Services Billed
+              </span>
+              <button type="button" id="btn-add-item" class="text-xs font-bold text-brand-700 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200 px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add Item
+              </button>
+            </div>
+
+            <div id="items-container" class="space-y-2.5">
+              <!-- Item 1 -->
+              <div class="item-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                <div class="col-span-5 sm:col-span-5">
+                  <input type="text" class="item-desc w-full text-sm px-2.5 py-1.5 bg-white rounded border border-slate-300"
+                         placeholder="Item / Service description" value="Dell 24&quot; FHD IPS Commercial Monitor (P2422H)">
+                </div>
+                <div class="col-span-2 sm:col-span-2">
+                  <input type="text" class="item-hsn w-full text-sm px-2 py-1.5 text-center font-mono bg-white rounded border border-slate-300"
+                         placeholder="HSN/SAC" value="8471">
+                </div>
+                <div class="col-span-2 sm:col-span-2">
+                  <input type="number" min="1" class="item-qty w-full text-sm px-2 py-1.5 text-center bg-white rounded border border-slate-300"
+                         placeholder="Qty" value="1">
+                </div>
+                <div class="col-span-2 sm:col-span-2">
+                  <input type="number" min="0" step="any" class="item-price w-full text-sm px-2 py-1.5 text-right bg-white rounded border border-slate-300"
+                         placeholder="Price (₹)" value="14500">
+                </div>
+                <div class="col-span-1 text-center">
+                  <button type="button" class="btn-remove-item text-slate-400 hover:text-rose-600 p-1">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- Item 2 -->
+              <div class="item-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                <div class="col-span-5 sm:col-span-5">
+                  <input type="text" class="item-desc w-full text-sm px-2.5 py-1.5 bg-white rounded border border-slate-300"
+                         placeholder="Item / Service description" value="Logitech Wireless Keyboard &amp; Mouse Combo (MK270)">
+                </div>
+                <div class="col-span-2 sm:col-span-2">
+                  <input type="text" class="item-hsn w-full text-sm px-2 py-1.5 text-center font-mono bg-white rounded border border-slate-300"
+                         placeholder="HSN/SAC" value="8471">
+                </div>
+                <div class="col-span-2 sm:col-span-2">
+                  <input type="number" min="1" class="item-qty w-full text-sm px-2 py-1.5 text-center bg-white rounded border border-slate-300"
+                         placeholder="Qty" value="2">
+                </div>
+                <div class="col-span-2 sm:col-span-2">
+                  <input type="number" min="0" step="any" class="item-price w-full text-sm px-2 py-1.5 text-right bg-white rounded border border-slate-300"
+                         placeholder="Price (₹)" value="1350">
+                </div>
+                <div class="col-span-1 text-center">
+                  <button type="button" class="btn-remove-item text-slate-400 hover:text-rose-600 p-1">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Discounts & GST Rate -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Discount (₹ Flat Amount)</label>
+              <input type="number" id="discount-amt" min="0" placeholder="0"
+                     class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Applicable GST Rate</label>
+              <select id="tax-rate" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+                <option value="0">0% (Exempted)</option>
+                <option value="5">5% GST</option>
+                <option value="12">12% GST</option>
+                <option value="18" selected>18% GST (Standard)</option>
+                <option value="28">28% GST</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Authorized Signatory Name</label>
+              <input type="text" id="signatory-name" placeholder="e.g. Authorized Signatory" value="Sharma Electronics"
+                     class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Terms / Notes</label>
+              <input type="text" id="invoice-notes" placeholder="e.g. Thank you for your business! Warranty: 30 days."
+                     class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+            </div>
+          </div>
+
+          <!-- 6. Additional Options & Watermark Branding -->
+          <div class="pt-3 border-t border-slate-200">
+            <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-700">
+              <input type="checkbox" id="enable-branding" checked class="w-4 h-4 rounded text-brand-600 border-slate-300 focus:ring-brand-500">
+              <span class="font-medium">Show "Generated by UPIBillMaker.com" on bill footer</span>
+              <span class="text-[10px] text-slate-400 font-normal">(Default: Checked)</span>
+            </label>
+          </div>
+
+          <!-- Action Buttons Bar at bottom of Form -->
+          <div class="pt-5 border-t border-slate-200 space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <button type="button" onclick="downloadAsPDF()" class="w-full py-2.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all shadow-brand-600/20 cursor-pointer">
+                <i data-lucide="file-down" class="w-4 h-4"></i> Download PDF
+              </button>
+              <button type="button" onclick="downloadAsPNG()" class="w-full py-2.5 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <i data-lucide="image" class="w-4 h-4"></i> Save PNG
+              </button>
+              <button type="button" onclick="printInvoice()" class="w-full py-2.5 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <i data-lucide="printer" class="w-4 h-4"></i> Print Paper
+              </button>
+            </div>
+            <div class="flex items-center justify-between text-xs pt-1">
+              <a href="#col-main-preview" class="text-brand-600 hover:text-brand-800 font-semibold flex items-center gap-1 transition-colors">
+                <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i> Scroll to Preview
+              </a>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="loadSampleDemoData()" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors cursor-pointer">
+                  Demo Sample
+                </button>
+                <button type="button" onclick="resetFormToClean()" class="px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg transition-colors cursor-pointer">
+                  Clear
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+  </main>
+
+  <!-- Deep SEO & Content Section -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 space-y-12 no-print">
+    
+    <div id="how-it-works" class="space-y-4">
+      <div class="text-center max-w-2xl mx-auto">
+        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+          How to Create a Valid GST Tax Invoice with UPI QR
+        </h2>
+        <p class="text-sm text-slate-600 mt-2">
+          Compliant with Indian Goods and Services Tax (GST) invoicing guidelines.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-brand-100 text-brand-800 font-heading font-extrabold text-lg flex items-center justify-center mb-4">
+            1
+          </div>
+          <h3 class="font-heading font-bold text-base text-slate-900 mb-2">Input GSTIN & HSN Codes</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Enter your 15-digit GSTIN and state. For B2B customers, enter their GSTIN to allow them to claim Input Tax Credit (ITC).
+          </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 font-heading font-extrabold text-lg flex items-center justify-center mb-4">
+            2
+          </div>
+          <h3 class="font-heading font-bold text-base text-slate-900 mb-2">Automatic CGST & SGST Split</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            The calculator automatically splits 18% GST into 9% CGST + 9% SGST for intra-state sales, or applies 18% IGST for interstate customers.
+          </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-800 font-heading font-extrabold text-lg flex items-center justify-center mb-4">
+            3
+          </div>
+          <h3 class="font-heading font-bold text-base text-slate-900 mb-2">Generate Auto-Pay QR Code</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            The grand total including taxes is encoded into an NPCI dynamic QR code. Customers scan from GPay, PhonePe, or Paytm and settle instantly.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div id="faq" class="space-y-4">
+      <h2 class="font-heading text-2xl font-bold text-slate-900 text-center">
+        GST Invoicing Frequently Asked Questions
+      </h2>
+      
+      <div class="divide-y divide-slate-200 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 text-xs sm:text-sm">
+        <div class="py-4 first:pt-0">
+          <h3 class="font-bold text-slate-900 text-sm mb-1">What is the difference between CGST, SGST, and IGST?</h3>
+          <p class="text-slate-600 leading-relaxed">
+            When you sell goods or services to a customer in the same state (Intra-state), GST is split equally between Central GST (CGST) and State GST (SGST). When selling to a customer in another state (Inter-state), Integrated GST (IGST) is applied.
+          </p>
+        </div>
+        <div class="py-4">
+          <h3 class="font-bold text-slate-900 text-sm mb-1">What happens if I don't have a GST number?</h3>
+          <p class="text-slate-600 leading-relaxed">
+            Simply uncheck the "Enable Official GST Details" box! The tool immediately switches to Non-GST Cash Memo mode, allowing tutors, small shops, and freelancers to create clean, simple receipts without GST fields.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-12 border-t border-slate-800 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 text-white font-heading font-extrabold text-lg">
+            <div class="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center text-white">
+              <i data-lucide="qr-code" class="w-4 h-4"></i>
+            </div>
+            <span>UPI<span class="text-brand-500">BillMaker</span></span>
+          </div>
+          <p class="text-xs text-slate-400">
+            Free GST & Non-GST digital invoice generator with auto-pay UPI QR code. Designed for Indian businesses.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-xs uppercase mb-3">Billing & Receipt Tools</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="index.html" class="hover:text-white">Shop & GST Tax Invoice</a></li>
+            <li><a href="scanner-maker.html" class="hover:text-white">Standee & QR Scanner Maker</a></li>
+            <li><a href="medical-bill.html" class="hover:text-white">Medical & Pharmacy Bill</a></li>
+            <li><a href="restaurant-bill.html" class="hover:text-white">Restaurant & Cafe Slip</a></li>
+            <li><a href="hotel-receipt.html" class="hover:text-white">Hotel & Stay Bill</a></li>
+            <li><a href="rent-receipt.html" class="hover:text-white">House Rent Receipt (HRA)</a></li>
+            <li><a href="tuition-receipt.html" class="hover:text-white">Tuition Fee Receipt</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-xs uppercase mb-3">Legal</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="privacy-policy.html" class="hover:text-white">Privacy Policy</a></li>
+            <li><a href="terms.html" class="hover:text-white">Terms of Service</a></li>
+            <li><a href="disclaimer.html" class="hover:text-white">Disclaimer</a></li>
+            <li><a href="about.html" class="hover:text-white">About Us</a></li>
+            <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-xs uppercase mb-3">Privacy</h4>
+          <p class="text-xs text-slate-400">
+            100% Client-Side. No sales figures, customer details, or GST numbers are stored on any server.
+          </p>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-slate-800 text-center">
+        <p>© 2026 UPIBillMaker.com. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Free Business Logo Maker Modal HTML -->
+  <div id="logo-maker-modal" onclick="if(event.target === this) closeLogoMakerModal()" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 space-y-4 relative" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <h3 class="font-heading font-bold text-lg text-slate-900 flex items-center gap-1.5">
+            <svg class="w-5 h-5 text-purple-600 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            <span>Free Instant Logo Maker</span>
+          </h3>
+          <p class="text-xs text-slate-500">Generate a crisp, professional vector badge logo for your bill in 1 second</p>
+        </div>
+        <button type="button" onclick="closeLogoMakerModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 font-bold text-base flex items-center justify-center transition-colors cursor-pointer border border-slate-200 shadow-2xs" title="Close" aria-label="Close">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <div class="flex justify-center py-2">
+        <canvas id="logo-canvas" width="400" height="400" class="w-36 h-36 rounded-2xl shadow-lg border-2 border-slate-200 bg-white"></canvas>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Initials / Short Text</label>
+            <input type="text" id="logo-text-main" maxlength="5" value="SE" oninput="drawLogoCanvas()" onchange="drawLogoCanvas()" class="w-full font-heading font-black text-center text-sm px-3 py-1.5 uppercase rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Subtext (Optional)</label>
+            <input type="text" id="logo-text-sub" maxlength="16" value="SERVICES" oninput="drawLogoCanvas()" onchange="drawLogoCanvas()" class="w-full text-center text-xs px-3 py-1.5 uppercase rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Select Industry Emblem</label>
+          <div class="grid grid-cols-6 gap-1.5 text-center" id="logo-icon-grid">
+            <button type="button" onclick="setLogoIcon('cart')" data-icon-id="cart" class="logo-icon-btn p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 flex items-center justify-center text-slate-700 transition-all" title="Retail Shop">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </button>
+            <button type="button" onclick="setLogoIcon('cross')" data-icon-id="cross" class="logo-icon-btn p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 flex items-center justify-center text-teal-600 transition-all" title="Medical / Pharmacy">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </button>
+            <button type="button" onclick="setLogoIcon('utensils')" data-icon-id="utensils" class="logo-icon-btn p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 flex items-center justify-center text-orange-600 transition-all" title="Restaurant / Cafe">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"/><path d="M15 11v11"/><path d="M5 2v4a3 3 0 0 0 3 3v13"/></svg>
+            </button>
+            <button type="button" onclick="setLogoIcon('hotel')" data-icon-id="hotel" class="logo-icon-btn p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 flex items-center justify-center text-indigo-600 transition-all" title="Hotel / Stay">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z"/><path d="M9 16h6"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>
+            </button>
+            <button type="button" onclick="setLogoIcon('wrench')" data-icon-id="wrench" class="logo-icon-btn p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 flex items-center justify-center text-slate-700 transition-all" title="Auto Garage / Repair">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </button>
+            <button type="button" onclick="setLogoIcon('shield')" data-icon-id="shield" class="logo-icon-btn p-2.5 rounded-lg border border-slate-200 hover:bg-slate-100 flex items-center justify-center text-amber-600 transition-all" title="Luxury / Classic Shield">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Badge Shape</label>
+            <select id="logo-shape" onchange="drawLogoCanvas()" class="w-full px-2 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500">
+              <option value="circle">Circular Seal</option>
+              <option value="shield">Classic Shield</option>
+              <option value="hexagon">Modern Hexagon</option>
+              <option value="square">Rounded Square</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Color Palette</label>
+            <select id="logo-color" onchange="drawLogoCanvas()" class="w-full px-2 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500">
+              <option value="#16a34a">Emerald Green</option>
+              <option value="#1e40af">Royal Navy Blue</option>
+              <option value="#0d9488">Medical Cyan / Teal</option>
+              <option value="#7c3aed">Purple Luxury</option>
+              <option value="#e11d48">Crimson Red</option>
+              <option value="#b45309">Golden Amber</option>
+              <option value="#0f172a">Minimalist Black</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex gap-2">
+        <button type="button" onclick="downloadLogoPNG()" class="flex-1 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 transition-colors">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PNG
+        </button>
+        <button type="button" onclick="applyGeneratedLogo()" class="flex-1 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg shadow-sm flex items-center justify-center gap-1.5 transition-colors">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Apply to Bill
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script>
+    lucide.createIcons();
+
+    document.getElementById('invoice-date').valueAsDate = new Date();
+    
+    function formatDateDisplay(dateStr) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    let qrCodeInstance = null;
+    let savedLogoBase64 = null;
+
+    // Toggle GST fields
+    document.getElementById('enable-gst').addEventListener('change', function(e) {
+      const active = e.target.checked;
+      const wrapper = document.getElementById('gst-fields-wrapper');
+      const indicator = document.getElementById('gst-indicator');
+      const docTypeBadge = document.getElementById('prev-doc-type');
+      const sellerGstBox = document.getElementById('prev-seller-gstin-box');
+      const thHsn = document.getElementById('th-hsn');
+
+      if (active) {
+        wrapper.classList.remove('hidden');
+        indicator.innerText = 'GST Active';
+        indicator.className = 'text-[10px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded';
+        docTypeBadge.innerText = 'TAX INVOICE';
+        docTypeBadge.className = 'font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase';
+        sellerGstBox.classList.remove('hidden');
+        thHsn.classList.remove('hidden');
+      } else {
+        wrapper.classList.add('hidden');
+        indicator.innerText = 'Non-GST Mode';
+        indicator.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded';
+        docTypeBadge.innerText = 'RETAIL CASH MEMO';
+        docTypeBadge.className = 'font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase';
+        sellerGstBox.classList.add('hidden');
+        thHsn.classList.add('hidden');
+      }
+      updateInvoice();
+    });
+
+    // Auto-Uppercase GSTIN Inputs
+    document.getElementById('seller-gstin').addEventListener('input', function() {
+      this.value = this.value.toUpperCase();
+    });
+    document.getElementById('buyer-gstin').addEventListener('input', function() {
+      this.value = this.value.toUpperCase();
+    });
+
+    // Save & Load LocalStorage
+    function saveBusinessToLocal() {
+      const data = {
+        name: document.getElementById('seller-name').value,
+        tagline: document.getElementById('seller-tagline').value,
+        phone: document.getElementById('seller-phone').value,
+        address: document.getElementById('seller-address').value,
+        upi: document.getElementById('seller-upi').value,
+        gstin: document.getElementById('seller-gstin').value,
+        state: document.getElementById('seller-state').value,
+        isGst: document.getElementById('enable-gst').checked,
+        signatory: document.getElementById('signatory-name').value,
+        logo: savedLogoBase64
+      };
+      localStorage.setItem('upibill_business_v3', JSON.stringify(data));
+    }
+
+    function loadBusinessFromLocal() {
+      const saved = localStorage.getItem('upibill_business_v3');
+      if (saved) {
+        try {
+          const d = JSON.parse(saved);
+          if (d.name) document.getElementById('seller-name').value = d.name;
+          if (d.tagline) document.getElementById('seller-tagline').value = d.tagline;
+          if (d.phone) document.getElementById('seller-phone').value = d.phone;
+          if (d.address) document.getElementById('seller-address').value = d.address;
+          if (d.upi) document.getElementById('seller-upi').value = d.upi;
+          if (d.gstin) document.getElementById('seller-gstin').value = d.gstin;
+          if (d.state) document.getElementById('seller-state').value = d.state;
+          if (d.isGst !== undefined) {
+            document.getElementById('enable-gst').checked = d.isGst;
+            document.getElementById('enable-gst').dispatchEvent(new Event('change'));
+          }
+          if (d.signatory) document.getElementById('signatory-name').value = d.signatory;
+          if (d.logo) {
+            savedLogoBase64 = d.logo;
+            renderLogoPreview(savedLogoBase64);
+          }
+        } catch(e) {}
+      }
+    }
+
+    function renderLogoPreview(base64Url) {
+      const box = document.getElementById('logo-preview-box');
+      const invoiceWrapper = document.getElementById('invoice-logo-wrapper');
+      const invoiceImg = document.getElementById('invoice-logo-img');
+      const removeBtn = document.getElementById('btn-remove-logo');
+
+      if (base64Url) {
+        box.innerHTML = `<img src="${base64Url}" class="w-full h-full object-contain">`;
+        if (invoiceImg) invoiceImg.src = base64Url;
+        invoiceWrapper.classList.remove('hidden');
+        removeBtn.classList.remove('hidden');
+      } else {
+        box.innerHTML = `<i data-lucide="upload-cloud" class="w-6 h-6 text-slate-400"></i>`;
+        if (invoiceImg) invoiceImg.src = '';
+        invoiceWrapper.classList.add('hidden');
+        removeBtn.classList.add('hidden');
+        lucide.createIcons();
+      }
+    }
+
+    function setBillStatus(status) {
+      const statusInput = document.getElementById('bill-status');
+      if (statusInput) statusInput.value = status;
+
+      const btnPending = document.getElementById('btn-status-pending');
+      const btnCash = document.getElementById('btn-status-cash');
+      const btnOnline = document.getElementById('btn-status-online');
+
+      [btnPending, btnCash, btnOnline].forEach(b => {
+        if (b) b.className = 'px-2.5 py-1 text-xs font-medium rounded-md text-slate-700 hover:text-slate-900 transition-all';
+      });
+
+      if (status === 'cash') {
+        if (btnCash) btnCash.className = 'px-2.5 py-1 text-xs font-bold rounded-md bg-emerald-600 text-white shadow-2xs transition-all';
+      } else if (status === 'online') {
+        if (btnOnline) btnOnline.className = 'px-2.5 py-1 text-xs font-bold rounded-md bg-emerald-600 text-white shadow-2xs transition-all';
+      } else {
+        if (btnPending) btnPending.className = 'px-2.5 py-1 text-xs font-bold rounded-md bg-amber-500 text-white shadow-2xs transition-all';
+      }
+      updateInvoice();
+    }
+
+    function toggleBillStatus() {
+      const current = document.getElementById('bill-status') ? document.getElementById('bill-status').value : 'pending';
+      if (current === 'pending') {
+        setBillStatus('cash');
+      } else if (current === 'cash') {
+        setBillStatus('online');
+      } else {
+        setBillStatus('pending');
+      }
+    }
+
+    // Logo Upload
+    document.getElementById('logo-input').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+          alert("Please upload a logo image under 2MB.");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          savedLogoBase64 = evt.target.result;
+          renderLogoPreview(savedLogoBase64);
+          saveBusinessToLocal();
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    document.getElementById('btn-remove-logo').addEventListener('click', function() {
+      savedLogoBase64 = null;
+      document.getElementById('logo-input').value = '';
+      renderLogoPreview(null);
+      saveBusinessToLocal();
+    });
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    function formatINR(val) {
+      const num = parseFloat(val) || 0;
+      return num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // Convert Numeric Amount to Official Indian Currency Words (Lakhs & Crores)
+    function numberToWordsINR(amount) {
+      if (isNaN(amount) || amount === 0) return 'INR Zero Rupees Only';
+      const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+      const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+
+      function inWords(num) {
+        if ((num = num.toString()).length > 9) return 'Overflow';
+        const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+        if (!n) return '';
+        let str = '';
+        str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+        str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+        str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+        str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+        str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+        return str.trim();
+      }
+
+      const parts = amount.toFixed(2).split('.');
+      const whole = parseInt(parts[0], 10);
+      const paise = parseInt(parts[1], 10);
+
+      let result = 'INR ' + (whole > 0 ? inWords(whole) + ' Rupees' : 'Zero Rupees');
+      if (paise > 0) {
+        result += ' and ' + inWords(paise) + ' Paise';
+      }
+      result += ' Only';
+      return result;
+    }
+
+    // Update Invoice Calculations
+    function updateInvoice() {
+      saveBusinessToLocal();
+
+      const isGstEnabled = document.getElementById('enable-gst').checked;
+      const sellerName = document.getElementById('seller-name').value.trim() || 'Your Business Name';
+      const sellerTagline = document.getElementById('seller-tagline').value.trim() || '';
+      const sellerPhone = document.getElementById('seller-phone').value.trim() || '';
+      const sellerAddress = document.getElementById('seller-address').value.trim() || '';
+      const sellerUPI = document.getElementById('seller-upi').value.trim();
+      const sellerGSTIN = document.getElementById('seller-gstin').value.trim();
+      const sellerState = document.getElementById('seller-state').value;
+      const signatory = document.getElementById('signatory-name').value.trim() || 'Authorized Signatory';
+
+      // Safe update only if not currently active element being typed in
+      const activeEl = document.activeElement;
+      const elSellerName = document.getElementById('prev-seller-name');
+      const elSellerTag = document.getElementById('prev-seller-tagline');
+      const elSellerPhone = document.getElementById('prev-seller-phone');
+      const elSellerAddr = document.getElementById('prev-seller-address');
+      const elSellerGstin = document.getElementById('prev-seller-gstin');
+      const elSellerState = document.getElementById('prev-seller-state');
+      const elSignatory = document.getElementById('prev-signature-cursive');
+      const elVpa = document.getElementById('prev-vpa');
+      const elSellerSign = document.getElementById('prev-seller-sign-name');
+
+      if (elSellerName && activeEl !== elSellerName) elSellerName.innerText = sellerName;
+      if (elSellerTag && activeEl !== elSellerTag) elSellerTag.innerText = sellerTagline;
+      if (elSellerPhone && activeEl !== elSellerPhone) elSellerPhone.innerText = sellerPhone;
+      if (elSellerAddr && activeEl !== elSellerAddr) elSellerAddr.innerText = sellerAddress;
+      if (elSellerGstin && activeEl !== elSellerGstin) elSellerGstin.innerText = sellerGSTIN || 'Not Registered';
+      if (elSellerState) elSellerState.innerText = sellerState;
+      if (elSignatory && activeEl !== elSignatory) elSignatory.innerText = signatory;
+      if (elSellerSign) elSellerSign.innerText = sellerName;
+
+      // Status & Payment Mode Check: Clean, Authentic Accounting Status
+      const status = document.getElementById('bill-status').value;
+      const statusBadge = document.getElementById('prev-status-badge');
+      const upiBlock = document.getElementById('upi-payment-block');
+
+      if (status === 'cash') {
+        if (statusBadge) {
+          statusBadge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-emerald-700';
+          statusBadge.innerText = 'PAID (CASH)';
+        }
+        if (upiBlock) upiBlock.classList.add('opacity-40');
+      } else if (status === 'online') {
+        if (statusBadge) {
+          statusBadge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-emerald-700';
+          statusBadge.innerText = 'PAID (UPI / ONLINE)';
+        }
+        if (upiBlock) upiBlock.classList.remove('opacity-40');
+      } else {
+        if (statusBadge) {
+          statusBadge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-amber-700';
+          statusBadge.innerText = 'DUE (PENDING)';
+        }
+        if (upiBlock) upiBlock.classList.remove('opacity-40');
+      }
+
+      // Client Info & Date / Time
+      const clientName = document.getElementById('client-name').value || 'Customer Name';
+      const clientPhone = document.getElementById('client-phone').value || '';
+      const invoiceNo = document.getElementById('invoice-no').value || 'INV-001';
+      const invoiceDate = document.getElementById('invoice-date').value;
+      const invoiceTime = document.getElementById('invoice-time') ? document.getElementById('invoice-time').value : '';
+      const buyerGSTIN = document.getElementById('buyer-gstin').value.trim();
+      const supplyType = document.getElementById('supply-state').value;
+
+      const elClientName = document.getElementById('prev-client-name');
+      const elClientPhone = document.getElementById('prev-client-phone');
+      const elInvoiceNo = document.getElementById('prev-invoice-no');
+      const elNotes = document.getElementById('prev-notes');
+
+      if (elClientName && activeEl !== elClientName) elClientName.innerText = clientName;
+      if (elClientPhone && activeEl !== elClientPhone) elClientPhone.innerText = clientPhone;
+      if (elInvoiceNo && activeEl !== elInvoiceNo) elInvoiceNo.innerText = invoiceNo;
+
+      const formattedDate = formatDateDisplay(invoiceDate);
+      const formattedTime = formatTimeDisplay(invoiceTime);
+      const prevDateEl = document.getElementById('prev-invoice-date');
+      if (prevDateEl) {
+        if (formattedTime) {
+          prevDateEl.innerText = `${formattedDate} • ${formattedTime}`;
+        } else {
+          prevDateEl.innerText = formattedDate;
+        }
+      }
+
+      const buyerGstinRow = document.getElementById('prev-buyer-gstin-row');
+      if (isGstEnabled && buyerGSTIN) {
+        buyerGstinRow.classList.remove('hidden');
+        document.getElementById('prev-buyer-gstin').innerText = buyerGSTIN;
+      } else {
+        buyerGstinRow.classList.add('hidden');
+      }
+
+      const supplyRow = document.getElementById('prev-supply-row');
+      if (supplyRow) {
+        if (isGstEnabled) {
+          supplyRow.classList.remove('hidden');
+          document.getElementById('prev-supply-state').innerText = sellerState;
+        } else {
+          supplyRow.classList.add('hidden');
+        }
+      }
+
+      if (elNotes && activeEl !== elNotes) {
+        elNotes.innerText = document.getElementById('invoice-notes').value || 'Thank you for your business!';
+      }
+
+      // Line Items Rendering with S.No Column & Clean Accounting Grid
+      const rows = document.querySelectorAll('.item-row');
+      let subtotal = 0;
+      const itemsBody = document.getElementById('prev-items-body');
+      const isEditingItems = activeEl && itemsBody && itemsBody.contains(activeEl);
+
+      if (!isEditingItems && itemsBody) {
+        itemsBody.innerHTML = '';
+        rows.forEach((row, index) => {
+          const desc = row.querySelector('.item-desc').value || 'Item Description';
+          const hsn = row.querySelector('.item-hsn').value || '-';
+          const qty = parseFloat(row.querySelector('.item-qty').value) || 1;
+          const price = parseFloat(row.querySelector('.item-price').value) || 0;
+          const amount = qty * price;
+          subtotal += amount;
+
+          const tr = document.createElement('tr');
+          tr.setAttribute('data-row-index', index);
+          tr.className = 'border-b border-slate-200 hover:bg-slate-50/50';
+          tr.innerHTML = `
+            <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200">${index + 1}</td>
+            <td class="py-2 px-3 font-medium text-slate-900 border-r border-slate-200">
+              <span contenteditable="true" spellcheck="false" class="editable-field editable-desc block" data-row-idx="${index}" title="Click to edit item description">${escapeHTML(desc)}</span>
+            </td>
+            <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200 ${isGstEnabled ? '' : 'hidden'}">
+              <span contenteditable="true" spellcheck="false" class="editable-field editable-hsn inline-block" data-row-idx="${index}" title="Click to edit HSN/SAC">${escapeHTML(hsn)}</span>
+            </td>
+            <td class="py-2 px-2 text-center text-slate-800 font-semibold border-r border-slate-200">
+              <span contenteditable="true" spellcheck="false" class="editable-field editable-qty inline-block" data-row-idx="${index}" title="Click to edit quantity">${qty}</span>
+            </td>
+            <td class="py-2 px-3 text-right font-mono text-slate-800 border-r border-slate-200">
+              <span contenteditable="true" spellcheck="false" class="editable-field editable-price inline-block font-semibold" data-row-idx="${index}" title="Click to edit rate">₹${formatINR(price)}</span>
+            </td>
+            <td class="py-2 px-3 text-right font-mono font-bold text-slate-900 prev-row-amount">
+              ₹${formatINR(amount)}
+            </td>
+            <td class="py-2 px-2 text-center w-6 no-print">
+              <button type="button" onclick="deleteItemRowByIndex(${index})" title="Delete line item" class="text-slate-300 hover:text-rose-600 p-0.5 rounded transition-colors opacity-70 hover:opacity-100 cursor-pointer">
+                <svg class="w-3.5 h-3.5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
+            </td>
+          `;
+          itemsBody.appendChild(tr);
+        });
+      } else {
+        rows.forEach(row => {
+          const qty = parseFloat(row.querySelector('.item-qty').value) || 1;
+          const price = parseFloat(row.querySelector('.item-price').value) || 0;
+          subtotal += (qty * price);
+        });
+      }
+
+      // Discount & Taxes
+      const discount = parseFloat(document.getElementById('discount-amt').value) || 0;
+      const taxRate = isGstEnabled ? (parseFloat(document.getElementById('tax-rate').value) || 0) : 0;
+
+      const taxableAmount = Math.max(0, subtotal - discount);
+      const totalTax = (taxableAmount * taxRate) / 100;
+      const grandTotal = Math.round((taxableAmount + totalTax) * 100) / 100;
+
+      document.getElementById('prev-subtotal').innerText = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+
+      const discountRow = document.getElementById('prev-discount-row');
+      if (discount > 0) {
+        discountRow.classList.remove('hidden');
+        document.getElementById('prev-discount').innerText = '-₹' + discount.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      } else {
+        discountRow.classList.add('hidden');
+      }
+
+      // GST Breakdown: CGST + SGST vs IGST
+      const cgstRow = document.getElementById('prev-cgst-row');
+      const sgstRow = document.getElementById('prev-sgst-row');
+      const igstRow = document.getElementById('prev-igst-row');
+
+      if (isGstEnabled && taxRate > 0) {
+        if (supplyType.includes('Intra-State')) {
+          const halfRate = taxRate / 2;
+          const halfTax = totalTax / 2;
+          cgstRow.classList.remove('hidden');
+          sgstRow.classList.remove('hidden');
+          igstRow.classList.add('hidden');
+
+          document.getElementById('prev-cgst-label').innerText = `CGST (${halfRate}%):`;
+          document.getElementById('prev-cgst').innerText = '₹' + halfTax.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+          document.getElementById('prev-sgst-label').innerText = `SGST (${halfRate}%):`;
+          document.getElementById('prev-sgst').innerText = '₹' + halfTax.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        } else {
+          cgstRow.classList.add('hidden');
+          sgstRow.classList.add('hidden');
+          igstRow.classList.remove('hidden');
+
+          document.getElementById('prev-igst-label').innerText = `IGST (${taxRate}%):`;
+          document.getElementById('prev-igst').innerText = '₹' + totalTax.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        }
+      } else {
+        cgstRow.classList.add('hidden');
+        sgstRow.classList.add('hidden');
+        igstRow.classList.add('hidden');
+      }
+
+      document.getElementById('prev-grand-total').innerText = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      
+      // Amount in Words
+      const amountInWordsEl = document.getElementById('prev-amount-in-words');
+      if (amountInWordsEl) {
+        amountInWordsEl.innerText = numberToWordsINR(grandTotal);
+      }
+
+      // Dynamic Industry Meta Strip in Preview
+      updateIndustryMetaStrip();
+
+      // Reliable UPI ID & QR Code: Fallback to placeholder so QR is NEVER missing by default
+      const cleanUPI = (sellerUPI && sellerUPI.trim() !== '') ? sellerUPI.trim() : 'yourbusiness@upi';
+      if (elVpa && activeEl !== elVpa) {
+        elVpa.innerText = cleanUPI;
+      }
+
+      const enableQrBox = document.getElementById('enable-upi-qr');
+      const isQrEnabled = enableQrBox ? enableQrBox.checked : true;
+
+      if (!isQrEnabled) {
+        upiBlock.classList.add('hidden');
+      } else {
+        upiBlock.classList.remove('hidden');
+        const cleanPayee = encodeURIComponent(sellerName.substring(0, 25));
+        const cleanNote = encodeURIComponent(`Bill ${invoiceNo}`);
+        const upiUrl = `upi://pay?pa=${encodeURIComponent(cleanUPI)}&pn=${cleanPayee}&am=${grandTotal.toFixed(2)}&cu=INR&tn=${cleanNote}`;
+
+        const deeplinkEl = document.getElementById('btn-upi-deeplink');
+        if (deeplinkEl) deeplinkEl.href = upiUrl;
+
+        const qrContainer = document.getElementById('qrcode-container');
+        if (qrContainer) {
+          qrContainer.innerHTML = '';
+          try {
+            qrCodeInstance = new QRCode(qrContainer, {
+              text: upiUrl,
+              width: 112,
+              height: 112,
+              colorDark: "#0f172a",
+              colorLight: "#ffffff",
+              correctLevel: QRCode.CorrectLevel.M
+            });
+          } catch(e) {}
+        }
+      }
+    }
+
+    // Add Row
+    document.getElementById('btn-add-item').addEventListener('click', () => {
+      const container = document.getElementById('items-container');
+      const div = document.createElement('div');
+      div.className = 'item-row grid grid-cols-12 gap-2 items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200';
+      div.innerHTML = `
+        <div class="col-span-5 sm:col-span-5">
+          <input type="text" class="item-desc w-full text-sm px-2.5 py-1.5 bg-white rounded border border-slate-300"
+                 placeholder="Item / Service description">
+        </div>
+        <div class="col-span-2 sm:col-span-2">
+          <input type="text" class="item-hsn w-full text-sm px-2 py-1.5 text-center font-mono bg-white rounded border border-slate-300"
+                 placeholder="HSN/SAC">
+        </div>
+        <div class="col-span-2 sm:col-span-2">
+          <input type="number" min="1" class="item-qty w-full text-sm px-2 py-1.5 text-center bg-white rounded border border-slate-300"
+                 placeholder="Qty" value="1">
+        </div>
+        <div class="col-span-2 sm:col-span-2">
+          <input type="number" min="0" step="any" class="item-price w-full text-sm px-2 py-1.5 text-right bg-white rounded border border-slate-300"
+                 placeholder="Price (₹)" value="0">
+        </div>
+        <div class="col-span-1 text-center">
+          <button type="button" class="btn-remove-item text-slate-400 hover:text-rose-600 p-1">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `;
+      container.appendChild(div);
+      lucide.createIcons();
+      attachRowEvents(div);
+      updateInvoice();
+    });
+
+    function attachRowEvents(row) {
+      row.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', updateInvoice);
+      });
+      row.querySelector('.btn-remove-item').addEventListener('click', () => {
+        const totalRows = document.querySelectorAll('.item-row').length;
+        if (totalRows > 1) {
+          row.remove();
+          updateInvoice();
+        } else {
+          row.querySelectorAll('input').forEach(inp => {
+            if (inp.classList.contains('item-qty')) inp.value = '1';
+            else if (inp.classList.contains('item-price')) inp.value = '';
+            else inp.value = '';
+          });
+          updateInvoice();
+        }
+      });
+    }
+
+    document.querySelectorAll('.item-row').forEach(row => attachRowEvents(row));
+
+    document.querySelectorAll('#bill-form input, #bill-form select').forEach(el => {
+      el.addEventListener('input', updateInvoice);
+      el.addEventListener('change', updateInvoice);
+    });
+
+    // Invoice Bill Format Switcher (4 Distinct High-End SaaS Designs)
+    function setInvoiceFormat(formatName) {
+      const container = document.getElementById('invoice-preview-container');
+      if (!container) return;
+      container.classList.remove('format-modern', 'format-classic', 'format-executive', 'format-minimal');
+      container.classList.add(formatName);
+      localStorage.setItem('upibill_invoice_format', formatName);
+      const sel = document.getElementById('invoice-format-select');
+      if (sel && sel.value !== formatName) sel.value = formatName;
+    }
+
+    // Quick Date & Time Picker Helpers
+    function setCurrentDate() {
+      const now = new Date();
+      const yr = now.getFullYear();
+      const mo = String(now.getMonth() + 1).padStart(2, '0');
+      const da = String(now.getDate()).padStart(2, '0');
+      const dateInput = document.getElementById('invoice-date');
+      if (dateInput) {
+        dateInput.value = `${yr}-${mo}-${da}`;
+        updateInvoice();
+      }
+    }
+
+    function setYesterdayDate() {
+      const now = new Date();
+      now.setDate(now.getDate() - 1);
+      const yr = now.getFullYear();
+      const mo = String(now.getMonth() + 1).padStart(2, '0');
+      const da = String(now.getDate()).padStart(2, '0');
+      const dateInput = document.getElementById('invoice-date');
+      if (dateInput) {
+        dateInput.value = `${yr}-${mo}-${da}`;
+        updateInvoice();
+      }
+    }
+
+    function setCurrentDateTime() {
+      setCurrentDate();
+      const now = new Date();
+      const hr = String(now.getHours()).padStart(2, '0');
+      const min = String(now.getMinutes()).padStart(2, '0');
+      const timeInput = document.getElementById('invoice-time');
+      if (timeInput) {
+        timeInput.value = `${hr}:${min}`;
+        updateInvoice();
+      }
+    }
+
+    function clearInvoiceTime() {
+      const timeInput = document.getElementById('invoice-time');
+      if (timeInput) {
+        timeInput.value = '';
+        updateInvoice();
+      }
+    }
+
+    function formatTimeDisplay(timeStr) {
+      if (!timeStr) return '';
+      const parts = timeStr.split(':');
+      if (parts.length < 2) return timeStr;
+      let hr = parseInt(parts[0], 10);
+      const min = parts[1];
+      const ampm = hr >= 12 ? 'PM' : 'AM';
+      hr = hr % 12;
+      if (hr === 0) hr = 12;
+      return `${String(hr).padStart(2, '0')}:${min} ${ampm}`;
+    }
+
+    function generateAutoInvoiceNo() {
+      const prefix = 'INV';
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      const input = document.getElementById('invoice-no');
+      if (input) {
+        input.value = `${prefix}-${rand}`;
+        updateInvoice();
+      }
+    }
+
+    function resetFormToClean() {
+      document.getElementById('seller-name').value = '';
+      document.getElementById('seller-tagline').value = '';
+      document.getElementById('seller-phone').value = '';
+      document.getElementById('seller-address').value = '';
+      document.getElementById('seller-upi').value = '';
+      document.getElementById('seller-gstin').value = '';
+      document.getElementById('client-name').value = '';
+      document.getElementById('client-phone').value = '';
+      document.getElementById('buyer-gstin').value = '';
+      clearInvoiceTime();
+      setCurrentDate();
+      generateAutoInvoiceNo();
+      updateInvoice();
+    }
+
+    // Inline Item Actions directly from Live Preview
+    function addNewItemRowDirectly() {
+      const btnAdd = document.getElementById('btn-add-item');
+      if (btnAdd) {
+        btnAdd.click();
+        const prevTable = document.getElementById('prev-items-body');
+        if (prevTable && prevTable.lastElementChild) {
+          const descEl = prevTable.lastElementChild.querySelector('.editable-desc');
+          if (descEl) {
+            setTimeout(() => { descEl.focus(); }, 60);
+          }
+        }
+      }
+    }
+
+    function deleteItemRowByIndex(index) {
+      const rows = document.querySelectorAll('.item-row');
+      if (rows && rows[index]) {
+        if (rows.length > 1) {
+          rows[index].remove();
+          updateInvoice();
+        } else {
+          rows[0].querySelectorAll('input').forEach(inp => {
+            if (inp.classList.contains('item-qty')) inp.value = '1';
+            else if (inp.classList.contains('item-price')) inp.value = '0';
+            else inp.value = '';
+          });
+          updateInvoice();
+        }
+      }
+    }
+
+    // Bidirectional Preview Inline Editing Manager
+    function initPreviewInlineEditing() {
+      const container = document.getElementById('invoice-preview-container');
+      if (!container) return;
+
+      container.addEventListener('input', (e) => {
+        const target = e.target;
+        if (!target.classList.contains('editable-field')) return;
+
+        // Non-table direct bind fields
+        const bindId = target.getAttribute('data-bind');
+        if (bindId) {
+          const formInput = document.getElementById(bindId);
+          if (formInput) {
+            formInput.value = target.innerText.trim();
+            saveBusinessToLocal();
+          }
+          if (bindId === 'seller-upi' || bindId === 'seller-name' || bindId === 'invoice-no') {
+            updateInvoice();
+          }
+          return;
+        }
+
+        // Table inline fields (desc, hsn, qty, price)
+        const rowIdx = target.getAttribute('data-row-idx');
+        if (rowIdx !== null) {
+          const idx = parseInt(rowIdx, 10);
+          const formRows = document.querySelectorAll('.item-row');
+          const formRow = formRows[idx];
+          if (!formRow) return;
+
+          if (target.classList.contains('editable-desc')) {
+            formRow.querySelector('.item-desc').value = target.innerText.trim();
+          } else if (target.classList.contains('editable-hsn')) {
+            formRow.querySelector('.item-hsn').value = target.innerText.trim();
+          } else if (target.classList.contains('editable-qty')) {
+            const rawVal = target.innerText.replace(/[^0-9.]/g, '');
+            const val = parseFloat(rawVal) || 0;
+            formRow.querySelector('.item-qty').value = val;
+            recalculateFromPreviewRow(target.closest('tr'), idx);
+          } else if (target.classList.contains('editable-price')) {
+            const rawVal = target.innerText.replace(/[^0-9.]/g, '');
+            const val = parseFloat(rawVal) || 0;
+            formRow.querySelector('.item-price').value = val;
+            recalculateFromPreviewRow(target.closest('tr'), idx);
+          }
+        }
+      });
+
+      // On blur / focusout, execute full clean re-calculation & save
+      container.addEventListener('focusout', (e) => {
+        const target = e.target;
+        if (target.classList.contains('editable-field')) {
+          updateInvoice();
+        }
+      });
+    }
+
+    function recalculateFromPreviewRow(tr, idx) {
+      const formRows = document.querySelectorAll('.item-row');
+      const formRow = formRows[idx];
+      if (!formRow) return;
+
+      const qty = parseFloat(formRow.querySelector('.item-qty').value) || 0;
+      const price = parseFloat(formRow.querySelector('.item-price').value) || 0;
+      const rowAmt = qty * price;
+
+      if (tr) {
+        const amtCell = tr.querySelector('.prev-row-amount');
+        if (amtCell) amtCell.innerText = '₹' + formatINR(rowAmt);
+      }
+
+      // Fast recalculate totals without breaking focus
+      let subtotal = 0;
+      formRows.forEach(r => {
+        const q = parseFloat(r.querySelector('.item-qty').value) || 0;
+        const p = parseFloat(r.querySelector('.item-price').value) || 0;
+        subtotal += (q * p);
+      });
+
+      const isGstEnabled = document.getElementById('enable-gst').checked;
+      const discount = parseFloat(document.getElementById('discount-amt').value) || 0;
+      const taxRate = isGstEnabled ? (parseFloat(document.getElementById('tax-rate').value) || 0) : 0;
+      const taxableAmount = Math.max(0, subtotal - discount);
+      const totalTax = (taxableAmount * taxRate) / 100;
+      const grandTotal = Math.round((taxableAmount + totalTax) * 100) / 100;
+
+      document.getElementById('prev-subtotal').innerText = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      document.getElementById('prev-grand-total').innerText = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const amtWordsEl = document.getElementById('prev-amount-in-words');
+      if (amtWordsEl) amtWordsEl.innerText = numberToWordsINR(grandTotal);
+    }
+
+    // High Reliability Print Invocation
+    function printInvoice() {
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
+      }
+      const colPreview = document.getElementById('col-main-preview');
+      if (colPreview) colPreview.classList.remove('hidden');
+      window.print();
+    }
+
+    // Download 100% Guaranteed High-Resolution A4 PDF via jsPDF & html2canvas
+    async function downloadAsPDF() {
+      const invoiceElem = document.getElementById('invoice-preview-container');
+      if (!invoiceElem) return;
+
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
+      }
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating PDF...</span>`;
+      }
+
+      const colPreview = document.getElementById('col-main-preview');
+      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
+      if (wasHidden) {
+        colPreview.classList.remove('hidden');
+        colPreview.style.display = 'block';
+        void colPreview.offsetHeight;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(invoiceElem, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          scrollX: 0,
+          scrollY: 0,
+          onclone: (clonedDoc) => {
+            const clonedContainer = clonedDoc.getElementById('invoice-preview-container');
+            if (clonedContainer) {
+              clonedContainer.style.setProperty('border', 'none', 'important');
+              clonedContainer.style.setProperty('box-shadow', 'none', 'important');
+              clonedContainer.style.setProperty('outline', 'none', 'important');
+            }
+            clonedDoc.querySelectorAll('.editable-field').forEach(el => {
+              el.removeAttribute('contenteditable');
+              el.style.boxShadow = 'none';
+              el.style.background = 'transparent';
+              el.style.outline = 'none';
+            });
+            clonedDoc.querySelectorAll('.no-print').forEach(el => {
+              el.style.display = 'none';
+            });
+            const origQr = document.getElementById('qrcode-container');
+            const cloneQr = clonedDoc.getElementById('qrcode-container');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              const origImg = origQr.querySelector('img');
+              let qrSrc = '';
+              if (origCanvas) {
+                try { qrSrc = origCanvas.toDataURL('image/png'); } catch(e) {}
+              } else if (origImg && origImg.src) {
+                qrSrc = origImg.src;
+              }
+              if (qrSrc) {
+                cloneQr.innerHTML = `<img src="${qrSrc}" style="width: 100px; height: 100px; display: block; margin: 0 auto; object-fit: contain;" />`;
+              }
+            }
+          }
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        
+        const margin = 10;
+        const contentWidth = pdfWidth - (margin * 2);
+        const contentHeight = (canvas.height * contentWidth) / canvas.width;
+        
+        if (contentHeight <= pdfHeight - (margin * 2)) {
+          pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth, contentHeight);
+        } else {
+          const scaleFactor = (pdfHeight - (margin * 2)) / contentHeight;
+          if (scaleFactor > 0.8) {
+            pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth * scaleFactor, contentHeight * scaleFactor);
+          } else {
+            let heightLeft = contentHeight;
+            let position = margin;
+            pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
+            heightLeft -= (pdfHeight - margin);
+            while (heightLeft > 0) {
+              position = heightLeft - contentHeight + margin;
+              pdf.addPage();
+              pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
+              heightLeft -= pdfHeight;
+            }
+          }
+        }
+
+        const invNo = (document.getElementById('invoice-no')?.value?.trim() || 'Invoice').replace(/[^a-zA-Z0-9_-]/g, '_');
+        pdf.save(`${invNo}_UPIBill.pdf`);
+        showIndexDownloadToast('Invoice PDF downloaded successfully!');
+      } catch (err) {
+        console.error('PDF error:', err);
+        showIndexDownloadToast('Notice: Opening Print view for PDF...');
+        setTimeout(() => { printInvoice(); }, 400);
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    // Download PNG with 100% Guaranteed High-Resolution Fidelity & QR Preservation
+    async function downloadAsPNG() {
+      const invoiceElem = document.getElementById('invoice-preview-container');
+      if (!invoiceElem) return;
+
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
+      }
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating...</span>`;
+      }
+
+      const colPreview = document.getElementById('col-main-preview');
+      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
+      if (wasHidden) {
+        colPreview.classList.remove('hidden');
+        colPreview.style.display = 'block';
+        void colPreview.offsetHeight;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(invoiceElem, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          scrollX: 0,
+          scrollY: 0,
+          onclone: (clonedDoc) => {
+            const clonedContainer = clonedDoc.getElementById('invoice-preview-container');
+            if (clonedContainer) {
+              clonedContainer.style.setProperty('border', 'none', 'important');
+              clonedContainer.style.setProperty('box-shadow', 'none', 'important');
+              clonedContainer.style.setProperty('outline', 'none', 'important');
+            }
+            // Strip any contenteditable borders, focus outlines, or highlights
+            clonedDoc.querySelectorAll('.editable-field').forEach(el => {
+              el.removeAttribute('contenteditable');
+              el.style.boxShadow = 'none';
+              el.style.background = 'transparent';
+              el.style.outline = 'none';
+            });
+            // Hide delete buttons and interactive controls in clone
+            clonedDoc.querySelectorAll('.no-print').forEach(el => {
+              el.style.display = 'none';
+            });
+            // Reliably preserve QR code as image
+            const origQr = document.getElementById('qrcode-container');
+            const cloneQr = clonedDoc.getElementById('qrcode-container');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              const origImg = origQr.querySelector('img');
+              let qrSrc = '';
+              if (origCanvas) {
+                try { qrSrc = origCanvas.toDataURL('image/png'); } catch(e) {}
+              } else if (origImg && origImg.src) {
+                qrSrc = origImg.src;
+              }
+              if (qrSrc) {
+                cloneQr.innerHTML = `<img src="${qrSrc}" style="width: 112px; height: 112px; display: block; margin: 0 auto; object-fit: contain;" />`;
+              }
+            }
+          }
+        });
+
+        const invNo = (document.getElementById('invoice-no').value.trim() || 'Bill').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `${invNo}_UPIBill.png`;
+
+        if (canvas.toBlob) {
+          canvas.toBlob(blob => {
+            if (blob) {
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              link.download = filename;
+              link.href = url;
+              document.body.appendChild(link);
+              link.click();
+              setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              }, 1500);
+            } else {
+              fallbackIndexDataURL(canvas, filename);
+            }
+          }, 'image/png');
+        } else {
+          fallbackIndexDataURL(canvas, filename);
+        }
+
+        showIndexDownloadToast('Invoice / Bill PNG saved successfully!');
+      } catch (err) {
+        console.error('Download error:', err);
+        showIndexDownloadToast('Notice: Opening Print/PDF view...');
+        setTimeout(() => { printInvoice(); }, 400);
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    function fallbackIndexDataURL(canvas, filename) {
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => { document.body.removeChild(link); }, 1000);
+    }
+
+    function showIndexDownloadToast(msg) {
+      let toast = document.getElementById('download-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'download-toast';
+        toast.className = 'fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 transition-all transform duration-300 opacity-0 translate-y-3 pointer-events-none';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-3');
+      }, 3000);
+    }
+
+    // Share on WhatsApp
+    document.getElementById('btn-share-whatsapp').addEventListener('click', () => {
+      const seller = document.getElementById('seller-name').value;
+      const client = document.getElementById('client-name').value;
+      const phone = document.getElementById('client-phone').value.replace(/[^0-9]/g, '');
+      const invNo = document.getElementById('invoice-no').value;
+      const total = document.getElementById('prev-grand-total').innerText;
+      const upi = document.getElementById('seller-upi').value;
+      const upiLink = document.getElementById('btn-upi-deeplink').href;
+      const status = document.getElementById('bill-status').value;
+      const isGst = document.getElementById('enable-gst').checked;
+      const gstin = document.getElementById('seller-gstin').value;
+
+      // Clean WhatsApp share without emojis
+      let message = `*${isGst ? 'TAX INVOICE' : 'BILL / CASH MEMO'}*\n` +
+        `*Seller:* ${seller}\n` +
+        (isGst && gstin ? `*GSTIN:* ${gstin}\n` : '') +
+        `*Billed To:* ${client}\n` +
+        `*Invoice No:* ${invNo}\n` +
+        `*Total Amount:* ${total}\n` +
+        `*Status:* ${status === 'paid' ? 'PAID / SETTLED' : 'PAYMENT PENDING'}\n\n`;
+
+      const isQrOn = document.getElementById('enable-upi-qr').checked;
+      if (status !== 'paid' && isQrOn && upi) {
+        message += `*Pay Online via UPI (Pre-filled):*\n` +
+          `${upiLink}\n\n` +
+          `Or scan the QR code on your invoice. Payee UPI ID: *${upi}*\n`;
+      } else if (status === 'paid') {
+        message += `Thank you for your payment!\n`;
+      } else {
+        message += `Thank you for your business.\n`;
+      }
+
+      message += `_Generated via upibillmaker.com_`;
+
+      const whatsappUrl = phone 
+        ? `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`
+        : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+
+      window.open(whatsappUrl, '_blank');
+    });
+
+    // Reset Form
+    document.getElementById('btn-reset').addEventListener('click', () => {
+      if (confirm('Clear customer and item details? Business & GST settings will remain saved.')) {
+        document.getElementById('client-name').value = '';
+        document.getElementById('client-phone').value = '';
+        document.getElementById('buyer-gstin').value = '';
+        document.getElementById('discount-amt').value = 0;
+        document.getElementById('invoice-no').value = 'GST-' + Math.floor(1000 + Math.random() * 9000);
+        updateInvoice();
+      }
+    });
+
+    // Mobile Tab Switcher
+    function switchMainTab(tab) {
+      const colForm = document.getElementById('col-main-form');
+      const colPreview = document.getElementById('col-main-preview');
+      const btnEdit = document.getElementById('main-mob-tab-edit');
+      const btnPreview = document.getElementById('main-mob-tab-preview');
+
+      if (tab === 'edit') {
+        colForm.classList.remove('hidden');
+        colPreview.classList.add('hidden');
+        btnEdit.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-brand-600 text-white flex items-center justify-center gap-1.5 shadow-sm';
+        btnPreview.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5';
+      } else {
+        colForm.classList.add('hidden');
+        colPreview.classList.remove('hidden');
+        btnEdit.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5';
+        btnPreview.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-brand-600 text-white flex items-center justify-center gap-1.5 shadow-sm';
+      }
+    }
+
+    // Toggle UPI QR Code on Bill
+    document.getElementById('enable-upi-qr').addEventListener('change', function(e) {
+      const active = e.target.checked;
+      const badge = document.getElementById('qr-toggle-badge');
+      const inputGroup = document.getElementById('upi-input-group');
+      if (active) {
+        badge.innerText = 'Active';
+        badge.className = 'text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded';
+        inputGroup.classList.remove('opacity-50');
+      } else {
+        badge.innerText = 'Disabled (Plain Bill)';
+        badge.className = 'text-[10px] font-bold text-slate-500 bg-slate-200 px-2 py-0.5 rounded';
+        inputGroup.classList.add('opacity-50');
+      }
+      updateInvoice();
+    });
+
+    // Toggle Watermark Branding
+    document.getElementById('enable-branding').addEventListener('change', function(e) {
+      const b = document.getElementById('prev-branding');
+      if (b) {
+        b.style.display = e.target.checked ? 'block' : 'none';
+      }
+    });
+
+    // Active Template State
+    let currentTemplate = 'shop';
+
+    function updateIndustryMetaStrip() {
+      const strip = document.getElementById('prev-industry-meta-strip');
+      if (!strip) return;
+
+      const items = [];
+
+      if (currentTemplate === 'medical') {
+        const dl = (document.getElementById('tpl-dl-no')?.value || '').trim();
+        const doc = (document.getElementById('tpl-doctor-name')?.value || '').trim();
+        const pat = (document.getElementById('tpl-patient-meta')?.value || '').trim();
+        const rx = (document.getElementById('tpl-rx-ref')?.value || '').trim();
+
+        if (dl) items.push(`<div><span class="font-bold text-teal-900">DL No:</span> ${dl}</div>`);
+        if (doc) items.push(`<div><span class="font-bold text-teal-900">Doctor:</span> ${doc}</div>`);
+        if (pat) items.push(`<div><span class="font-bold text-teal-900">Patient:</span> ${pat}</div>`);
+        if (rx) items.push(`<div><span class="font-bold text-teal-900">Rx Ref:</span> ${rx}</div>`);
+
+        if (items.length > 0) {
+          strip.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px]">${items.join('')}</div>`;
+          strip.className = 'my-3 py-2 px-3 bg-teal-50/70 rounded-lg border border-teal-200 text-xs text-slate-700';
+          strip.classList.remove('hidden');
+        } else {
+          strip.classList.add('hidden');
+          strip.innerHTML = '';
+        }
+      } else if (currentTemplate === 'restaurant') {
+        const tbl = (document.getElementById('tpl-table-no')?.value || '').trim();
+        const kot = (document.getElementById('tpl-kot-no')?.value || '').trim();
+        const srv = (document.getElementById('tpl-server-name')?.value || '').trim();
+
+        if (tbl) items.push(`<div><span class="font-bold text-orange-900">Table:</span> ${tbl}</div>`);
+        if (kot) items.push(`<div><span class="font-bold text-orange-900">KOT / Order:</span> ${kot}</div>`);
+        if (srv) items.push(`<div><span class="font-bold text-orange-900">Server:</span> ${srv}</div>`);
+
+        if (items.length > 0) {
+          strip.innerHTML = `<div class="flex flex-wrap items-center gap-4 text-[11px]">${items.join('')}</div>`;
+          strip.className = 'my-3 py-2 px-3 bg-orange-50/70 rounded-lg border border-orange-200 text-xs text-slate-700';
+          strip.classList.remove('hidden');
+        } else {
+          strip.classList.add('hidden');
+          strip.innerHTML = '';
+        }
+      } else if (currentTemplate === 'hotel') {
+        const rm = (document.getElementById('tpl-room-no')?.value || '').trim();
+        const gid = (document.getElementById('tpl-guest-id')?.value || '').trim();
+        const cin = (document.getElementById('tpl-checkin')?.value || '').trim();
+        const cout = (document.getElementById('tpl-checkout')?.value || '').trim();
+
+        if (rm) items.push(`<div><span class="font-bold text-indigo-900">Room / Category:</span> ${rm}</div>`);
+        if (gid) items.push(`<div><span class="font-bold text-indigo-900">Guest ID:</span> ${gid}</div>`);
+        if (cin) items.push(`<div><span class="font-bold text-indigo-900">Check-in:</span> ${cin}</div>`);
+        if (cout) items.push(`<div><span class="font-bold text-indigo-900">Check-out:</span> ${cout}</div>`);
+
+        if (items.length > 0) {
+          strip.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px]">${items.join('')}</div>`;
+          strip.className = 'my-3 py-2 px-3 bg-indigo-50/70 rounded-lg border border-indigo-200 text-xs text-slate-700';
+          strip.classList.remove('hidden');
+        } else {
+          strip.classList.add('hidden');
+          strip.innerHTML = '';
+        }
+      } else if (currentTemplate === 'rent') {
+        const pan = (document.getElementById('tpl-landlord-pan')?.value || '').trim();
+        const period = (document.getElementById('tpl-rent-period')?.value || '').trim();
+        const addr = (document.getElementById('tpl-rent-address')?.value || '').trim();
+
+        if (pan) items.push(`<div><span class="font-bold text-emerald-900">Landlord PAN:</span> ${pan}</div>`);
+        if (period) items.push(`<div><span class="font-bold text-emerald-900">Rent Month:</span> ${period}</div>`);
+        if (addr) items.push(`<div class="w-full"><span class="font-bold text-emerald-900">Rented Property:</span> ${addr}</div>`);
+
+        if (items.length > 0) {
+          strip.innerHTML = `
+            <div class="space-y-1 text-[11px]">
+              <div class="flex flex-wrap justify-between gap-2">${items.join('')}</div>
+              <p class="text-[10px] text-slate-500 italic pt-1">Receipt eligible for HRA Tax Exemption under Sec 10(13A) of Income Tax Act.</p>
+            </div>
+          `;
+          strip.className = 'my-3 py-2 px-3 bg-emerald-50/70 rounded-lg border border-emerald-200 text-xs text-slate-700';
+          strip.classList.remove('hidden');
+        } else {
+          strip.classList.add('hidden');
+          strip.innerHTML = '';
+        }
+      } else if (currentTemplate === 'tuition') {
+        const roll = (document.getElementById('tpl-student-roll')?.value || '').trim();
+        const course = (document.getElementById('tpl-course')?.value || '').trim();
+        const mon = (document.getElementById('tpl-tuition-month')?.value || '').trim();
+
+        if (roll) items.push(`<div><span class="font-bold text-blue-900">Student Roll No:</span> ${roll}</div>`);
+        if (course) items.push(`<div><span class="font-bold text-blue-900">Class / Subject:</span> ${course}</div>`);
+        if (mon) items.push(`<div><span class="font-bold text-blue-900">Fee Month:</span> ${mon}</div>`);
+
+        if (items.length > 0) {
+          strip.innerHTML = `<div class="flex flex-wrap items-center gap-4 text-[11px]">${items.join('')}</div>`;
+          strip.className = 'my-3 py-2 px-3 bg-blue-50/70 rounded-lg border border-blue-200 text-xs text-slate-700';
+          strip.classList.remove('hidden');
+        } else {
+          strip.classList.add('hidden');
+          strip.innerHTML = '';
+        }
+      } else {
+        strip.classList.add('hidden');
+        strip.innerHTML = '';
+      }
+    }
+
+    // Attach listeners to industry specific fields
+    ['tpl-dl-no', 'tpl-doctor-name', 'tpl-patient-meta', 'tpl-rx-ref',
+     'tpl-table-no', 'tpl-kot-no', 'tpl-server-name',
+     'tpl-room-no', 'tpl-guest-id', 'tpl-checkin', 'tpl-checkout',
+     'tpl-landlord-pan', 'tpl-rent-period', 'tpl-rent-address',
+     'tpl-student-roll', 'tpl-course', 'tpl-tuition-month'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', updateInvoice);
+      }
+    });
+
+    // 1-Click Professional Industry Template Switcher (SaaS Polish: Updates placeholders & standard tax rules without overriding typed user content)
+    function switchTemplate(type) {
+      currentTemplate = type;
+      const isGstBox = document.getElementById('enable-gst');
+      const taxRate = document.getElementById('tax-rate');
+      const indFields = document.getElementById('industry-specific-fields');
+      const docTypeBadge = document.getElementById('prev-doc-type');
+      const sellerNameInput = document.getElementById('seller-name');
+      const sellerTaglineInput = document.getElementById('seller-tagline');
+      const notesInput = document.getElementById('invoice-notes');
+
+      // Update Tab Styles
+      ['shop', 'medical', 'restaurant', 'hotel', 'rent', 'tuition'].forEach(t => {
+        const btn = document.getElementById(`tab-tpl-${t}`);
+        if (!btn) return;
+        if (t === type) {
+          btn.className = 'tpl-btn px-2.5 py-2 rounded-lg font-bold border flex items-center justify-center gap-1.5 transition-all text-white bg-brand-600 border-brand-700 shadow-xs';
+        } else {
+          btn.className = 'tpl-btn px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-400';
+        }
+      });
+
+      // Show/Hide Field Groups
+      if (type === 'shop') {
+        indFields.classList.add('hidden');
+      } else {
+        indFields.classList.remove('hidden');
+      }
+
+      ['medical', 'restaurant', 'hotel', 'rent', 'tuition'].forEach(t => {
+        const grp = document.getElementById(`field-group-${t}`);
+        if (grp) {
+          if (t === type) grp.classList.remove('hidden');
+          else grp.classList.add('hidden');
+        }
+      });
+
+      if (type === 'medical') {
+        sellerNameInput.placeholder = 'e.g. Sanjeevani Medicos & Healthcare';
+        sellerTaglineInput.placeholder = 'e.g. Retail Chemist, Surgical & Healthcare';
+        notesInput.placeholder = 'e.g. Schedule H drugs dispensed against registered medical prescription.';
+        isGstBox.checked = true;
+        isGstBox.dispatchEvent(new Event('change'));
+        taxRate.value = '12';
+        docTypeBadge.innerText = 'PHARMACY TAX INVOICE';
+      } else if (type === 'restaurant') {
+        sellerNameInput.placeholder = 'e.g. Royal Spice Kitchen & Cafe';
+        sellerTaglineInput.placeholder = 'e.g. Fine Dining, Fast Food & Restaurant';
+        notesInput.placeholder = 'e.g. Thank you for dining with us! Please visit again.';
+        isGstBox.checked = true;
+        isGstBox.dispatchEvent(new Event('change'));
+        taxRate.value = '5';
+        docTypeBadge.innerText = 'RESTAURANT CASH MEMO';
+      } else if (type === 'hotel') {
+        sellerNameInput.placeholder = 'e.g. The Grand Heritage Resort & Lodge';
+        sellerTaglineInput.placeholder = 'e.g. Luxury Rooms, Homestay & Dining';
+        notesInput.placeholder = 'e.g. Check-in: 12 PM | Check-out: 11 AM. Thank you for staying with us!';
+        isGstBox.checked = true;
+        isGstBox.dispatchEvent(new Event('change'));
+        taxRate.value = '12';
+        docTypeBadge.innerText = 'HOTEL & STAY INVOICE';
+      } else if (type === 'rent') {
+        sellerNameInput.placeholder = 'e.g. Rajesh Kumar (Landlord)';
+        sellerTaglineInput.placeholder = 'e.g. House Rent Receipt (HRA Form 26C)';
+        notesInput.placeholder = 'e.g. Received with thanks. Valid for Income Tax HRA Exemption claim.';
+        isGstBox.checked = false;
+        isGstBox.dispatchEvent(new Event('change'));
+        taxRate.value = '0';
+        docTypeBadge.innerText = 'RENT RECEIPT (HRA)';
+      } else if (type === 'tuition') {
+        sellerNameInput.placeholder = 'e.g. Apex Learning Academy & Coaching';
+        sellerTaglineInput.placeholder = 'e.g. IIT-JEE, NEET & CBSE Coaching Centre';
+        notesInput.placeholder = 'e.g. Monthly tuition fee receipt. Classes conducted 5 days a week.';
+        isGstBox.checked = false;
+        isGstBox.dispatchEvent(new Event('change'));
+        taxRate.value = '0';
+        docTypeBadge.innerText = 'TUITION FEE RECEIPT';
+      } else {
+        // Standard Retail Shop
+        sellerNameInput.placeholder = 'e.g. Apex Tech Solutions';
+        sellerTaglineInput.placeholder = 'e.g. Laptop, Mobile & CCTV Sales & Repair';
+        notesInput.placeholder = 'e.g. Thank you for your business! 30 Days warranty on parts.';
+        isGstBox.checked = true;
+        isGstBox.dispatchEvent(new Event('change'));
+        taxRate.value = '18';
+        docTypeBadge.innerText = 'TAX INVOICE';
+      }
+
+      updateInvoice();
+    }
+
+    // Logo Maker Modal & Canvas Generator Logic (Zero Emojis, Pure Vector Graphics)
+    let currentLogoIcon = 'shield';
+
+    function openLogoMakerModal() {
+      const modal = document.getElementById('logo-maker-modal');
+      if (!modal) return;
+      modal.classList.remove('hidden');
+
+      // Auto-prefill intelligent initials if still default
+      const bName = (document.getElementById('seller-name')?.value || '').trim();
+      const mainInput = document.getElementById('logo-text-main');
+      const subInput = document.getElementById('logo-text-sub');
+      if (bName && mainInput && (!mainInput.value || mainInput.value === 'SE')) {
+        const words = bName.split(/\s+/).filter(Boolean);
+        if (words.length >= 2) {
+          mainInput.value = (words[0][0] + words[1][0]).toUpperCase();
+          if (!subInput.value || subInput.value === 'SERVICES' || subInput.value === 'ELECTRONICS') {
+            subInput.value = words[1].toUpperCase().slice(0, 14);
+          }
+        } else if (words.length === 1) {
+          mainInput.value = words[0].slice(0, 3).toUpperCase();
+          if (!subInput.value || subInput.value === 'SERVICES' || subInput.value === 'ELECTRONICS') {
+            subInput.value = words[0].toUpperCase().slice(0, 14);
+          }
+        }
+      }
+
+      setLogoIcon(currentLogoIcon);
+      drawLogoCanvas();
+    }
+
+    function closeLogoMakerModal() {
+      const modal = document.getElementById('logo-maker-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function setLogoIcon(icon) {
+      currentLogoIcon = icon;
+      document.querySelectorAll('.logo-icon-btn').forEach(btn => {
+        if (btn.getAttribute('data-icon-id') === icon) {
+          btn.classList.add('ring-2', 'ring-purple-600', 'bg-purple-50', 'border-purple-500');
+        } else {
+          btn.classList.remove('ring-2', 'ring-purple-600', 'bg-purple-50', 'border-purple-500');
+        }
+      });
+      drawLogoCanvas();
+    }
+
+    function drawLogoCanvas() {
+      const canvas = document.getElementById('logo-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const mainEl = document.getElementById('logo-text-main');
+      const subEl = document.getElementById('logo-text-sub');
+      const shapeEl = document.getElementById('logo-shape');
+      const colorEl = document.getElementById('logo-color');
+
+      const mainText = (mainEl ? mainEl.value : 'SE').trim() || 'SE';
+      const subText = (subEl ? subEl.value : '').trim();
+      const shape = shapeEl ? shapeEl.value : 'circle';
+      const color = colorEl ? colorEl.value : '#16a34a';
+
+      ctx.clearRect(0, 0, 400, 400);
+
+      // Background Shape
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      if (shape === 'circle') {
+        ctx.arc(200, 200, 185, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(200, 200, 172, 0, Math.PI * 2);
+        ctx.stroke();
+      } else if (shape === 'shield') {
+        ctx.moveTo(200, 25);
+        ctx.lineTo(365, 80);
+        ctx.lineTo(365, 230);
+        ctx.bezierCurveTo(365, 330, 200, 385, 200, 385);
+        ctx.bezierCurveTo(200, 385, 35, 330, 35, 230);
+        ctx.lineTo(35, 80);
+        ctx.closePath();
+        ctx.fill();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.stroke();
+      } else if (shape === 'hexagon') {
+        const a = 2 * Math.PI / 6;
+        const r = 180;
+        ctx.moveTo(200 + r * Math.cos(0), 200 + r * Math.sin(0));
+        for (let i = 1; i < 6; i++) {
+          ctx.lineTo(200 + r * Math.cos(a * i), 200 + r * Math.sin(a * i));
+        }
+        ctx.closePath();
+        ctx.fill();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.stroke();
+      } else {
+        // Rounded Square
+        const r = 40;
+        if (ctx.roundRect) {
+          ctx.roundRect(25, 25, 350, 350, r);
+        } else {
+          ctx.rect(25, 25, 350, 350);
+        }
+        ctx.fill();
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.stroke();
+      }
+
+      // Draw Pure Vector Icon Symbol (Crisp, High-Resolution, No Emojis)
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      if (currentLogoIcon === 'cross') {
+        // Medical Greek Cross
+        ctx.fillRect(185, 95, 30, 65);
+        ctx.fillRect(167, 112, 66, 30);
+      } else if (currentLogoIcon === 'cart') {
+        // Shopping Bag
+        ctx.strokeRect(175, 115, 50, 45);
+        ctx.beginPath();
+        ctx.arc(200, 115, 15, Math.PI, 0, false);
+        ctx.stroke();
+      } else if (currentLogoIcon === 'utensils') {
+        // Cutlery / Plate ring
+        ctx.arc(200, 130, 26, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fillRect(198, 112, 4, 36);
+      } else if (currentLogoIcon === 'hotel') {
+        // Building
+        ctx.fillRect(178, 100, 44, 60);
+        ctx.fillStyle = color;
+        ctx.fillRect(184, 110, 8, 8);
+        ctx.fillRect(196, 110, 8, 8);
+        ctx.fillRect(184, 126, 8, 8);
+        ctx.fillRect(196, 126, 8, 8);
+        ctx.fillRect(190, 145, 20, 15);
+      } else if (currentLogoIcon === 'wrench') {
+        // Crossed Tools
+        ctx.lineWidth = 6;
+        ctx.moveTo(175, 105); ctx.lineTo(225, 155);
+        ctx.moveTo(225, 105); ctx.lineTo(175, 155);
+        ctx.stroke();
+      } else {
+        // Shield Star
+        for (let i = 0; i < 5; i++) {
+          ctx.lineTo(Math.cos((18 + i * 72) * 0.01745) * 26 + 200,
+                     -Math.sin((18 + i * 72) * 0.01745) * 26 + 130);
+          ctx.lineTo(Math.cos((54 + i * 72) * 0.01745) * 12 + 200,
+                     -Math.sin((54 + i * 72) * 0.01745) * 12 + 130);
+        }
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Dynamic Font Sizing for Initials/Short Text (Supports up to 5 letters cleanly)
+      ctx.fillStyle = '#ffffff';
+      let fontSize = 76;
+      if (mainText.length === 1) fontSize = 92;
+      else if (mainText.length === 2) fontSize = 78;
+      else if (mainText.length === 3) fontSize = 62;
+      else if (mainText.length === 4) fontSize = 48;
+      else if (mainText.length >= 5) fontSize = 40;
+
+      ctx.font = `900 ${fontSize}px Outfit, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(mainText, 200, 222);
+
+      // Subtitle
+      if (subText) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
+        let subSize = 18;
+        if (subText.length > 12) subSize = 13;
+        else if (subText.length > 8) subSize = 15;
+        ctx.font = `700 ${subSize}px Inter, -apple-system, BlinkMacSystemFont, sans-serif`;
+        if ('letterSpacing' in ctx) {
+          try { ctx.letterSpacing = '3px'; } catch (e) {}
+        }
+        ctx.fillText(subText, 200, 292);
+      }
+    }
+
+    function applyGeneratedLogo() {
+      const canvas = document.getElementById('logo-canvas');
+      if (!canvas) return;
+      savedLogoBase64 = canvas.toDataURL('image/png');
+      renderLogoPreview(savedLogoBase64);
+      saveBusinessToLocal();
+      updateInvoice();
+      closeLogoMakerModal();
+    }
+
+    function downloadLogoPNG() {
+      const canvas = document.getElementById('logo-canvas');
+      if (!canvas) return;
+      const a = document.createElement('a');
+      const mainText = (document.getElementById('logo-text-main')?.value || 'Brand').trim();
+      a.download = `${mainText}_Logo.png`;
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }
+
+    // Modal listeners & Escape key handler
+    function initLogoMakerListeners() {
+      ['logo-text-main', 'logo-text-sub', 'logo-shape', 'logo-color'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener('input', drawLogoCanvas);
+          el.addEventListener('change', drawLogoCanvas);
+        }
+      });
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLogoMakerModal();
+      });
+    }
+
+    // 1-Click Sample Demo Populator (Optional testing for users who want to see a full sample)
+    function loadSampleDemoData() {
+      if (currentTemplate === 'medical') {
+        document.getElementById('seller-name').value = 'Sanjeevani Medicos & Healthcare';
+        document.getElementById('seller-tagline').value = 'Retail Chemist, Surgical & Healthcare';
+        document.getElementById('seller-phone').value = '+91 98765 22334';
+        document.getElementById('seller-address').value = 'Opposite Civil Hospital Gate, Sector 12';
+        document.getElementById('seller-upi').value = 'sanjeevanimedicos@okhdfcbank';
+        document.getElementById('seller-gstin').value = '07AABCS9900P1ZM';
+        document.getElementById('signatory-name').value = 'Regd. Pharmacist';
+        document.getElementById('tpl-dl-no').value = 'DL-20B/1452 & 21B/1453';
+        document.getElementById('tpl-doctor-name').value = 'Dr. A. K. Sharma (MCI-18492)';
+        document.getElementById('tpl-patient-meta').value = 'Age: 32 Yrs / Male';
+        document.getElementById('tpl-rx-ref').value = 'OPD Consultation / Viral Fever';
+        document.getElementById('client-name').value = 'Suresh Chandel';
+        document.getElementById('client-phone').value = '+91 98111 22334';
+        const rows = document.querySelectorAll('.item-row');
+        if (rows[0]) {
+          rows[0].querySelector('.item-desc').value = 'Augmentin 625 Duo (B: B402 Exp: 12/28)';
+          rows[0].querySelector('.item-hsn').value = '3004';
+          rows[0].querySelector('.item-qty').value = '2';
+          rows[0].querySelector('.item-price').value = '195';
+        }
+      } else if (currentTemplate === 'restaurant') {
+        document.getElementById('seller-name').value = 'Royal Spice Kitchen & Cafe';
+        document.getElementById('seller-tagline').value = 'Fine Dining, Fast Food & Restaurant';
+        document.getElementById('seller-phone').value = '+91 98111 55667';
+        document.getElementById('seller-address').value = 'Main High Street, Civil Lines';
+        document.getElementById('seller-upi').value = 'royalspice@okhdfcbank';
+        document.getElementById('signatory-name').value = 'Cashier / Manager';
+        document.getElementById('tpl-table-no').value = 'Table T-04';
+        document.getElementById('tpl-kot-no').value = 'KOT-8821';
+        document.getElementById('tpl-server-name').value = 'Amit K.';
+        document.getElementById('client-name').value = 'Walk-in Guest';
+        const rows = document.querySelectorAll('.item-row');
+        if (rows[0]) {
+          rows[0].querySelector('.item-desc').value = 'Paneer Butter Masala (Full)';
+          rows[0].querySelector('.item-hsn').value = '9963';
+          rows[0].querySelector('.item-qty').value = '1';
+          rows[0].querySelector('.item-price').value = '280';
+        }
+      } else {
+        document.getElementById('seller-name').value = 'Sharma Electronics & Services';
+        document.getElementById('seller-tagline').value = 'Laptop, Mobile & CCTV Sales & Repair';
+        document.getElementById('seller-phone').value = '+91 98765 43210';
+        document.getElementById('seller-address').value = 'Shop 12, Commercial Complex, Sector 18';
+        document.getElementById('seller-upi').value = 'sharma@okhdfcbank';
+        document.getElementById('seller-gstin').value = '07AABCS1429B1Z8';
+        document.getElementById('client-name').value = 'Rahul Verma';
+        document.getElementById('client-phone').value = '+91 98111 22233';
+        const rows = document.querySelectorAll('.item-row');
+        if (rows[0]) {
+          rows[0].querySelector('.item-desc').value = 'Laptop Screen Replacement (15.6 FHD)';
+          rows[0].querySelector('.item-hsn').value = '8471';
+          rows[0].querySelector('.item-qty').value = '1';
+          rows[0].querySelector('.item-price').value = '2400';
+        }
+      }
+      updateInvoice();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initLogoMakerListeners();
+      initPreviewInlineEditing();
+      const savedFormat = localStorage.getItem('upibill_invoice_format') || 'format-modern';
+      setInvoiceFormat(savedFormat);
+      loadBusinessFromLocal();
+      updateInvoice();
+    });
+  </script>
+
+  <!-- Floating View Bill Jump Pill -->
+  <a href="#col-main-preview" id="floating-view-btn" class="fixed bottom-6 right-6 z-40 bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 backdrop-blur-sm border border-slate-700/60 transition-transform active:scale-95 no-print">
+    <i data-lucide="eye" class="w-4 h-4 text-emerald-400"></i>
+    <span>View Live Bill ↑</span>
+  </a>
+
+</body>
+</html>

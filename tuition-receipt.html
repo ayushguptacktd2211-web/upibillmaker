@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuition & Coaching Fee Receipt Maker with UPI QR – Free PDF Generator</title>
+  <meta name="description" content="Generate monthly tuition and coaching fee receipts with student name, roll number, subjects, and auto-pay UPI QR code. Free, instant print or download.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
+    .font-signature { font-family: 'Dancing Script', cursive; }
+    .editable-field:hover {
+      outline: 1.5px dashed #2563eb;
+      outline-offset: 2px;
+      cursor: text;
+    }
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm 10mm 10mm 10mm;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body {
+        background: #fff !important;
+        color: #0f172a !important;
+        font-size: 11px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      header, footer, nav, .no-print, .ad-banner-slot, .adsbygoogle, button {
+        display: none !important;
+      }
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      #col-preview {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      #col-form {
+        display: none !important;
+      }
+      #tuition-receipt-preview {
+        box-shadow: none !important;
+        border: 2px solid #0f172a !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        padding: 24px 28px !important;
+        page-break-inside: avoid !important;
+      }
+      .page-break-avoid {
+        page-break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- Header -->
+    <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 flex-shrink-0">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-heading font-extrabold text-xl text-slate-900 tracking-tight">
+            UPI<span class="text-emerald-600">BillMaker</span>
+          </span>
+          <p class="text-[11px] text-slate-500 hidden sm:block -mt-1 font-medium">Free GST & Non-GST Invoice Maker</p>
+        </div>
+      </a>
+
+      <!-- Clean Minimal Nav Links -->
+      <nav class="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-700">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="receipt" class="w-4 h-4 text-emerald-600"></i>
+          <span>Invoice Maker</span>
+        </a>
+        <a href="scanner-maker.html" class="px-3 py-1.5 rounded-lg text-purple-700 hover:bg-purple-50 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i>
+          <span>UPI Scanner Maker</span>
+        </a>
+        
+        <!-- Clean Templates Dropdown -->
+        <div class="relative group">
+          <button type="button" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer">
+            <i data-lucide="layout-grid" class="w-4 h-4 text-slate-500"></i>
+            <span>All Templates</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform"></i>
+          </button>
+          
+          <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block z-50">
+            <div class="bg-white rounded-xl shadow-xl border border-slate-200 py-2 text-xs space-y-0.5">
+              <a href="index.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition-colors">
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-emerald-600"></i> Retail & General GST Bill
+              </a>
+              <a href="medical-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-teal-50 hover:text-teal-700 font-medium transition-colors">
+                <i data-lucide="activity" class="w-4 h-4 text-teal-600"></i> Pharmacy & Medical Bill
+              </a>
+              <a href="restaurant-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-orange-50 hover:text-orange-700 font-medium transition-colors">
+                <i data-lucide="utensils" class="w-4 h-4 text-orange-600"></i> Restaurant / Cafe Food Bill
+              </a>
+              <a href="hotel-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors">
+                <i data-lucide="hotel" class="w-4 h-4 text-indigo-600"></i> Hotel & Homestay Receipt
+              </a>
+              <a href="rent-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition-colors">
+                <i data-lucide="home" class="w-4 h-4 text-emerald-600"></i> House Rent Receipt (HRA)
+              </a>
+              <a href="tuition-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-blue-700 bg-blue-50 font-bold transition-colors">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i> Coaching / Tuition Fee
+              </a>
+              <div class="border-t border-slate-100 my-1"></div>
+              <a href="scanner-maker.html" class="flex items-center gap-2.5 px-3.5 py-2 text-purple-700 hover:bg-purple-50 font-medium transition-colors">
+                <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i> UPI Standee & Sticker Maker
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button onclick="downloadAsPDF()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm shadow-blue-600/20 transition-all cursor-pointer">
+          <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+          <span>Download PDF</span>
+        </button>
+        <button onclick="downloadAsPNG()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300 transition-colors cursor-pointer">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Save PNG</span>
+        </button>
+        <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300 transition-colors cursor-pointer">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Print</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  
+  <!-- Top Leaderboard Advertisement Slot -->
+  <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
+    <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+    <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <span class="text-xs text-slate-400 font-medium select-none">Responsive Ad Banner Slot</span>
+    </div>
+  </div>
+
+  <!-- Mobile Quick Jump Bar (Preview vs Edit) -->
+  <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-2 sticky top-16 z-30 no-print flex gap-2">
+    <a href="#col-preview" class="flex-1 py-2 text-xs font-bold rounded-lg bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-colors">
+      <i data-lucide="eye" class="w-3.5 h-3.5"></i> Live Receipt Preview
+    </a>
+    <a href="#col-form" class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5 transition-colors">
+      <i data-lucide="edit" class="w-3.5 h-3.5"></i> Edit Details ↓
+    </a>
+  </div>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    <div id="col-preview" class="w-full space-y-4">
+
+      <!-- Preview Header & Actions Bar -->
+      <div class="flex items-center justify-between px-1 no-print">
+        <div>
+          <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
+            <i data-lucide="graduation-cap" class="w-5 h-5 text-blue-600"></i>
+            <span>Live Tuition & Coaching Fee Receipt Preview</span>
+          </h3>
+          <p class="text-xs text-slate-500">Real-time live rendering • Tax Exemption under Sec 80C</p>
+        </div>
+        <a href="#col-form" class="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 transition-colors">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Details ↓
+        </a>
+      </div>
+
+      <!-- Action Buttons Bar -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
+        <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+          <span>Official Institute Stamp & Student Info Ready</span>
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm shadow-blue-600/20 transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
+          </button>
+          <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+            <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+          </button>
+          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+          </button>
+        </div>
+      </div>
+
+      <!-- Authentic Tuition Fee Receipt Paper Frame -->
+      <div id="tuition-receipt-preview" class="w-full bg-white p-6 sm:p-9 rounded-none border border-slate-200 shadow-lg space-y-5 font-sans text-xs relative">
+        
+        <!-- Centered Statutory Header -->
+        <div class="text-center pb-3 border-b-2 border-slate-800">
+          <div class="inline-block px-3 py-0.5 border border-slate-800 bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-900">
+            COACHING & TUITION FEE RECEIPT
+          </div>
+          <p class="text-[10px] text-slate-600 mt-1">(Tuition & Academic Training Services • Valid Proof for Educational Expense Claim)</p>
+          <h2 class="font-heading font-extrabold text-2xl text-slate-900 mt-1.5 editable-field" id="prev-tutor-name" contenteditable="true" spellcheck="false" data-bind="tutor-name" title="Click to edit coaching name">Apex Mathematics & Science Academy</h2>
+          <p class="editable-field text-xs text-slate-600" id="prev-tutor-sub" contenteditable="true" spellcheck="false" data-bind="tutor-sub" title="Click to edit center tagline">Premier Coaching & Academic Training Center</p>
+        </div>
+
+        <!-- Receipt Meta & Payment Status Bar -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-300 pb-3">
+          <div class="flex items-center gap-4 text-xs">
+            <div>
+              <span class="text-slate-400 font-bold uppercase text-[10px]">Receipt #:</span>
+              <span class="font-mono font-bold text-slate-800" id="prev-fee-rec">FEE-2026-102</span>
+            </div>
+            <div>
+              <span class="text-slate-400 font-bold uppercase text-[10px]">Date:</span>
+              <span class="font-bold text-slate-800 font-mono" id="prev-fee-date">Today</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-500 text-[11px]">Payment Status:</span>
+            <div role="button" tabindex="0" onclick="toggleTuitionStatus()" title="Click to toggle status" class="cursor-pointer">
+              <span id="prev-tuition-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-emerald-700">
+                FULLY PAID (CASH)
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Student & Course Information Block -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 border border-slate-300 p-3.5 bg-slate-50/50 text-xs">
+          <div>
+            <span class="text-slate-400 font-bold uppercase text-[10px] block">STUDENT DETAILS</span>
+            <p class="font-bold text-sm text-slate-900 mt-0.5 editable-field" id="prev-student" contenteditable="true" spellcheck="false" data-bind="student-name" title="Click to edit student name">Aarav Sharma</p>
+            <p class="text-slate-600 mt-0.5 editable-field" id="prev-class" contenteditable="true" spellcheck="false" data-bind="student-class" title="Click to edit class">Class 10 (CBSE) - Evening Batch</p>
+          </div>
+          <div>
+            <span class="text-slate-400 font-bold uppercase text-[10px] block">TERM & COURSE INFO</span>
+            <p class="font-bold text-sm text-slate-900 mt-0.5">Month: <span id="prev-fee-month" class="editable-field" contenteditable="true" spellcheck="false" data-bind="fee-month" title="Click to edit month">October 2026</span></p>
+            <p class="text-slate-600 mt-0.5 editable-field" id="prev-subjects" contenteditable="true" spellcheck="false" data-bind="fee-subjects" title="Click to edit subjects">Mathematics, Physics & Chemistry</p>
+          </div>
+        </div>
+
+        <!-- Fee Particulars Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse border border-slate-700 text-xs">
+            <thead>
+              <tr class="bg-slate-800 text-white font-bold text-[11px]">
+                <th class="py-1.5 px-2.5 border border-slate-700 text-center w-8">#</th>
+                <th class="py-1.5 px-2.5 border border-slate-700">Fee Particulars / Course Description</th>
+                <th class="py-1.5 px-2.5 border border-slate-700 text-center w-28">Academic Month</th>
+                <th class="py-1.5 px-2.5 border border-slate-700 text-right w-28">Amount (₹)</th>
+              </tr>
+            </thead>
+            <tbody class="text-slate-800">
+              <tr class="bg-white">
+                <td class="py-2 px-2.5 border border-slate-700 text-center font-mono">1</td>
+                <td class="py-2 px-2.5 border border-slate-700 font-medium text-slate-900">
+                  <span id="prev-fee-item-desc">Monthly Tuition & Coaching Fee</span>
+                </td>
+                <td class="py-2 px-2.5 border border-slate-700 text-center font-medium" id="prev-fee-table-month">October 2026</td>
+                <td class="py-2 px-2.5 border border-slate-700 text-right font-mono font-bold text-slate-900" id="prev-fee-table-amt">₹3,000.00</td>
+              </tr>
+              <tr class="bg-slate-100 font-bold text-slate-900">
+                <td colspan="3" class="py-2 px-2.5 border border-slate-700 text-right uppercase tracking-wider">TOTAL FEE PAID:</td>
+                <td class="py-2 px-2.5 border border-slate-700 text-right font-mono text-sm" id="prev-fee-amt">₹3,000.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Amount in Words & Lower Section -->
+        <div class="space-y-3 pt-1">
+          <div>
+            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">AMOUNT IN WORDS</p>
+            <p class="font-serif italic text-xs text-slate-800 font-semibold mt-0.5" id="prev-words-text">Rupees Three Thousand Only</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-2 border-t border-slate-300 items-end">
+            <!-- Left: UPI Auto-Pay Box (7 cols) -->
+            <div class="sm:col-span-7">
+              <div id="prev-tuition-qr-block" class="border border-slate-700 p-2.5 bg-slate-50 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div id="tuition-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
+                  <div>
+                    <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
+                    <p class="text-xs font-bold text-slate-900 mt-1">Scan to Pay Fee via Any UPI App</p>
+                    <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-tutor-upi" class="font-bold">apexacademy@okhdfcbank</span></p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Total Fee</span>
+                  <span id="prev-tuition-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹3,000.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Signatures (5 cols) -->
+            <div class="sm:col-span-5 flex flex-col items-center sm:items-end justify-between space-y-2">
+              <span class="text-[10px] text-slate-400 italic">Student / Parent Copy</span>
+              <div class="text-center sm:text-right w-full pt-2">
+                <div class="font-signature text-2xl text-slate-900 leading-none" id="prev-tutor-sig">Apex Academy</div>
+                <div class="w-40 border-b border-slate-700 mt-1 ml-auto mr-auto sm:mr-0"></div>
+                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-600 mt-1">Authorized Tutor / Center Seal</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subtle Watermark Branding -->
+        <div id="prev-branding" class="text-center text-[10px] text-slate-400 pt-1 border-t border-slate-200 select-none">
+          Generated by UPIBillMaker.com
+        </div>
+
+      </div>
+    </div>
+
+    
+    <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
+    <div class="w-full my-6 no-print text-center">
+      <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="0987654321"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <span class="text-xs text-slate-400 font-medium select-none">In-Content Ad Banner Slot</span>
+      </div>
+    </div>
+
+
+    <div id="col-form" class="w-full bg-white p-5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 no-print">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h2 class="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
+          <i data-lucide="edit-3" class="w-4 h-4 text-indigo-600"></i> Coaching / Tuition Info
+        </h2>
+        <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          <button type="button" onclick="loadTuitionSampleData()" class="text-[11px] font-semibold text-indigo-700 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200">Sample</button>
+          <button type="button" onclick="clearTuitionForm()" class="text-[11px] font-semibold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded border border-slate-300">Clear</button>
+          <div class="flex items-center gap-1.5 ml-1">
+            <span class="text-xs font-semibold text-slate-600">Payment:</span>
+            <div class="inline-flex p-0.5 bg-slate-200 rounded-lg text-xs" id="tuition-status-toggle">
+              <button type="button" id="btn-tuition-status-pending" onclick="setTuitionStatus('pending')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700">Due</button>
+              <button type="button" id="btn-tuition-status-cash" onclick="setTuitionStatus('cash')" class="px-2 py-0.5 text-xs font-bold rounded bg-indigo-600 text-white">Cash</button>
+              <button type="button" id="btn-tuition-status-online" onclick="setTuitionStatus('online')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700">UPI/Online</button>
+            </div>
+            <input type="hidden" id="tuition-status" value="cash">
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Coaching / Academy / Teacher Name</label>
+          <input type="text" id="tutor-name" value="Apex Mathematics & Science Academy" placeholder="e.g. Apex Mathematics & Science Academy" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Student Name</label>
+            <input type="text" id="student-name" value="Aarav Sharma" placeholder="e.g. Aarav Sharma" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Class / Grade / Batch</label>
+            <input type="text" id="student-class" value="Class 10 (CBSE) - Evening" placeholder="e.g. Class 10 (CBSE) - Evening" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Monthly Fee (₹)</label>
+            <input type="number" id="fee-amount" value="3000" placeholder="e.g. 3000" class="w-full text-sm font-mono px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">For Month</label>
+            <input type="text" id="fee-month" value="October 2026" placeholder="e.g. October 2026" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Subjects Covered</label>
+          <input type="text" id="fee-subjects" value="Mathematics, Physics & Chemistry" placeholder="e.g. Mathematics, Physics & Chemistry" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+        </div>
+
+        <!-- UPI QR Payment Options & Toggle -->
+        <div class="pt-2 border-t border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-800 font-bold">
+              <input type="checkbox" id="enable-upi-qr" checked class="w-4 h-4 rounded text-indigo-600 border-slate-300 focus:ring-indigo-500">
+              <span class="flex items-center gap-1.5 text-indigo-900">
+                <i data-lucide="qr-code" class="w-3.5 h-3.5 text-indigo-600"></i> Include Auto-Pay Fee UPI QR Code
+              </span>
+            </label>
+            <span id="tuition-qr-toggle-badge" class="text-[10px] font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded">Active</span>
+          </div>
+          
+          <div id="tuition-upi-input-group" class="space-y-1">
+            <label class="block font-semibold text-slate-700">Tutor / Academy UPI ID</label>
+            <input type="text" id="tutor-upi" value="apexacademy@okhdfcbank" placeholder="e.g. apexacademy@okhdfcbank" class="w-full text-sm font-mono px-3 py-2 bg-indigo-50 rounded-lg border border-indigo-300">
+            <p class="text-[10px] text-slate-400">Untick box above if you want a clean receipt without QR code.</p>
+          </div>
+        </div>
+
+        <!-- Watermark Branding -->
+        <div class="pt-3 border-t border-slate-200">
+          <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-700">
+            <input type="checkbox" id="enable-branding" checked class="w-4 h-4 rounded text-indigo-600 border-slate-300 focus:ring-indigo-500">
+            <span class="font-medium">Show "Generated by UPIBillMaker.com" on receipt footer</span>
+            <span class="text-[10px] text-slate-400 font-normal">(Default: Checked)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Unified, Perfectly Aligned Actions Section -->
+      <div class="pt-4 border-t border-slate-200 space-y-3">
+        <!-- Main Print & Save Buttons (3-Button Grid) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <button type="button" onclick="downloadAsPDF()" class="w-full py-2.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-4 h-4"></i> Download PDF
+          </button>
+          <button type="button" onclick="downloadAsPNG()" class="w-full py-2.5 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+            <i data-lucide="image" class="w-4 h-4"></i> Save PNG
+          </button>
+          <button type="button" onclick="window.print()" class="w-full py-2.5 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+            <i data-lucide="printer" class="w-4 h-4"></i> Print
+          </button>
+        </div>
+
+        <!-- Secondary Helper Actions (Balanced Left & Right) -->
+        <div class="flex items-center justify-between text-xs pt-1">
+          <a href="#col-preview" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center gap-1 transition-colors">
+            <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i> Scroll to Preview
+          </a>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="loadTuitionSampleData()" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors cursor-pointer">
+              Sample Demo
+            </button>
+            <button type="button" onclick="clearTuitionForm()" class="px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg transition-colors cursor-pointer">
+              Clear All
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+  <script>
+    lucide.createIcons();
+
+    function switchMobileTab(tab) {
+      const colForm = document.getElementById('col-form');
+      const colPreview = document.getElementById('col-preview');
+      const btnEdit = document.getElementById('mob-tab-edit');
+      const btnPreview = document.getElementById('mob-tab-preview');
+
+      if (tab === 'edit') {
+        colForm.classList.remove('hidden');
+        colPreview.classList.add('hidden');
+        btnEdit.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white flex items-center justify-center gap-1.5';
+        btnPreview.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5';
+      } else {
+        colForm.classList.add('hidden');
+        colPreview.classList.remove('hidden');
+        btnEdit.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5';
+        btnPreview.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-indigo-600 text-white flex items-center justify-center gap-1.5';
+      }
+    }
+
+    function numberToWordsINR(num) {
+      if (isNaN(num) || num <= 0) return 'Zero';
+      num = Math.round(num);
+      const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+      const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+      function convertLessThanThousand(n) {
+        if (n === 0) return '';
+        if (n < 20) return a[n];
+        const s = b[Math.floor(n / 10)] + ((n % 10 !== 0) ? ' ' + a[n % 10] : ' ');
+        return s;
+      }
+      let str = '';
+      const crore = Math.floor(num / 10000000);
+      num %= 10000000;
+      const lakh = Math.floor(num / 100000);
+      num %= 100000;
+      const thousand = Math.floor(num / 1000);
+      num %= 1000;
+      const hundred = Math.floor(num / 100);
+      const rem = num % 100;
+      if (crore > 0) str += convertLessThanThousand(crore) + 'Crore ';
+      if (lakh > 0) str += convertLessThanThousand(lakh) + 'Lakh ';
+      if (thousand > 0) str += convertLessThanThousand(thousand) + 'Thousand ';
+      if (hundred > 0) str += a[hundred] + 'Hundred ';
+      if (rem > 0) str += convertLessThanThousand(rem);
+      return str.trim();
+    }
+
+    function setTuitionStatus(status) {
+      document.getElementById('tuition-status').value = status;
+      const btnPending = document.getElementById('btn-tuition-status-pending');
+      const btnCash = document.getElementById('btn-tuition-status-cash');
+      const btnOnline = document.getElementById('btn-tuition-status-online');
+
+      [btnPending, btnCash, btnOnline].forEach(b => {
+        if (b) b.className = 'px-2 py-0.5 text-xs font-medium rounded text-slate-700 hover:text-slate-900';
+      });
+
+      if (status === 'pending') {
+        if (btnPending) btnPending.className = 'px-2 py-0.5 text-xs font-bold rounded bg-amber-500 text-white shadow-sm';
+      } else if (status === 'cash') {
+        if (btnCash) btnCash.className = 'px-2 py-0.5 text-xs font-bold rounded bg-blue-600 text-white shadow-sm';
+      } else if (status === 'online') {
+        if (btnOnline) btnOnline.className = 'px-2 py-0.5 text-xs font-bold rounded bg-blue-600 text-white shadow-sm';
+      }
+      updateTuition();
+    }
+
+    function toggleTuitionStatus() {
+      const current = document.getElementById('tuition-status').value;
+      if (current === 'cash') setTuitionStatus('online');
+      else if (current === 'online') setTuitionStatus('pending');
+      else setTuitionStatus('cash');
+    }
+
+    function updateTuition() {
+      const tutor = document.getElementById('tutor-name').value.trim();
+      const student = document.getElementById('student-name').value.trim();
+      const sClass = document.getElementById('student-class').value.trim();
+      const amt = parseFloat(document.getElementById('fee-amount').value) || 0;
+      const month = document.getElementById('fee-month').value.trim();
+      const subjects = document.getElementById('fee-subjects').value.trim();
+      const upi = document.getElementById('tutor-upi').value.trim();
+      const status = document.getElementById('tuition-status').value;
+
+      document.getElementById('prev-tutor-name').innerText = tutor || 'Apex Mathematics & Science Academy';
+      document.getElementById('prev-tutor-sig').innerText = tutor || 'Apex Academy';
+      document.getElementById('prev-student').innerText = student || 'Aarav Sharma';
+      
+      const classElem = document.getElementById('prev-class');
+      if (sClass) {
+        classElem.style.display = 'block';
+        classElem.innerText = sClass;
+      } else {
+        classElem.style.display = 'none';
+      }
+
+      const formattedAmt = '₹' + amt.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      document.getElementById('prev-fee-amt').innerText = formattedAmt;
+      const feeTableAmt = document.getElementById('prev-fee-table-amt');
+      if (feeTableAmt) feeTableAmt.innerText = formattedAmt;
+      const qrAmt = document.getElementById('prev-tuition-qr-amt');
+      if (qrAmt) qrAmt.innerText = formattedAmt;
+
+      const wordsEl = document.getElementById('prev-words-text');
+      if (wordsEl) {
+        wordsEl.innerText = 'Rupees ' + numberToWordsINR(amt) + ' Only';
+      }
+
+      const feeMonthVal = month || 'Current Month';
+      document.getElementById('prev-fee-month').innerText = feeMonthVal;
+      const tableMonthEl = document.getElementById('prev-fee-table-month');
+      if (tableMonthEl) tableMonthEl.innerText = feeMonthVal;
+
+      const subjElem = document.getElementById('prev-subjects');
+      if (subjects) {
+        subjElem.style.display = 'block';
+        subjElem.innerText = subjects;
+      } else {
+        subjElem.style.display = 'none';
+      }
+
+      document.getElementById('prev-tutor-upi').innerText = upi || 'apexacademy@okhdfcbank';
+
+      const now = new Date();
+      document.getElementById('prev-fee-date').innerText = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      // Update status badges and stamps
+      const statusBadge = document.getElementById('prev-tuition-status-badge');
+      const qrBlock = document.getElementById('prev-tuition-qr-block');
+
+      if (status === 'cash') {
+        if (statusBadge) {
+          statusBadge.innerText = 'FULLY PAID (CASH)';
+          statusBadge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-emerald-700';
+        }
+        if (qrBlock) qrBlock.classList.add('opacity-40');
+      } else if (status === 'online') {
+        if (statusBadge) {
+          statusBadge.innerText = 'FULLY PAID (UPI / ONLINE)';
+          statusBadge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-emerald-700';
+        }
+        if (qrBlock) qrBlock.classList.remove('opacity-40');
+      } else {
+        if (statusBadge) {
+          statusBadge.innerText = 'FEE DUE (PENDING)';
+          statusBadge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-amber-700';
+        }
+        if (qrBlock) qrBlock.classList.remove('opacity-40');
+      }
+
+      // QR Code
+      const qrBox = document.getElementById('tuition-qr');
+      qrBox.innerHTML = '';
+      const enableQr = document.getElementById('enable-upi-qr').checked;
+      if (!enableQr) {
+        if (qrBlock) qrBlock.style.display = 'none';
+      } else {
+        if (qrBlock) qrBlock.style.display = 'flex';
+        const receiverUpi = upi || 'apexacademy@okhdfcbank';
+        const upiUrl = `upi://pay?pa=${encodeURIComponent(receiverUpi)}&pn=${encodeURIComponent((tutor || 'Tutor').substring(0, 25))}&am=${amt}&cu=INR&tn=${encodeURIComponent('Tuition ' + (month || 'Fee'))}`;
+        new QRCode(qrBox, { text: upiUrl, width: 64, height: 64 });
+      }
+    }
+
+    // Two-Way Live WYSIWYG Editing Sync
+    document.querySelectorAll('.editable-field').forEach(el => {
+      el.addEventListener('blur', function() {
+        const bindId = this.getAttribute('data-bind');
+        if (bindId) {
+          const formEl = document.getElementById(bindId);
+          if (formEl) {
+            formEl.value = this.innerText.trim();
+            updateTuition();
+          }
+        }
+      });
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          this.blur();
+        }
+      });
+    });
+
+    document.querySelectorAll('input').forEach(i => i.addEventListener('input', updateTuition));
+
+    // Watermark Branding Toggle
+    const brandingCb = document.getElementById('enable-branding');
+    if (brandingCb) {
+      brandingCb.addEventListener('change', function(e) {
+        const b = document.getElementById('prev-branding');
+        if (b) b.style.display = e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // UPI QR Toggle
+    const upiQrCb = document.getElementById('enable-upi-qr');
+    if (upiQrCb) {
+      upiQrCb.addEventListener('change', function(e) {
+        const qrBlock = document.getElementById('prev-tuition-qr-block');
+        const badge = document.getElementById('tuition-qr-toggle-badge');
+        const inputGroup = document.getElementById('tuition-upi-input-group');
+        if (e.target.checked) {
+          if (badge) { badge.innerText = 'Active'; badge.className = 'text-[10px] font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded'; }
+          if (inputGroup) inputGroup.classList.remove('opacity-40');
+        } else {
+          if (badge) { badge.innerText = 'Disabled'; badge.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded'; }
+          if (inputGroup) inputGroup.classList.add('opacity-40');
+        }
+        updateTuition();
+      });
+    }
+
+    function loadTuitionSampleData() {
+      document.getElementById('tutor-name').value = 'Apex Mathematics & Science Academy';
+      document.getElementById('student-name').value = 'Aarav Sharma';
+      document.getElementById('student-class').value = 'Class 10 (CBSE) - Evening Batch';
+      document.getElementById('fee-amount').value = '3000';
+      document.getElementById('fee-month').value = 'October 2026';
+      document.getElementById('fee-subjects').value = 'Mathematics, Physics & Chemistry';
+      document.getElementById('tutor-upi').value = 'apexacademy@okhdfcbank';
+      updateTuition();
+    }
+
+    function clearTuitionForm() {
+      document.getElementById('tutor-name').value = '';
+      document.getElementById('student-name').value = '';
+      document.getElementById('student-class').value = '';
+      document.getElementById('fee-amount').value = '';
+      document.getElementById('fee-month').value = '';
+      document.getElementById('fee-subjects').value = '';
+      document.getElementById('tutor-upi').value = '';
+      updateTuition();
+    }
+
+    async function downloadAsPDF() {
+      const card = document.getElementById('tuition-receipt-preview');
+      if (!card) return;
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating PDF...</span>`;
+      }
+
+      const colPreview = document.getElementById('col-preview');
+      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
+      if (wasHidden) {
+        colPreview.classList.remove('hidden');
+        colPreview.style.display = 'block';
+        void colPreview.offsetHeight;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(card, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          onclone: (clonedDoc) => {
+            const clonedCard = clonedDoc.getElementById('tuition-receipt-preview');
+            if (clonedCard) {
+              clonedCard.style.setProperty('border', 'none', 'important');
+              clonedCard.style.setProperty('box-shadow', 'none', 'important');
+              clonedCard.style.setProperty('outline', 'none', 'important');
+            }
+            clonedDoc.querySelectorAll('.editable-field').forEach(el => {
+              el.removeAttribute('contenteditable');
+              el.style.boxShadow = 'none';
+              el.style.background = 'transparent';
+              el.style.outline = 'none';
+            });
+            clonedDoc.querySelectorAll('.no-print').forEach(el => {
+              el.style.display = 'none';
+            });
+            const origQr = document.getElementById('tuition-qr');
+            const cloneQr = clonedDoc.getElementById('tuition-qr');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              if (origCanvas) {
+                cloneQr.innerHTML = '';
+                const newCvs = clonedDoc.createElement('canvas');
+                newCvs.width = origCanvas.width;
+                newCvs.height = origCanvas.height;
+                const ctx = newCvs.getContext('2d');
+                ctx.drawImage(origCanvas, 0, 0);
+                newCvs.style.display = 'block';
+                cloneQr.appendChild(newCvs);
+              }
+            }
+          }
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        
+        const margin = 10;
+        const contentWidth = pdfWidth - (margin * 2);
+        const contentHeight = (canvas.height * contentWidth) / canvas.width;
+        
+        if (contentHeight <= pdfHeight - (margin * 2)) {
+          pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth, contentHeight);
+        } else {
+          const scaleFactor = (pdfHeight - (margin * 2)) / contentHeight;
+          if (scaleFactor > 0.8) {
+            pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth * scaleFactor, contentHeight * scaleFactor);
+          } else {
+            let heightLeft = contentHeight;
+            let position = margin;
+            pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
+            heightLeft -= (pdfHeight - margin);
+            while (heightLeft > 0) {
+              position = heightLeft - contentHeight + margin;
+              pdf.addPage();
+              pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
+              heightLeft -= pdfHeight;
+            }
+          }
+        }
+
+        const student = (document.getElementById('student-name')?.value?.trim() || 'Tuition_Fee').replace(/[^a-zA-Z0-9_-]/g, '_');
+        pdf.save(`${student}_Fee_Receipt.pdf`);
+        showDownloadToast('Tuition Fee Receipt PDF downloaded successfully!');
+      } catch (err) {
+        console.error('PDF error:', err);
+        showDownloadToast('Notice: Opening Print view for PDF...');
+        setTimeout(() => { window.print(); }, 400);
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    async function downloadAsPNG() {
+      const card = document.getElementById('tuition-receipt-preview');
+      if (!card) return;
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating...</span>`;
+      }
+
+      // Mobile Visibility Fix: if parent col-preview is hidden under edit tab, temporarily unhide it
+      const colPreview = document.getElementById('col-preview');
+      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
+      if (wasHidden) {
+        colPreview.classList.remove('hidden');
+        colPreview.style.display = 'block';
+        void colPreview.offsetHeight;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(card, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          onclone: (clonedDoc) => {
+            const clonedCard = clonedDoc.getElementById('tuition-receipt-preview');
+            if (clonedCard) {
+              clonedCard.style.setProperty('border', 'none', 'important');
+              clonedCard.style.setProperty('box-shadow', 'none', 'important');
+              clonedCard.style.setProperty('outline', 'none', 'important');
+            }
+            const origQr = document.getElementById('tuition-qr');
+            const cloneQr = clonedDoc.getElementById('tuition-qr');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              if (origCanvas) {
+                cloneQr.innerHTML = '';
+                const newCvs = clonedDoc.createElement('canvas');
+                newCvs.width = origCanvas.width;
+                newCvs.height = origCanvas.height;
+                const ctx = newCvs.getContext('2d');
+                ctx.drawImage(origCanvas, 0, 0);
+                newCvs.style.display = 'block';
+                cloneQr.appendChild(newCvs);
+              }
+            }
+          }
+        });
+
+        const student = (document.getElementById('student-name').value.trim() || 'Tuition_Receipt').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `${student}_FeeReceipt.png`;
+
+        if (canvas.toBlob) {
+          canvas.toBlob(blob => {
+            if (blob) {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.download = filename;
+              a.href = url;
+              document.body.appendChild(a);
+              a.click();
+              setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              }, 1500);
+            } else {
+              fallbackDataURL(canvas, filename);
+            }
+          }, 'image/png');
+        } else {
+          fallbackDataURL(canvas, filename);
+        }
+
+        showDownloadToast('Tuition Fee Receipt PNG downloaded successfully!');
+      } catch (err) {
+        console.error('Download error:', err);
+        showDownloadToast('Notice: Opening Print/PDF view...');
+        setTimeout(() => { window.print(); }, 400);
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    function fallbackDataURL(canvas, filename) {
+      const a = document.createElement('a');
+      a.download = filename;
+      a.href = canvas.toDataURL('image/png');
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); }, 1000);
+    }
+
+    function showDownloadToast(msg) {
+      let toast = document.getElementById('download-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'download-toast';
+        toast.className = 'fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 transition-all transform duration-300 opacity-0 translate-y-3 pointer-events-none';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-3');
+      }, 3000);
+    }
+
+    document.querySelectorAll('input').forEach(i => i.addEventListener('input', updateTuition));
+    window.addEventListener('DOMContentLoaded', () => {
+      const nameInput = document.getElementById('tutor-name');
+      if (!nameInput || !nameInput.value.trim()) {
+        loadTuitionSampleData();
+      } else {
+        updateTuition();
+      }
+    });
+  </script>
+
+  <!-- Floating View Bill Jump Pill -->
+  <a href="#col-preview" id="floating-view-btn" class="fixed bottom-6 right-6 z-40 bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 backdrop-blur-sm border border-slate-700/60 transition-transform active:scale-95 no-print">
+    <i data-lucide="eye" class="w-4 h-4 text-blue-400"></i>
+    <span>View Live Receipt ↑</span>
+  </a>
+
+</body>
+</html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UPI Scanner & QR Standee Maker – Create Custom UPI QR Code with Any Amount & Logo</title>
+  <meta name="description" content="Generate custom printable UPI QR code standees and counter stickers with your shop logo, business name, and custom or fixed payment amount. Free, 100% private, instant PDF/PNG download.">
+  <meta name="keywords" content="upi scanner maker, upi qr code generator with amount, custom upi qr standee maker, fixed amount upi qr generator, shop upi qr sticker maker">
+  <link rel="canonical" href="https://upibillmaker.com/scanner-maker.html">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- QRCode.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <!-- html2canvas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; }
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body {
+        background: #fff !important;
+        color: #0f172a !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      header, footer, nav, .no-print, .ad-banner-slot, .adsbygoogle, button {
+        display: none !important;
+      }
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      #col-preview {
+        display: flex !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      #col-form {
+        display: none !important;
+      }
+      #standee-print-card {
+        box-shadow: none !important;
+        width: 100% !important;
+        max-width: 420px !important;
+        margin: 10mm auto !important;
+        page-break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 flex-shrink-0">
+          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
+        </div>
+        <div>
+          <span class="font-heading font-extrabold text-xl text-slate-900 tracking-tight">
+            UPI<span class="text-emerald-600">BillMaker</span>
+          </span>
+          <p class="text-[11px] text-slate-500 hidden sm:block -mt-1 font-medium">Free GST & Non-GST Invoice Maker</p>
+        </div>
+      </a>
+
+      <!-- Clean Minimal Nav Links -->
+      <nav class="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-700">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="receipt" class="w-4 h-4 text-slate-500"></i>
+          <span>Invoice Maker</span>
+        </a>
+        <a href="scanner-maker.html" class="px-3 py-1.5 rounded-lg text-purple-700 bg-purple-50 font-bold flex items-center gap-1.5">
+          <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i>
+          <span>UPI Scanner Maker</span>
+        </a>
+        
+        <!-- Clean Templates Dropdown -->
+        <div class="relative group">
+          <button type="button" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer">
+            <i data-lucide="layout-grid" class="w-4 h-4 text-slate-500"></i>
+            <span>All Templates</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform"></i>
+          </button>
+          
+          <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block z-50">
+            <div class="bg-white rounded-xl shadow-xl border border-slate-200 py-2 text-xs space-y-0.5">
+              <a href="index.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition-colors">
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-emerald-600"></i> Retail & General GST Bill
+              </a>
+              <a href="medical-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-teal-50 hover:text-teal-700 font-medium transition-colors">
+                <i data-lucide="activity" class="w-4 h-4 text-teal-600"></i> Pharmacy & Medical Bill
+              </a>
+              <a href="restaurant-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-orange-50 hover:text-orange-700 font-medium transition-colors">
+                <i data-lucide="utensils" class="w-4 h-4 text-orange-600"></i> Restaurant / Cafe Food Bill
+              </a>
+              <a href="hotel-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors">
+                <i data-lucide="hotel" class="w-4 h-4 text-indigo-600"></i> Hotel & Homestay Receipt
+              </a>
+              <a href="rent-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition-colors">
+                <i data-lucide="home" class="w-4 h-4 text-emerald-600"></i> House Rent Receipt (HRA)
+              </a>
+              <a href="tuition-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium transition-colors">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i> Coaching / Tuition Fee
+              </a>
+              <div class="border-t border-slate-100 my-1"></div>
+              <a href="scanner-maker.html" class="flex items-center gap-2.5 px-3.5 py-2 text-purple-700 bg-purple-50 font-bold transition-colors">
+                <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i> UPI Standee & Sticker Maker
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button type="button" onclick="downloadStandeePNG()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300 transition-colors cursor-pointer">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Save PNG</span>
+        </button>
+        <button type="button" onclick="window.print()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm transition-all shadow-emerald-600/20 cursor-pointer">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span>Print Standee</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Tab Switcher -->
+  <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-2 sticky top-16 z-30 no-print flex gap-2">
+    <button id="mob-tab-edit" onclick="switchMobileTab('edit')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-purple-600 text-white flex items-center justify-center gap-1.5">
+      <i data-lucide="edit" class="w-3.5 h-3.5"></i> Edit Standee
+    </button>
+    <button id="mob-tab-preview" onclick="switchMobileTab('preview')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5">
+      <i data-lucide="eye" class="w-3.5 h-3.5"></i> View Standee
+    </button>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="pt-6 pb-8 bg-gradient-to-b from-purple-50/50 via-white to-slate-50 border-b border-slate-200 no-print text-center px-4">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-900 text-xs font-bold mb-3">
+      <i data-lucide="store" class="w-3.5 h-3.5 text-purple-600"></i>
+      <span>For Shops, Stalls, Clinics, Events, Taxis & Freelancers</span>
+    </div>
+    <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 mb-2">
+      Custom UPI Scanner & QR Standee Maker
+    </h1>
+    <p class="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
+      Create professional, print-ready UPI payment standees with your shop logo and business name. Lock in any fixed amount (e.g. ₹50, ₹100, ₹500) or keep it open for any customer payment!
+    </p>
+  </section>
+
+
+  <!-- Top Leaderboard Advertisement Slot -->
+  <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
+    <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+    <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <span class="text-xs text-slate-400 font-medium select-none">Responsive Ad Banner Slot</span>
+    </div>
+  </div>
+
+
+
+  <!-- Mobile Quick Jump Bar (Preview vs Edit) -->
+  <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-2 sticky top-16 z-30 no-print flex gap-2">
+    <a href="#col-preview" class="flex-1 py-2 text-xs font-bold rounded-lg bg-purple-600 hover:bg-purple-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-colors">
+      <i data-lucide="eye" class="w-3.5 h-3.5"></i> Live Standee Preview
+    </a>
+    <a href="#col-form" class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5 transition-colors">
+      <i data-lucide="edit" class="w-3.5 h-3.5"></i> Edit Details ↓
+    </a>
+  </div>
+
+
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    <div id="col-preview" class="w-full space-y-4 flex flex-col items-center">
+
+      <!-- Preview Header & Actions Bar -->
+      <div class="w-full flex items-center justify-between px-1 no-print">
+        <div>
+          <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
+            <i data-lucide="scan-line" class="w-5 h-5 text-purple-600"></i>
+            <span>Live UPI Standee & Counter QR Preview</span>
+          </h3>
+          <p class="text-xs text-slate-500">Real-time live rendering • Ready for Acrylic Standee & Sticker Print</p>
+        </div>
+        <a href="#col-form" class="text-xs font-semibold text-purple-600 hover:text-purple-800 flex items-center gap-1 transition-colors">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Customize Details ↓
+        </a>
+      </div>
+
+      <!-- Action Buttons Bar -->
+      <div class="w-full bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
+        <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+          <span>Official NPCI Bharat QR • 0% Merchant Fee</span>
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button type="button" onclick="downloadStandeePNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+            <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+          </button>
+          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg shadow-sm shadow-purple-600/20 transition-all cursor-pointer">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print Standee / PDF
+          </button>
+        </div>
+      </div>
+
+      
+      <!-- THE PRINTABLE STANDEE CARD (Exact Standee Dimensions & Layout) -->
+      <div id="standee-print-card" class="w-full max-w-md bg-white rounded-3xl border-4 border-purple-700 shadow-2xl overflow-hidden transition-all text-center relative">
+        
+        <!-- Top Standee Header Banner -->
+        <div id="standee-header-bg" class="bg-gradient-to-r from-purple-800 via-purple-700 to-indigo-800 text-white p-6 pb-7 relative">
+          
+          <!-- Logo in Standee -->
+          <div id="card-logo-wrapper" class="w-16 h-16 rounded-2xl bg-white p-1.5 mx-auto mb-2.5 shadow-md flex items-center justify-center overflow-hidden">
+            <svg class="w-8 h-8 text-purple-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>
+          </div>
+
+          <h3 id="prev-shop-name" class="font-heading font-extrabold text-xl sm:text-2xl tracking-tight leading-tight">
+            Sharma Sweets & Dairy
+          </h3>
+          <p id="prev-shop-tagline" class="text-xs text-purple-100/90 font-medium mt-0.5">
+            Pure Desi Ghee Sweets & Fresh Bakery
+          </p>
+
+          <!-- NPCI Official Accepted Badge -->
+          <div class="mt-3 inline-flex items-center gap-2 bg-white/10 backdrop-blur-xs px-3.5 py-1 rounded-full border border-white/20 text-[11px] font-bold tracking-wider uppercase">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            ALL UPI APPS ACCEPTED HERE
+          </div>
+        </div>
+
+        <!-- Middle Card: The High-Resolution QR Block -->
+        <div class="p-6 sm:p-8 space-y-4 -mt-4 bg-white rounded-t-3xl relative z-10">
+          
+          <!-- UPI App Logos Bar -->
+          <div class="flex items-center justify-center gap-2.5 pt-1">
+            <span class="text-[11px] font-bold bg-slate-100 border border-slate-200 text-slate-800 px-2.5 py-1 rounded-md shadow-2xs">GPay</span>
+            <span class="text-[11px] font-bold bg-purple-50 border border-purple-200 text-purple-800 px-2.5 py-1 rounded-md shadow-2xs">PhonePe</span>
+            <span class="text-[11px] font-bold bg-sky-50 border border-sky-200 text-sky-800 px-2.5 py-1 rounded-md shadow-2xs">Paytm</span>
+            <span class="text-[11px] font-bold bg-emerald-50 border border-emerald-200 text-emerald-800 px-2.5 py-1 rounded-md shadow-2xs">BHIM</span>
+            <span class="text-[11px] font-bold bg-slate-100 border border-slate-200 text-slate-800 px-2.5 py-1 rounded-md shadow-2xs">Cred</span>
+          </div>
+
+          <!-- The Large QR Code Container -->
+          <div class="w-fit mx-auto p-4 bg-white rounded-2xl shadow-xl border-2 border-slate-200">
+            <div id="standee-qrcode" class="w-52 h-52 flex items-center justify-center"></div>
+          </div>
+
+          <!-- Dynamic Amount Banner -->
+          <div id="standee-amount-badge" class="py-2 px-4 rounded-xl font-heading font-extrabold text-base bg-slate-100 text-slate-800 border border-slate-200">
+            <span>Scan to Pay Any Amount</span>
+          </div>
+
+          <!-- Payee UPI Details -->
+          <div class="space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Direct Bank Settlement to:</span>
+            <p id="prev-shop-upi" class="font-mono text-sm font-bold text-slate-900 bg-slate-50 border border-slate-200 py-1.5 px-3 rounded-lg inline-block">
+              sharma@okhdfcbank
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Bottom Standee Footer -->
+        <div class="bg-slate-50 p-4 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+          <div class="flex items-center gap-1">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+            <span>Verified NPCI UPI Bharat QR</span>
+          </div>
+          <span class="text-slate-400 font-mono">0% Merchant Fee</span>
+        </div>
+
+        <!-- Subtle Watermark Branding -->
+        <div id="prev-branding" class="text-[9px] text-slate-400 font-medium py-1 text-center select-none bg-slate-50 border-t border-slate-200">
+          Generated by UPIBillMaker.com
+        </div>
+
+      </div>
+
+    </div>
+
+    
+    <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
+    <div class="w-full my-6 no-print text-center">
+      <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="0987654321"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <span class="text-xs text-slate-400 font-medium select-none">In-Content Ad Banner Slot</span>
+      </div>
+    </div>
+
+
+    <div id="col-form" class="w-full bg-white p-5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 no-print">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h2 class="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
+          <i data-lucide="sliders" class="w-4 h-4 text-purple-600"></i> Standee Customizer
+        </h2>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="loadStandeeSampleData()" class="text-[11px] font-semibold text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 px-2 py-0.5 rounded border border-purple-200">Sample</button>
+          <button type="button" onclick="clearStandeeForm()" class="text-[11px] font-semibold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded border border-slate-300">Clear</button>
+        </div>
+      </div>
+
+      <!-- 1. Logo & Name -->
+      <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">1. Business Profile</span>
+        
+        <!-- Logo Row -->
+        <div class="flex items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200">
+          <div id="standee-logo-box" class="w-12 h-12 rounded-lg bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center overflow-hidden flex-shrink-0">
+            <i data-lucide="upload" class="w-5 h-5 text-slate-400"></i>
+          </div>
+          <div class="flex-1">
+            <label class="block text-xs font-bold text-slate-800 mb-0.5">Shop / Business Logo</label>
+            <div class="flex items-center gap-2">
+              <label class="cursor-pointer text-xs font-semibold text-purple-700 hover:underline">
+                Upload Image
+                <input type="file" id="logo-file" accept="image/*" class="hidden">
+              </label>
+              <button type="button" id="btn-del-logo" class="text-xs text-rose-600 hover:underline hidden">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Shop / Business / Your Name</label>
+          <input type="text" id="shop-name" value="Sharma Sweets & Dairy" placeholder="e.g. Sharma Sweets & Dairy" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Tagline / Subtitle</label>
+          <input type="text" id="shop-tagline" value="Pure Desi Ghee Sweets & Fresh Bakery" placeholder="e.g. Pure Desi Ghee Sweets & Fresh Bakery" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-purple-900 mb-1">Your Receiver UPI ID (VPA)</label>
+          <input type="text" id="shop-upi" value="sharma@okhdfcbank" placeholder="e.g. sharma@okhdfcbank" class="w-full text-sm font-mono font-bold px-3 py-2 bg-purple-50/60 rounded-lg border border-purple-300">
+          <p class="text-[10px] text-slate-400 mt-1">Direct bank settlement. No commission.</p>
+        </div>
+      </div>
+
+      <!-- 2. Amount Options (THE USER REQUESTED STAR FEATURE) -->
+      <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">2. Scanner Amount Mode</span>
+        
+        <div class="grid grid-cols-2 gap-2">
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border cursor-pointer transition-all bg-white" id="lbl-mode-open">
+            <input type="radio" name="amt-mode" id="mode-open" value="open" checked class="text-purple-600 focus:ring-purple-500">
+            <div>
+              <p class="text-xs font-bold text-slate-800">Any Amount</p>
+              <p class="text-[10px] text-slate-400">Customer enters ₹</p>
+            </div>
+          </label>
+
+          <label class="flex items-center gap-2 p-2.5 rounded-lg border cursor-pointer transition-all bg-white" id="lbl-mode-fixed">
+            <input type="radio" name="amt-mode" id="mode-fixed" value="fixed" class="text-purple-600 focus:ring-purple-500">
+            <div>
+              <p class="text-xs font-bold text-slate-800">Fixed Amount</p>
+              <p class="text-[10px] text-slate-400">Pre-locked in QR</p>
+            </div>
+          </label>
+        </div>
+
+        <!-- Fixed Amount Field (Hidden when Open is selected) -->
+        <div id="fixed-amt-box" class="hidden pt-1">
+          <label class="block text-xs font-bold text-slate-800 mb-1">Enter Fixed Amount to Lock (₹)</label>
+          <div class="relative">
+            <span class="absolute left-3 top-2 font-bold text-slate-500">₹</span>
+            <input type="number" id="fixed-amount-val" value="150" min="1" step="any" placeholder="e.g. 150"
+                   class="w-full text-sm font-bold font-mono pl-7 pr-3 py-2 bg-white rounded-lg border border-purple-300 focus:ring-2 focus:ring-purple-500">
+          </div>
+          <p class="text-[10px] text-purple-700 font-medium mt-1">When customer scans, this exact amount will be automatically filled.</p>
+        </div>
+      </div>
+
+      <!-- 3. Standee Theme & Style -->
+      <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">3. Standee Color Theme</span>
+        
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="setStandeeTheme('theme-purple')" class="p-2 text-xs font-bold rounded-lg border border-purple-300 bg-purple-50 text-purple-800 flex items-center gap-2">
+            <span class="w-3.5 h-3.5 rounded-full bg-purple-700"></span> PhonePe Royal
+          </button>
+          <button type="button" onclick="setStandeeTheme('theme-blue')" class="p-2 text-xs font-bold rounded-lg border border-blue-300 bg-blue-50 text-blue-800 flex items-center gap-2">
+            <span class="w-3.5 h-3.5 rounded-full bg-blue-600"></span> GPay Ocean
+          </button>
+          <button type="button" onclick="setStandeeTheme('theme-green')" class="p-2 text-xs font-bold rounded-lg border border-emerald-300 bg-emerald-50 text-emerald-800 flex items-center gap-2">
+            <span class="w-3.5 h-3.5 rounded-full bg-emerald-600"></span> Merchant Green
+          </button>
+          <button type="button" onclick="setStandeeTheme('theme-dark')" class="p-2 text-xs font-bold rounded-lg border border-slate-400 bg-slate-100 text-slate-800 flex items-center gap-2">
+            <span class="w-3.5 h-3.5 rounded-full bg-slate-900"></span> Luxury Black
+          </button>
+        </div>
+
+        <!-- Watermark Branding -->
+        <div class="pt-3 border-t border-slate-200">
+          <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-700">
+            <input type="checkbox" id="enable-branding" checked class="w-4 h-4 rounded text-purple-600 border-slate-300 focus:ring-purple-500">
+            <span class="font-medium">Show "Generated by UPIBillMaker.com" on standee</span>
+            <span class="text-[10px] text-slate-400 font-normal">(Default: Checked)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-3 pt-3 border-t border-slate-200">
+        <div class="grid grid-cols-2 gap-2.5">
+          <button type="button" onclick="window.print()" class="py-2.5 px-3 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>Print Standee / PDF</span>
+          </button>
+          <button type="button" onclick="downloadStandeePNG()" class="py-2.5 px-3 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+            <i data-lucide="image" class="w-4 h-4"></i>
+            <span>Save Sticker PNG</span>
+          </button>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <a href="#col-preview" class="inline-flex items-center gap-1.5 text-xs font-bold text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-lg border border-purple-200 transition-colors">
+            <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
+            <span>Scroll to Standee Preview ↑</span>
+          </a>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="loadStandeeSampleData()" class="px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 border border-slate-300 rounded-lg transition-colors">
+              Sample Demo
+            </button>
+            <button type="button" onclick="clearStandeeForm()" class="px-2.5 py-1.5 text-xs font-medium text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg transition-colors">
+              Clear All
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+<!-- Deep SEO & Explainer -->
+  <section class="max-w-4xl mx-auto px-4 py-12 border-t border-slate-200 space-y-8 no-print">
+    <div class="text-center">
+      <h2 class="font-heading text-2xl font-bold text-slate-900">How to Use the Free UPI Scanner Maker</h2>
+      <p class="text-xs text-slate-600 mt-1">Print a high-quality acrylic counter display or sticker for your business in 3 steps.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs text-slate-600">
+      <div class="bg-white p-5 rounded-xl border border-slate-200">
+        <h4 class="font-bold text-sm text-slate-900 mb-1">1. Choose Amount Mode</h4>
+        <p>Pick "Any Amount" if you want customers to type their bill amount, or choose "Fixed Amount" to lock in ticket/plate/consultation fees (e.g. ₹50, ₹100, ₹500).</p>
+      </div>
+      <div class="bg-white p-5 rounded-xl border border-slate-200">
+        <h4 class="font-bold text-sm text-slate-900 mb-1">2. Upload Shop Logo</h4>
+        <p>Add your business logo and choose your favorite standee color theme (PhonePe Purple, GPay Blue, or Merchant Green).</p>
+      </div>
+      <div class="bg-white p-5 rounded-xl border border-slate-200">
+        <h4 class="font-bold text-sm text-slate-900 mb-1">3. Print & Stick</h4>
+        <p>Download as high-res PNG sticker or print directly on A4/card paper to place in a standard acrylic T-stand on your cash counter.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-12 border-t border-slate-800 no-print mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 text-white font-heading font-extrabold text-lg">
+            <div class="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
+              <i data-lucide="qr-code" class="w-4 h-4"></i>
+            </div>
+            <span>UPI<span class="text-emerald-500">BillMaker</span></span>
+          </div>
+          <p class="text-xs text-slate-400">
+            Free GST & Non-GST digital invoice generator with auto-pay UPI QR code. Designed for Indian businesses.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-xs uppercase mb-3">Billing & Receipt Tools</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="index.html" class="hover:text-white transition-colors">Shop & GST Tax Invoice</a></li>
+            <li><a href="scanner-maker.html" class="hover:text-white transition-colors">Standee & QR Scanner Maker</a></li>
+            <li><a href="medical-bill.html" class="hover:text-white transition-colors">Medical & Pharmacy Bill</a></li>
+            <li><a href="restaurant-bill.html" class="hover:text-white transition-colors">Restaurant & Cafe Slip</a></li>
+            <li><a href="hotel-receipt.html" class="hover:text-white transition-colors">Hotel & Stay Bill</a></li>
+            <li><a href="rent-receipt.html" class="hover:text-white transition-colors">House Rent Receipt (HRA)</a></li>
+            <li><a href="tuition-receipt.html" class="hover:text-white transition-colors">Tuition Fee Receipt</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-xs uppercase mb-3">Legal</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="terms.html" class="hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="disclaimer.html" class="hover:text-white transition-colors">Disclaimer</a></li>
+            <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-xs uppercase mb-3">Privacy</h4>
+          <p class="text-xs text-slate-400">
+            100% Client-Side. No sales figures, customer details, or GST numbers are stored on any server.
+          </p>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-slate-800 text-center">
+        <p>© 2026 UPIBillMaker.com. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- Floating View Bill Jump Pill -->
+  <a href="#col-preview" id="floating-view-btn" class="fixed bottom-6 right-6 z-40 bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 backdrop-blur-sm border border-slate-700/60 transition-transform active:scale-95 no-print">
+    <i data-lucide="eye" class="w-4 h-4 text-purple-400"></i>
+    <span>View Standee ↑</span>
+  </a>
+
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+            }
+          }
+        }
+      }
+    };
+
+    let currentTheme = 'theme-purple';
+    let uploadedLogoData = null;
+
+    function initStandee() {
+      if (window.lucide) lucide.createIcons();
+      updateStandee();
+    }
+
+    function updateStandee() {
+      const shopName = document.getElementById('shop-name').value.trim() || 'Sharma Sweets & Dairy';
+      const tagline = document.getElementById('shop-tagline').value.trim() || 'Pure Desi Ghee Sweets & Fresh Bakery';
+      const upiId = document.getElementById('shop-upi').value.trim() || 'sharma@okhdfcbank';
+      const modeRadio = document.querySelector('input[name="amt-mode"]:checked');
+      const mode = modeRadio ? modeRadio.value : 'open';
+      const fixedAmt = parseFloat(document.getElementById('fixed-amount-val').value) || 0;
+
+      // Update text in standee preview
+      document.getElementById('prev-shop-name').innerText = shopName;
+      document.getElementById('prev-shop-tagline').innerText = tagline;
+      document.getElementById('prev-shop-upi').innerText = upiId;
+
+      // Update Amount Badge & UPI URL
+      const amtBadge = document.getElementById('standee-amount-badge');
+      const fixedAmtBox = document.getElementById('fixed-amt-box');
+      let upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(shopName.substring(0, 25))}&cu=INR`;
+
+      if (mode === 'fixed' && fixedAmt > 0) {
+        if (fixedAmtBox) fixedAmtBox.classList.remove('hidden');
+        amtBadge.innerHTML = `<span class="text-[11px] uppercase tracking-wider block text-slate-500 font-sans font-semibold">Fixed Amount</span><span class="text-2xl text-purple-700 font-black">₹${fixedAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>`;
+        upiUrl += `&am=${fixedAmt}&tn=${encodeURIComponent('Payment to ' + shopName.substring(0, 15))}`;
+      } else {
+        if (fixedAmtBox) fixedAmtBox.classList.add('hidden');
+        amtBadge.innerHTML = `<span>Scan to Pay Any Amount</span>`;
+      }
+
+      // Generate High-Res QR Code
+      const qrContainer = document.getElementById('standee-qrcode');
+      qrContainer.innerHTML = '';
+      if (typeof QRCode !== 'undefined') {
+        new QRCode(qrContainer, {
+          text: upiUrl,
+          width: 208,
+          height: 208,
+          colorDark: '#0f172a',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+
+      // Update Branding
+      const brandingCb = document.getElementById('enable-branding');
+      const prevBranding = document.getElementById('prev-branding');
+      if (brandingCb && prevBranding) {
+        prevBranding.style.display = brandingCb.checked ? 'block' : 'none';
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // Theme switching
+    function setStandeeTheme(theme) {
+      currentTheme = theme;
+      const card = document.getElementById('standee-print-card');
+      const header = document.getElementById('standee-header-bg');
+      if (!card || !header) return;
+
+      card.classList.remove('border-purple-700', 'border-blue-700', 'border-emerald-700', 'border-slate-900');
+      header.classList.remove(
+        'from-purple-800', 'via-purple-700', 'to-indigo-800',
+        'from-blue-800', 'via-sky-700', 'to-indigo-800',
+        'from-emerald-800', 'via-green-700', 'to-teal-800',
+        'from-slate-900', 'via-slate-800', 'to-zinc-900'
+      );
+
+      if (theme === 'theme-blue') {
+        card.classList.add('border-blue-700');
+        header.classList.add('from-blue-800', 'via-sky-700', 'to-indigo-800');
+      } else if (theme === 'theme-green') {
+        card.classList.add('border-emerald-700');
+        header.classList.add('from-emerald-800', 'via-green-700', 'to-teal-800');
+      } else if (theme === 'theme-dark') {
+        card.classList.add('border-slate-900');
+        header.classList.add('from-slate-900', 'via-slate-800', 'to-zinc-900');
+      } else {
+        card.classList.add('border-purple-700');
+        header.classList.add('from-purple-800', 'via-purple-700', 'to-indigo-800');
+      }
+    }
+
+    // Logo Upload Handling
+    const logoFileInput = document.getElementById('logo-file');
+    if (logoFileInput) {
+      logoFileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            uploadedLogoData = evt.target.result;
+            document.getElementById('card-logo-wrapper').innerHTML = `<img src="${uploadedLogoData}" alt="Shop Logo" class="max-h-full max-w-full object-contain">`;
+            document.getElementById('standee-logo-box').innerHTML = `<img src="${uploadedLogoData}" alt="Uploaded" class="max-h-full max-w-full object-contain">`;
+            document.getElementById('btn-del-logo').classList.remove('hidden');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    const btnDelLogo = document.getElementById('btn-del-logo');
+    if (btnDelLogo) {
+      btnDelLogo.addEventListener('click', function() {
+        uploadedLogoData = null;
+        if (logoFileInput) logoFileInput.value = '';
+        document.getElementById('card-logo-wrapper').innerHTML = `<svg class="w-8 h-8 text-purple-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4"/><path d="M2 7h20"/><path d="M22 7v3a2 2 0 0 1-2 2v0a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12v0a2 2 0 0 1-2-2V7"/></svg>`;
+        document.getElementById('standee-logo-box').innerHTML = `<i data-lucide="upload" class="w-5 h-5 text-slate-400"></i>`;
+        this.classList.add('hidden');
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    // Sample & Clear functions
+    function loadStandeeSampleData() {
+      document.getElementById('shop-name').value = 'Sharma Sweets & Dairy';
+      document.getElementById('shop-tagline').value = 'Pure Desi Ghee Sweets & Fresh Bakery';
+      document.getElementById('shop-upi').value = 'sharma@okhdfcbank';
+      document.getElementById('mode-open').checked = true;
+      document.getElementById('fixed-amount-val').value = '150';
+      setStandeeTheme('theme-purple');
+      updateStandee();
+    }
+
+    function clearStandeeForm() {
+      document.getElementById('shop-name').value = '';
+      document.getElementById('shop-tagline').value = '';
+      document.getElementById('shop-upi').value = '';
+      document.getElementById('fixed-amount-val').value = '';
+      updateStandee();
+    }
+
+    // Download Standee PNG
+    async function downloadStandeePNG() {
+      const card = document.getElementById('standee-print-card');
+      if (!card) return;
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating...</span>`;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(card, {
+          scale: 3,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          onclone: (clonedDoc) => {
+            const origQr = document.getElementById('standee-qrcode');
+            const cloneQr = clonedDoc.getElementById('standee-qrcode');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              if (origCanvas) {
+                cloneQr.innerHTML = '';
+                const newCvs = clonedDoc.createElement('canvas');
+                newCvs.width = origCanvas.width;
+                newCvs.height = origCanvas.height;
+                const ctx = newCvs.getContext('2d');
+                ctx.drawImage(origCanvas, 0, 0);
+                newCvs.style.display = 'block';
+                newCvs.style.margin = '0 auto';
+                cloneQr.appendChild(newCvs);
+              }
+            }
+          }
+        });
+
+        const filename = `UPI_Standee_${(document.getElementById('shop-name').value.trim() || 'Store').replace(/[^a-zA-Z0-9]/g, '_')}.png`;
+        const a = document.createElement('a');
+        a.download = filename;
+        a.href = canvas.toDataURL('image/png');
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { document.body.removeChild(a); }, 1000);
+      } catch (err) {
+        console.error('Download error:', err);
+        window.print();
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    // Attach listeners
+    document.querySelectorAll('#col-form input').forEach(i => i.addEventListener('input', updateStandee));
+    document.querySelectorAll('input[name="amt-mode"]').forEach(r => r.addEventListener('change', updateStandee));
+    const brandingCb = document.getElementById('enable-branding');
+    if (brandingCb) brandingCb.addEventListener('change', updateStandee);
+
+    window.addEventListener('DOMContentLoaded', initStandee);
+  </script>
+</body>
+</html>

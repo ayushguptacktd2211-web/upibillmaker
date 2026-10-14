@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Store & Hospital Bill Maker with Batch, Expiry, DL No & UPI QR</title>
+  <meta name="description" content="Free Pharmacy, Chemist, Clinic & Hospital bill generator with Drug License (DL) No, Doctor & Patient details, Medicine Batch No, Expiry Date, GST, and auto-pay UPI QR code.">
+  <meta name="keywords" content="medical store bill format online, pharmacy bill generator with batch no and expiry, hospital bill maker, clinic doctor consultation receipt with upi qr, chemist cash memo maker">
+  <link rel="canonical" href="https://upibillmaker.com/medical-bill.html">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
+    .font-signature { font-family: 'Dancing Script', cursive; }
+
+    /* Direct WYSIWYG Editable Fields in Preview */
+    .editable-field {
+      border-radius: 4px;
+      transition: background-color 0.15s ease, box-shadow 0.15s ease;
+      cursor: text;
+    }
+    .editable-field:hover {
+      background-color: rgba(13, 148, 136, 0.08) !important;
+      box-shadow: 0 0 0 1px rgba(13, 148, 136, 0.35) !important;
+    }
+    .editable-field:focus {
+      outline: none !important;
+      background-color: rgba(13, 148, 136, 0.12) !important;
+      box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.65) !important;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      header, footer, nav, section, .no-print, #col-form, .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      main {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      #col-preview {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+      #medical-bill-preview {
+        display: block !important;
+        position: relative !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+        page-break-inside: avoid;
+      }
+      .editable-field, .editable-field:hover, .editable-field:focus {
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+    }
+  </style>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is this medical bill accepted for Mediclaim and Health Insurance claims?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. This medical invoice format captures all statutory fields mandated by insurance TPAs: Pharmacy Drug License (DL) Number, Doctor's Name & Reg No, Patient Name, Age, Diagnosis/Rx Ref, Medicine Batch Numbers, and Expiry Dates."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a chemist or clinic issue bills without a GST number?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. If your pharmacy turnover is under the GST exemption threshold or you are operating a private OPD clinic, you can leave the GSTIN field blank and set the GST rate to 0% to print a compliant Retail Cash Memo."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the patient scan and pay via the printed QR code?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The bill includes a standard NPCI-compliant UPI QR code embedded with the chemist's UPI ID and exact bill amount. Patients scan it using PhonePe, Google Pay, Paytm, or BHIM to pay instantly without manual typing."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-teal-500 selection:text-white pb-20 sm:pb-8">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 flex-shrink-0">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-heading font-extrabold text-xl text-slate-900 tracking-tight">
+            UPI<span class="text-emerald-600">BillMaker</span>
+          </span>
+          <p class="text-[11px] text-slate-500 hidden sm:block -mt-1 font-medium">Free GST & Non-GST Invoice Maker</p>
+        </div>
+      </a>
+
+      <!-- Clean Minimal Nav Links -->
+      <nav class="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-700">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="receipt" class="w-4 h-4 text-emerald-600"></i>
+          <span>Invoice Maker</span>
+        </a>
+        <a href="scanner-maker.html" class="px-3 py-1.5 rounded-lg text-purple-700 hover:bg-purple-50 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i>
+          <span>UPI Scanner Maker</span>
+        </a>
+        
+        <!-- Clean Templates Dropdown -->
+        <div class="relative group">
+          <button type="button" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer">
+            <i data-lucide="layout-grid" class="w-4 h-4 text-slate-500"></i>
+            <span>All Templates</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform"></i>
+          </button>
+          
+          <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block z-50">
+            <div class="bg-white rounded-xl shadow-xl border border-slate-200 py-2 text-xs space-y-0.5">
+              <a href="index.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition-colors">
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-emerald-600"></i> Retail & General GST Bill
+              </a>
+              <a href="medical-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-teal-700 bg-teal-50 font-bold transition-colors">
+                <i data-lucide="activity" class="w-4 h-4 text-teal-600"></i> Pharmacy & Medical Bill
+              </a>
+              <a href="restaurant-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-orange-50 hover:text-orange-700 font-medium transition-colors">
+                <i data-lucide="utensils" class="w-4 h-4 text-orange-600"></i> Restaurant / Cafe Food Bill
+              </a>
+              <a href="hotel-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors">
+                <i data-lucide="hotel" class="w-4 h-4 text-indigo-600"></i> Hotel & Homestay Receipt
+              </a>
+              <a href="rent-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition-colors">
+                <i data-lucide="home" class="w-4 h-4 text-emerald-600"></i> House Rent Receipt (HRA)
+              </a>
+              <a href="tuition-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium transition-colors">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i> Coaching / Tuition Fee
+              </a>
+              <div class="border-t border-slate-100 my-1"></div>
+              <a href="scanner-maker.html" class="flex items-center gap-2.5 px-3.5 py-2 text-purple-700 hover:bg-purple-50 font-medium transition-colors">
+                <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i> UPI Standee & Sticker Maker
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button onclick="downloadAsPDF()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm shadow-teal-600/20 transition-all cursor-pointer">
+          <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+          <span>Download PDF</span>
+        </button>
+        <button onclick="downloadAsPNG()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300 transition-colors cursor-pointer">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Save PNG</span>
+        </button>
+        <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300 transition-colors cursor-pointer">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Print</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  
+  <!-- Top Leaderboard Advertisement Slot -->
+  <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
+    <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+    <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <span class="text-xs text-slate-400 font-medium select-none">Responsive Ad Banner Slot</span>
+    </div>
+  </div>
+
+  <!-- Mobile Quick Jump Bar (Preview vs Edit) -->
+  <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-2 sticky top-16 z-30 no-print flex gap-2">
+    <a href="#col-preview" class="flex-1 py-2 text-xs font-bold rounded-lg bg-teal-600 hover:bg-teal-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-colors">
+      <i data-lucide="eye" class="w-3.5 h-3.5"></i> Live Bill Preview
+    </a>
+    <a href="#col-form" class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5 transition-colors">
+      <i data-lucide="edit" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
+    </a>
+  </div>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    <div id="col-preview" class="w-full space-y-4">
+
+      <!-- Preview Header & Actions Bar -->
+      <div class="flex items-center justify-between px-1 no-print">
+        <div>
+          <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
+            <i data-lucide="file-text" class="w-5 h-5 text-teal-600"></i>
+            <span>Live Pharmacy Bill Preview</span>
+          </h3>
+          <p class="text-xs text-slate-500">Real-time live rendering • Ready to Print & Download</p>
+        </div>
+        <a href="#col-form" class="text-xs font-semibold text-teal-600 hover:text-teal-800 flex items-center gap-1 transition-colors">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
+        </a>
+      </div>
+
+      <!-- Action Buttons Bar -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
+        <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+          <span>A4 & Thermal Slip Print Ready</span>
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm shadow-teal-600/20 transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
+          </button>
+          <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+            <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+          </button>
+          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+          </button>
+        </div>
+      </div>
+
+      <div id="medical-bill-preview" class="bg-white p-6 sm:p-8 rounded-none border border-slate-200 shadow-lg space-y-3 relative">
+        
+        <!-- Centered Pharmacy Tax Invoice Legal Header -->
+        <div class="text-center pb-2.5 mb-2 border-b-2 border-slate-800">
+          <h2 class="font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase" id="prev-doc-title">
+            TAX INVOICE / RETAIL CASH MEMO
+          </h2>
+          <p class="text-[10px] font-semibold text-slate-500 tracking-widest uppercase mt-0.5">
+            (Drugs & Cosmetics Act, 1940 • Form 20/21 Retail Chemist & Druggist)
+          </p>
+        </div>
+
+        <!-- Pharmacy & Bill Meta Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pb-3 border-b border-slate-300">
+          <!-- Left 7 Cols: Pharmacy / Store Info -->
+          <div class="sm:col-span-7 space-y-0.5 text-xs">
+            <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block">Dispensed & Billed By:</span>
+            <h3 class="editable-field font-heading font-extrabold text-lg sm:text-xl text-slate-900 tracking-tight leading-snug" id="prev-ph-name" contenteditable="true" spellcheck="false" data-bind="pharmacy-name" title="Click to edit pharmacy name">Your Pharmacy Name</h3>
+            <p class="editable-field text-xs text-slate-600 block mt-0.5" id="prev-ph-address" contenteditable="true" spellcheck="false" data-bind="pharmacy-address" title="Click to edit address"></p>
+            <p class="text-xs text-slate-700 font-mono" id="prev-ph-phone-gst-row">
+              <span id="prev-ph-phone-wrap">Phone: <span id="prev-ph-phone" class="editable-field font-bold" contenteditable="true" spellcheck="false" data-bind="pharmacy-phone"></span></span>
+              <span id="prev-ph-gst-wrap"> | GSTIN: <span id="prev-ph-gstin" class="editable-field font-bold text-slate-900" contenteditable="true" spellcheck="false" data-bind="pharmacy-gstin"></span></span>
+            </p>
+            <p class="text-[11px] font-mono font-bold text-teal-800 mt-0.5 hidden" id="prev-dl-row">
+              Drug Lic. (DL) No: <span id="prev-dl-number" class="editable-field" contenteditable="true" spellcheck="false" data-bind="dl-number"></span>
+            </p>
+          </div>
+
+          <!-- Right 5 Cols: Structured Invoice Table -->
+          <div class="sm:col-span-5 text-xs">
+            <div class="border border-slate-300 rounded-none bg-slate-50/60 p-2.5 space-y-1.5">
+              <div class="flex justify-between items-center border-b border-slate-200 pb-1">
+                <span class="font-bold text-slate-600 uppercase text-[10px]">Invoice / Memo #:</span>
+                <span id="prev-inv-no" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900" data-bind="med-inv-no" title="Click to edit invoice #">MED-101</span>
+              </div>
+              <div class="flex justify-between items-center border-b border-slate-200 pb-1">
+                <span class="font-bold text-slate-600 uppercase text-[10px]">Date:</span>
+                <span id="prev-date" class="font-mono text-slate-800 font-medium"></span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="font-bold text-slate-600 uppercase text-[10px]">Payment Status:</span>
+                <div role="button" tabindex="0" onclick="toggleMedStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none">
+                  <span id="prev-med-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-amber-700">
+                    DUE (PENDING)
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Doctor & Patient Info Bar -->
+        <div id="prev-pt-dr-bar" class="hidden grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 border border-slate-300 p-2.5 text-xs">
+          <div id="prev-pt-box" class="space-y-0.5">
+            <span class="text-slate-500 font-bold uppercase text-[9px] block">Patient Information:</span>
+            <p class="font-bold text-slate-900 text-sm" id="prev-pt-name"></p>
+            <p class="text-slate-600 text-xs" id="prev-pt-age"></p>
+          </div>
+          <div id="prev-dr-box" class="space-y-0.5">
+            <span class="text-slate-500 font-bold uppercase text-[9px] block">Prescribed By Doctor:</span>
+            <p class="font-bold text-teal-950 text-sm" id="prev-dr-name"></p>
+            <p class="text-slate-600 font-mono text-xs" id="prev-dr-reg"></p>
+          </div>
+        </div>
+
+        <!-- Medicine Items Table (Crisp Accounting Ledger Grid with S.No) -->
+        <div class="py-2 overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse border border-slate-300 min-w-[480px]">
+            <thead>
+              <tr class="bg-slate-100 border-b-2 border-slate-800 text-slate-800 font-bold uppercase text-[10px] tracking-wider">
+                <th class="py-2 px-2 text-center w-8 border-r border-slate-300">#</th>
+                <th class="py-2 px-3 border-r border-slate-300">Medicine / Item Description</th>
+                <th class="py-2 px-2 text-center w-20 border-r border-slate-300">Batch No</th>
+                <th class="py-2 px-2 text-center w-16 border-r border-slate-300">Exp Date</th>
+                <th class="py-2 px-2 text-center w-12 border-r border-slate-300">Qty</th>
+                <th class="py-2 px-3 text-right w-20 border-r border-slate-300">Rate (₹)</th>
+                <th class="py-2 px-3 text-right w-24">Amount (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="prev-med-body" class="divide-y divide-slate-200 text-slate-800"></tbody>
+          </table>
+        </div>
+
+        <!-- Statutory Amount in Words Bar -->
+        <div class="border-b border-slate-300 pb-2 mb-2 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
+          <div>
+            <span class="font-bold text-slate-800">Amount in Words:</span>
+            <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1">INR Zero Rupees Only</span>
+          </div>
+          <div class="text-[10px] text-slate-500 uppercase tracking-widest">E. & O.E.</div>
+        </div>
+
+        <!-- Bottom Section: Bank/UPI Details (Left) + Tax Calculation & Totals (Right) -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-1">
+          <!-- Left 7 Cols: Bank & UPI Payment Details Box -->
+          <div id="prev-med-qr-block" class="sm:col-span-7 border border-slate-300 bg-slate-50/40 p-3 text-xs space-y-2">
+            <div class="font-bold text-[10px] uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 flex items-center justify-between">
+              <span>UPI & Payment Details</span>
+              <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="bg-white border border-slate-300 p-1 flex-shrink-0">
+                <div id="med-qr" class="w-20 h-20 flex items-center justify-center"></div>
+              </div>
+              <div class="space-y-1 text-[11px] text-slate-700">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="font-bold text-slate-800">Pharmacy Payee UPI:</span>
+                  <span id="prev-ph-upi" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="pharmacy-upi" title="Click to edit UPI ID">sanjeevanimedicos@okhdfcbank</span>
+                </div>
+                <p class="text-[10px] text-slate-500">Scan to pay exact <span id="prev-qr-amt" class="font-bold text-teal-800">₹0.00</span> via any UPI App.</p>
+                <p class="text-[10px] text-slate-500">GPay, PhonePe, Paytm, BHIM.</p>
+              </div>
+            </div>
+
+            <!-- Mandatory Statutory Terms & Pharmacist Signature -->
+            <div class="pt-2 border-t border-slate-200 space-y-1">
+              <p class="text-[10px] text-slate-500 leading-snug">
+                * Schedule H/H1 drugs dispensed strictly against valid medical prescription.<br>
+                * Medicines sold once cannot be returned or exchanged without original cash memo.
+              </p>
+            </div>
+          </div>
+
+          <!-- Right 5 Cols: Calculations Ledger & Pharmacist Sign -->
+          <div class="sm:col-span-5 flex flex-col justify-between space-y-3">
+            <div class="space-y-1.5 text-xs border border-slate-300 p-3 bg-white">
+              <div class="flex justify-between text-slate-600">
+                <span>Subtotal:</span>
+                <span id="prev-subtotal" class="font-medium text-slate-900 font-mono">₹0.00</span>
+              </div>
+              <div id="prev-discount-row" class="flex justify-between text-emerald-700 hidden">
+                <span>Discount:</span>
+                <span id="prev-discount" class="font-medium font-mono">-₹0.00</span>
+              </div>
+              <div class="flex justify-between text-slate-600">
+                <span id="prev-tax-label">GST (12%):</span>
+                <span id="prev-tax" class="font-medium text-slate-900 font-mono">₹0.00</span>
+              </div>
+              <div class="border-t-2 border-slate-800 pt-1.5 flex justify-between items-center text-slate-900">
+                <span class="font-bold text-sm">Total Due:</span>
+                <span id="prev-total" class="font-heading font-black text-lg text-slate-900 font-mono">₹0.00</span>
+              </div>
+            </div>
+
+            <div class="text-right pt-2">
+              <div class="font-signature text-2xl text-slate-800 leading-none">Registered Pharmacist</div>
+              <div class="w-36 border-b border-slate-400 mt-1 ml-auto"></div>
+              <p class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mt-1">Pharmacist Sign & Seal</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subtle Legal Watermark -->
+        <div id="prev-branding" class="text-center text-[10px] text-slate-400 pt-1 font-medium select-none border-t border-slate-200">
+          This is a Computer Generated Pharmacy Invoice • Generated by UPIBillMaker.com
+        </div>
+
+      </div>
+    </div>
+
+    
+    <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
+    <div class="w-full my-6 no-print text-center">
+      <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="0987654321"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <span class="text-xs text-slate-400 font-medium select-none">In-Content Ad Banner Slot</span>
+      </div>
+    </div>
+
+
+    <div id="col-form" class="w-full bg-white p-5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 no-print">
+      
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h2 class="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
+          <i data-lucide="activity" class="w-4 h-4 text-teal-600"></i> Pharmacy & Patient Info
+        </h2>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="loadMedSampleData()" class="text-[11px] font-semibold text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 px-2 py-0.5 rounded border border-teal-200">Sample</button>
+          <button type="button" onclick="clearMedForm()" class="text-[11px] font-semibold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded border border-slate-300">Clear</button>
+          <div class="flex items-center gap-1.5 ml-1">
+            <span class="text-xs font-semibold text-slate-600">Payment:</span>
+            <div class="inline-flex p-0.5 bg-slate-200 rounded-lg text-xs" id="med-status-toggle">
+              <button type="button" id="btn-med-status-pending" onclick="setMedStatus('pending')" class="px-2 py-0.5 text-xs font-bold rounded bg-amber-500 text-white">Due</button>
+              <button type="button" id="btn-med-status-cash" onclick="setMedStatus('cash')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700">Cash</button>
+              <button type="button" id="btn-med-status-online" onclick="setMedStatus('online')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700">UPI/Online</button>
+            </div>
+            <input type="hidden" id="med-status" value="pending">
+          </div>
+        </div>
+      </div>
+
+      <!-- Pharmacy Details -->
+      <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+        <span class="font-bold text-slate-700 uppercase tracking-wider block">1. Pharmacy / Clinic Details</span>
+        
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Pharmacy / Hospital Name</label>
+          <input type="text" id="pharmacy-name" placeholder="e.g. Sanjeevani Medicos & Healthcare" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-sm">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Drug License (DL) No (Optional)</label>
+            <input type="text" id="dl-number" placeholder="e.g. DL-20B/1452 & 21B/1453" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">GSTIN (Optional)</label>
+            <input type="text" id="pharmacy-gstin" placeholder="e.g. 07AABCS9900P1ZM" class="w-full font-mono uppercase px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Contact Phone</label>
+            <input type="text" id="pharmacy-phone" placeholder="e.g. +91 98765 22334" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Store Address / City</label>
+            <input type="text" id="pharmacy-address" placeholder="e.g. Opp. Civil Hospital Gate, Sector 12" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <!-- UPI QR Payment Options & Toggle -->
+        <div class="pt-2 border-t border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-800 font-bold">
+              <input type="checkbox" id="enable-upi-qr" checked class="w-4 h-4 rounded text-teal-600 border-slate-300 focus:ring-teal-500">
+              <span class="flex items-center gap-1.5 text-teal-900">
+                <i data-lucide="qr-code" class="w-3.5 h-3.5 text-teal-600"></i> Include Auto-Pay UPI QR Code on Bill
+              </span>
+            </label>
+            <span id="med-qr-toggle-badge" class="text-[10px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded">Active</span>
+          </div>
+          
+          <div id="med-upi-input-group" class="space-y-1">
+            <label class="block font-semibold text-slate-700">Receiver UPI ID (For Direct Medicine Payment)</label>
+            <input type="text" id="pharmacy-upi" placeholder="e.g. sanjeevanimedicos@okhdfcbank" class="w-full font-mono px-3 py-2 bg-teal-50 rounded-lg border border-teal-300">
+            <p class="text-[10px] text-slate-400">Untick box above if you want a clean bill without scanner or UPI details.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Doctor & Patient Details -->
+      <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+        <span class="font-bold text-slate-700 uppercase tracking-wider block">2. Doctor & Patient Info (Optional)</span>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Patient Name</label>
+            <input type="text" id="patient-name" placeholder="e.g. Suresh Chandel" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-sm">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Age / Gender</label>
+            <input type="text" id="patient-age" placeholder="e.g. 45 Yrs / Male" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Prescribed By Doctor</label>
+            <input type="text" id="doctor-name" placeholder="e.g. Dr. Arvind Mehrotra (MD)" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Doctor Reg No.</label>
+            <input type="text" id="doctor-reg" placeholder="e.g. MCI-48912" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Invoice / Cash Memo No</label>
+            <input type="text" id="med-inv-no" placeholder="e.g. MED-2026-401" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Date</label>
+            <input type="date" id="med-date" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+      </div>
+
+      <!-- Medicine Items with Batch & Expiry -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">3. Medicines & Lab Charges</span>
+          <button type="button" id="btn-add-med" class="text-xs font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200 px-2.5 py-1 rounded-lg">
+            + Add Medicine
+          </button>
+        </div>
+
+        <div id="med-items-container" class="space-y-2 text-xs">
+          <!-- Item 1 -->
+          <div class="med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5">
+            <div class="flex justify-between items-center">
+              <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" placeholder="Medicine Name & Dosage">
+              <button type="button" class="btn-del-med text-rose-500 hover:text-rose-700 px-2">✕</button>
+            </div>
+            <div class="grid grid-cols-4 gap-1.5">
+              <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Batch No">
+              <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Exp (MM/YY)">
+              <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" placeholder="Qty" value="1">
+              <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" placeholder="Rate ₹">
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Discount (₹)</label>
+            <input type="number" id="med-discount" placeholder="0" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Medicine GST Rate</label>
+            <select id="med-gst-rate" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+              <option value="0">0% (Exempted Life Saving)</option>
+              <option value="5">5% GST (Common Formulations)</option>
+              <option value="12" selected>12% GST (Standard Pharmaceuticals)</option>
+              <option value="18">18% GST (Cosmetic / Sanitizer)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 4. Watermark Branding -->
+        <div class="pt-3 border-t border-slate-200">
+          <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-700">
+            <input type="checkbox" id="enable-branding" checked class="w-4 h-4 rounded text-teal-600 border-slate-300 focus:ring-teal-500">
+            <span class="font-medium">Show "Generated by UPIBillMaker.com" on bill footer</span>
+            <span class="text-[10px] text-slate-400 font-normal">(Default: Checked)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-2 flex gap-2">
+        <button type="button" onclick="downloadAsPDF()" class="flex-1 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+          <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
+        </button>
+        <button type="button" onclick="downloadAsPNG()" class="flex-1 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+        </button>
+        <button type="button" onclick="window.print()" class="flex-1 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+        </button>
+      </div>
+
+    
+        <!-- Quick Action Jump Button to Live Preview -->
+        <div class="pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <a href="#col-preview" class="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-xl shadow-md shadow-teal-600/20 transition-all cursor-pointer">
+            <i data-lucide="eye" class="w-4 h-4"></i>
+            <span>View & Download Live Bill Above ↑</span>
+          </a>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="loadMedSampleData()" class="px-3 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors">
+              Sample Demo
+            </button>
+            <button type="button" onclick="clearMedForm()" class="px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg transition-colors">
+              Clear
+            </button>
+          </div>
+        </div>
+
+    </div>
+  </main>
+  <script>
+    lucide.createIcons();
+    document.getElementById('med-date').valueAsDate = new Date();
+
+    let currentMedStatus = 'pending';
+
+    function setMedStatus(status) {
+      currentMedStatus = status;
+      const hiddenInput = document.getElementById('med-status');
+      if (hiddenInput) hiddenInput.value = status;
+      const btnPending = document.getElementById('btn-med-status-pending');
+      const btnCash = document.getElementById('btn-med-status-cash');
+      const btnOnline = document.getElementById('btn-med-status-online');
+      const stamp = document.getElementById('med-paid-stamp');
+      const stampText = document.getElementById('med-paid-stamp-text');
+      const badge = document.getElementById('prev-med-status-badge');
+
+      [btnPending, btnCash, btnOnline].forEach(b => {
+        if (b) b.className = 'px-2 py-0.5 text-xs font-medium rounded text-slate-700';
+      });
+
+      const qrBlock = document.getElementById('prev-med-qr-block');
+
+      if (status === 'cash') {
+        if (btnCash) btnCash.className = 'px-2 py-0.5 text-xs font-bold rounded bg-teal-600 text-white';
+        if (stamp) {
+          stamp.classList.remove('hidden');
+          stamp.className = 'mt-1 border-2 border-emerald-600 text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded text-center font-heading font-black tracking-wider uppercase text-[10px] shadow-2xs';
+          if (stampText) stampText.innerText = 'PAID IN CASH';
+        }
+        if (badge) {
+          badge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-emerald-700';
+          badge.innerText = 'PAID (CASH)';
+        }
+        if (qrBlock) qrBlock.classList.add('opacity-40');
+      } else if (status === 'online') {
+        if (btnOnline) btnOnline.className = 'px-2 py-0.5 text-xs font-bold rounded bg-teal-600 text-white';
+        if (stamp) {
+          stamp.classList.remove('hidden');
+          stamp.className = 'mt-1 border-2 border-blue-600 text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded text-center font-heading font-black tracking-wider uppercase text-[10px] shadow-2xs';
+          if (stampText) stampText.innerText = 'PAID VIA UPI / ONLINE';
+        }
+        if (badge) {
+          badge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-emerald-700';
+          badge.innerText = 'PAID (UPI / ONLINE)';
+        }
+        if (qrBlock) qrBlock.classList.remove('opacity-40');
+      } else {
+        if (btnPending) btnPending.className = 'px-2 py-0.5 text-xs font-bold rounded bg-amber-500 text-white';
+        if (stamp) stamp.classList.add('hidden');
+        if (badge) {
+          badge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-amber-700';
+          badge.innerText = 'DUE (PENDING)';
+        }
+        if (qrBlock) qrBlock.classList.remove('opacity-40');
+      }
+    }
+
+    function toggleMedStatus() {
+      if (currentMedStatus === 'pending') setMedStatus('cash');
+      else if (currentMedStatus === 'cash') setMedStatus('online');
+      else setMedStatus('pending');
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    function formatINR(val) {
+      const num = parseFloat(val) || 0;
+      return num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // Convert Numeric Amount to Official Indian Currency Words (Lakhs & Crores)
+    function numberToWordsINR(amount) {
+      if (isNaN(amount) || amount === 0) return 'INR Zero Rupees Only';
+      const a = ['','One ','Two ','Three ','Four ','Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+      const b = ['', '', 'Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+
+      function inWords(num) {
+        if ((num = num.toString()).length > 9) return 'Overflow';
+        const n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+        if (!n) return '';
+        let str = '';
+        str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+        str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+        str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+        str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
+        str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+        return str.trim();
+      }
+
+      const parts = amount.toFixed(2).split('.');
+      const whole = parseInt(parts[0], 10);
+      const paise = parseInt(parts[1], 10);
+
+      let result = 'INR ' + (whole > 0 ? inWords(whole) + ' Rupees' : 'Zero Rupees');
+      if (paise > 0) {
+        result += ' and ' + inWords(paise) + ' Paise';
+      }
+      result += ' Only';
+      return result;
+    }
+
+    function switchMobileTab(tab) {
+      const colForm = document.getElementById('col-form');
+      const colPreview = document.getElementById('col-preview');
+      const btnEdit = document.getElementById('mob-tab-edit');
+      const btnPreview = document.getElementById('mob-tab-preview');
+
+      if (tab === 'edit') {
+        colForm.classList.remove('hidden');
+        colPreview.classList.add('hidden');
+        btnEdit.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-teal-600 text-white flex items-center justify-center gap-1.5';
+        btnPreview.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5';
+      } else {
+        colForm.classList.add('hidden');
+        colPreview.classList.remove('hidden');
+        btnEdit.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5';
+        btnPreview.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-teal-600 text-white flex items-center justify-center gap-1.5';
+      }
+    }
+
+    function updateMedicalBill() {
+      const activeEl = document.activeElement;
+
+      const phName = document.getElementById('pharmacy-name').value.trim();
+      const dlNo = document.getElementById('dl-number').value.trim();
+      const gstin = document.getElementById('pharmacy-gstin').value.trim();
+      const phone = document.getElementById('pharmacy-phone').value.trim();
+      const address = document.getElementById('pharmacy-address').value.trim();
+      const upi = document.getElementById('pharmacy-upi').value.trim();
+
+      const ptName = document.getElementById('patient-name').value.trim();
+      const ptAge = document.getElementById('patient-age').value.trim();
+      const drName = document.getElementById('doctor-name').value.trim();
+      const drReg = document.getElementById('doctor-reg').value.trim();
+      const invNo = document.getElementById('med-inv-no').value.trim();
+      const date = document.getElementById('med-date').value;
+
+      const elPhName = document.getElementById('prev-ph-name');
+      const elPhAddress = document.getElementById('prev-ph-address');
+      const elPhUpi = document.getElementById('prev-ph-upi');
+      const elInvNo = document.getElementById('prev-inv-no');
+      const elDate = document.getElementById('prev-date');
+
+      if (elPhName && activeEl !== elPhName) elPhName.innerText = phName || 'Your Pharmacy Name';
+      if (elPhAddress && activeEl !== elPhAddress) elPhAddress.innerText = address || 'Store Address / Location';
+      if (elPhUpi && activeEl !== elPhUpi) elPhUpi.innerText = upi || 'yourpharmacy@upi';
+      if (elInvNo && activeEl !== elInvNo) elInvNo.innerText = invNo || 'MED-101';
+      if (elDate) elDate.innerText = date || new Date().toISOString().split('T')[0];
+
+      // DL No row
+      const dlRow = document.getElementById('prev-dl-row');
+      const elDl = document.getElementById('prev-dl-number');
+      if (dlNo) {
+        dlRow.classList.remove('hidden');
+        if (elDl && activeEl !== elDl) elDl.innerText = dlNo;
+      } else {
+        dlRow.classList.add('hidden');
+      }
+
+      // Phone & GST row
+      const phoneWrap = document.getElementById('prev-ph-phone-wrap');
+      const gstWrap = document.getElementById('prev-ph-gst-wrap');
+      const phoneGstRow = document.getElementById('prev-ph-phone-gst-row');
+      const elPhone = document.getElementById('prev-ph-phone');
+      const elGstin = document.getElementById('prev-ph-gstin');
+
+      if (phone) {
+        phoneWrap.style.display = 'inline';
+        if (elPhone && activeEl !== elPhone) elPhone.innerText = phone;
+      } else {
+        phoneWrap.style.display = 'none';
+      }
+
+      if (gstin) {
+        gstWrap.style.display = 'inline';
+        if (elGstin && activeEl !== elGstin) elGstin.innerText = gstin;
+      } else {
+        gstWrap.style.display = 'none';
+      }
+
+      if (!phone && !gstin) {
+        phoneGstRow.style.display = 'none';
+      } else {
+        phoneGstRow.style.display = 'block';
+      }
+
+      // Patient & Doctor Box
+      const ptBox = document.getElementById('prev-pt-box');
+      const drBox = document.getElementById('prev-dr-box');
+      const ptDrBar = document.getElementById('prev-pt-dr-bar');
+
+      const hasPt = ptName || ptAge;
+      const hasDr = drName || drReg;
+
+      if (hasPt) {
+        ptBox.style.display = 'block';
+        document.getElementById('prev-pt-name').innerText = ptName || 'Patient Name';
+        document.getElementById('prev-pt-age').innerText = ptAge ? `Age / Gender: ${ptAge}` : '';
+      } else {
+        ptBox.style.display = 'none';
+      }
+
+      if (hasDr) {
+        drBox.style.display = 'block';
+        document.getElementById('prev-dr-name').innerText = drName || 'Consultant Doctor';
+        document.getElementById('prev-dr-reg').innerText = drReg ? `Reg No: ${drReg}` : '';
+      } else {
+        drBox.style.display = 'none';
+      }
+
+      if (hasPt || hasDr) {
+        ptDrBar.classList.remove('hidden');
+        ptDrBar.classList.add('grid');
+      } else {
+        ptDrBar.classList.add('hidden');
+        ptDrBar.classList.remove('grid');
+      }
+
+      // Rows
+      const rows = document.querySelectorAll('.med-row');
+      let subtotal = 0;
+      const body = document.getElementById('prev-med-body');
+      body.innerHTML = '';
+
+      rows.forEach((r, idx) => {
+        const name = r.querySelector('.med-name').value.trim() || `Medicine / Item ${idx + 1}`;
+        const batch = r.querySelector('.med-batch').value.trim() || '-';
+        const exp = r.querySelector('.med-exp').value.trim() || '-';
+        const qty = parseFloat(r.querySelector('.med-qty').value) || 1;
+        const rate = parseFloat(r.querySelector('.med-rate').value) || 0;
+        const amt = qty * rate;
+        subtotal += amt;
+
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-slate-200';
+        tr.innerHTML = `
+          <td class="py-2 px-2 text-center font-mono font-medium text-slate-500 border-r border-slate-300">${idx + 1}</td>
+          <td class="py-2 px-3 font-medium text-slate-800 border-r border-slate-300">${escapeHTML(name)}</td>
+          <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-300">${escapeHTML(batch)}</td>
+          <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-300">${escapeHTML(exp)}</td>
+          <td class="py-2 px-2 text-center font-mono text-slate-700 border-r border-slate-300">${qty}</td>
+          <td class="py-2 px-3 text-right font-mono text-slate-700 border-r border-slate-300">₹${formatINR(rate)}</td>
+          <td class="py-2 px-3 text-right font-mono font-bold text-slate-900">₹${formatINR(amt)}</td>
+        `;
+        body.appendChild(tr);
+      });
+
+      const disc = parseFloat(document.getElementById('med-discount').value) || 0;
+      const discRow = document.getElementById('prev-discount-row');
+      if (disc > 0) {
+        discRow.classList.remove('hidden');
+        document.getElementById('prev-discount').innerText = '-₹' + disc.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      } else {
+        discRow.classList.add('hidden');
+      }
+
+      const taxRate = parseFloat(document.getElementById('med-gst-rate').value) || 0;
+      const taxable = Math.max(0, subtotal - disc);
+      const taxAmt = (taxable * taxRate) / 100;
+      const total = Math.round((taxable + taxAmt) * 100) / 100;
+
+      document.getElementById('prev-subtotal').innerText = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      document.getElementById('prev-tax-label').innerText = `GST (${taxRate}%):`;
+      document.getElementById('prev-tax').innerText = '₹' + taxAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      document.getElementById('prev-total').innerText = '₹' + total.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      document.getElementById('prev-qr-amt').innerText = '₹' + total.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+
+      // Statutory Amount in Words
+      const amtWords = document.getElementById('prev-amount-in-words');
+      if (amtWords) amtWords.innerText = numberToWordsINR(total);
+
+      // QR Code
+      const qrBox = document.getElementById('med-qr');
+      qrBox.innerHTML = '';
+      const enableQr = document.getElementById('enable-upi-qr').checked;
+      const qrBlock = document.getElementById('prev-med-qr-block');
+      if (!enableQr) {
+        if (qrBlock) qrBlock.style.display = 'none';
+      } else {
+        if (qrBlock) qrBlock.style.display = 'block';
+        const receiverUpi = upi || 'yourpharmacy@upi';
+        const upiUrl = `upi://pay?pa=${encodeURIComponent(receiverUpi)}&pn=${encodeURIComponent(phName || 'Pharmacy')}&am=${total.toFixed(2)}&cu=INR&tn=${encodeURIComponent('Med Bill ' + (invNo || '101'))}`;
+        new QRCode(qrBox, { text: upiUrl, width: 80, height: 80 });
+      }
+    }
+
+    // Add Row
+    document.getElementById('btn-add-med').addEventListener('click', () => {
+      const c = document.getElementById('med-items-container');
+      const div = document.createElement('div');
+      div.className = 'med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5';
+      div.innerHTML = `
+        <div class="flex justify-between items-center">
+          <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" placeholder="Medicine Name & Dosage">
+          <button type="button" class="btn-del-med text-rose-500 hover:text-rose-700 px-2">✕</button>
+        </div>
+        <div class="grid grid-cols-4 gap-1.5">
+          <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Batch No">
+          <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Exp (MM/YY)">
+          <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" placeholder="Qty" value="1">
+          <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" placeholder="Rate ₹" value="0">
+        </div>
+      `;
+      c.appendChild(div);
+      attachMedEvents(div);
+      updateMedicalBill();
+    });
+
+    function attachMedEvents(row) {
+      row.querySelectorAll('input').forEach(i => i.addEventListener('input', updateMedicalBill));
+      row.querySelector('.btn-del-med').addEventListener('click', () => {
+        if (document.querySelectorAll('.med-row').length > 1) {
+          row.remove();
+          updateMedicalBill();
+        }
+      });
+    }
+
+    document.querySelectorAll('.med-row').forEach(r => attachMedEvents(r));
+    document.querySelectorAll('input, select').forEach(i => i.addEventListener('input', updateMedicalBill));
+
+    // Watermark Branding Toggle
+    const brandingCb = document.getElementById('enable-branding');
+    if (brandingCb) {
+      brandingCb.addEventListener('change', function(e) {
+        const b = document.getElementById('prev-branding');
+        if (b) b.style.display = e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // UPI QR Toggle
+    const upiQrCb = document.getElementById('enable-upi-qr');
+    if (upiQrCb) {
+      upiQrCb.addEventListener('change', function(e) {
+        const qrBlock = document.getElementById('prev-med-qr-block');
+        const badge = document.getElementById('med-qr-toggle-badge');
+        const inputGroup = document.getElementById('med-upi-input-group');
+        if (e.target.checked) {
+          if (badge) { badge.innerText = 'Active'; badge.className = 'text-[10px] font-bold text-teal-800 bg-teal-100 px-2 py-0.5 rounded'; }
+          if (inputGroup) inputGroup.classList.remove('opacity-40');
+        } else {
+          if (badge) { badge.innerText = 'Disabled'; badge.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded'; }
+          if (inputGroup) inputGroup.classList.add('opacity-40');
+        }
+        updateMedicalBill();
+      });
+    }
+
+    function loadMedSampleData() {
+      document.getElementById('pharmacy-name').value = 'Sanjeevani Medicos & Healthcare';
+      document.getElementById('dl-number').value = 'DL-20B/1452 & 21B/1453';
+      document.getElementById('pharmacy-gstin').value = '07AABCS9900P1ZM';
+      document.getElementById('pharmacy-phone').value = '+91 98765 22334';
+      document.getElementById('pharmacy-address').value = 'Opp. Civil Hospital Gate, Sector 12';
+      document.getElementById('pharmacy-upi').value = 'sanjeevanimedicos@okhdfcbank';
+      document.getElementById('patient-name').value = 'Suresh Chandel';
+      document.getElementById('patient-age').value = '45 Yrs / Male';
+      document.getElementById('doctor-name').value = 'Dr. Arvind Mehrotra (MD)';
+      document.getElementById('doctor-reg').value = 'MCI-48912';
+      document.getElementById('med-inv-no').value = 'MED-2026-401';
+      document.getElementById('med-discount').value = '30';
+      document.getElementById('med-gst-rate').value = '12';
+
+      const c = document.getElementById('med-items-container');
+      c.innerHTML = `
+        <div class="med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5">
+          <div class="flex justify-between items-center">
+            <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" value="Augmentin 625 Duo Tablet (10s)">
+            <button type="button" class="btn-del-med text-rose-500 hover:text-rose-700 px-2">✕</button>
+          </div>
+          <div class="grid grid-cols-4 gap-1.5">
+            <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="AUG-8921">
+            <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="08/27">
+            <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" value="2">
+            <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" value="204.50">
+          </div>
+        </div>
+        <div class="med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5">
+          <div class="flex justify-between items-center">
+            <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" value="Pan-D Capsule (Strip of 15)">
+            <button type="button" class="btn-del-med text-rose-500 hover:text-rose-700 px-2">✕</button>
+          </div>
+          <div class="grid grid-cols-4 gap-1.5">
+            <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="PND-4412">
+            <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="11/26">
+            <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" value="1">
+            <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" value="190.00">
+          </div>
+        </div>
+      `;
+      c.querySelectorAll('.med-row').forEach(r => attachMedEvents(r));
+      updateMedicalBill();
+    }
+
+    function clearMedForm() {
+      document.getElementById('pharmacy-name').value = '';
+      document.getElementById('dl-number').value = '';
+      document.getElementById('pharmacy-gstin').value = '';
+      document.getElementById('pharmacy-phone').value = '';
+      document.getElementById('pharmacy-address').value = '';
+      document.getElementById('pharmacy-upi').value = '';
+      document.getElementById('patient-name').value = '';
+      document.getElementById('patient-age').value = '';
+      document.getElementById('doctor-name').value = '';
+      document.getElementById('doctor-reg').value = '';
+      document.getElementById('med-inv-no').value = '';
+      document.getElementById('med-discount').value = '';
+      
+      const c = document.getElementById('med-items-container');
+      c.innerHTML = `
+        <div class="med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5">
+          <div class="flex justify-between items-center">
+            <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" placeholder="Medicine Name & Dosage">
+            <button type="button" class="btn-del-med text-rose-500 hover:text-rose-700 px-2">✕</button>
+          </div>
+          <div class="grid grid-cols-4 gap-1.5">
+            <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Batch No">
+            <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Exp (MM/YY)">
+            <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" placeholder="Qty" value="1">
+            <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" placeholder="Rate ₹">
+          </div>
+        </div>
+      `;
+      c.querySelectorAll('.med-row').forEach(r => attachMedEvents(r));
+      updateMedicalBill();
+    }
+
+    async function downloadAsPDF() {
+      const card = document.getElementById('medical-bill-preview');
+      if (!card) return;
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating PDF...</span>`;
+      }
+
+      const colPreview = document.getElementById('col-preview');
+      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
+      if (wasHidden) {
+        colPreview.classList.remove('hidden');
+        colPreview.style.display = 'block';
+        void colPreview.offsetHeight;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(card, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          onclone: (clonedDoc) => {
+            const clonedCard = clonedDoc.getElementById('medical-bill-preview');
+            if (clonedCard) {
+              clonedCard.style.setProperty('border', 'none', 'important');
+              clonedCard.style.setProperty('box-shadow', 'none', 'important');
+              clonedCard.style.setProperty('outline', 'none', 'important');
+            }
+            clonedDoc.querySelectorAll('.editable-field').forEach(el => {
+              el.removeAttribute('contenteditable');
+              el.style.boxShadow = 'none';
+              el.style.background = 'transparent';
+              el.style.outline = 'none';
+            });
+            clonedDoc.querySelectorAll('.no-print').forEach(el => {
+              el.style.display = 'none';
+            });
+            const origQr = document.getElementById('med-qr');
+            const cloneQr = clonedDoc.getElementById('med-qr');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              if (origCanvas) {
+                cloneQr.innerHTML = '';
+                const newCvs = clonedDoc.createElement('canvas');
+                newCvs.width = origCanvas.width;
+                newCvs.height = origCanvas.height;
+                const ctx = newCvs.getContext('2d');
+                ctx.drawImage(origCanvas, 0, 0);
+                newCvs.style.display = 'block';
+                cloneQr.appendChild(newCvs);
+              }
+            }
+          }
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        
+        const margin = 10;
+        const contentWidth = pdfWidth - (margin * 2);
+        const contentHeight = (canvas.height * contentWidth) / canvas.width;
+        
+        if (contentHeight <= pdfHeight - (margin * 2)) {
+          pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth, contentHeight);
+        } else {
+          const scaleFactor = (pdfHeight - (margin * 2)) / contentHeight;
+          if (scaleFactor > 0.8) {
+            pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth * scaleFactor, contentHeight * scaleFactor);
+          } else {
+            let heightLeft = contentHeight;
+            let position = margin;
+            pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
+            heightLeft -= (pdfHeight - margin);
+            while (heightLeft > 0) {
+              position = heightLeft - contentHeight + margin;
+              pdf.addPage();
+              pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
+              heightLeft -= pdfHeight;
+            }
+          }
+        }
+
+        const store = (document.getElementById('pharmacy-name')?.value?.trim() || 'Medical_Bill').replace(/[^a-zA-Z0-9_-]/g, '_');
+        pdf.save(`${store}_Bill.pdf`);
+        showDownloadToast('Medical Rx Bill PDF downloaded successfully!');
+      } catch (err) {
+        console.error('PDF error:', err);
+        showDownloadToast('Notice: Opening Print view for PDF...');
+        setTimeout(() => { window.print(); }, 400);
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    async function downloadAsPNG() {
+      const card = document.getElementById('medical-bill-preview');
+      if (!card) return;
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating...</span>`;
+      }
+
+      // Mobile Visibility Fix: if parent col-preview is hidden under edit tab, temporarily unhide it
+      const colPreview = document.getElementById('col-preview');
+      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
+      if (wasHidden) {
+        colPreview.classList.remove('hidden');
+        colPreview.style.display = 'block';
+        void colPreview.offsetHeight;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(card, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          onclone: (clonedDoc) => {
+            const clonedCard = clonedDoc.getElementById('medical-bill-preview');
+            if (clonedCard) {
+              clonedCard.style.setProperty('border', 'none', 'important');
+              clonedCard.style.setProperty('box-shadow', 'none', 'important');
+              clonedCard.style.setProperty('outline', 'none', 'important');
+            }
+            const origQr = document.getElementById('med-qr');
+            const cloneQr = clonedDoc.getElementById('med-qr');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              if (origCanvas) {
+                cloneQr.innerHTML = '';
+                const newCvs = clonedDoc.createElement('canvas');
+                newCvs.width = origCanvas.width;
+                newCvs.height = origCanvas.height;
+                const ctx = newCvs.getContext('2d');
+                ctx.drawImage(origCanvas, 0, 0);
+                newCvs.style.display = 'block';
+                cloneQr.appendChild(newCvs);
+              }
+            }
+          }
+        });
+
+        const store = (document.getElementById('pharmacy-name').value.trim() || 'Medical_Bill').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `${store}_Bill.png`;
+
+        if (canvas.toBlob) {
+          canvas.toBlob(blob => {
+            if (blob) {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.download = filename;
+              a.href = url;
+              document.body.appendChild(a);
+              a.click();
+              setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              }, 1500);
+            } else {
+              fallbackDataURL(canvas, filename);
+            }
+          }, 'image/png');
+        } else {
+          fallbackDataURL(canvas, filename);
+        }
+
+        showDownloadToast('Medical Rx Bill PNG downloaded successfully!');
+      } catch (err) {
+        console.error('Download error:', err);
+        showDownloadToast('Notice: Opening Print/PDF view...');
+        setTimeout(() => { window.print(); }, 400);
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    function fallbackDataURL(canvas, filename) {
+      const a = document.createElement('a');
+      a.download = filename;
+      a.href = canvas.toDataURL('image/png');
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); }, 1000);
+    }
+
+    function showDownloadToast(msg) {
+      let toast = document.getElementById('download-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'download-toast';
+        toast.className = 'fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 transition-all transform duration-300 opacity-0 translate-y-3 pointer-events-none';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-3');
+      }, 3000);
+    }
+
+    // Two-Way WYSIWYG Inline Sync
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('#medical-bill-preview [contenteditable="true"]').forEach(el => {
+        el.addEventListener('input', () => {
+          const bindId = el.getAttribute('data-bind');
+          if (bindId) {
+            const formInput = document.getElementById(bindId);
+            if (formInput) {
+              formInput.value = el.innerText.trim();
+              updateMedicalBill();
+            }
+          }
+        });
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const nameInput = document.getElementById('pharmacy-name');
+      if (!nameInput || !nameInput.value.trim()) {
+        loadMedSampleData();
+      } else {
+        updateMedicalBill();
+      }
+    });
+  </script>
+
+  <!-- Floating View Bill Jump Pill -->
+  <a href="#col-preview" id="floating-view-btn" class="fixed bottom-6 right-6 z-40 bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 backdrop-blur-sm border border-slate-700/60 transition-transform active:scale-95 no-print">
+    <i data-lucide="eye" class="w-4 h-4 text-teal-400"></i>
+    <span>View Live Bill ↑</span>
+  </a>
+
+</body>
+</html>

@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>House Rent Receipt Generator with UPI QR – Claim HRA Tax Exemption Free</title>
+  <meta name="description" content="Generate monthly house rent receipts for HRA tax exemption with landlord's PAN, address, and auto-pay UPI QR code. 100% free, instant PDF download.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
+    .font-signature { font-family: 'Dancing Script', cursive; }
+    .editable-field:hover {
+      outline: 1.5px dashed #059669;
+      outline-offset: 2px;
+      cursor: text;
+    }
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm 10mm 10mm 10mm;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body {
+        background: #fff !important;
+        color: #0f172a !important;
+        font-size: 11px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      header, footer, nav, .no-print, .ad-banner-slot, .adsbygoogle, button {
+        display: none !important;
+      }
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      #col-preview {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      #col-form {
+        display: none !important;
+      }
+      #rent-receipt-preview {
+        box-shadow: none !important;
+        border: 2px solid #0f172a !important;
+        border-radius: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        padding: 24px 28px !important;
+        page-break-inside: avoid !important;
+      }
+      .page-break-avoid {
+        page-break-inside: avoid !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 flex-shrink-0">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-heading font-extrabold text-xl text-slate-900 tracking-tight">
+            UPI<span class="text-emerald-600">BillMaker</span>
+          </span>
+          <p class="text-[11px] text-slate-500 hidden sm:block -mt-1 font-medium">Free GST & Non-GST Invoice Maker</p>
+        </div>
+      </a>
+
+      <!-- Clean Minimal Nav Links -->
+      <nav class="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-700">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="receipt" class="w-4 h-4 text-emerald-600"></i>
+          <span>Invoice Maker</span>
+        </a>
+        <a href="scanner-maker.html" class="px-3 py-1.5 rounded-lg text-purple-700 hover:bg-purple-50 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i>
+          <span>UPI Scanner Maker</span>
+        </a>
+        
+        <!-- Clean Templates Dropdown -->
+        <div class="relative group">
+          <button type="button" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer">
+            <i data-lucide="layout-grid" class="w-4 h-4 text-slate-500"></i>
+            <span>All Templates</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform"></i>
+          </button>
+          
+          <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block z-50">
+            <div class="bg-white rounded-xl shadow-xl border border-slate-200 py-2 text-xs space-y-0.5">
+              <a href="index.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition-colors">
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-emerald-600"></i> Retail & General GST Bill
+              </a>
+              <a href="medical-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-teal-50 hover:text-teal-700 font-medium transition-colors">
+                <i data-lucide="activity" class="w-4 h-4 text-teal-600"></i> Pharmacy & Medical Bill
+              </a>
+              <a href="restaurant-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-orange-50 hover:text-orange-700 font-medium transition-colors">
+                <i data-lucide="utensils" class="w-4 h-4 text-orange-600"></i> Restaurant / Cafe Food Bill
+              </a>
+              <a href="hotel-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors">
+                <i data-lucide="hotel" class="w-4 h-4 text-indigo-600"></i> Hotel & Homestay Receipt
+              </a>
+              <a href="rent-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-emerald-700 bg-emerald-50 font-bold transition-colors">
+                <i data-lucide="home" class="w-4 h-4 text-emerald-600"></i> House Rent Receipt (HRA)
+              </a>
+              <a href="tuition-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium transition-colors">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i> Coaching / Tuition Fee
+              </a>
+              <div class="border-t border-slate-100 my-1"></div>
+              <a href="scanner-maker.html" class="flex items-center gap-2.5 px-3.5 py-2 text-purple-700 hover:bg-purple-50 font-medium transition-colors">
+                <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i> UPI Standee & Sticker Maker
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button onclick="downloadAsPDF()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm shadow-emerald-600/20 transition-all cursor-pointer">
+          <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+          <span>Download PDF</span>
+        </button>
+        <button onclick="downloadAsPNG()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300 transition-colors cursor-pointer">
+          <i data-lucide="image" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Save PNG</span>
+        </button>
+        <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300 transition-colors cursor-pointer">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Print</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  
+  <!-- Top Leaderboard Advertisement Slot -->
+  <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
+    <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+    <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <span class="text-xs text-slate-400 font-medium select-none">Responsive Ad Banner Slot</span>
+    </div>
+  </div>
+
+  <!-- Mobile Quick Jump Bar (Preview vs Edit) -->
+  <div class="lg:hidden bg-white border-b border-slate-200 px-4 py-2 sticky top-16 z-30 no-print flex gap-2">
+    <a href="#col-preview" class="flex-1 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-colors">
+      <i data-lucide="eye" class="w-3.5 h-3.5"></i> Live Receipt Preview
+    </a>
+    <a href="#col-form" class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5 transition-colors">
+      <i data-lucide="edit" class="w-3.5 h-3.5"></i> Edit Details ↓
+    </a>
+  </div>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    <div id="col-preview" class="w-full space-y-4">
+
+      <!-- Preview Header & Actions Bar -->
+      <div class="flex items-center justify-between px-1 no-print">
+        <div>
+          <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
+            <i data-lucide="home" class="w-5 h-5 text-emerald-600"></i>
+            <span>Live HRA Rent Receipt Preview</span>
+          </h3>
+          <p class="text-xs text-slate-500">Real-time live rendering • Tax Exemption under Sec 10(13A) IT Act</p>
+        </div>
+        <a href="#col-form" class="text-xs font-semibold text-emerald-600 hover:text-emerald-800 flex items-center gap-1 transition-colors">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Details ↓
+        </a>
+      </div>
+
+      <!-- Action Buttons Bar -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-3.5 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
+        <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+          <span>Official Landlord Signature & Revenue Stamp Space</span>
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm shadow-emerald-600/20 transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
+          </button>
+          <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+            <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+          </button>
+          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+          </button>
+        </div>
+      </div>
+
+      <!-- Authentic HRA Rent Receipt Paper Frame -->
+      <div id="rent-receipt-preview" class="w-full bg-white p-6 sm:p-9 rounded-none border border-slate-200 shadow-lg space-y-5 font-sans text-xs relative">
+        
+        <!-- Centered Statutory Header -->
+        <div class="text-center pb-3 border-b-2 border-slate-800">
+          <div class="inline-block px-3 py-0.5 border border-slate-800 bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-900">
+            HOUSE RENT RECEIPT (HRA EXEMPTION PROOF)
+          </div>
+          <p class="text-[10px] text-slate-600 mt-1">(Under Section 10(13A) of Income Tax Act, 1961 • Rule 26C of Income Tax Rules, 1962)</p>
+          <h2 class="font-heading font-extrabold text-2xl text-slate-900 mt-1">RECEIPT OF HOUSE RENT</h2>
+        </div>
+
+        <!-- Receipt Meta & Payment Status Bar -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-300 pb-3">
+          <div class="flex items-center gap-4 text-xs">
+            <div>
+              <span class="text-slate-400 font-bold uppercase text-[10px]">Receipt #:</span>
+              <span class="font-mono font-bold text-slate-800" id="prev-receipt-no">HRR-2026-10</span>
+            </div>
+            <div>
+              <span class="text-slate-400 font-bold uppercase text-[10px]">Date:</span>
+              <span class="font-bold text-slate-800 font-mono" id="prev-date">Today</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-slate-500 text-[11px]">Payment Status:</span>
+            <div role="button" tabindex="0" onclick="toggleRentStatus()" title="Click to toggle status" class="cursor-pointer">
+              <span id="prev-rent-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-emerald-700">
+                FULLY PAID (CASH)
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formal Legal Receipt Declaration Statement -->
+        <div class="text-sm text-slate-800 leading-relaxed border border-slate-300 p-4 bg-slate-50/50 space-y-2">
+          <p>
+            Received with thanks from <strong class="text-slate-900 font-bold underline editable-field" id="prev-tenant" contenteditable="true" spellcheck="false" data-bind="tenant-name" title="Click to edit tenant name">Amit Kumar</strong> 
+            the sum of <strong class="text-slate-900 font-mono font-bold text-base editable-field" id="prev-amt-text" contenteditable="true" spellcheck="false" data-bind="rent-amount" title="Click to edit rent amount">₹18,000.00</strong> 
+            (<em class="font-serif font-semibold text-slate-900" id="prev-words-text">Rupees Eighteen Thousand Only</em>) 
+            via <strong class="text-slate-900 font-bold" id="prev-rent-mode-text">UPI / NetBanking</strong> 
+            towards the residential house rent for the property premises located at:
+          </p>
+          <div class="font-semibold text-slate-900 editable-field border-b border-dashed border-slate-400 pb-1 mt-1 leading-snug" id="prev-address" contenteditable="true" spellcheck="false" data-bind="rent-address" title="Click to edit address">
+            Flat 402, Green Valley Apartments, Indirapuram, Ghaziabad - 201014
+          </div>
+          <div class="flex flex-wrap items-center justify-between text-xs text-slate-600 pt-1">
+            <span>Rental Month / Period: <strong class="text-slate-900 editable-field font-bold" id="prev-month" contenteditable="true" spellcheck="false" data-bind="rent-month" title="Click to edit month">October 2026</strong></span>
+            <span class="italic text-[11px] text-slate-500">Valid proof for employer HRA claims</span>
+          </div>
+        </div>
+
+        <!-- 2-Column Lower Section: Landlord Details + Stamp & Signature -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-3 border-t border-slate-300 items-end">
+          <!-- Left: Landlord Info & UPI QR Code (7 cols) -->
+          <div class="sm:col-span-7 space-y-3">
+            <div class="space-y-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">LANDLORD / HOUSE OWNER DETAILS</span>
+              <p class="font-bold text-sm text-slate-900 editable-field" id="prev-landlord" contenteditable="true" spellcheck="false" data-bind="landlord-name" title="Click to edit landlord name">Suresh Chandra Verma</p>
+              <p id="prev-pan-row" class="font-mono text-xs text-slate-700">
+                PAN of Landlord: <span id="prev-pan" class="font-bold text-slate-900 editable-field" contenteditable="true" spellcheck="false" data-bind="landlord-pan">ABCDE1234F</span>
+                <span class="block text-[10px] text-slate-500 font-sans italic mt-0.5">(Mandatory under CBDT if annual rent &gt; ₹1,00,000)</span>
+              </p>
+            </div>
+
+            <!-- UPI QR Auto-Pay Box for Next Month -->
+            <div id="prev-rent-qr-block" class="border border-slate-700 p-2.5 bg-slate-50 flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div id="rent-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
+                <div>
+                  <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
+                  <p class="text-xs font-bold text-slate-900 mt-1">Scan to Pay Next Rent via UPI</p>
+                  <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-upi-id" class="font-bold">sureshverma@upi</span></p>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="text-[9px] font-bold text-slate-400 uppercase block">Monthly Rent</span>
+                <span id="prev-rent-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹18,000.00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Revenue Stamp & Signature (5 cols) -->
+          <div class="sm:col-span-5 flex flex-col items-center sm:items-end justify-between space-y-3">
+            <!-- Official Revenue Stamp Box (Shown for cash > 5k or when toggled) -->
+            <div id="prev-revenue-stamp-box" class="hidden w-28 h-32 border-2 border-dashed border-slate-700 bg-slate-50 flex flex-col items-center justify-center text-center p-2 relative">
+              <span class="text-xs font-bold text-slate-800">₹1.00</span>
+              <span class="text-[9px] font-extrabold uppercase tracking-widest text-slate-800 mt-0.5">REVENUE STAMP</span>
+              <div class="w-16 border-b border-dashed border-slate-400 my-1"></div>
+              <span class="text-[8px] text-slate-500 leading-tight">(Affix physical stamp if rent &gt; ₹5,000 in cash)</span>
+            </div>
+
+            <!-- Online / E-Payment Digital Proof Badge (Shown when revenue stamp is hidden) -->
+            <div id="prev-digital-stamp-badge" class="w-48 border border-emerald-600 bg-emerald-50/80 p-2 text-center rounded">
+              <span class="text-[9px] font-extrabold uppercase text-emerald-800 block flex items-center justify-center gap-1">
+                <i data-lucide="check-check" class="w-3.5 h-3.5 text-emerald-600 inline"></i>
+                E-PAYMENT VERIFIED
+              </span>
+              <span class="text-[8px] text-emerald-700 block mt-0.5 leading-tight font-medium">Paid via Digital Banking / UPI<br>(Revenue Stamp Exempt as per Indian Stamp Act)</span>
+            </div>
+
+            <!-- Signature Line -->
+            <div class="text-center sm:text-right w-full pt-1">
+              <!-- Digital handwriting signature -->
+              <div class="font-signature text-2xl text-slate-900 leading-none" id="prev-landlord-sig">Suresh Chandra Verma</div>
+              
+              <!-- Uploaded Signature Image Container (Hidden by default) -->
+              <div id="prev-sig-img-container" class="hidden max-h-12 flex items-center justify-center sm:justify-end mb-1">
+                <img id="prev-sig-img" src="" alt="Landlord Signature" class="max-h-12 max-w-[160px] object-contain">
+              </div>
+
+              <!-- Digitally Verified Subtitle Badge -->
+              <div id="prev-sig-digital-badge" class="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 mt-0.5">
+                <i data-lucide="shield-check" class="w-3 h-3 text-emerald-600"></i> Digitally Signed for HRA
+              </div>
+
+              <div class="w-40 border-b border-slate-700 mt-1 ml-auto mr-auto sm:mr-0"></div>
+              <p class="text-[10px] font-bold uppercase tracking-wider text-slate-600 mt-1">Signature of Landlord</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subtle Watermark Branding -->
+        <div id="prev-branding" class="text-center text-[10px] text-slate-400 pt-1 border-t border-slate-200 select-none">
+          Generated by UPIBillMaker.com
+        </div>
+
+      </div>
+    </div>
+
+    
+    <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
+    <div class="w-full my-6 no-print text-center">
+      <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="0987654321"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <span class="text-xs text-slate-400 font-medium select-none">In-Content Ad Banner Slot</span>
+      </div>
+    </div>
+
+
+    <div id="col-form" class="w-full bg-white p-5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 no-print">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h2 class="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
+          <i data-lucide="edit-2" class="w-4 h-4 text-emerald-600"></i> Rent Details
+        </h2>
+        <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          <button type="button" onclick="loadRentSampleData()" class="text-[11px] font-semibold text-emerald-700 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 px-2 py-0.5 rounded border border-emerald-200">Sample</button>
+          <button type="button" onclick="clearRentForm()" class="text-[11px] font-semibold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded border border-slate-300">Clear</button>
+          <div class="flex items-center gap-1.5 ml-1">
+            <span class="text-xs font-semibold text-slate-600">Payment:</span>
+            <div class="inline-flex p-0.5 bg-slate-200 rounded-lg text-xs" id="rent-status-toggle">
+              <button type="button" id="btn-rent-status-pending" onclick="setRentStatus('pending')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700">Due</button>
+              <button type="button" id="btn-rent-status-cash" onclick="setRentStatus('cash')" class="px-2 py-0.5 text-xs font-medium rounded text-slate-700">Cash</button>
+              <button type="button" id="btn-rent-status-online" onclick="setRentStatus('online')" class="px-2 py-0.5 text-xs font-bold rounded bg-emerald-600 text-white">UPI/Online</button>
+            </div>
+            <input type="hidden" id="rent-status" value="online">
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Tenant Name (You)</label>
+          <input type="text" id="tenant-name" value="Amit Kumar" placeholder="e.g. Amit Kumar" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Landlord Name</label>
+            <input type="text" id="landlord-name" value="Suresh Chandra Verma" placeholder="e.g. Suresh Chandra Verma" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Landlord PAN (Optional)</label>
+            <input type="text" id="landlord-pan" value="ABCDE1234F" placeholder="e.g. ABCDE1234F" class="w-full text-sm font-mono uppercase px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Monthly Rent (₹)</label>
+            <input type="number" id="rent-amount" value="18000" placeholder="e.g. 18000" class="w-full text-sm font-mono px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Rent For Month</label>
+            <input type="text" id="rent-month" value="October 2026" placeholder="e.g. October 2026" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Rented House Address</label>
+          <input type="text" id="rent-address" value="Flat 402, Green Valley Apartments, Indirapuram, Ghaziabad - 201014" placeholder="e.g. Flat 402, Green Valley Apartments, Indirapuram, Ghaziabad - 201014" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+        </div>
+
+        <!-- UPI QR Payment Options & Toggle -->
+        <div class="pt-2 border-t border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-800 font-bold">
+              <input type="checkbox" id="enable-upi-qr" checked class="w-4 h-4 rounded text-emerald-600 border-slate-300 focus:ring-emerald-500">
+              <span class="flex items-center gap-1.5 text-emerald-900">
+                <i data-lucide="qr-code" class="w-3.5 h-3.5 text-emerald-600"></i> Include Landlord Rent UPI QR Code
+              </span>
+            </label>
+            <span id="rent-qr-toggle-badge" class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">Active</span>
+          </div>
+          
+          <div id="rent-upi-input-group" class="space-y-1">
+            <label class="block font-semibold text-slate-700">Landlord's UPI ID (For Direct Rent Payment)</label>
+            <input type="text" id="landlord-upi" value="sureshverma@upi" placeholder="e.g. sureshverma@upi" class="w-full text-sm font-mono px-3 py-2 bg-emerald-50 rounded-lg border border-emerald-300">
+            <p class="text-[10px] text-slate-400">Untick box above if you want a clean receipt without QR code.</p>
+          </div>
+        </div>
+
+        <!-- Revenue Stamp Setting (Indian Law: Only required for Cash > ₹5,000) -->
+        <div class="pt-2.5 border-t border-slate-200 space-y-1">
+          <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-800 font-bold">
+            <input type="checkbox" id="enable-revenue-stamp" class="w-4 h-4 rounded text-emerald-600 border-slate-300 focus:ring-emerald-500">
+            <span>Show ₹1.00 Revenue Stamp Box (Required only if paid in cash &gt; ₹5,000)</span>
+          </label>
+          <p class="text-[10px] text-slate-500 ml-6">
+            Under Indian Stamp Act, 1899, a revenue stamp is <strong>exempt</strong> for online / UPI payments. Tick this box only if you need space to paste a physical ₹1 stamp for cash payment after print.
+          </p>
+        </div>
+
+        <!-- Landlord Signature Mode (Online Digital vs Real Upload vs Pen) -->
+        <div class="pt-2.5 border-t border-slate-200 space-y-2">
+          <label class="block font-bold text-slate-800">Landlord Signature Mode (Online & Print)</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" id="btn-sig-cursive" onclick="setSignatureMode('cursive')" class="p-2 text-xs font-bold rounded-lg border border-emerald-400 bg-emerald-50 text-emerald-900 text-center">
+              Digital Cursive Sign
+            </button>
+            <button type="button" id="btn-sig-upload" onclick="setSignatureMode('upload')" class="p-2 text-xs font-bold rounded-lg border border-slate-300 bg-white text-slate-700 text-center">
+              Upload Real Sign
+            </button>
+            <button type="button" id="btn-sig-pen" onclick="setSignatureMode('pen')" class="p-2 text-xs font-bold rounded-lg border border-slate-300 bg-white text-slate-700 text-center">
+              Blank for Pen Sign
+            </button>
+          </div>
+
+          <!-- Upload Signature File Picker (Hidden by default) -->
+          <div id="sig-upload-box" class="hidden pt-1 space-y-1 bg-white p-2.5 rounded-lg border border-slate-200">
+            <label class="block text-[11px] font-bold text-slate-700">Upload Signature Image (PNG / JPG with transparent bg recommended)</label>
+            <div class="flex items-center gap-2">
+              <input type="file" id="sig-file" accept="image/*" class="text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+              <button type="button" id="btn-del-sig" class="text-xs text-rose-600 hover:underline hidden">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Watermark Branding -->
+        <div class="pt-3 border-t border-slate-200">
+          <label class="flex items-center gap-2 cursor-pointer select-none text-xs text-slate-700">
+            <input type="checkbox" id="enable-branding" checked class="w-4 h-4 rounded text-emerald-600 border-slate-300 focus:ring-emerald-500">
+            <span class="font-medium">Show "Generated by UPIBillMaker.com" on receipt footer</span>
+            <span class="text-[10px] text-slate-400 font-normal">(Default: Checked)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Unified, Perfectly Aligned Actions Section -->
+      <div class="pt-4 border-t border-slate-200 space-y-3">
+        <!-- Main Print & Save Buttons (3-Button Grid) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <button type="button" onclick="downloadAsPDF()" class="w-full py-2.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-4 h-4"></i> Download PDF
+          </button>
+          <button type="button" onclick="downloadAsPNG()" class="w-full py-2.5 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+            <i data-lucide="image" class="w-4 h-4"></i> Save PNG
+          </button>
+          <button type="button" onclick="window.print()" class="w-full py-2.5 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+            <i data-lucide="printer" class="w-4 h-4"></i> Print
+          </button>
+        </div>
+
+        <!-- Secondary Helper Actions (Balanced Left & Right) -->
+        <div class="flex items-center justify-between text-xs pt-1">
+          <a href="#col-preview" class="text-emerald-600 hover:text-emerald-800 font-semibold flex items-center gap-1 transition-colors">
+            <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i> Scroll to Preview
+          </a>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="loadRentSampleData()" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors cursor-pointer">
+              Sample Demo
+            </button>
+            <button type="button" onclick="clearRentForm()" class="px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg transition-colors cursor-pointer">
+              Clear All
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+
+  <script>
+    lucide.createIcons();
+    
+    function switchMobileTab(tab) {
+      const colForm = document.getElementById('col-form');
+      const colPreview = document.getElementById('col-preview');
+      const btnEdit = document.getElementById('mob-tab-edit');
+      const btnPreview = document.getElementById('mob-tab-preview');
+
+      if (tab === 'edit') {
+        colForm.classList.remove('hidden');
+        colPreview.classList.add('hidden');
+        btnEdit.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-emerald-600 text-white flex items-center justify-center gap-1.5';
+        btnPreview.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5';
+      } else {
+        colForm.classList.add('hidden');
+        colPreview.classList.remove('hidden');
+        btnEdit.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5';
+        btnPreview.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-emerald-600 text-white flex items-center justify-center gap-1.5';
+      }
+    }
+
+    function numberToWordsINR(num) {
+      if (isNaN(num) || num <= 0) return 'Zero';
+      num = Math.round(num);
+      const a = ['', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ', 'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '];
+      const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+      function convertLessThanThousand(n) {
+        if (n === 0) return '';
+        if (n < 20) return a[n];
+        const s = b[Math.floor(n / 10)] + ((n % 10 !== 0) ? ' ' + a[n % 10] : ' ');
+        return s;
+      }
+      let str = '';
+      const crore = Math.floor(num / 10000000);
+      num %= 10000000;
+      const lakh = Math.floor(num / 100000);
+      num %= 100000;
+      const thousand = Math.floor(num / 1000);
+      num %= 1000;
+      const hundred = Math.floor(num / 100);
+      const rem = num % 100;
+      if (crore > 0) str += convertLessThanThousand(crore) + 'Crore ';
+      if (lakh > 0) str += convertLessThanThousand(lakh) + 'Lakh ';
+      if (thousand > 0) str += convertLessThanThousand(thousand) + 'Thousand ';
+      if (hundred > 0) str += a[hundred] + 'Hundred ';
+      if (rem > 0) str += convertLessThanThousand(rem);
+      return str.trim();
+    }
+
+    let currentSigMode = 'cursive'; // 'cursive', 'upload', 'pen'
+    let uploadedSigData = null;
+
+    function setRentStatus(status) {
+      document.getElementById('rent-status').value = status;
+      const btnPending = document.getElementById('btn-rent-status-pending');
+      const btnCash = document.getElementById('btn-rent-status-cash');
+      const btnOnline = document.getElementById('btn-rent-status-online');
+      const stampCb = document.getElementById('enable-revenue-stamp');
+
+      [btnPending, btnCash, btnOnline].forEach(b => {
+        if (b) b.className = 'px-2 py-0.5 text-xs font-medium rounded text-slate-700 hover:text-slate-900';
+      });
+
+      if (status === 'pending') {
+        if (btnPending) btnPending.className = 'px-2 py-0.5 text-xs font-bold rounded bg-amber-500 text-white shadow-sm';
+      } else if (status === 'cash') {
+        if (btnCash) btnCash.className = 'px-2 py-0.5 text-xs font-bold rounded bg-emerald-600 text-white shadow-sm';
+        const amt = parseFloat(document.getElementById('rent-amount').value) || 0;
+        if (amt > 5000 && stampCb) stampCb.checked = true;
+      } else if (status === 'online') {
+        if (btnOnline) btnOnline.className = 'px-2 py-0.5 text-xs font-bold rounded bg-emerald-600 text-white shadow-sm';
+        if (stampCb) stampCb.checked = false;
+      }
+      updateRent();
+    }
+
+    function toggleRentStatus() {
+      const current = document.getElementById('rent-status').value;
+      if (current === 'online') setRentStatus('cash');
+      else if (current === 'cash') setRentStatus('pending');
+      else setRentStatus('online');
+    }
+
+    function setSignatureMode(mode) {
+      currentSigMode = mode;
+      const btnCursive = document.getElementById('btn-sig-cursive');
+      const btnUpload = document.getElementById('btn-sig-upload');
+      const btnPen = document.getElementById('btn-sig-pen');
+      const uploadBox = document.getElementById('sig-upload-box');
+
+      [btnCursive, btnUpload, btnPen].forEach(b => {
+        if (b) b.className = 'p-2 text-xs font-bold rounded-lg border border-slate-300 bg-white text-slate-700 text-center';
+      });
+
+      if (mode === 'upload') {
+        if (btnUpload) btnUpload.className = 'p-2 text-xs font-bold rounded-lg border border-emerald-400 bg-emerald-50 text-emerald-900 text-center';
+        if (uploadBox) uploadBox.classList.remove('hidden');
+      } else if (mode === 'pen') {
+        if (btnPen) btnPen.className = 'p-2 text-xs font-bold rounded-lg border border-emerald-400 bg-emerald-50 text-emerald-900 text-center';
+        if (uploadBox) uploadBox.classList.add('hidden');
+      } else {
+        if (btnCursive) btnCursive.className = 'p-2 text-xs font-bold rounded-lg border border-emerald-400 bg-emerald-50 text-emerald-900 text-center';
+        if (uploadBox) uploadBox.classList.add('hidden');
+      }
+      updateRent();
+    }
+
+    // Signature image file upload
+    const sigFileInput = document.getElementById('sig-file');
+    if (sigFileInput) {
+      sigFileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            uploadedSigData = evt.target.result;
+            const btnDel = document.getElementById('btn-del-sig');
+            if (btnDel) btnDel.classList.remove('hidden');
+            updateRent();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    const btnDelSig = document.getElementById('btn-del-sig');
+    if (btnDelSig) {
+      btnDelSig.addEventListener('click', function() {
+        uploadedSigData = null;
+        if (sigFileInput) sigFileInput.value = '';
+        this.classList.add('hidden');
+        updateRent();
+      });
+    }
+
+    function updateRent() {
+      const tenant = document.getElementById('tenant-name').value.trim() || 'Amit Kumar';
+      const landlord = document.getElementById('landlord-name').value.trim() || 'Suresh Chandra Verma';
+      const pan = document.getElementById('landlord-pan').value.trim();
+      const amtInput = document.getElementById('rent-amount').value;
+      const amt = parseFloat(amtInput) || 0;
+      const month = document.getElementById('rent-month').value.trim() || 'October 2026';
+      const address = document.getElementById('rent-address').value.trim() || 'Flat 402, Green Valley Apartments, Indirapuram, Ghaziabad - 201014';
+      const upi = document.getElementById('landlord-upi').value.trim() || 'sureshverma@upi';
+      const status = document.getElementById('rent-status').value;
+
+      document.getElementById('prev-tenant').innerText = tenant;
+      document.getElementById('prev-landlord').innerText = landlord;
+
+      const panRow = document.getElementById('prev-pan-row');
+      if (pan) {
+        panRow.style.display = 'block';
+        document.getElementById('prev-pan').innerText = pan;
+      } else {
+        panRow.style.display = 'none';
+      }
+
+      document.getElementById('prev-amt-text').innerText = '₹' + amt.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const wordsEl = document.getElementById('prev-words-text');
+      if (wordsEl) {
+        wordsEl.innerText = 'Rupees ' + numberToWordsINR(amt) + ' Only';
+      }
+      document.getElementById('prev-month').innerText = month;
+      document.getElementById('prev-address').innerText = address;
+      document.getElementById('prev-upi-id').innerText = upi;
+      const qrAmtEl = document.getElementById('prev-rent-qr-amt');
+      if (qrAmtEl) {
+        qrAmtEl.innerText = '₹' + amt.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      }
+
+      const now = new Date();
+      document.getElementById('prev-date').innerText = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      // Update status badges and stamps
+      const statusBadge = document.getElementById('prev-rent-status-badge');
+      const modeText = document.getElementById('prev-rent-mode-text');
+      const qrBlock = document.getElementById('prev-rent-qr-block');
+
+      if (status === 'cash') {
+        if (statusBadge) {
+          statusBadge.innerText = 'FULLY PAID (CASH)';
+          statusBadge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-emerald-700';
+        }
+        if (modeText) modeText.innerText = 'Cash';
+        if (qrBlock) qrBlock.classList.add('opacity-40');
+      } else if (status === 'online') {
+        if (statusBadge) {
+          statusBadge.innerText = 'FULLY PAID (UPI / BANK)';
+          statusBadge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-emerald-700';
+        }
+        if (modeText) modeText.innerText = 'UPI / NetBanking';
+        if (qrBlock) qrBlock.classList.remove('opacity-40');
+      } else {
+        if (statusBadge) {
+          statusBadge.innerText = 'DUE (PENDING)';
+          statusBadge.className = 'font-mono font-bold text-xs uppercase tracking-wider text-amber-700';
+        }
+        if (modeText) modeText.innerText = 'Awaiting Settlement';
+        if (qrBlock) qrBlock.classList.remove('opacity-40');
+      }
+
+      // Stamp Handling:
+      const stampBox = document.getElementById('prev-revenue-stamp-box');
+      const digitalBadge = document.getElementById('prev-digital-stamp-badge');
+      const stampCb = document.getElementById('enable-revenue-stamp');
+      const showStamp = stampCb ? stampCb.checked : false;
+
+      if (showStamp) {
+        if (stampBox) stampBox.classList.remove('hidden');
+        if (digitalBadge) digitalBadge.classList.add('hidden');
+      } else {
+        if (stampBox) stampBox.classList.add('hidden');
+        if (digitalBadge) digitalBadge.classList.remove('hidden');
+      }
+
+      // Signature Handling:
+      const sigText = document.getElementById('prev-landlord-sig');
+      const sigImgBox = document.getElementById('prev-sig-img-container');
+      const sigImg = document.getElementById('prev-sig-img');
+      const sigBadge = document.getElementById('prev-sig-digital-badge');
+
+      if (currentSigMode === 'upload' && uploadedSigData) {
+        if (sigText) sigText.classList.add('hidden');
+        if (sigImgBox) sigImgBox.classList.remove('hidden');
+        if (sigImg) sigImg.src = uploadedSigData;
+        if (sigBadge) sigBadge.classList.remove('hidden');
+      } else if (currentSigMode === 'pen') {
+        if (sigText) sigText.classList.add('hidden');
+        if (sigImgBox) sigImgBox.classList.add('hidden');
+        if (sigBadge) sigBadge.classList.add('hidden');
+      } else {
+        // Cursive font default
+        if (sigText) {
+          sigText.classList.remove('hidden');
+          sigText.innerText = landlord;
+        }
+        if (sigImgBox) sigImgBox.classList.add('hidden');
+        if (sigBadge) sigBadge.classList.remove('hidden');
+      }
+
+      // QR Code
+      const qrBox = document.getElementById('rent-qr');
+      if (qrBox) {
+        qrBox.innerHTML = '';
+        const enableQr = document.getElementById('enable-upi-qr').checked;
+        if (!enableQr) {
+          if (qrBlock) qrBlock.style.display = 'none';
+        } else {
+          if (qrBlock) qrBlock.style.display = 'flex';
+          const receiverUpi = upi || 'landlord@upi';
+          const upiUrl = `upi://pay?pa=${encodeURIComponent(receiverUpi)}&pn=${encodeURIComponent(landlord.substring(0,25))}&am=${amt}&cu=INR&tn=${encodeURIComponent('Rent ' + (month || 'HRA'))}`;
+          new QRCode(qrBox, { text: upiUrl, width: 64, height: 64 });
+        }
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // Two-Way Live Inline Editing Sync
+    document.querySelectorAll('.editable-field').forEach(el => {
+      el.addEventListener('blur', function() {
+        const bindId = this.getAttribute('data-bind');
+        if (bindId) {
+          const formEl = document.getElementById(bindId);
+          if (formEl) {
+            let val = this.innerText.trim();
+            if (bindId === 'rent-amount') {
+              val = val.replace(/[^0-9.]/g, '');
+            }
+            formEl.value = val;
+            updateRent();
+          }
+        }
+      });
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          this.blur();
+        }
+      });
+    });
+
+    document.querySelectorAll('#col-form input').forEach(i => i.addEventListener('input', updateRent));
+    const revenueStampCb = document.getElementById('enable-revenue-stamp');
+    if (revenueStampCb) revenueStampCb.addEventListener('change', updateRent);
+
+    // Watermark Branding Toggle
+    const brandingCb = document.getElementById('enable-branding');
+    if (brandingCb) {
+      brandingCb.addEventListener('change', function(e) {
+        const b = document.getElementById('prev-branding');
+        if (b) b.style.display = e.target.checked ? 'block' : 'none';
+      });
+    }
+
+    // UPI QR Toggle
+    const upiQrCb = document.getElementById('enable-upi-qr');
+    if (upiQrCb) {
+      upiQrCb.addEventListener('change', function(e) {
+        const qrBlock = document.getElementById('prev-rent-qr-block');
+        const badge = document.getElementById('rent-qr-toggle-badge');
+        const inputGroup = document.getElementById('rent-upi-input-group');
+        if (e.target.checked) {
+          if (badge) { badge.innerText = 'Active'; badge.className = 'text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded'; }
+          if (inputGroup) inputGroup.classList.remove('opacity-40');
+        } else {
+          if (badge) { badge.innerText = 'Disabled'; badge.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded'; }
+          if (inputGroup) inputGroup.classList.add('opacity-40');
+        }
+        updateRent();
+      });
+    }
+
+    function loadRentSampleData() {
+      document.getElementById('tenant-name').value = 'Amit Kumar';
+      document.getElementById('landlord-name').value = 'Suresh Chandra Verma';
+      document.getElementById('landlord-pan').value = 'ABCDE1234F';
+      document.getElementById('rent-amount').value = '18000';
+      document.getElementById('rent-month').value = 'October 2026';
+      document.getElementById('rent-address').value = 'Flat 402, Green Valley Apartments, Indirapuram, Ghaziabad - 201014';
+      document.getElementById('landlord-upi').value = 'sureshverma@upi';
+      setRentStatus('online');
+      setSignatureMode('cursive');
+      updateRent();
+    }
+
+    function clearRentForm() {
+      document.getElementById('tenant-name').value = '';
+      document.getElementById('landlord-name').value = '';
+      document.getElementById('landlord-pan').value = '';
+      document.getElementById('rent-amount').value = '';
+      document.getElementById('rent-month').value = '';
+      document.getElementById('rent-address').value = '';
+      document.getElementById('landlord-upi').value = '';
+      updateRent();
+    }
+
+
+    async function downloadAsPDF() {
+      const card = document.getElementById('rent-receipt-preview');
+      if (!card) return;
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating PDF...</span>`;
+      }
+
+      const colPreview = document.getElementById('col-preview');
+      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
+      if (wasHidden) {
+        colPreview.classList.remove('hidden');
+        colPreview.style.display = 'block';
+        void colPreview.offsetHeight;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(card, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          onclone: (clonedDoc) => {
+            const clonedCard = clonedDoc.getElementById('rent-receipt-preview');
+            if (clonedCard) {
+              clonedCard.style.setProperty('border', 'none', 'important');
+              clonedCard.style.setProperty('box-shadow', 'none', 'important');
+              clonedCard.style.setProperty('outline', 'none', 'important');
+            }
+            clonedDoc.querySelectorAll('.editable-field').forEach(el => {
+              el.removeAttribute('contenteditable');
+              el.style.boxShadow = 'none';
+              el.style.background = 'transparent';
+              el.style.outline = 'none';
+            });
+            clonedDoc.querySelectorAll('.no-print').forEach(el => {
+              el.style.display = 'none';
+            });
+            const origQr = document.getElementById('rent-qr');
+            const cloneQr = clonedDoc.getElementById('rent-qr');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              if (origCanvas) {
+                cloneQr.innerHTML = '';
+                const newCvs = clonedDoc.createElement('canvas');
+                newCvs.width = origCanvas.width;
+                newCvs.height = origCanvas.height;
+                const ctx = newCvs.getContext('2d');
+                ctx.drawImage(origCanvas, 0, 0);
+                newCvs.style.display = 'block';
+                cloneQr.appendChild(newCvs);
+              }
+            }
+          }
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        
+        const margin = 10;
+        const contentWidth = pdfWidth - (margin * 2);
+        const contentHeight = (canvas.height * contentWidth) / canvas.width;
+        
+        if (contentHeight <= pdfHeight - (margin * 2)) {
+          pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth, contentHeight);
+        } else {
+          const scaleFactor = (pdfHeight - (margin * 2)) / contentHeight;
+          if (scaleFactor > 0.8) {
+            pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth * scaleFactor, contentHeight * scaleFactor);
+          } else {
+            let heightLeft = contentHeight;
+            let position = margin;
+            pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
+            heightLeft -= (pdfHeight - margin);
+            while (heightLeft > 0) {
+              position = heightLeft - contentHeight + margin;
+              pdf.addPage();
+              pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
+              heightLeft -= pdfHeight;
+            }
+          }
+        }
+
+        const tenant = (document.getElementById('tenant-name')?.value?.trim() || 'Rent_Receipt').replace(/[^a-zA-Z0-9_-]/g, '_');
+        pdf.save(`${tenant}_Rent_Receipt.pdf`);
+        showDownloadToast('HRA Rent Receipt PDF downloaded successfully!');
+      } catch (err) {
+        console.error('PDF error:', err);
+        showDownloadToast('Notice: Opening Print view for PDF...');
+        setTimeout(() => { window.print(); }, 400);
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    async function downloadAsPNG() {
+      const card = document.getElementById('rent-receipt-preview');
+      if (!card) return;
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating...</span>`;
+      }
+
+      // Mobile Visibility Fix: if parent col-preview is hidden under edit tab, temporarily unhide it
+      const colPreview = document.getElementById('col-preview');
+      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
+      if (wasHidden) {
+        colPreview.classList.remove('hidden');
+        colPreview.style.display = 'block';
+        void colPreview.offsetHeight;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(card, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          onclone: (clonedDoc) => {
+            const clonedCard = clonedDoc.getElementById('rent-receipt-preview');
+            if (clonedCard) {
+              clonedCard.style.setProperty('border', 'none', 'important');
+              clonedCard.style.setProperty('box-shadow', 'none', 'important');
+              clonedCard.style.setProperty('outline', 'none', 'important');
+            }
+            const origQr = document.getElementById('rent-qr');
+            const cloneQr = clonedDoc.getElementById('rent-qr');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              if (origCanvas) {
+                cloneQr.innerHTML = '';
+                const newCvs = clonedDoc.createElement('canvas');
+                newCvs.width = origCanvas.width;
+                newCvs.height = origCanvas.height;
+                const ctx = newCvs.getContext('2d');
+                ctx.drawImage(origCanvas, 0, 0);
+                newCvs.style.display = 'block';
+                cloneQr.appendChild(newCvs);
+              }
+            }
+          }
+        });
+
+        const tenant = (document.getElementById('tenant-name').value.trim() || 'Rent_Receipt').replace(/[^a-zA-Z0-9_-]/g, '_');
+        const filename = `${tenant}_RentReceipt.png`;
+
+        if (canvas.toBlob) {
+          canvas.toBlob(blob => {
+            if (blob) {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.download = filename;
+              a.href = url;
+              document.body.appendChild(a);
+              a.click();
+              setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              }, 1500);
+            } else {
+              fallbackDataURL(canvas, filename);
+            }
+          }, 'image/png');
+        } else {
+          fallbackDataURL(canvas, filename);
+        }
+
+        showDownloadToast('Rent Receipt PNG downloaded successfully!');
+      } catch (err) {
+        console.error('Download error:', err);
+        showDownloadToast('Notice: Opening Print/PDF view...');
+        setTimeout(() => { window.print(); }, 400);
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
+    function fallbackDataURL(canvas, filename) {
+      const a = document.createElement('a');
+      a.download = filename;
+      a.href = canvas.toDataURL('image/png');
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); }, 1000);
+    }
+
+    function showDownloadToast(msg) {
+      let toast = document.getElementById('download-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'download-toast';
+        toast.className = 'fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 transition-all transform duration-300 opacity-0 translate-y-3 pointer-events-none';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-3');
+      }, 3000);
+    }
+
+    document.querySelectorAll('input').forEach(i => i.addEventListener('input', updateRent));
+    window.addEventListener('DOMContentLoaded', () => {
+      const nameInput = document.getElementById('tenant-name');
+      if (!nameInput || !nameInput.value.trim()) {
+        loadRentSampleData();
+      } else {
+        updateRent();
+      }
+    });
+  </script>
+
+  <!-- Floating View Bill Jump Pill -->
+  <a href="#col-preview" id="floating-view-btn" class="fixed bottom-6 right-6 z-40 bg-slate-900/90 hover:bg-slate-900 text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 backdrop-blur-sm border border-slate-700/60 transition-transform active:scale-95 no-print">
+    <i data-lucide="eye" class="w-4 h-4 text-emerald-400"></i>
+    <span>View Live Receipt ↑</span>
+  </a>
+
+</body>
+</html>

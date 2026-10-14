@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy – Client-Side Data Security | UPIBillMaker.com</title>
+  <meta name="description" content="Read the Privacy Policy of UPIBillMaker.com. Learn about our strict 100% client-side privacy architecture, zero-database storage, and Google AdSense cookie disclosures.">
+  <link rel="canonical" href="https://upibillmaker.com/privacy-policy.html">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-emerald-500 selection:text-white flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 flex-shrink-0">
+          <i data-lucide="qr-code" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-heading font-extrabold text-xl text-slate-900 tracking-tight">
+            UPI<span class="text-emerald-600">BillMaker</span>
+          </span>
+          <p class="text-[11px] text-slate-500 hidden sm:block -mt-1 font-medium">Free GST & Non-GST Invoice Maker</p>
+        </div>
+      </a>
+
+      <!-- Clean Minimal Nav Links -->
+      <nav class="hidden md:flex items-center gap-2 text-xs font-semibold text-slate-700">
+        <a href="index.html" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="receipt" class="w-4 h-4 text-emerald-600"></i>
+          <span>Invoice Maker</span>
+        </a>
+        <a href="scanner-maker.html" class="px-3 py-1.5 rounded-lg text-purple-700 hover:bg-purple-50 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i>
+          <span>UPI Scanner Maker</span>
+        </a>
+        
+        <!-- Clean Templates Dropdown -->
+        <div class="relative group">
+          <button type="button" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer">
+            <i data-lucide="layout-grid" class="w-4 h-4 text-slate-500"></i>
+            <span>All Templates</span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform"></i>
+          </button>
+          
+          <div class="absolute left-0 top-full pt-1.5 w-60 hidden group-hover:block z-50">
+            <div class="bg-white rounded-xl shadow-xl border border-slate-200 py-2 text-xs space-y-0.5">
+              <a href="index.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition-colors">
+                <i data-lucide="shopping-bag" class="w-4 h-4 text-emerald-600"></i> Retail & General GST Bill
+              </a>
+              <a href="medical-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-teal-50 hover:text-teal-700 font-medium transition-colors">
+                <i data-lucide="activity" class="w-4 h-4 text-teal-600"></i> Pharmacy & Medical Bill
+              </a>
+              <a href="restaurant-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-orange-50 hover:text-orange-700 font-medium transition-colors">
+                <i data-lucide="utensils" class="w-4 h-4 text-orange-600"></i> Restaurant / Cafe Food Bill
+              </a>
+              <a href="hotel-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors">
+                <i data-lucide="hotel" class="w-4 h-4 text-indigo-600"></i> Hotel & Homestay Receipt
+              </a>
+              <a href="rent-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition-colors">
+                <i data-lucide="home" class="w-4 h-4 text-emerald-600"></i> House Rent Receipt (HRA)
+              </a>
+              <a href="tuition-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-blue-50 hover:text-blue-700 font-medium transition-colors">
+                <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i> Coaching / Tuition Fee
+              </a>
+              <div class="border-t border-slate-100 my-1"></div>
+              <a href="scanner-maker.html" class="flex items-center gap-2.5 px-3.5 py-2 text-purple-700 hover:bg-purple-50 font-medium transition-colors">
+                <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i> UPI Standee & Sticker Maker
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href="index.html" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm shadow-emerald-600/20 transition-all">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+          <span>Create Bill</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content Section -->
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <div class="bg-white p-6 sm:p-10 rounded-2xl border border-slate-200 shadow-sm space-y-8 text-sm leading-relaxed text-slate-700">
+      
+      <div>
+        <span class="inline-block px-3 py-1 bg-emerald-50 text-emerald-800 text-xs font-bold rounded-full border border-emerald-200 mb-3">
+          Effective Date: October 14, 2026
+        </span>
+        <h1 class="font-heading font-extrabold text-3xl sm:text-4xl text-slate-900 tracking-tight">
+          Privacy Policy
+        </h1>
+        <p class="text-base text-slate-600 mt-2">
+          At UPIBillMaker.com, we believe that your financial, business, and customer data belongs entirely to you. This policy outlines our commitment to 100% client-side privacy architecture and how third-party advertisements operate on our service.
+        </p>
+      </div>
+
+      <div class="border-t border-slate-100 pt-6 space-y-4">
+        <h2 class="font-heading font-bold text-xl text-slate-900">1. Core Architecture: 100% Client-Side Computing</h2>
+        <p>
+          Unlike conventional SaaS billing apps, <strong>UPIBillMaker does not operate any backend database storing your generated invoices</strong>.
+        </p>
+        <p>
+          All invoice data fields—including your company name, GSTIN, customer name, phone number, address, line items, prices, tax calculations, and dynamic UPI QR code graphics—are computed, formatted, and rendered entirely in your own web browser's RAM memory using JavaScript and HTML5 Canvas.
+        </p>
+        <p>
+          When you click "Save PNG" or "Print / PDF", the file is generated locally on your processor. <strong>No invoice content is ever uploaded, transmitted, or logged to our servers.</strong>
+        </p>
+      </div>
+
+      <div class="border-t border-slate-100 pt-6 space-y-4">
+        <h2 class="font-heading font-bold text-xl text-slate-900">2. Browser LocalStorage</h2>
+        <p>
+          To save you time on repeat visits, UPIBillMaker utilizes your browser's built-in <code>window.localStorage</code> to store:
+        </p>
+        <ul class="list-disc pl-5 space-y-1.5 text-slate-600">
+          <li>Your business name and address</li>
+          <li>Your default UPI Virtual Payment Address (VPA)</li>
+          <li>Your uploaded business logo (stored as a local Base64 string)</li>
+          <li>Your last selected bill format preference</li>
+        </ul>
+        <p>
+          This data never leaves your device. You can clear this information at any time by clicking the "Clear" button in the form or clearing your browser cookies and site data.
+        </p>
+      </div>
+
+      <div class="border-t border-slate-100 pt-6 space-y-4">
+        <h2 class="font-heading font-bold text-xl text-slate-900">3. Third-Party Advertising & Cookie Policy (Google AdSense)</h2>
+        <p>
+          To maintain UPIBillMaker as a free public utility with zero paywalls, we display digital advertisements provided by third-party advertising partners, principally <strong>Google AdSense</strong>.
+        </p>
+        <ul class="list-disc pl-5 space-y-2 text-slate-600">
+          <li>Google and third-party ad vendors use cookies to serve ads based on a user's prior visits to this website or other websites across the Internet.</li>
+          <li>Google's use of advertising cookies enables it and its partners to serve ads to users based on their visit to our site and/or other sites on the Internet.</li>
+          <li>Users may opt out of personalized advertising by visiting <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer" class="text-emerald-700 underline font-semibold">Google Ads Settings</a>.</li>
+          <li>Alternatively, users can opt out of third-party vendors' use of cookies for personalized advertising by visiting <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" class="text-emerald-700 underline font-semibold">aboutads.info</a>.</li>
+        </ul>
+      </div>
+
+      <div class="border-t border-slate-100 pt-6 space-y-4">
+        <h2 class="font-heading font-bold text-xl text-slate-900">4. Web Analytics & Server Logs</h2>
+        <p>
+          Like all standard web servers, our web hosting provider may automatically log standard non-personally identifiable request metadata such as browser user-agent, IP address, referring URL, and page request timestamps. This data is strictly used for DDOS mitigation, server uptime diagnostics, and security monitoring.
+        </p>
+      </div>
+
+      <div class="border-t border-slate-100 pt-6 space-y-4">
+        <h2 class="font-heading font-bold text-xl text-slate-900">5. Compliance with Indian IT Act 2000 & Digital Personal Data Protection (DPDP) Act</h2>
+        <p>
+          Because we do not collect, process, or store personal sensitive data on centralized servers, our application guarantees privacy by design, fully aligned with the Information Technology Act, 2000 and the Digital Personal Data Protection Act (DPDPA), 2023.
+        </p>
+      </div>
+
+      <div class="border-t border-slate-100 pt-6 space-y-3">
+        <h2 class="font-heading font-bold text-xl text-slate-900">6. Contact Us</h2>
+        <p>
+          For any questions regarding this Privacy Policy or data privacy questions, please contact our Data Protection Officer at:
+        </p>
+        <p class="font-mono text-emerald-700 font-bold">privacy@upibillmaker.com</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-12 border-t border-slate-800 no-print mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div class="space-y-3">
+          <div class="flex items-center gap-2 text-white font-heading font-extrabold text-lg">
+            <div class="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
+              <i data-lucide="qr-code" class="w-4 h-4"></i>
+            </div>
+            <span>UPI<span class="text-emerald-500">BillMaker</span></span>
+          </div>
+          <p class="text-xs text-slate-400">
+            Free GST & Non-GST digital invoice generator with auto-pay UPI QR code. Designed for Indian businesses.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-xs uppercase mb-3">Billing & Receipt Tools</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="index.html" class="hover:text-white transition-colors">Shop & GST Tax Invoice</a></li>
+            <li><a href="scanner-maker.html" class="hover:text-white transition-colors">Standee & QR Scanner Maker</a></li>
+            <li><a href="medical-bill.html" class="hover:text-white transition-colors">Medical & Pharmacy Bill</a></li>
+            <li><a href="restaurant-bill.html" class="hover:text-white transition-colors">Restaurant & Cafe Slip</a></li>
+            <li><a href="hotel-receipt.html" class="hover:text-white transition-colors">Hotel & Stay Bill</a></li>
+            <li><a href="rent-receipt.html" class="hover:text-white transition-colors">House Rent Receipt (HRA)</a></li>
+            <li><a href="tuition-receipt.html" class="hover:text-white transition-colors">Tuition Fee Receipt</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-xs uppercase mb-3">Legal</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="terms.html" class="hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="disclaimer.html" class="hover:text-white transition-colors">Disclaimer</a></li>
+            <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+            <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-xs uppercase mb-3">Privacy</h4>
+          <p class="text-xs text-slate-400">
+            100% Client-Side. No sales figures, customer details, or GST numbers are stored on any server.
+          </p>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-slate-800 text-center">
+        <p>© 2026 UPIBillMaker.com. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    if (window.lucide) lucide.createIcons();
+  </script>
+</body>
+</html>
