@@ -594,10 +594,10 @@
                 </h3>
                 <p id="prev-seller-tagline" contenteditable="true" spellcheck="false" class="editable-field text-[11px] font-medium text-slate-600" data-bind="seller-tagline" title="Click to edit tagline">Laptop, Mobile & CCTV Sales & Repair</p>
                 <p id="prev-seller-address" contenteditable="true" spellcheck="false" class="editable-field text-[11px] text-slate-600 block mt-0.5" data-bind="seller-address" title="Click to edit address">Shop 12, Commercial Complex, Sector 18, Noida, UP - 201301</p>
-                <p id="prev-seller-phone" contenteditable="true" spellcheck="false" class="editable-field text-[11px] text-slate-700 font-medium block" data-bind="seller-phone" title="Click to edit phone">+91 98765 43210</p>
+                <p id="prev-seller-phone" contenteditable="true" spellcheck="false" class="editable-field text-[11px] text-slate-700 font-medium block" data-bind="seller-phone" title="Click to edit phone">+91 98765 *****</p>
                 
                 <div id="prev-seller-gstin-box" class="pt-0.5 text-[11px] text-slate-800 font-mono">
-                  <span class="font-bold">GSTIN: <span id="prev-seller-gstin" contenteditable="true" spellcheck="false" class="editable-field" data-bind="seller-gstin" title="Click to edit GSTIN">07AABCS1429B1Z8</span></span>
+                  <span class="font-bold">GSTIN: <span id="prev-seller-gstin" contenteditable="true" spellcheck="false" class="editable-field" data-bind="seller-gstin" title="Click to edit GSTIN">07AABCS****B1Z8</span></span>
                   <span class="text-slate-400 mx-1.5">•</span>
                   <span>State: <span id="prev-seller-state" class="font-medium">07 - Delhi</span></span>
                 </div>
@@ -641,7 +641,7 @@
               <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 block">Billed To (Customer / Recipient):</span>
               <div class="flex items-center gap-2 flex-wrap">
                 <h4 id="prev-client-name" contenteditable="true" spellcheck="false" class="editable-field font-bold text-xs sm:text-sm text-slate-900" data-bind="client-name" title="Click to edit Customer Name">Rahul Verma</h4>
-                <span id="prev-client-phone" contenteditable="true" spellcheck="false" class="editable-field text-slate-600 font-mono text-[11px]" data-bind="client-phone" title="Click to edit Customer Phone">+91 98111 22233</span>
+                <span id="prev-client-phone" contenteditable="true" spellcheck="false" class="editable-field text-slate-600 font-mono text-[11px]" data-bind="client-phone" title="Click to edit Customer Phone">+91 98111 *****</span>
               </div>
               <p id="prev-buyer-gstin-row" class="font-mono text-slate-800 font-bold text-[11px] mt-0.5 hidden">
                 Buyer GSTIN: <span id="prev-buyer-gstin"></span>
@@ -876,7 +876,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Phone / WhatsApp</label>
-                <input type="text" id="seller-phone" placeholder="e.g. +91 98765 43210" value="+91 98765 43210"
+                <input type="text" id="seller-phone" placeholder="e.g. +91 98765 *****" value="+91 98765 *****"
                        class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
               </div>
               <div>
@@ -901,7 +901,7 @@
               <div id="upi-input-group" class="space-y-1">
                 <div class="flex items-center justify-between text-xs">
                   <label class="font-semibold text-slate-700">Receiver UPI ID / VPA</label>
-                  <span class="text-[10px] text-slate-400">e.g. yourname@demobank, 9876543210@demobank</span>
+                  <span class="text-[10px] text-slate-400">e.g. yourname@demobank, 98765*****@demobank</span>
                 </div>
                 <div class="relative">
                   <input type="text" id="seller-upi" placeholder="e.g. yourbusiness@demobank (untick above for plain bill)" value="sharma@demobank"
@@ -931,7 +931,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-bold text-slate-800 mb-1">Seller GSTIN</label>
-                  <input type="text" id="seller-gstin" maxlength="15" placeholder="e.g. 07AABCS1429B1Z8" value="07AABCS1429B1Z8"
+                  <input type="text" id="seller-gstin" maxlength="15" placeholder="e.g. 07AABCS****B1Z8" value="07AABCS****B1Z8"
                          class="w-full text-sm font-mono font-bold uppercase px-3 py-2 bg-white rounded-lg border border-indigo-300 focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div>
@@ -956,7 +956,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-semibold text-slate-700 mb-1">Buyer / Client GSTIN (For B2B)</label>
-                  <input type="text" id="buyer-gstin" maxlength="15" placeholder="e.g. 07AAAPL1234C1ZV" value=""
+                  <input type="text" id="buyer-gstin" maxlength="15" placeholder="e.g. 07AAAPL****C1ZV" value=""
                          class="w-full text-sm font-mono uppercase px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500">
                   <p class="text-[10px] text-slate-400 mt-0.5">Leave blank for consumer (B2C) sales</p>
                 </div>
@@ -1005,7 +1005,7 @@
               </div>
               <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Customer Phone</label>
-                <input type="text" id="client-phone" placeholder="e.g. +91 98111 22233" value="+91 98111 22233"
+                <input type="text" id="client-phone" placeholder="e.g. +91 98111 *****" value="+91 98111 *****"
                        class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500">
               </div>
             </div>
@@ -1071,11 +1071,11 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
                   <label class="block font-semibold text-teal-900 mb-1">Drug License (DL) No (Optional)</label>
-                  <input type="text" id="tpl-dl-no" placeholder="e.g. DL-20B/1452 & 21B/1453" class="w-full font-mono px-2.5 py-1.5 bg-white rounded border border-teal-300">
+                  <input type="text" id="tpl-dl-no" placeholder="e.g. DL-20B/**** & 21B/****" class="w-full font-mono px-2.5 py-1.5 bg-white rounded border border-teal-300">
                 </div>
                 <div>
                   <label class="block font-semibold text-teal-900 mb-1">Prescribing Doctor & Reg No (Optional)</label>
-                  <input type="text" id="tpl-doctor-name" placeholder="e.g. Dr. A. K. Sharma (MCI-18492)" class="w-full px-2.5 py-1.5 bg-white rounded border border-teal-300">
+                  <input type="text" id="tpl-doctor-name" placeholder="e.g. Dr. A. K. Sharma (MCI-*****)" class="w-full px-2.5 py-1.5 bg-white rounded border border-teal-300">
                 </div>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -1123,7 +1123,7 @@
                 </div>
                 <div>
                   <label class="block font-semibold text-indigo-900 mb-1">Guest ID / Aadhar Ref</label>
-                  <input type="text" id="tpl-guest-id" placeholder="e.g. Aadhar XXXX-5512" class="w-full font-mono px-2.5 py-1.5 bg-white rounded border border-indigo-300">
+                  <input type="text" id="tpl-guest-id" placeholder="e.g. Aadhaar ****-5512" class="w-full font-mono px-2.5 py-1.5 bg-white rounded border border-indigo-300">
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-2.5">
@@ -1146,7 +1146,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
                   <label class="block font-semibold text-emerald-900 mb-1">Landlord PAN Number (Optional)</label>
-                  <input type="text" id="tpl-landlord-pan" placeholder="e.g. ABCDE1234F" class="w-full font-mono uppercase px-2.5 py-1.5 bg-white rounded border border-emerald-300">
+                  <input type="text" id="tpl-landlord-pan" placeholder="e.g. ABCDE****F" class="w-full font-mono uppercase px-2.5 py-1.5 bg-white rounded border border-emerald-300">
                 </div>
                 <div>
                   <label class="block font-semibold text-emerald-900 mb-1">Rent Period / Month *</label>
@@ -2940,14 +2940,14 @@
         docType: 'TAX INVOICE',
         sellerName: 'Sharma Electronics & Services',
         sellerTagline: 'Laptop, Mobile & CCTV Sales & Repair',
-        sellerPhone: '+91 98765 43210',
-        sellerEmail: 'contact@sharmaelectronics.in',
+        sellerPhone: '+91 98765 *****',
+        sellerEmail: 'contact@demostore.in',
         sellerAddress: 'Shop 12, Commercial Complex, Sector 18, Noida, UP - 201301',
-        sellerGstin: '07AABCS1429B1Z8',
-        sellerPan: 'AABCS1429B',
+        sellerGstin: '07AABCS****B1Z8',
+        sellerPan: 'AABCS****B',
         clientName: 'Rahul Verma',
-        clientPhone: '+91 98111 22233',
-        clientEmail: 'rahul.verma@example.com',
+        clientPhone: '+91 98111 *****',
+        clientEmail: 'client@example.com',
         clientAddress: 'B-44, Sector 62, Noida, UP - 201309',
         clientGstin: '',
         signatory: 'Authorized Signatory',
@@ -2966,13 +2966,13 @@
         docType: 'PHARMACY TAX INVOICE',
         sellerName: 'Sanjeevani Medicos & Healthcare',
         sellerTagline: 'Retail Chemist, Surgical & Healthcare Supplies',
-        sellerPhone: '+91 98234 56789',
-        sellerEmail: 'care@sanjeevanimedicos.in',
+        sellerPhone: '+91 98234 *****',
+        sellerEmail: 'care@demopharmacy.in',
         sellerAddress: 'Shop 4, Civil Lines, Near City Hospital, New Delhi - 110054',
-        sellerGstin: '07AAPCS9821K1Z3',
-        sellerPan: 'AAPCS9821K',
+        sellerGstin: '07AAPCS****K1Z3',
+        sellerPan: 'AAPCS****K',
         clientName: 'Amitabh Saxena (Age: 42 / M)',
-        clientPhone: '+91 98711 00223',
+        clientPhone: '+91 98711 *****',
         clientEmail: '',
         clientAddress: 'House No 120, Model Town, Delhi - 110009',
         clientGstin: '',
@@ -2988,8 +2988,8 @@
           { desc: 'Digital Flexible Fast-Read Clinical Thermometer', hsn: '9025', qty: 1, rate: 299 }
         ],
         industryFields: {
-          'tpl-dl-no': 'DL-20B/1452 & DL-21B/1453',
-          'tpl-doctor-name': 'Dr. K. K. Aggarwal (MBBS, MD - Reg: 48921)',
+          'tpl-dl-no': 'DL-20B/**** & DL-21B/****',
+          'tpl-doctor-name': 'Dr. K. K. Aggarwal (MBBS - Reg: MCI-*****)',
           'tpl-patient-meta': 'Age: 42 Yrs / Male',
           'tpl-rx-ref': 'OPD Prescription #7741'
         }
@@ -2998,13 +2998,13 @@
         docType: 'RESTAURANT CASH MEMO',
         sellerName: 'Royal Spice Kitchen & Cafe',
         sellerTagline: 'Authentic North Indian, Tandoor & Chinese Delicacies',
-        sellerPhone: '+91 97112 34567',
-        sellerEmail: 'dine@royalspicecafe.in',
+        sellerPhone: '+91 97112 *****',
+        sellerEmail: 'dine@democafe.in',
         sellerAddress: 'Plot 14, Main Market, Connaught Place, New Delhi - 110001',
-        sellerGstin: '07AABCR5512M1Z9',
-        sellerPan: 'AABCR5512M',
+        sellerGstin: '07AABCR****M1Z9',
+        sellerPan: 'AABCR****M',
         clientName: 'Walk-in Guest (Table 04)',
-        clientPhone: '+91 98990 11223',
+        clientPhone: '+91 98990 *****',
         clientEmail: '',
         clientAddress: 'Dining Hall - Table T-04',
         clientGstin: '',
@@ -3030,14 +3030,14 @@
         docType: 'HOTEL & STAY INVOICE',
         sellerName: 'The Grand Heritage Resort & Lodge',
         sellerTagline: 'Luxury Accommodations, Homestay & Dining Experience',
-        sellerPhone: '+91 98991 23456',
-        sellerEmail: 'reservations@grandheritageresort.in',
+        sellerPhone: '+91 98991 *****',
+        sellerEmail: 'stay@demohotel.in',
         sellerAddress: 'Mall Road, Near Lake View, Nainital, Uttarakhand - 263001',
-        sellerGstin: '05AABCH4411Q1Z4',
-        sellerPan: 'AABCH4411Q',
+        sellerGstin: '05AABCH****Q1Z4',
+        sellerPan: 'AABCH****Q',
         clientName: 'Vikramaditya Rathore',
-        clientPhone: '+91 98221 44556',
-        clientEmail: 'vikram.rathore@outlook.com',
+        clientPhone: '+91 98221 *****',
+        clientEmail: 'guest@example.com',
         clientAddress: 'C-18, Malviya Nagar, Jaipur, Rajasthan - 302017',
         clientGstin: '',
         signatory: 'Front Office Manager',
@@ -3053,7 +3053,7 @@
         ],
         industryFields: {
           'tpl-room-no': 'Deluxe Suite Room 204 (Lake View)',
-          'tpl-guest-id': 'Govt ID Ref: Aadhar XXXX-8912',
+          'tpl-guest-id': 'Govt ID Ref: Aadhaar ****-8912',
           'tpl-checkin': '14 Oct 2026, 12:00 PM',
           'tpl-checkout': '16 Oct 2026, 11:00 AM'
         }
@@ -3062,14 +3062,14 @@
         docType: 'HOUSE RENT RECEIPT (HRA)',
         sellerName: 'Rajesh Kumar (Landlord)',
         sellerTagline: 'House Rent Receipt (Income Tax Form 26C Exemption)',
-        sellerPhone: '+91 98100 12345',
-        sellerEmail: 'rajesh.landlord@gmail.com',
+        sellerPhone: '+91 98100 *****',
+        sellerEmail: 'landlord@example.com',
         sellerAddress: 'Owner of Property: Flat 402, Green Valley Apartments, Sector 45, Gurgaon - 122003',
         sellerGstin: '',
-        sellerPan: 'ABCDE1234F',
+        sellerPan: 'ABCDE****F',
         clientName: 'Rahul Verma (Tenant)',
-        clientPhone: '+91 98111 22233',
-        clientEmail: 'rahul.verma@example.com',
+        clientPhone: '+91 98111 *****',
+        clientEmail: 'tenant@example.com',
         clientAddress: 'Tenant residing at Flat 402, Green Valley Apartments, Sector 45, Gurgaon, HR - 122003',
         clientGstin: '',
         signatory: 'Rajesh Kumar (Landlord)',
@@ -3083,7 +3083,7 @@
           { desc: 'Society Monthly Maintenance & Common Area Charges', hsn: '9972', qty: 1, rate: 2500 }
         ],
         industryFields: {
-          'tpl-landlord-pan': 'ABCDE1234F',
+          'tpl-landlord-pan': 'ABCDE****F',
           'tpl-rent-period': 'October 2026 (01 Oct - 31 Oct)',
           'tpl-rent-address': 'Flat 402, Green Valley Apartments, Sector 45, Gurgaon, HR - 122003'
         }
@@ -3092,14 +3092,14 @@
         docType: 'TUITION FEE RECEIPT',
         sellerName: 'Apex Mathematics & Science Academy',
         sellerTagline: 'IIT-JEE, NEET & CBSE Board Foundation Coaching',
-        sellerPhone: '+91 99887 76655',
-        sellerEmail: 'admissions@apexacademy.edu.in',
+        sellerPhone: '+91 99887 *****',
+        sellerEmail: 'admissions@demoacademy.in',
         sellerAddress: 'B-12, Coaching Hub, Kalu Sarai, Near Hauz Khas, New Delhi - 110016',
         sellerGstin: '',
-        sellerPan: 'APEXA9812L',
+        sellerPan: 'APEXA****L',
         clientName: 'Aarav Sharma (Student)',
-        clientPhone: '+91 98765 11002',
-        clientEmail: 'parent.sharma@gmail.com',
+        clientPhone: '+91 98765 *****',
+        clientEmail: 'parent@example.com',
         clientAddress: 'D-88, South Extension Part 1, New Delhi - 110049',
         clientGstin: '',
         signatory: 'Director / Academic Head',
@@ -3113,7 +3113,7 @@
           { desc: 'Comprehensive Study Material & Weekly Practice Test Series', hsn: '9992', qty: 1, rate: 500 }
         ],
         industryFields: {
-          'tpl-student-roll': 'APX-2026-104',
+          'tpl-student-roll': 'APX-2026-****',
           'tpl-course': 'Class 10 CBSE (Maths, Physics, Chemistry)',
           'tpl-tuition-month': 'October 2026'
         }
