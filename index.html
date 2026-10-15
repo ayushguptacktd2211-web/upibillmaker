@@ -1696,7 +1696,7 @@
               </button>
 
               <div id="memory-dropdown-panel" class="hidden absolute right-0 top-full mt-1.5 w-64 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 text-xs z-50 animate-in fade-in zoom-in-95 duration-100">
-                <button type="button" onclick="loadFullBillDraft(); closeMemoryMenu();" class="w-full text-left flex items-center gap-2.5 px-3 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 font-medium transition-colors cursor-pointer">
+                <button type="button" onclick="if(loadFullBillDraft()){ updateInvoice(); showMemoryToast('Draft restored successfully!'); } else { showMemoryToast('No saved draft found.'); } closeMemoryMenu();" class="w-full text-left flex items-center gap-2.5 px-3 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 font-medium transition-colors cursor-pointer">
                   <i data-lucide="history" class="w-4 h-4 text-emerald-600 shrink-0"></i>
                   <div>
                     <span class="block font-bold">Restore Last Draft</span>
@@ -2871,6 +2871,7 @@
     let savedLogoBase64 = null;
     let currentTemplate = 'shop';
     let currentInvoiceFormat = 'format-shop-a4';
+    let currentBillMode = 'simple';
 
     const allFormatClasses = [
       'format-shop-a4', 'format-shop-counter', 'format-shop-corporate',
@@ -3170,38 +3171,36 @@
         });
 
         const draft = {
-          template: currentTemplate || 'shop',
-          format: currentInvoiceFormat || 'format-shop-a4',
-          creationMode: currentBillMode || 'simple',
+          template: (typeof currentTemplate !== 'undefined' ? currentTemplate : 'shop'),
+          format: (typeof currentInvoiceFormat !== 'undefined' ? currentInvoiceFormat : 'format-shop-a4'),
+          creationMode: (typeof currentBillMode !== 'undefined' ? currentBillMode : (localStorage.getItem('upibill_creation_mode') || 'simple')),
           seller: {
             name: document.getElementById('seller-name')?.value || '',
             tagline: document.getElementById('seller-tagline')?.value || '',
             phone: document.getElementById('seller-phone')?.value || '',
-            email: document.getElementById('seller-email')?.value || '',
             address: document.getElementById('seller-address')?.value || '',
             upi: document.getElementById('seller-upi')?.value || '',
             gstin: document.getElementById('seller-gstin')?.value || '',
-            pan: document.getElementById('seller-pan')?.value || '',
-            state: document.getElementById('seller-state')?.value || '',
+            state: document.getElementById('seller-state')?.value || 'Delhi',
             signatory: document.getElementById('signatory-name')?.value || '',
-            isGst: document.getElementById('enable-gst')?.checked,
+            isGst: !!document.getElementById('enable-gst')?.checked,
             taxRate: document.getElementById('tax-rate')?.value || '18',
-            logo: savedLogoBase64 || ''
+            enableQr: document.getElementById('enable-upi-qr') ? document.getElementById('enable-upi-qr').checked : true,
+            enableBranding: document.getElementById('enable-branding') ? document.getElementById('enable-branding').checked : true,
+            logo: (typeof savedLogoBase64 !== 'undefined' && savedLogoBase64 ? savedLogoBase64 : '')
           },
           invoice: {
-            number: document.getElementById('invoice-number')?.value || '',
+            number: document.getElementById('invoice-no')?.value || '',
             date: document.getElementById('invoice-date')?.value || '',
             time: document.getElementById('invoice-time')?.value || '',
-            dueDate: document.getElementById('due-date')?.value || '',
             status: document.getElementById('bill-status')?.value || 'online',
             notes: document.getElementById('invoice-notes')?.value || '',
-            terms: document.getElementById('terms-conditions')?.value || ''
+            discount: document.getElementById('discount-amt')?.value || '0',
+            supplyState: document.getElementById('supply-state')?.value || 'intra'
           },
           client: {
             name: document.getElementById('client-name')?.value || '',
             phone: document.getElementById('client-phone')?.value || '',
-            email: document.getElementById('client-email')?.value || '',
-            address: document.getElementById('client-address')?.value || '',
             gstin: document.getElementById('buyer-gstin')?.value || ''
           },
           industryFields: {},
@@ -3210,20 +3209,34 @@
         };
 
         const indIds = [
-          'doctor-name', 'patient-name', 'patient-age', 'patient-gender', 'patient-uhid', 'rx-dl-no',
-          'rest-table-no', 'rest-waiter-name', 'rest-pax-count', 'rest-order-no', 'rest-fssai-no',
-          'hotel-guest-name', 'hotel-room-no', 'hotel-room-type', 'hotel-checkin', 'hotel-checkout', 'hotel-adults-count',
-          'rent-landlord-pan', 'rent-property-address', 'rent-tenant-name', 'rent-period-month',
-          'tuition-student-name', 'tuition-roll-no', 'tuition-batch-time', 'tuition-course-name'
+          'tpl-dl-no', 'tpl-doctor-name', 'tpl-patient-meta', 'tpl-rx-ref',
+          'tpl-table-no', 'tpl-kot-no', 'tpl-server-name',
+          'tpl-room-no', 'tpl-guest-id', 'tpl-checkin', 'tpl-checkout',
+          'tpl-landlord-pan', 'tpl-rent-period', 'tpl-rent-address',
+          'tpl-student-roll', 'tpl-course', 'tpl-tuition-month'
         ];
         indIds.forEach(id => {
           const el = document.getElementById(id);
           if (el) draft.industryFields[id] = el.value;
         });
 
-        localStorage.setItem('upibill_full_draft_v1', JSON.stringify(draft));
+        try {
+          localStorage.setItem('upibill_full_draft_v1', JSON.stringify(draft));
+        } catch (storageErr) {
+          if (draft.seller && draft.seller.logo) {
+            draft.seller.logo = '';
+            localStorage.setItem('upibill_full_draft_v1', JSON.stringify(draft));
+          } else {
+            console.warn('Storage quota exceeded:', storageErr);
+          }
+        }
+
         showAutosaveStatus('saved');
-      } catch(e) {}
+        return true;
+      } catch(e) {
+        console.error('saveFullBillDraft failed:', e);
+        return false;
+      }
     }
 
     function loadFullBillDraft() {
@@ -3280,23 +3293,42 @@
             });
             previewContainer.classList.add(`theme-${draft.template}`);
           }
+
+          // Format options for active template
+          if (typeof categoryFormats !== 'undefined') {
+            const formatSelect = document.getElementById('invoice-format-select');
+            const catFormats = categoryFormats[draft.template] || categoryFormats.shop;
+            if (formatSelect && catFormats) {
+              formatSelect.innerHTML = '';
+              catFormats.forEach(fmt => {
+                const opt = document.createElement('option');
+                opt.value = fmt.id;
+                opt.textContent = fmt.label;
+                formatSelect.appendChild(opt);
+              });
+              if (draft.format) formatSelect.value = draft.format;
+            }
+          }
         }
 
         // 2. Format
-        if (draft.format) {
+        if (draft.format && typeof setInvoiceFormat === 'function') {
           setInvoiceFormat(draft.format);
         }
 
-        // 3. Seller Details
+        // 3. Creation Mode
+        if (draft.creationMode && typeof setBillCreationMode === 'function') {
+          setBillCreationMode(draft.creationMode);
+        }
+
+        // 4. Seller Details
         if (draft.seller) {
           setVal('seller-name', draft.seller.name);
           setVal('seller-tagline', draft.seller.tagline);
           setVal('seller-phone', draft.seller.phone);
-          setVal('seller-email', draft.seller.email);
           setVal('seller-address', draft.seller.address);
           setVal('seller-upi', draft.seller.upi);
           setVal('seller-gstin', draft.seller.gstin);
-          setVal('seller-pan', draft.seller.pan);
           setVal('seller-state', draft.seller.state);
           setVal('signatory-name', draft.seller.signatory);
           if (draft.seller.isGst !== undefined && document.getElementById('enable-gst')) {
@@ -3305,38 +3337,42 @@
             if (gstRateSec) gstRateSec.style.display = draft.seller.isGst ? 'block' : 'none';
           }
           if (draft.seller.taxRate) setVal('tax-rate', draft.seller.taxRate);
+          if (draft.seller.enableQr !== undefined && document.getElementById('enable-upi-qr')) {
+            document.getElementById('enable-upi-qr').checked = draft.seller.enableQr;
+          }
+          if (draft.seller.enableBranding !== undefined && document.getElementById('enable-branding')) {
+            document.getElementById('enable-branding').checked = draft.seller.enableBranding;
+          }
           if (draft.seller.logo) {
             savedLogoBase64 = draft.seller.logo;
             renderLogoPreview(savedLogoBase64);
           }
         }
 
-        // 4. Invoice Details
+        // 5. Invoice Details
         if (draft.invoice) {
-          setVal('invoice-number', draft.invoice.number);
+          setVal('invoice-no', draft.invoice.number);
           setVal('invoice-date', draft.invoice.date);
           setVal('invoice-time', draft.invoice.time);
-          setVal('due-date', draft.invoice.dueDate);
-          setVal('bill-status', draft.invoice.status);
+          if (draft.invoice.status) setBillStatus(draft.invoice.status);
           setVal('invoice-notes', draft.invoice.notes);
-          setVal('terms-conditions', draft.invoice.terms);
+          setVal('discount-amt', draft.invoice.discount);
+          setVal('supply-state', draft.invoice.supplyState);
         }
 
-        // 5. Client Details
+        // 6. Client Details
         if (draft.client) {
           setVal('client-name', draft.client.name);
           setVal('client-phone', draft.client.phone);
-          setVal('client-email', draft.client.email);
-          setVal('client-address', draft.client.address);
           setVal('buyer-gstin', draft.client.gstin);
         }
 
-        // 6. Industry Fields
+        // 7. Industry Fields
         if (draft.industryFields) {
           Object.entries(draft.industryFields).forEach(([id, val]) => setVal(id, val));
         }
 
-        // 7. Items List
+        // 8. Line Items List
         const itemsContainer = document.getElementById('items-container');
         if (itemsContainer && Array.isArray(draft.items) && draft.items.length > 0) {
           itemsContainer.innerHTML = '';
@@ -3345,7 +3381,9 @@
             itemsContainer.appendChild(row);
             attachRowEvents(row);
           });
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') {
+            lucide.createIcons();
+          }
         }
 
         showAutosaveStatus('saved');
@@ -3378,15 +3416,21 @@
     function startNewBill(keepShop = true) {
       if (keepShop) {
         // Clear customer fields
-        ['client-name', 'client-phone', 'client-email', 'client-address', 'buyer-gstin'].forEach(id => {
+        ['client-name', 'client-phone', 'buyer-gstin'].forEach(id => {
           const el = document.getElementById(id); if (el) el.value = '';
         });
         // Clear industry fields
-        ['patient-name', 'patient-age', 'patient-uhid', 'rest-table-no', 'rest-order-no', 'hotel-guest-name', 'hotel-room-no', 'rent-tenant-name', 'tuition-student-name', 'tuition-roll-no'].forEach(id => {
+        [
+          'tpl-dl-no', 'tpl-doctor-name', 'tpl-patient-meta', 'tpl-rx-ref',
+          'tpl-table-no', 'tpl-kot-no', 'tpl-server-name',
+          'tpl-room-no', 'tpl-guest-id', 'tpl-checkin', 'tpl-checkout',
+          'tpl-landlord-pan', 'tpl-rent-period', 'tpl-rent-address',
+          'tpl-student-roll', 'tpl-course', 'tpl-tuition-month'
+        ].forEach(id => {
           const el = document.getElementById(id); if (el) el.value = '';
         });
         // Increment invoice number
-        const invNumEl = document.getElementById('invoice-number');
+        const invNumEl = document.getElementById('invoice-no');
         if (invNumEl) {
           const m = invNumEl.value.match(/(\d+)$/);
           if (m) {
@@ -3404,11 +3448,13 @@
           const row = createItemRow('', '', '1', '0');
           itemsContainer.appendChild(row);
           attachRowEvents(row);
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') {
+            lucide.createIcons();
+          }
         }
         updateInvoice();
         saveFullBillDraft();
-        showMemoryToast('New bill started! Your shop details are preserved.');
+        showMemoryToast('New bill ready! Shop details preserved.');
       }
     }
 
@@ -3416,7 +3462,7 @@
       if (confirm('Load sample demo bill? Your current changes will be replaced with sample items.')) {
         localStorage.removeItem('upibill_full_draft_v1');
         switchTemplate(currentTemplate || 'shop');
-        updateInvoice();
+        saveFullBillDraft();
         showMemoryToast('Sample demo bill loaded.');
       }
     }
@@ -3425,6 +3471,7 @@
       if (confirm('Clear all saved draft data from your browser?')) {
         localStorage.removeItem('upibill_full_draft_v1');
         localStorage.removeItem('upibill_business_v3');
+        localStorage.removeItem('upibill_creation_mode');
         window.location.reload();
       }
     }
@@ -3556,6 +3603,7 @@
           savedLogoBase64 = evt.target.result;
           renderLogoPreview(savedLogoBase64);
           saveBusinessToLocal();
+          triggerAutoSave();
         };
         reader.readAsDataURL(file);
       }
@@ -3566,6 +3614,7 @@
       document.getElementById('logo-input').value = '';
       renderLogoPreview(null);
       saveBusinessToLocal();
+      triggerAutoSave();
     });
 
     function escapeHTML(str) {
@@ -3612,9 +3661,14 @@
     }
 
     // Update Invoice Calculations
-    function updateInvoice() {
+    function updateInvoice(isInitial = false) {
       saveBusinessToLocal();
-      triggerAutoSave();
+      if (!isInitial) {
+        triggerAutoSave();
+      } else {
+        const raw = localStorage.getItem('upibill_full_draft_v1');
+        if (raw) showAutosaveStatus('saved');
+      }
 
       const isGstEnabled = document.getElementById('enable-gst').checked;
       const sellerName = document.getElementById('seller-name').value.trim() || 'Your Business Name';
@@ -3948,9 +4002,14 @@
 
     document.querySelectorAll('.item-row').forEach(row => attachRowEvents(row));
 
-    document.querySelectorAll('#bill-form input, #bill-form select').forEach(el => {
-      el.addEventListener('input', updateInvoice);
-      el.addEventListener('change', updateInvoice);
+    const billForm = document.getElementById('bill-form');
+    if (billForm) {
+      billForm.addEventListener('input', () => updateInvoice(false));
+      billForm.addEventListener('change', () => updateInvoice(false));
+    }
+
+    window.addEventListener('beforeunload', () => {
+      saveFullBillDraft();
     });
 
 
@@ -5281,6 +5340,7 @@
 
     // Bill Creation Mode Toggle: Simple Quick Bill vs Pro GST Invoice
     function setBillCreationMode(mode) {
+      currentBillMode = mode;
       const isSimple = mode === 'simple';
       const btnSimple = document.getElementById('btn-mode-simple');
       const btnPro = document.getElementById('btn-mode-pro');
@@ -5751,7 +5811,7 @@
       }
 
       try { renderQuickItemChips(currentTemplate || 'shop'); } catch(e) {}
-      try { updateInvoice(); } catch(e) {}
+      try { updateInvoice(true); } catch(e) {}
       try { fitPreviewToScreen(); } catch(e) {}
       try { updateFloatingBtnState(); } catch(e) {}
     }
