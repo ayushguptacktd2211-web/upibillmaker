@@ -17,7 +17,8 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
+    window.tailwind = window.tailwind || {};
+    window.tailwind.config = {
       theme: {
         extend: {
           colors: {
@@ -33,11 +34,16 @@
           }
         }
       }
-    }
+    };
   </script>
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Lucide Icons (Local first for 100% offline & Brave Shields protection, CDN fallback) -->
+  <script src="js/lucide.min.js"></script>
+  <script>
+    if (typeof lucide === 'undefined') {
+      document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');
+    }
+  </script>
   
   <!-- QRCode.js (Local first for 100% Brave & offline compatibility, CDN fallback) -->
   <script src="js/qrcode.min.js"></script>
@@ -120,13 +126,31 @@
       position: relative;
       transition: height 0.15s ease-out;
       contain: paint layout;
-    }
-    #invoice-preview-viewport.is-fit-screen {
       overflow: hidden !important;
     }
-    #invoice-preview-viewport.is-scrollable {
-      overflow-x: auto !important;
-      -webkit-overflow-scrolling: touch;
+    #invoice-preview-container {
+      width: 100%;
+      max-width: 794px; /* Standard A4 Paper Width at 96 DPI */
+      margin: 0 auto;
+      background: #ffffff;
+      box-sizing: border-box;
+    }
+    #qrcode-container {
+      width: 84px;
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #qrcode-container canvas, #qrcode-container img {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      display: block !important;
+      margin: 0 auto !important;
     }
 
     /* Hide floating button when virtual keyboard or input is active on mobile */
@@ -507,7 +531,7 @@
         
       <!-- Compact Unified Preview Action Toolbar -->
       <div class="bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 shadow-xs flex flex-wrap items-center justify-between gap-2 no-print">
-        <!-- Left Side: Format & Mobile Fit -->
+        <!-- Left Side: Format Theme -->
         <div class="flex items-center gap-2">
           <div class="flex items-center gap-1.5">
             <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Theme:</span>
@@ -518,11 +542,6 @@
               <option value="format-minimal">Minimal Clean</option>
             </select>
           </div>
-
-          <button type="button" id="btn-toggle-fit" onclick="togglePreviewFit()" class="md:hidden inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-lg transition-colors cursor-pointer" title="Fit to screen">
-            <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-brand-600"></i>
-            <span id="fit-toggle-label">Fit Screen</span>
-          </button>
         </div>
 
         <!-- Right Side: Export Action Buttons -->
@@ -534,6 +553,10 @@
           <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Save PNG">
             <i data-lucide="image" class="w-3.5 h-3.5 text-slate-500"></i>
             <span class="hidden sm:inline">PNG</span>
+          </button>
+          <button type="button" id="btn-share-whatsapp" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors cursor-pointer" title="Share Invoice on WhatsApp">
+            <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span class="hidden sm:inline">WhatsApp</span>
           </button>
           <button type="button" onclick="printInvoice()" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Print Bill">
             <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-500"></i>
@@ -1536,7 +1559,14 @@
 
   <!-- Application Logic -->
   <script>
-    lucide.createIcons();
+    let qrCodeInstance = null;
+    let savedLogoBase64 = null;
+
+    try {
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    } catch(e) {}
 
     try {
       const now = new Date();
@@ -1546,7 +1576,6 @@
       const dateInp = document.getElementById('invoice-date');
       if (dateInp) {
         dateInp.value = `${yr}-${mo}-${da}`;
-        dateInp.valueAsDate = now;
       }
     } catch(e) {}
     
@@ -1571,86 +1600,102 @@
       return String(dateStr);
     }
 
-    let qrCodeInstance = null;
-    let savedLogoBase64 = null;
-
     // Toggle GST fields
-    document.getElementById('enable-gst').addEventListener('change', function(e) {
-      const active = e.target.checked;
-      const wrapper = document.getElementById('gst-fields-wrapper');
-      const indicator = document.getElementById('gst-indicator');
-      const docTypeBadge = document.getElementById('prev-doc-type');
-      const sellerGstBox = document.getElementById('prev-seller-gstin-box');
-      const thHsn = document.getElementById('th-hsn');
+    const enableGstBox = document.getElementById('enable-gst');
+    if (enableGstBox) {
+      enableGstBox.addEventListener('change', function(e) {
+        const active = e.target.checked;
+        const wrapper = document.getElementById('gst-fields-wrapper');
+        const indicator = document.getElementById('gst-indicator');
+        const docTypeBadge = document.getElementById('prev-doc-type');
+        const sellerGstBox = document.getElementById('prev-seller-gstin-box');
+        const thHsn = document.getElementById('th-hsn');
 
-      if (active) {
-        wrapper.classList.remove('hidden');
-        indicator.innerText = 'GST Active';
-        indicator.className = 'text-[10px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded';
-        docTypeBadge.innerText = 'TAX INVOICE';
-        docTypeBadge.className = 'font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase';
-        sellerGstBox.classList.remove('hidden');
-        thHsn.classList.remove('hidden');
-      } else {
-        wrapper.classList.add('hidden');
-        indicator.innerText = 'Non-GST Mode';
-        indicator.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded';
-        docTypeBadge.innerText = 'RETAIL CASH MEMO';
-        docTypeBadge.className = 'font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase';
-        sellerGstBox.classList.add('hidden');
-        thHsn.classList.add('hidden');
-      }
-      updateInvoice();
-    });
+        if (active) {
+          if (wrapper) wrapper.classList.remove('hidden');
+          if (indicator) {
+            indicator.innerText = 'GST Active';
+            indicator.className = 'text-[10px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded';
+          }
+          if (docTypeBadge) {
+            docTypeBadge.innerText = 'TAX INVOICE';
+            docTypeBadge.className = 'font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase';
+          }
+          if (sellerGstBox) sellerGstBox.classList.remove('hidden');
+          if (thHsn) thHsn.classList.remove('hidden');
+        } else {
+          if (wrapper) wrapper.classList.add('hidden');
+          if (indicator) {
+            indicator.innerText = 'Non-GST Mode';
+            indicator.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded';
+          }
+          if (docTypeBadge) {
+            docTypeBadge.innerText = 'RETAIL CASH MEMO';
+            docTypeBadge.className = 'font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase';
+          }
+          if (sellerGstBox) sellerGstBox.classList.add('hidden');
+          if (thHsn) thHsn.classList.add('hidden');
+        }
+        updateInvoice();
+      });
+    }
 
     // Auto-Uppercase GSTIN Inputs
-    document.getElementById('seller-gstin').addEventListener('input', function() {
-      this.value = this.value.toUpperCase();
-    });
-    document.getElementById('buyer-gstin').addEventListener('input', function() {
-      this.value = this.value.toUpperCase();
-    });
+    const sellerGstinInp = document.getElementById('seller-gstin');
+    if (sellerGstinInp) {
+      sellerGstinInp.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+      });
+    }
+    const buyerGstinInp = document.getElementById('buyer-gstin');
+    if (buyerGstinInp) {
+      buyerGstinInp.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+      });
+    }
 
     // Save & Load LocalStorage
     function saveBusinessToLocal() {
-      const data = {
-        name: document.getElementById('seller-name').value,
-        tagline: document.getElementById('seller-tagline').value,
-        phone: document.getElementById('seller-phone').value,
-        address: document.getElementById('seller-address').value,
-        upi: document.getElementById('seller-upi').value,
-        gstin: document.getElementById('seller-gstin').value,
-        state: document.getElementById('seller-state').value,
-        isGst: document.getElementById('enable-gst').checked,
-        signatory: document.getElementById('signatory-name').value,
-        logo: savedLogoBase64
-      };
-      localStorage.setItem('upibill_business_v3', JSON.stringify(data));
+      try {
+        const data = {
+          name: document.getElementById('seller-name')?.value || '',
+          tagline: document.getElementById('seller-tagline')?.value || '',
+          phone: document.getElementById('seller-phone')?.value || '',
+          address: document.getElementById('seller-address')?.value || '',
+          upi: document.getElementById('seller-upi')?.value || '',
+          gstin: document.getElementById('seller-gstin')?.value || '',
+          state: document.getElementById('seller-state')?.value || '',
+          isGst: document.getElementById('enable-gst')?.checked,
+          signatory: document.getElementById('signatory-name')?.value || '',
+          logo: savedLogoBase64
+        };
+        localStorage.setItem('upibill_business_v3', JSON.stringify(data));
+      } catch(e) {}
     }
 
     function loadBusinessFromLocal() {
-      const saved = localStorage.getItem('upibill_business_v3');
-      if (saved) {
-        try {
+      try {
+        const saved = localStorage.getItem('upibill_business_v3');
+        if (saved) {
           const d = JSON.parse(saved);
-          if (d.name) document.getElementById('seller-name').value = d.name;
-          if (d.tagline) document.getElementById('seller-tagline').value = d.tagline;
-          if (d.phone) document.getElementById('seller-phone').value = d.phone;
-          if (d.address) document.getElementById('seller-address').value = d.address;
-          if (d.upi) document.getElementById('seller-upi').value = d.upi;
-          if (d.gstin) document.getElementById('seller-gstin').value = d.gstin;
-          if (d.state) document.getElementById('seller-state').value = d.state;
-          if (d.isGst !== undefined) {
+          if (d.name && document.getElementById('seller-name')) document.getElementById('seller-name').value = d.name;
+          if (d.tagline && document.getElementById('seller-tagline')) document.getElementById('seller-tagline').value = d.tagline;
+          if (d.phone && document.getElementById('seller-phone')) document.getElementById('seller-phone').value = d.phone;
+          if (d.address && document.getElementById('seller-address')) document.getElementById('seller-address').value = d.address;
+          if (d.upi && document.getElementById('seller-upi')) document.getElementById('seller-upi').value = d.upi;
+          if (d.gstin && document.getElementById('seller-gstin')) document.getElementById('seller-gstin').value = d.gstin;
+          if (d.state && document.getElementById('seller-state')) document.getElementById('seller-state').value = d.state;
+          if (d.isGst !== undefined && document.getElementById('enable-gst')) {
             document.getElementById('enable-gst').checked = d.isGst;
             document.getElementById('enable-gst').dispatchEvent(new Event('change'));
           }
-          if (d.signatory) document.getElementById('signatory-name').value = d.signatory;
+          if (d.signatory && document.getElementById('signatory-name')) document.getElementById('signatory-name').value = d.signatory;
           if (d.logo) {
             savedLogoBase64 = d.logo;
             renderLogoPreview(savedLogoBase64);
           }
-        } catch(e) {}
-      }
+        }
+      } catch(e) {}
     }
 
     function renderLogoPreview(base64Url) {
@@ -1856,11 +1901,9 @@
       const formattedTime = formatTimeDisplay(invoiceTime);
       const prevDateEl = document.getElementById('prev-invoice-date');
       if (prevDateEl) {
-        if (formattedTime) {
-          prevDateEl.innerText = `${formattedDate} • ${formattedTime}`;
-        } else {
-          prevDateEl.innerText = formattedDate;
-        }
+        const fullDateStr = formattedTime ? `${formattedDate} • ${formattedTime}` : formattedDate;
+        prevDateEl.textContent = fullDateStr;
+        prevDateEl.innerText = fullDateStr;
       }
 
       const buyerGstinRow = document.getElementById('prev-buyer-gstin-row');
@@ -1949,12 +1992,22 @@
       const totalTax = (taxableAmount * taxRate) / 100;
       const grandTotal = Math.round((taxableAmount + totalTax) * 100) / 100;
 
-      document.getElementById('prev-subtotal').innerText = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const subtotalFormatted = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const prevSubtotalEl = document.getElementById('prev-subtotal');
+      if (prevSubtotalEl) {
+        prevSubtotalEl.textContent = subtotalFormatted;
+        prevSubtotalEl.innerText = subtotalFormatted;
+      }
 
       const discountRow = document.getElementById('prev-discount-row');
       if (discount > 0) {
         discountRow.classList.remove('hidden');
-        document.getElementById('prev-discount').innerText = '-₹' + discount.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        const prevDiscountEl = document.getElementById('prev-discount');
+        if (prevDiscountEl) {
+          const discountFormatted = '-₹' + discount.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+          prevDiscountEl.textContent = discountFormatted;
+          prevDiscountEl.innerText = discountFormatted;
+        }
       } else {
         discountRow.classList.add('hidden');
       }
@@ -1972,17 +2025,24 @@
           sgstRow.classList.remove('hidden');
           igstRow.classList.add('hidden');
 
-          document.getElementById('prev-cgst-label').innerText = `CGST (${halfRate}%):`;
-          document.getElementById('prev-cgst').innerText = '₹' + halfTax.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-          document.getElementById('prev-sgst-label').innerText = `SGST (${halfRate}%):`;
-          document.getElementById('prev-sgst').innerText = '₹' + halfTax.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+          const cgstLabelEl = document.getElementById('prev-cgst-label');
+          if (cgstLabelEl) { cgstLabelEl.textContent = `CGST (${halfRate}%):`; cgstLabelEl.innerText = `CGST (${halfRate}%):`; }
+          const cgstValEl = document.getElementById('prev-cgst');
+          if (cgstValEl) { const v = '₹' + halfTax.toLocaleString('en-IN', { minimumFractionDigits: 2 }); cgstValEl.textContent = v; cgstValEl.innerText = v; }
+
+          const sgstLabelEl = document.getElementById('prev-sgst-label');
+          if (sgstLabelEl) { sgstLabelEl.textContent = `SGST (${halfRate}%):`; sgstLabelEl.innerText = `SGST (${halfRate}%):`; }
+          const sgstValEl = document.getElementById('prev-sgst');
+          if (sgstValEl) { const v = '₹' + halfTax.toLocaleString('en-IN', { minimumFractionDigits: 2 }); sgstValEl.textContent = v; sgstValEl.innerText = v; }
         } else {
           cgstRow.classList.add('hidden');
           sgstRow.classList.add('hidden');
           igstRow.classList.remove('hidden');
 
-          document.getElementById('prev-igst-label').innerText = `IGST (${taxRate}%):`;
-          document.getElementById('prev-igst').innerText = '₹' + totalTax.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+          const igstLabelEl = document.getElementById('prev-igst-label');
+          if (igstLabelEl) { igstLabelEl.textContent = `IGST (${taxRate}%):`; igstLabelEl.innerText = `IGST (${taxRate}%):`; }
+          const igstValEl = document.getElementById('prev-igst');
+          if (igstValEl) { const v = '₹' + totalTax.toLocaleString('en-IN', { minimumFractionDigits: 2 }); igstValEl.textContent = v; igstValEl.innerText = v; }
         }
       } else {
         cgstRow.classList.add('hidden');
@@ -1990,12 +2050,19 @@
         igstRow.classList.add('hidden');
       }
 
-      document.getElementById('prev-grand-total').innerText = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const grandTotalFormatted = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const prevGrandTotalEl = document.getElementById('prev-grand-total');
+      if (prevGrandTotalEl) {
+        prevGrandTotalEl.textContent = grandTotalFormatted;
+        prevGrandTotalEl.innerText = grandTotalFormatted;
+      }
       
       // Amount in Words
       const amountInWordsEl = document.getElementById('prev-amount-in-words');
       if (amountInWordsEl) {
-        amountInWordsEl.innerText = numberToWordsINR(grandTotal);
+        const words = numberToWordsINR(grandTotal);
+        amountInWordsEl.textContent = words;
+        amountInWordsEl.innerText = words;
       }
 
       // Dynamic Industry Meta Strip in Preview
@@ -2134,7 +2201,7 @@
       if (!container) return;
       container.classList.remove('format-modern', 'format-classic', 'format-executive', 'format-minimal');
       container.classList.add(formatName);
-      localStorage.setItem('upibill_invoice_format', formatName);
+      try { localStorage.setItem('upibill_invoice_format', formatName); } catch(e) {}
       const sel = document.getElementById('invoice-format-select');
       if (sel && sel.value !== formatName) sel.value = formatName;
     }
@@ -2342,10 +2409,24 @@
       const totalTax = (taxableAmount * taxRate) / 100;
       const grandTotal = Math.round((taxableAmount + totalTax) * 100) / 100;
 
-      document.getElementById('prev-subtotal').innerText = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-      document.getElementById('prev-grand-total').innerText = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const subtotalFormatted = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const grandTotalFormatted = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const prevSubtotalEl = document.getElementById('prev-subtotal');
+      if (prevSubtotalEl) {
+        prevSubtotalEl.textContent = subtotalFormatted;
+        prevSubtotalEl.innerText = subtotalFormatted;
+      }
+      const prevGrandTotalEl = document.getElementById('prev-grand-total');
+      if (prevGrandTotalEl) {
+        prevGrandTotalEl.textContent = grandTotalFormatted;
+        prevGrandTotalEl.innerText = grandTotalFormatted;
+      }
       const amtWordsEl = document.getElementById('prev-amount-in-words');
-      if (amtWordsEl) amtWordsEl.innerText = numberToWordsINR(grandTotal);
+      if (amtWordsEl) {
+        const words = numberToWordsINR(grandTotal);
+        amtWordsEl.textContent = words;
+        amtWordsEl.innerText = words;
+      }
     }
 
     // High Reliability Print Invocation
@@ -2626,58 +2707,66 @@
     }
 
     // Share on WhatsApp
-    document.getElementById('btn-share-whatsapp').addEventListener('click', () => {
-      const seller = document.getElementById('seller-name').value;
-      const client = document.getElementById('client-name').value;
-      const phone = document.getElementById('client-phone').value.replace(/[^0-9]/g, '');
-      const invNo = document.getElementById('invoice-no').value;
-      const total = document.getElementById('prev-grand-total').innerText;
-      const upi = document.getElementById('seller-upi').value;
-      const upiLink = document.getElementById('btn-upi-deeplink').href;
-      const status = document.getElementById('bill-status').value;
-      const isGst = document.getElementById('enable-gst').checked;
-      const gstin = document.getElementById('seller-gstin').value;
+    const btnShareWhatsApp = document.getElementById('btn-share-whatsapp');
+    if (btnShareWhatsApp) {
+      btnShareWhatsApp.addEventListener('click', () => {
+        const seller = document.getElementById('seller-name')?.value || '';
+        const client = document.getElementById('client-name')?.value || '';
+        const phone = (document.getElementById('client-phone')?.value || '').replace(/[^0-9]/g, '');
+        const invNo = document.getElementById('invoice-no')?.value || '';
+        const total = document.getElementById('prev-grand-total')?.innerText || '';
+        const upi = document.getElementById('seller-upi')?.value || '';
+        const deeplink = document.getElementById('btn-upi-deeplink');
+        const upiLink = deeplink ? deeplink.href : '';
+        const status = document.getElementById('bill-status')?.value || 'pending';
+        const isGst = document.getElementById('enable-gst')?.checked;
+        const gstin = document.getElementById('seller-gstin')?.value || '';
 
-      // Clean WhatsApp share without emojis
-      let message = `*${isGst ? 'TAX INVOICE' : 'BILL / CASH MEMO'}*\n` +
-        `*Seller:* ${seller}\n` +
-        (isGst && gstin ? `*GSTIN:* ${gstin}\n` : '') +
-        `*Billed To:* ${client}\n` +
-        `*Invoice No:* ${invNo}\n` +
-        `*Total Amount:* ${total}\n` +
-        `*Status:* ${status === 'paid' ? 'PAID / SETTLED' : 'PAYMENT PENDING'}\n\n`;
+        // Clean WhatsApp share without emojis
+        let message = `*${isGst ? 'TAX INVOICE' : 'BILL / CASH MEMO'}*\n` +
+          `*Seller:* ${seller}\n` +
+          (isGst && gstin ? `*GSTIN:* ${gstin}\n` : '') +
+          `*Billed To:* ${client}\n` +
+          `*Invoice No:* ${invNo}\n` +
+          `*Total Amount:* ${total}\n` +
+          `*Status:* ${status === 'paid' ? 'PAID / SETTLED' : 'PAYMENT PENDING'}\n\n`;
 
-      const isQrOn = document.getElementById('enable-upi-qr').checked;
-      if (status !== 'paid' && isQrOn && upi) {
-        message += `*Pay Online via UPI (Pre-filled):*\n` +
-          `${upiLink}\n\n` +
-          `Or scan the QR code on your invoice. Payee UPI ID: *${upi}*\n`;
-      } else if (status === 'paid') {
-        message += `Thank you for your payment!\n`;
-      } else {
-        message += `Thank you for your business.\n`;
-      }
+        const enableQrBox = document.getElementById('enable-upi-qr');
+        const isQrOn = enableQrBox ? enableQrBox.checked : true;
+        if (status !== 'paid' && isQrOn && upi) {
+          message += `*Pay Online via UPI (Pre-filled):*\n` +
+            `${upiLink}\n\n` +
+            `Or scan the QR code on your invoice. Payee UPI ID: *${upi}*\n`;
+        } else if (status === 'paid') {
+          message += `Thank you for your payment!\n`;
+        } else {
+          message += `Thank you for your business.\n`;
+        }
 
-      message += `_Generated via upibillmaker.com_`;
+        message += `_Generated via upibillmaker.com_`;
 
-      const whatsappUrl = phone 
-        ? `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`
-        : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = phone 
+          ? `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`
+          : `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
 
-      window.open(whatsappUrl, '_blank');
-    });
+        window.open(whatsappUrl, '_blank');
+      });
+    }
 
     // Reset Form
-    document.getElementById('btn-reset').addEventListener('click', () => {
-      if (confirm('Clear customer and item details? Business & GST settings will remain saved.')) {
-        document.getElementById('client-name').value = '';
-        document.getElementById('client-phone').value = '';
-        document.getElementById('buyer-gstin').value = '';
-        document.getElementById('discount-amt').value = 0;
-        document.getElementById('invoice-no').value = 'GST-' + Math.floor(1000 + Math.random() * 9000);
-        updateInvoice();
-      }
-    });
+    const btnReset = document.getElementById('btn-reset');
+    if (btnReset) {
+      btnReset.addEventListener('click', () => {
+        if (confirm('Clear customer and item details? Business & GST settings will remain saved.')) {
+          if (document.getElementById('client-name')) document.getElementById('client-name').value = '';
+          if (document.getElementById('client-phone')) document.getElementById('client-phone').value = '';
+          if (document.getElementById('buyer-gstin')) document.getElementById('buyer-gstin').value = '';
+          document.getElementById('discount-amt').value = 0;
+          document.getElementById('invoice-no').value = 'GST-' + Math.floor(1000 + Math.random() * 9000);
+          updateInvoice();
+        }
+      });
+    }
 
     // Mobile Tab Switcher
     function switchMainTab(tab) {
@@ -3392,20 +3481,16 @@
       showDownloadToast('Sample demo data loaded successfully!');
     }
 
-    // Responsive Mobile Fit to Screen for Invoice Preview
-    let isFitToScreen = true;
-
+    // Automatic Responsive Mobile Scaling for A4 Invoice Preview
     function fitPreviewToScreen() {
       const container = document.getElementById('invoice-preview-container');
       const viewport = document.getElementById('invoice-preview-viewport');
       if (!container || !viewport) return;
 
-      if (window.innerWidth < 768 && isFitToScreen) {
-        viewport.classList.add('is-fit-screen');
-        viewport.classList.remove('is-scrollable');
+      if (window.innerWidth < 768) {
         const baseWidth = 720;
-        const availableWidth = viewport.clientWidth;
-        const scale = Math.min(1, availableWidth / baseWidth);
+        const availableWidth = viewport.clientWidth || (window.innerWidth - 32);
+        const scale = Math.min(1, Math.max(0.3, availableWidth / baseWidth));
 
         container.style.width = baseWidth + 'px';
         container.style.minWidth = baseWidth + 'px';
@@ -3413,22 +3498,11 @@
         container.style.transform = `scale(${scale})`;
         viewport.style.height = Math.ceil(container.offsetHeight * scale) + 'px';
       } else {
-        viewport.classList.remove('is-fit-screen');
-        viewport.classList.add('is-scrollable');
         container.style.width = '100%';
         container.style.minWidth = 'auto';
         container.style.transform = 'none';
         viewport.style.height = 'auto';
       }
-    }
-
-    function togglePreviewFit() {
-      isFitToScreen = !isFitToScreen;
-      const label = document.getElementById('fit-toggle-label');
-      if (label) {
-        label.innerText = isFitToScreen ? 'Fit Screen' : '1:1 Actual';
-      }
-      fitPreviewToScreen();
     }
 
     // Dynamic Direction for Floating Button (View Bill vs Edit Form)
@@ -3449,14 +3523,14 @@
         if (floatText) floatText.innerText = 'Edit Form ↓';
         if (floatIcon) {
           floatIcon.setAttribute('data-lucide', 'edit-3');
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
         }
       } else {
         floatBtn.setAttribute('href', '#col-main-preview');
         if (floatText) floatText.innerText = 'Live Preview ↑';
         if (floatIcon) {
           floatIcon.setAttribute('data-lucide', 'eye');
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
         }
       }
     }
@@ -3477,16 +3551,35 @@
     window.addEventListener('resize', fitPreviewToScreen);
     window.addEventListener('scroll', updateFloatingBtnState, { passive: true });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      initLogoMakerListeners();
-      initPreviewInlineEditing();
-      const savedFormat = localStorage.getItem('upibill_invoice_format') || 'format-modern';
-      setInvoiceFormat(savedFormat);
-      loadBusinessFromLocal();
-      updateInvoice();
-      setTimeout(fitPreviewToScreen, 100);
-      updateFloatingBtnState();
-    });
+    function initApp() {
+      try {
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+          lucide.createIcons();
+        }
+      } catch(e) {}
+
+      try { initLogoMakerListeners(); } catch(e) {}
+      try { initPreviewInlineEditing(); } catch(e) {}
+
+      try {
+        const savedFormat = localStorage.getItem('upibill_invoice_format') || 'format-modern';
+        setInvoiceFormat(savedFormat);
+      } catch(e) {
+        setInvoiceFormat('format-modern');
+      }
+
+      try { loadBusinessFromLocal(); } catch(e) {}
+      try { updateInvoice(); } catch(e) {}
+      try { fitPreviewToScreen(); } catch(e) {}
+      setTimeout(fitPreviewToScreen, 150);
+      try { updateFloatingBtnState(); } catch(e) {}
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
   </script>
 
   <!-- Modern Floating View Bill / Edit Jump Pill -->

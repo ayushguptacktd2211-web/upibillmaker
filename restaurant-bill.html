@@ -9,7 +9,8 @@
   <link rel="canonical" href="https://upibillmaker.com/restaurant-bill.html">
 
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/lucide.min.js"></script>
+  <script>if (typeof lucide === 'undefined') { document.write('<script src="https://unpkg.com/lucide@latest"><\/script>'); }</script>
   <script src="js/qrcode.min.js"></script>
   <script>if (typeof QRCode === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'); }</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -261,16 +262,11 @@
 
       <!-- Action Buttons Bar -->
       <div class="w-full bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
-        <div class="flex items-center justify-between w-full sm:w-auto gap-2">
+        <div class="flex items-center gap-2">
           <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
             <span>Thermal Slip & 5% GST</span>
           </div>
-          <!-- Mobile Fit to Screen Toggle -->
-          <button type="button" id="btn-toggle-rest-fit" onclick="toggleRestPreviewFit()" class="md:hidden inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-bold text-orange-700 bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-lg transition-colors cursor-pointer" title="Toggle between Fit-to-Screen and 100% Zoom">
-            <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-orange-600"></i>
-            <span id="rest-fit-toggle-label">Fit Screen</span>
-          </button>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-sm shadow-orange-600/20 transition-all cursor-pointer">
@@ -571,7 +567,20 @@
 
 
   <script>
-    lucide.createIcons();
+    try {
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    } catch(e) {}
+
+    try {
+      const now = new Date();
+      const yr = now.getFullYear();
+      const mo = String(now.getMonth() + 1).padStart(2, '0');
+      const da = String(now.getDate()).padStart(2, '0');
+      const dateInp = document.getElementById('cafe-date');
+      if (dateInp) dateInp.value = `${yr}-${mo}-${da}`;
+    } catch(e) {}
 
     let currentCafeStatus = 'pending';
 
@@ -781,18 +790,36 @@
         taxBreakdown.style.display = 'none';
       } else {
         taxBreakdown.style.display = 'block';
-        document.getElementById('prev-f-cgst-label').innerText = `CGST (${halfRate}%):`;
-        document.getElementById('prev-f-sgst-label').innerText = `SGST (${halfRate}%):`;
-        document.getElementById('prev-f-cgst').innerText = '₹' + halfTax.toFixed(2);
-        document.getElementById('prev-f-sgst').innerText = '₹' + halfTax.toFixed(2);
+        const cgstLabelEl = document.getElementById('prev-f-cgst-label');
+        if (cgstLabelEl) { cgstLabelEl.textContent = `CGST (${halfRate}%):`; cgstLabelEl.innerText = `CGST (${halfRate}%):`; }
+        const sgstLabelEl = document.getElementById('prev-f-sgst-label');
+        if (sgstLabelEl) { sgstLabelEl.textContent = `SGST (${halfRate}%):`; sgstLabelEl.innerText = `SGST (${halfRate}%):`; }
+        const cgstEl = document.getElementById('prev-f-cgst');
+        if (cgstEl) { const v = '₹' + halfTax.toFixed(2); cgstEl.textContent = v; cgstEl.innerText = v; }
+        const sgstEl = document.getElementById('prev-f-sgst');
+        if (sgstEl) { const v = '₹' + halfTax.toFixed(2); sgstEl.textContent = v; sgstEl.innerText = v; }
       }
 
-      document.getElementById('prev-f-subtotal').innerText = '₹' + subtotal.toFixed(2);
-      document.getElementById('prev-f-total').innerText = '₹' + grandTotal.toFixed(2);
+      const subtotalEl = document.getElementById('prev-f-subtotal');
+      if (subtotalEl) {
+        const v = '₹' + subtotal.toFixed(2);
+        subtotalEl.textContent = v;
+        subtotalEl.innerText = v;
+      }
+      const totalEl = document.getElementById('prev-f-total');
+      if (totalEl) {
+        const v = '₹' + grandTotal.toFixed(2);
+        totalEl.textContent = v;
+        totalEl.innerText = v;
+      }
 
       // Amount in Words
       const amtWords = document.getElementById('prev-amount-in-words');
-      if (amtWords) amtWords.innerText = numberToWordsINR(grandTotal);
+      if (amtWords) {
+        const words = numberToWordsINR(grandTotal);
+        amtWords.textContent = words;
+        amtWords.innerText = words;
+      }
 
       // QR Code
       const qrBox = document.getElementById('cafe-qr');
@@ -1284,22 +1311,11 @@
         container.style.transform = `scale(${scale})`;
         viewport.style.height = Math.ceil(container.offsetHeight * scale) + 'px';
       } else {
-        viewport.classList.remove('is-fit-screen');
-        viewport.classList.add('is-scrollable');
         container.style.width = '';
         container.style.minWidth = '';
         container.style.transform = 'none';
         viewport.style.height = 'auto';
       }
-    }
-
-    function toggleRestPreviewFit() {
-      isRestFitToScreen = !isRestFitToScreen;
-      const label = document.getElementById('rest-fit-toggle-label');
-      if (label) {
-        label.innerText = isRestFitToScreen ? 'Fit Screen' : '1:1 Actual';
-      }
-      fitRestPreviewToScreen();
     }
 
     // Dynamic Direction for Floating Button (View Bill vs Edit Form)
@@ -1320,14 +1336,14 @@
         if (floatText) floatText.innerText = 'Edit Form ↓';
         if (floatIcon) {
           floatIcon.setAttribute('data-lucide', 'edit-3');
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
         }
       } else {
         floatBtn.setAttribute('href', '#col-preview');
         if (floatText) floatText.innerText = 'Live Preview ↑';
         if (floatIcon) {
           floatIcon.setAttribute('data-lucide', 'eye');
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
         }
       }
     }
@@ -1348,16 +1364,32 @@
     window.addEventListener('resize', fitRestPreviewToScreen);
     window.addEventListener('scroll', updateRestFloatingBtnState, { passive: true });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const nameInput = document.getElementById('cafe-name');
-      if (!nameInput || !nameInput.value.trim()) {
-        loadCafeSampleData();
-      } else {
-        updateRestaurantBill();
+    function initRestApp() {
+      try {
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+          lucide.createIcons();
+        }
+      } catch(e) {}
+      try {
+        const nameInput = document.getElementById('cafe-name');
+        if (!nameInput || !nameInput.value.trim()) {
+          loadCafeSampleData();
+        } else {
+          updateRestaurantBill();
+        }
+      } catch(e) {
+        try { updateRestaurantBill(); } catch(err) {}
       }
-      setTimeout(fitRestPreviewToScreen, 100);
-      updateRestFloatingBtnState();
-    });
+      try { fitRestPreviewToScreen(); } catch(e) {}
+      setTimeout(fitRestPreviewToScreen, 150);
+      try { updateRestFloatingBtnState(); } catch(e) {}
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initRestApp);
+    } else {
+      initRestApp();
+    }
   </script>
 
   <!-- Modern Floating View Bill / Edit Jump Pill -->

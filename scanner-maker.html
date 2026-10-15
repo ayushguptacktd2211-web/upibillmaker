@@ -30,7 +30,12 @@
   </script>
 
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/lucide.min.js"></script>
+  <script>
+    if (typeof lucide === 'undefined') {
+      document.write('<script src="https://unpkg.com/lucide@latest"><\/script>');
+    }
+  </script>
   
   <!-- QRCode.js (Local first for Brave/AdBlock protection, with CDN fallback) -->
   <script src="js/qrcode.min.js"></script>

@@ -7,7 +7,8 @@
   <meta name="description" content="Generate official hotel checkout bills, guest house receipts, and homestay invoices with Check-in/Check-out dates, Room No, SAC 9963, GST, and auto-pay UPI QR code. Free.">
   <meta name="keywords" content="hotel bill generator with gst, hotel receipt maker, guest house bill format, homestay invoice with upi qr, restaurant bill maker">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/lucide.min.js"></script>
+  <script>if (typeof lucide === 'undefined') { document.write('<script src="https://unpkg.com/lucide@latest"><\/script>'); }</script>
   <script src="js/qrcode.min.js"></script>
   <script>if (typeof QRCode === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'); }</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -238,16 +239,11 @@
 
       <!-- Action Buttons Bar -->
       <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
-        <div class="flex items-center justify-between w-full sm:w-auto gap-2">
+        <div class="flex items-center gap-2">
           <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
             <span>Hotel Folio & GST</span>
           </div>
-          <!-- Mobile Fit to Screen Toggle -->
-          <button type="button" id="btn-toggle-hotel-fit" onclick="toggleHotelPreviewFit()" class="md:hidden inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-lg transition-colors cursor-pointer" title="Toggle between Fit-to-Screen and 100% Zoom">
-            <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-indigo-600"></i>
-            <span id="hotel-fit-toggle-label">Fit Screen</span>
-          </button>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm shadow-indigo-600/20 transition-all cursor-pointer">
@@ -611,7 +607,20 @@
 
 
   <script>
-    lucide.createIcons();
+    try {
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    } catch(e) {}
+
+    try {
+      const now = new Date();
+      const yr = now.getFullYear();
+      const mo = String(now.getMonth() + 1).padStart(2, '0');
+      const da = String(now.getDate()).padStart(2, '0');
+      const cinInp = document.getElementById('hotel-checkin');
+      if (cinInp && !cinInp.value) cinInp.value = `${yr}-${mo}-${da}`;
+    } catch(e) {}
 
     let currentHotelStatus = 'pending';
 
@@ -771,7 +780,12 @@
       const discRow = document.getElementById('prev-h-discount-row');
       if (disc > 0) {
         discRow.classList.remove('hidden');
-        document.getElementById('prev-h-discount').innerText = '-₹' + disc.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        const prevDisc = document.getElementById('prev-h-discount');
+        if (prevDisc) {
+          const v = '-₹' + disc.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+          prevDisc.textContent = v;
+          prevDisc.innerText = v;
+        }
       } else {
         discRow.classList.add('hidden');
       }
@@ -781,15 +795,41 @@
       const taxAmt = (taxable * taxRate) / 100;
       const grandTotal = Math.round((taxable + taxAmt) * 100) / 100;
 
-      document.getElementById('prev-h-subtotal').innerText = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-      document.getElementById('prev-h-tax-label').innerText = `GST (${taxRate}%):`;
-      document.getElementById('prev-h-tax').innerText = '₹' + taxAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-      document.getElementById('prev-h-total').innerText = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-      document.getElementById('prev-h-qr-amt').innerText = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+      const subtotalEl = document.getElementById('prev-h-subtotal');
+      if (subtotalEl) {
+        const v = '₹' + subtotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        subtotalEl.textContent = v;
+        subtotalEl.innerText = v;
+      }
+      const taxLabelEl = document.getElementById('prev-h-tax-label');
+      if (taxLabelEl) {
+        taxLabelEl.textContent = `GST (${taxRate}%):`;
+        taxLabelEl.innerText = `GST (${taxRate}%):`;
+      }
+      const taxEl = document.getElementById('prev-h-tax');
+      if (taxEl) {
+        const v = '₹' + taxAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        taxEl.textContent = v;
+        taxEl.innerText = v;
+      }
+      const totalEl = document.getElementById('prev-h-total');
+      if (totalEl) {
+        const v = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        totalEl.textContent = v;
+        totalEl.innerText = v;
+      }
+      const qrAmtEl = document.getElementById('prev-h-qr-amt');
+      if (qrAmtEl) {
+        const v = '₹' + grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+        qrAmtEl.textContent = v;
+        qrAmtEl.innerText = v;
+      }
 
       const wordsEl = document.getElementById('prev-h-words');
       if (wordsEl) {
-        wordsEl.innerText = 'INR ' + numberToWordsINR(grandTotal) + ' Only';
+        const words = 'INR ' + numberToWordsINR(grandTotal) + ' Only';
+        wordsEl.textContent = words;
+        wordsEl.innerText = words;
       }
 
       // QR Code
@@ -1290,22 +1330,11 @@
         container.style.transform = `scale(${scale})`;
         viewport.style.height = Math.ceil(container.offsetHeight * scale) + 'px';
       } else {
-        viewport.classList.remove('is-fit-screen');
-        viewport.classList.add('is-scrollable');
         container.style.width = '100%';
         container.style.minWidth = 'auto';
         container.style.transform = 'none';
         viewport.style.height = 'auto';
       }
-    }
-
-    function toggleHotelPreviewFit() {
-      isHotelFitToScreen = !isHotelFitToScreen;
-      const label = document.getElementById('hotel-fit-toggle-label');
-      if (label) {
-        label.innerText = isHotelFitToScreen ? 'Fit Screen' : '1:1 Actual';
-      }
-      fitHotelPreviewToScreen();
     }
 
     // Dynamic Direction for Floating Button (View Bill vs Edit Form)
@@ -1326,14 +1355,14 @@
         if (floatText) floatText.innerText = 'Edit Form ↓';
         if (floatIcon) {
           floatIcon.setAttribute('data-lucide', 'edit-3');
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
         }
       } else {
         floatBtn.setAttribute('href', '#col-preview');
         if (floatText) floatText.innerText = 'Live Preview ↑';
         if (floatIcon) {
           floatIcon.setAttribute('data-lucide', 'eye');
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
         }
       }
     }
@@ -1354,16 +1383,32 @@
     window.addEventListener('resize', fitHotelPreviewToScreen);
     window.addEventListener('scroll', updateHotelFloatingBtnState, { passive: true });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const nameInput = document.getElementById('hotel-name');
-      if (!nameInput || !nameInput.value.trim()) {
-        loadHotelSampleData();
-      } else {
-        updateHotelBill();
+    function initHotelApp() {
+      try {
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+          lucide.createIcons();
+        }
+      } catch(e) {}
+      try {
+        const nameInput = document.getElementById('hotel-name');
+        if (!nameInput || !nameInput.value.trim()) {
+          loadHotelSampleData();
+        } else {
+          updateHotelBill();
+        }
+      } catch(e) {
+        try { updateHotelBill(); } catch(err) {}
       }
-      setTimeout(fitHotelPreviewToScreen, 100);
-      updateHotelFloatingBtnState();
-    });
+      try { fitHotelPreviewToScreen(); } catch(e) {}
+      setTimeout(fitHotelPreviewToScreen, 150);
+      try { updateHotelFloatingBtnState(); } catch(e) {}
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHotelApp);
+    } else {
+      initHotelApp();
+    }
   </script>
 
   <!-- Modern Floating View Bill / Edit Jump Pill -->

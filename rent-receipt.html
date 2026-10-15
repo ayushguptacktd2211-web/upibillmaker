@@ -6,7 +6,8 @@
   <title>House Rent Receipt Generator with UPI QR – Claim HRA Tax Exemption Free</title>
   <meta name="description" content="Generate monthly house rent receipts for HRA tax exemption with landlord's PAN, address, and auto-pay UPI QR code. 100% free, instant PDF download.">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/lucide.min.js"></script>
+  <script>if (typeof lucide === 'undefined') { document.write('<script src="https://unpkg.com/lucide@latest"><\/script>'); }</script>
   <script src="js/qrcode.min.js"></script>
   <script>if (typeof QRCode === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'); }</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -237,16 +238,11 @@
 
       <!-- Action Buttons Bar -->
       <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
-        <div class="flex items-center justify-between w-full sm:w-auto gap-2">
+        <div class="flex items-center gap-2">
           <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
             <span>Official HRA Receipt</span>
           </div>
-          <!-- Mobile Fit to Screen Toggle -->
-          <button type="button" id="btn-toggle-rent-fit" onclick="toggleRentPreviewFit()" class="md:hidden inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors cursor-pointer" title="Toggle between Fit-to-Screen and 100% Zoom">
-            <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-emerald-600"></i>
-            <span id="rent-fit-toggle-label">Fit Screen</span>
-          </button>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
           <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm shadow-emerald-600/20 transition-all cursor-pointer">
@@ -563,7 +559,20 @@
 
 
   <script>
-    lucide.createIcons();
+    try {
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    } catch(e) {}
+
+    try {
+      const now = new Date();
+      const yr = now.getFullYear();
+      const mo = String(now.getMonth() + 1).padStart(2, '0');
+      const da = String(now.getDate()).padStart(2, '0');
+      const rentDateInp = document.getElementById('rent-date');
+      if (rentDateInp && !rentDateInp.value) rentDateInp.value = `${yr}-${mo}-${da}`;
+    } catch(e) {}
     
     function switchMobileTab(tab) {
       const colForm = document.getElementById('col-form');
@@ -1184,22 +1193,11 @@
         container.style.transform = `scale(${scale})`;
         viewport.style.height = Math.ceil(container.offsetHeight * scale) + 'px';
       } else {
-        viewport.classList.remove('is-fit-screen');
-        viewport.classList.add('is-scrollable');
         container.style.width = '100%';
         container.style.minWidth = 'auto';
         container.style.transform = 'none';
         viewport.style.height = 'auto';
       }
-    }
-
-    function toggleRentPreviewFit() {
-      isRentFitToScreen = !isRentFitToScreen;
-      const label = document.getElementById('rent-fit-toggle-label');
-      if (label) {
-        label.innerText = isRentFitToScreen ? 'Fit Screen' : '1:1 Actual';
-      }
-      fitRentPreviewToScreen();
     }
 
     // Dynamic Direction for Floating Button (View Bill vs Edit Form)
@@ -1220,14 +1218,14 @@
         if (floatText) floatText.innerText = 'Edit Form ↓';
         if (floatIcon) {
           floatIcon.setAttribute('data-lucide', 'edit-3');
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
         }
       } else {
         floatBtn.setAttribute('href', '#col-preview');
         if (floatText) floatText.innerText = 'Live Preview ↑';
         if (floatIcon) {
           floatIcon.setAttribute('data-lucide', 'eye');
-          if (window.lucide) lucide.createIcons();
+          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
         }
       }
     }
@@ -1248,16 +1246,32 @@
     window.addEventListener('resize', fitRentPreviewToScreen);
     window.addEventListener('scroll', updateRentFloatingBtnState, { passive: true });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const nameInput = document.getElementById('tenant-name');
-      if (!nameInput || !nameInput.value.trim()) {
-        loadRentSampleData();
-      } else {
-        updateRent();
+    function initRentApp() {
+      try {
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+          lucide.createIcons();
+        }
+      } catch(e) {}
+      try {
+        const nameInput = document.getElementById('tenant-name');
+        if (!nameInput || !nameInput.value.trim()) {
+          loadRentSampleData();
+        } else {
+          updateRent();
+        }
+      } catch(e) {
+        try { updateRent(); } catch(err) {}
       }
-      setTimeout(fitRentPreviewToScreen, 100);
-      updateRentFloatingBtnState();
-    });
+      try { fitRentPreviewToScreen(); } catch(e) {}
+      setTimeout(fitRentPreviewToScreen, 150);
+      try { updateRentFloatingBtnState(); } catch(e) {}
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initRentApp);
+    } else {
+      initRentApp();
+    }
   </script>
 
   <!-- Modern Floating View Bill / Edit Jump Pill -->
