@@ -16,7 +16,7 @@
   <style>
     html, body {
       max-width: 100%;
-      overflow-x: hidden !important;
+      overflow-x: clip;
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -242,7 +242,8 @@
 
   <!-- Header -->
     <!-- Header -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 no-print">
+  <!-- Header (Sticky on Mobile & Desktop) -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 no-print shadow-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <!-- Brand Logo -->
       <a href="index.html" class="flex items-center gap-2.5">
@@ -253,7 +254,7 @@
           <span class="font-heading font-extrabold text-xl text-slate-900 tracking-tight">
             UPI<span class="text-emerald-600">BillMaker</span>
           </span>
-          <p class="text-[11px] text-slate-500 hidden sm:block -mt-1 font-medium">Free GST & Non-GST Invoice Maker</p>
+          <p class="text-[9.5px] sm:text-[11px] text-slate-500 font-medium -mt-0.5 sm:-mt-1 block leading-tight">Free GST & Non-GST Invoice Maker</p>
         </div>
       </a>
 
@@ -305,19 +306,92 @@
         </div>
       </nav>
 
+      <!-- Header Right: Tool Links & Mobile Menu Toggle -->
       <div class="flex items-center gap-2">
-        <button onclick="downloadAsPDF()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm shadow-blue-600/20 transition-all cursor-pointer">
-          <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
-          <span>Download PDF</span>
+        <!-- Direct UPI Standee Maker button -->
+        <a href="scanner-maker.html" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg transition-colors shadow-2xs" title="Generate printable UPI QR counter standees & stickers">
+          <i data-lucide="scan-line" class="w-3.5 h-3.5 text-purple-600"></i>
+          <span class="hidden sm:inline">UPI Standee Maker</span>
+          <span class="sm:hidden font-bold">Standee Maker</span>
+        </a>
+
+        <!-- Create Bill Action Button (Desktop) -->
+        <a href="index.html" class="hidden md:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all shadow-blue-600/20 cursor-pointer">
+          <i data-lucide="receipt" class="w-3.5 h-3.5"></i>
+          <span>Create Bill</span>
+        </a>
+
+        <!-- Mobile Hamburger Menu Button (Three lines menu) -->
+        <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer" aria-label="Open Navigation Menu">
+          <i data-lucide="menu" id="mobile-menu-icon" class="w-5 h-5"></i>
         </button>
-        <button onclick="downloadAsPNG()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300 transition-colors cursor-pointer">
-          <i data-lucide="image" class="w-3.5 h-3.5"></i>
-          <span class="hidden sm:inline">Save PNG</span>
-        </button>
-        <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg border border-slate-300 transition-colors cursor-pointer">
-          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-          <span class="hidden sm:inline">Print</span>
-        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer / Slide-Down Menu -->
+    <div id="mobile-nav-drawer" class="hidden md:hidden bg-white border-t border-slate-200 shadow-xl transition-all">
+      <div class="max-w-7xl mx-auto px-4 py-4 space-y-3.5">
+        <!-- Standee Maker Featured Banner in Mobile Menu -->
+        <a href="scanner-maker.html" class="flex items-center justify-between p-3 rounded-xl bg-purple-50 border border-purple-200 text-purple-900 font-bold text-xs">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-lg bg-purple-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs">
+              <i data-lucide="scan-line" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-bold">UPI Scanner & Standee Maker</span>
+                <span class="text-[9px] font-extrabold uppercase bg-purple-200 text-purple-800 px-1.5 py-0.5 rounded">Free</span>
+              </div>
+              <p class="text-[10px] text-purple-600 font-normal">Create printable shop counter QR standees & stickers</p>
+            </div>
+          </div>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-purple-400"></i>
+        </a>
+
+        <!-- All 6 Industry Bill Templates (Mobile) -->
+        <div>
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2 px-1">Choose Bill Template (6 Formats)</span>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <a href="index.html" class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-left transition-colors">
+              <i data-lucide="shopping-bag" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+              <div>
+                <span class="font-bold text-slate-800 text-xs block">Retail & Shop</span>
+                <span class="text-[9px] text-slate-500">GST Tax & Cash Memo</span>
+              </div>
+            </a>
+            <a href="medical-bill.html" class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 hover:bg-teal-50 border border-slate-200 hover:border-teal-300 text-left transition-colors">
+              <i data-lucide="activity" class="w-4 h-4 text-teal-600 flex-shrink-0"></i>
+              <div>
+                <span class="font-bold text-slate-800 text-xs block">Medical / Rx</span>
+                <span class="text-[9px] text-slate-500">Chemist, OPD & Lab</span>
+              </div>
+            </a>
+            <a href="restaurant-bill.html" class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-300 text-left transition-colors">
+              <i data-lucide="utensils" class="w-4 h-4 text-orange-600 flex-shrink-0"></i>
+              <div>
+                <span class="font-bold text-slate-800 text-xs block">Restaurant</span>
+                <span class="text-[9px] text-slate-500">80mm Thermal & Cafe</span>
+              </div>
+            </a>
+            <a href="hotel-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors">
+              <i data-lucide="hotel" class="w-4 h-4 text-indigo-600"></i> Hotel & Homestay Receipt
+            </a>
+            <a href="rent-receipt.html" class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-300 text-left transition-colors">
+              <i data-lucide="home" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
+              <div>
+                <span class="font-bold text-slate-800 text-xs block">Rent (HRA Proof)</span>
+                <span class="text-[9px] text-slate-500">Sec 10(13A) IT Receipt</span>
+              </div>
+            </a>
+            <a href="tuition-receipt.html" class="flex items-center gap-2 p-2.5 rounded-lg bg-blue-50 border border-blue-300 text-left transition-colors">
+              <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600 flex-shrink-0"></i>
+              <div>
+                <span class="font-bold text-blue-900 text-xs block">Tuition Fee</span>
+                <span class="text-[9px] text-blue-700 font-bold">Active Template</span>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -725,6 +799,27 @@
         lucide.createIcons();
       }
     } catch(e) {}
+
+    // Mobile Hamburger Menu Drawer Toggle
+    function toggleMobileMenu() {
+      const drawer = document.getElementById('mobile-nav-drawer');
+      const icon = document.getElementById('mobile-menu-icon');
+      if (drawer) {
+        const isHidden = drawer.classList.contains('hidden');
+        if (isHidden) {
+          drawer.classList.remove('hidden');
+          if (icon) icon.setAttribute('data-lucide', 'x');
+        } else {
+          drawer.classList.add('hidden');
+          if (icon) icon.setAttribute('data-lucide', 'menu');
+        }
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+          lucide.createIcons();
+        }
+      }
+    }
+    window.toggleMobileMenu = toggleMobileMenu;
+
 
     try {
       const now = new Date();
