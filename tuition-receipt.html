@@ -160,17 +160,14 @@
     }
 
     /* Authentic Tuition Formats & Themes */
-    #tuition-receipt-preview.format-coaching {
+    #tuition-receipt-preview.format-coaching,
+    #tuition-receipt-preview.format-tutor,
+    #tuition-receipt-preview.format-school {
+      width: 100%;
       max-width: 100%;
     }
     #tuition-receipt-preview.format-tutor {
-      max-width: 600px;
-      margin: 0 auto;
       border-radius: 8px;
-    }
-    #tuition-receipt-preview.format-school {
-      max-width: 680px;
-      margin: 0 auto;
     }
 
     #tuition-receipt-preview.theme-indigo {
@@ -320,7 +317,7 @@
 
   
   <!-- Main Tool Workspace -->
-  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
+  <main class="w-full max-w-5xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
       <div id="col-preview" class="w-full space-y-4">
 
         <!-- Preview Header & Actions Bar -->
@@ -1098,7 +1095,7 @@
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              const targetW = currentTuitionFormat === 'tutor' ? '600px' : (currentTuitionFormat === 'school' ? '680px' : '794px');
+              const targetW = '794px';
               clonedCard.style.width = targetW;
               clonedCard.style.maxWidth = targetW;
             }
@@ -1218,7 +1215,7 @@
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              const targetW = currentTuitionFormat === 'tutor' ? '600px' : (currentTuitionFormat === 'school' ? '680px' : '794px');
+              const targetW = '794px';
               clonedCard.style.width = targetW;
               clonedCard.style.maxWidth = targetW;
             }

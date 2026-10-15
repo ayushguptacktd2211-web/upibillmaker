@@ -161,17 +161,14 @@
     /* =========================================================================
        Authentic Hotel Bill Formats & Themes
        ========================================================================= */
-    #hotel-bill-preview.format-resort {
+    #hotel-bill-preview.format-resort,
+    #hotel-bill-preview.format-homestay,
+    #hotel-bill-preview.format-express {
+      width: 100%;
       max-width: 100%;
     }
     #hotel-bill-preview.format-homestay {
-      max-width: 620px;
-      margin: 0 auto;
       border-radius: 8px;
-    }
-    #hotel-bill-preview.format-express {
-      max-width: 660px;
-      margin: 0 auto;
     }
 
     #hotel-bill-preview.theme-heritage {
@@ -336,7 +333,7 @@
 
   
   <!-- Main Tool Workspace -->
-  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
+  <main class="w-full max-w-5xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
     <div id="col-preview" class="w-full space-y-4">
 
       <!-- Preview Header & Actions Bar -->
@@ -1413,7 +1410,7 @@
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              const targetW = currentHotelFormat === 'homestay' ? '620px' : (currentHotelFormat === 'express' ? '660px' : '794px');
+              const targetW = '794px';
               clonedCard.style.width = targetW;
               clonedCard.style.maxWidth = targetW;
             }
@@ -1533,7 +1530,7 @@
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              const targetW = currentHotelFormat === 'homestay' ? '620px' : (currentHotelFormat === 'express' ? '660px' : '794px');
+              const targetW = '794px';
               clonedCard.style.width = targetW;
               clonedCard.style.maxWidth = targetW;
             }

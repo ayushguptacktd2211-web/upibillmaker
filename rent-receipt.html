@@ -147,17 +147,14 @@
         display: none !important;
       }
     /* Authentic Rent Formats & Themes */
-    #rent-receipt-preview.format-hra {
+    #rent-receipt-preview.format-hra,
+    #rent-receipt-preview.format-residential,
+    #rent-receipt-preview.format-commercial {
+      width: 100%;
       max-width: 100%;
     }
     #rent-receipt-preview.format-residential {
-      max-width: 620px;
-      margin: 0 auto;
       border-radius: 8px;
-    }
-    #rent-receipt-preview.format-commercial {
-      max-width: 680px;
-      margin: 0 auto;
     }
 
     #rent-receipt-preview.theme-emerald {
@@ -306,7 +303,7 @@
 
   
   <!-- Main Tool Workspace -->
-  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
+  <main class="w-full max-w-5xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
       <div id="col-preview" class="w-full space-y-4">
 
         <!-- Preview Header & Actions Bar -->
@@ -1232,7 +1229,7 @@
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              const targetW = currentRentFormat === 'residential' ? '620px' : (currentRentFormat === 'commercial' ? '680px' : '794px');
+              const targetW = '794px';
               clonedCard.style.width = targetW;
               clonedCard.style.maxWidth = targetW;
             }
@@ -1352,7 +1349,7 @@
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              const targetW = currentRentFormat === 'residential' ? '620px' : (currentRentFormat === 'commercial' ? '680px' : '794px');
+              const targetW = '794px';
               clonedCard.style.width = targetW;
               clonedCard.style.maxWidth = targetW;
             }
