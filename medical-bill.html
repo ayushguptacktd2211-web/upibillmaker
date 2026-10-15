@@ -293,26 +293,26 @@
 
       <!-- Mobile Fit Viewport Wrapper -->
       <div id="medical-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
-        <div id="medical-bill-preview" class="bg-white p-5 sm:p-8 rounded-none border border-slate-200 shadow-lg space-y-3 relative">
+        <div id="medical-bill-preview" class="bg-white p-3.5 sm:p-5 rounded-none border border-slate-800 shadow-md relative text-slate-900 font-sans">
         
         <!-- Centered Pharmacy Tax Invoice Legal Header -->
-        <div class="text-center pb-2.5 mb-2 border-b-2 border-slate-800">
-          <h2 class="font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase" id="prev-doc-title">
+        <div class="text-center pb-2 mb-2 border-b border-slate-800">
+          <h2 class="font-heading font-black text-lg sm:text-xl text-slate-900 tracking-wider uppercase" id="prev-doc-title">
             TAX INVOICE / RETAIL CASH MEMO
           </h2>
-          <p class="text-[10px] font-semibold text-slate-500 tracking-widest uppercase mt-0.5">
+          <p class="text-[9px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">
             (Drugs & Cosmetics Act, 1940 • Form 20/21 Retail Chemist & Druggist)
           </p>
         </div>
 
-        <!-- Pharmacy & Bill Meta Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pb-3 border-b border-slate-300">
+        <!-- Pharmacy & Bill Meta Grid: Continuous Two Column Accounting Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800 pb-2">
           <!-- Left 7 Cols: Pharmacy / Store Info -->
-          <div class="sm:col-span-7 space-y-0.5 text-xs">
-            <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block">Dispensed & Billed By:</span>
-            <h3 class="editable-field font-heading font-extrabold text-lg sm:text-xl text-slate-900 tracking-tight leading-snug" id="prev-ph-name" contenteditable="true" spellcheck="false" data-bind="pharmacy-name" title="Click to edit pharmacy name">Your Pharmacy Name</h3>
-            <p class="editable-field text-xs text-slate-600 block mt-0.5" id="prev-ph-address" contenteditable="true" spellcheck="false" data-bind="pharmacy-address" title="Click to edit address"></p>
-            <p class="text-xs text-slate-700 font-mono" id="prev-ph-phone-gst-row">
+          <div class="sm:col-span-7 sm:pr-3 space-y-0.5 text-xs">
+            <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 block">Dispensed & Billed By:</span>
+            <h3 class="editable-field font-heading font-extrabold text-base sm:text-lg text-slate-900 tracking-tight leading-snug" id="prev-ph-name" contenteditable="true" spellcheck="false" data-bind="pharmacy-name" title="Click to edit pharmacy name">Your Pharmacy Name</h3>
+            <p class="editable-field text-[11px] text-slate-600 block mt-0.5" id="prev-ph-address" contenteditable="true" spellcheck="false" data-bind="pharmacy-address" title="Click to edit address"></p>
+            <p class="text-[11px] text-slate-700 font-mono" id="prev-ph-phone-gst-row">
               <span id="prev-ph-phone-wrap">Phone: <span id="prev-ph-phone" class="editable-field font-bold" contenteditable="true" spellcheck="false" data-bind="pharmacy-phone"></span></span>
               <span id="prev-ph-gst-wrap"> | GSTIN: <span id="prev-ph-gstin" class="editable-field font-bold text-slate-900" contenteditable="true" spellcheck="false" data-bind="pharmacy-gstin"></span></span>
             </p>
@@ -321,55 +321,59 @@
             </p>
           </div>
 
-          <!-- Right 5 Cols: Structured Invoice Table -->
-          <div class="sm:col-span-5 text-xs">
-            <div class="border border-slate-300 rounded-none bg-slate-50/60 p-2.5 space-y-1.5">
-              <div class="flex justify-between items-center border-b border-slate-200 pb-1">
-                <span class="font-bold text-slate-600 uppercase text-[10px]">Invoice / Memo #:</span>
-                <span id="prev-inv-no" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900" data-bind="med-inv-no" title="Click to edit invoice #">MED-101</span>
-              </div>
-              <div class="flex justify-between items-center border-b border-slate-200 pb-1">
-                <span class="font-bold text-slate-600 uppercase text-[10px]">Date:</span>
-                <span id="prev-date" class="font-mono text-slate-800 font-medium"></span>
-              </div>
-              <div class="flex justify-between items-center">
-                <span class="font-bold text-slate-600 uppercase text-[10px]">Payment Status:</span>
-                <div role="button" tabindex="0" onclick="toggleMedStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none">
-                  <span id="prev-med-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-amber-700">
-                    DUE (PENDING)
-                  </span>
-                </div>
-              </div>
-            </div>
+          <!-- Right 5 Cols: Structured Invoice Table with Divider -->
+          <div class="sm:col-span-5 sm:border-l border-slate-800 sm:pl-3 pt-2 sm:pt-0 text-xs flex flex-col justify-between">
+            <table class="w-full text-xs border border-slate-300 border-collapse">
+              <tbody>
+                <tr class="border-b border-slate-200">
+                  <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] w-2/5 border-r border-slate-200">Memo #:</td>
+                  <td class="py-1 px-2 font-mono font-bold text-slate-900" id="prev-inv-no" contenteditable="true" spellcheck="false" class="editable-field" data-bind="med-inv-no" title="Click to edit invoice #">MED-101</td>
+                </tr>
+                <tr class="border-b border-slate-200">
+                  <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Date:</td>
+                  <td class="py-1 px-2 font-mono text-slate-800 font-medium" id="prev-date"></td>
+                </tr>
+                <tr>
+                  <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Status:</td>
+                  <td class="py-1 px-2">
+                    <div role="button" tabindex="0" onclick="toggleMedStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none inline-block">
+                      <span id="prev-med-status-badge" class="font-mono font-bold text-[11px] uppercase tracking-wider text-amber-700">
+                        DUE (PENDING)
+                      </span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
-        <!-- Doctor & Patient Info Bar -->
-        <div id="prev-pt-dr-bar" class="hidden grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 border border-slate-300 p-2.5 text-xs">
+        <!-- Doctor & Patient Info Bar: Continuous Accounting Bar -->
+        <div id="prev-pt-dr-bar" class="hidden grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-50/40 border-b border-slate-800 py-1.5 px-2 text-xs">
           <div id="prev-pt-box" class="space-y-0.5">
             <span class="text-slate-500 font-bold uppercase text-[9px] block">Patient Information:</span>
-            <p class="font-bold text-slate-900 text-sm" id="prev-pt-name"></p>
-            <p class="text-slate-600 text-xs" id="prev-pt-age"></p>
+            <p class="font-bold text-slate-900 text-xs sm:text-sm" id="prev-pt-name"></p>
+            <p class="text-slate-600 text-[11px]" id="prev-pt-age"></p>
           </div>
-          <div id="prev-dr-box" class="space-y-0.5">
+          <div id="prev-dr-box" class="space-y-0.5 sm:text-right">
             <span class="text-slate-500 font-bold uppercase text-[9px] block">Prescribed By Doctor:</span>
-            <p class="font-bold text-teal-950 text-sm" id="prev-dr-name"></p>
-            <p class="text-slate-600 font-mono text-xs" id="prev-dr-reg"></p>
+            <p class="font-bold text-teal-950 text-xs sm:text-sm" id="prev-dr-name"></p>
+            <p class="text-slate-600 font-mono text-[11px]" id="prev-dr-reg"></p>
           </div>
         </div>
 
         <!-- Medicine Items Table (Crisp Accounting Ledger Grid with S.No) -->
-        <div class="py-2 overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse border border-slate-300 min-w-[480px]">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse min-w-[480px]">
             <thead>
-              <tr class="bg-slate-100 border-b-2 border-slate-800 text-slate-800 font-bold uppercase text-[10px] tracking-wider">
-                <th class="py-2 px-2 text-center w-8 border-r border-slate-300">#</th>
-                <th class="py-2 px-3 border-r border-slate-300">Medicine / Item Description</th>
-                <th class="py-2 px-2 text-center w-20 border-r border-slate-300">Batch No</th>
-                <th class="py-2 px-2 text-center w-16 border-r border-slate-300">Exp Date</th>
-                <th class="py-2 px-2 text-center w-12 border-r border-slate-300">Qty</th>
-                <th class="py-2 px-3 text-right w-20 border-r border-slate-300">Rate (₹)</th>
-                <th class="py-2 px-3 text-right w-24">Amount (₹)</th>
+              <tr class="bg-slate-100 border-b border-slate-800 text-slate-900 font-bold uppercase text-[9px] sm:text-[10px] tracking-wider">
+                <th class="py-1.5 px-2 text-center w-8 border-r border-slate-300">#</th>
+                <th class="py-1.5 px-2.5 border-r border-slate-300">Medicine / Item Description</th>
+                <th class="py-1.5 px-2 text-center w-20 border-r border-slate-300">Batch No</th>
+                <th class="py-1.5 px-2 text-center w-16 border-r border-slate-300">Exp Date</th>
+                <th class="py-1.5 px-2 text-center w-12 border-r border-slate-300">Qty</th>
+                <th class="py-1.5 px-2.5 text-right w-20 border-r border-slate-300">Rate (₹)</th>
+                <th class="py-1.5 px-2.5 text-right w-24">Amount (₹)</th>
               </tr>
             </thead>
             <tbody id="prev-med-body" class="divide-y divide-slate-200 text-slate-800"></tbody>
@@ -377,76 +381,76 @@
         </div>
 
         <!-- Statutory Amount in Words Bar -->
-        <div class="border-b border-slate-300 pb-2 mb-2 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
+        <div class="border-t border-b border-slate-800 py-1.5 px-2.5 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
           <div>
-            <span class="font-bold text-slate-800">Amount in Words:</span>
-            <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1">INR Zero Rupees Only</span>
+            <span class="font-bold text-slate-800 text-[11px]">Amount in Words:</span>
+            <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1 text-[11px]">INR Zero Rupees Only</span>
           </div>
-          <div class="text-[10px] text-slate-500 uppercase tracking-widest">E. & O.E.</div>
+          <div class="text-[9px] text-slate-500 uppercase tracking-widest font-semibold">E. & O.E.</div>
         </div>
 
-        <!-- Bottom Section: Bank/UPI Details (Left) + Tax Calculation & Totals (Right) -->
-        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-1">
+        <!-- Bottom Section: Continuous 2-Column Ledger Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800">
           <!-- Left 7 Cols: Bank & UPI Payment Details Box -->
-          <div id="prev-med-qr-block" class="sm:col-span-7 border border-slate-300 bg-slate-50/40 p-3 text-xs space-y-2">
-            <div class="font-bold text-[10px] uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 flex items-center justify-between">
-              <span>UPI & Payment Details</span>
-              <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <div class="bg-white border border-slate-300 p-1 flex-shrink-0">
-                <div id="med-qr" class="w-20 h-20 flex items-center justify-center"></div>
+          <div id="prev-med-qr-block" class="sm:col-span-7 sm:border-r border-slate-800 p-2.5 flex flex-col justify-between space-y-2">
+            <div class="border border-slate-300 bg-white p-2 text-xs space-y-1.5">
+              <div class="font-bold text-[9px] uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 flex items-center justify-between">
+                <span>UPI & Payment Details</span>
+                <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
               </div>
-              <div class="space-y-1 text-[11px] text-slate-700">
-                <div class="flex items-center gap-1.5 flex-wrap">
-                  <span class="font-bold text-slate-800">Pharmacy Payee UPI:</span>
-                  <span id="prev-ph-upi" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="pharmacy-upi" title="Click to edit UPI ID">sanjeevanimedicos@okhdfcbank</span>
+              <div class="flex items-center gap-2.5">
+                <div class="bg-white border border-slate-300 p-1 flex-shrink-0">
+                  <div id="med-qr" class="w-18 h-18 flex items-center justify-center"></div>
                 </div>
-                <p class="text-[10px] text-slate-500">Scan to pay exact <span id="prev-qr-amt" class="font-bold text-teal-800">₹0.00</span> via any UPI App.</p>
-                <p class="text-[10px] text-slate-500">GPay, PhonePe, Paytm, BHIM.</p>
+                <div class="space-y-0.5 text-[11px] text-slate-700">
+                  <div class="flex items-center gap-1 flex-wrap">
+                    <span class="font-bold text-slate-800">Pharmacy Payee UPI:</span>
+                    <span id="prev-ph-upi" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="pharmacy-upi" title="Click to edit UPI ID">sanjeevanimedicos@okhdfcbank</span>
+                  </div>
+                  <p class="text-[10px] text-slate-500">Scan to pay exact <span id="prev-qr-amt" class="font-bold text-teal-800">₹0.00</span> via any UPI App.</p>
+                  <p class="text-[10px] text-slate-500">GPay, PhonePe, Paytm, BHIM.</p>
+                </div>
               </div>
             </div>
 
-            <!-- Mandatory Statutory Terms & Pharmacist Signature -->
-            <div class="pt-2 border-t border-slate-200 space-y-1">
-              <p class="text-[10px] text-slate-500 leading-snug">
-                * Schedule H/H1 drugs dispensed strictly against valid medical prescription.<br>
-                * Medicines sold once cannot be returned or exchanged without original cash memo.
-              </p>
+            <!-- Mandatory Statutory Terms -->
+            <div class="text-[10px] text-slate-500 leading-snug">
+              <p>* Schedule H/H1 drugs dispensed strictly against valid medical prescription.<br>
+              * Medicines sold once cannot be returned or exchanged without original cash memo.</p>
             </div>
           </div>
 
           <!-- Right 5 Cols: Calculations Ledger & Pharmacist Sign -->
-          <div class="sm:col-span-5 flex flex-col justify-between space-y-3">
-            <div class="space-y-1.5 text-xs border border-slate-300 p-3 bg-white">
-              <div class="flex justify-between text-slate-600">
+          <div class="sm:col-span-5 p-2.5 flex flex-col justify-between space-y-3">
+            <div class="space-y-1 text-xs">
+              <div class="flex justify-between text-slate-600 text-[11px]">
                 <span>Subtotal:</span>
                 <span id="prev-subtotal" class="font-medium text-slate-900 font-mono">₹0.00</span>
               </div>
-              <div id="prev-discount-row" class="flex justify-between text-emerald-700 hidden">
+              <div id="prev-discount-row" class="flex justify-between text-emerald-700 text-[11px] hidden">
                 <span>Discount:</span>
                 <span id="prev-discount" class="font-medium font-mono">-₹0.00</span>
               </div>
-              <div class="flex justify-between text-slate-600">
+              <div class="flex justify-between text-slate-600 text-[11px]">
                 <span id="prev-tax-label">GST (12%):</span>
                 <span id="prev-tax" class="font-medium text-slate-900 font-mono">₹0.00</span>
               </div>
-              <div class="border-t-2 border-slate-800 pt-1.5 flex justify-between items-center text-slate-900">
-                <span class="font-bold text-sm">Total Due:</span>
+              <div class="border-t-2 border-slate-900 pt-1.5 flex justify-between items-center text-slate-900">
+                <span class="font-bold text-xs uppercase">Total Due:</span>
                 <span id="prev-total" class="font-heading font-black text-lg text-slate-900 font-mono">₹0.00</span>
               </div>
             </div>
 
-            <div class="text-right pt-2">
-              <div class="font-signature text-2xl text-slate-800 leading-none">Registered Pharmacist</div>
-              <div class="w-36 border-b border-slate-400 mt-1 ml-auto"></div>
-              <p class="text-[9px] font-bold uppercase tracking-wider text-slate-500 mt-1">Pharmacist Sign & Seal</p>
+            <div class="text-right pt-2 border-t border-slate-200">
+              <div class="font-signature text-xl text-slate-900 leading-none">Registered Pharmacist</div>
+              <div class="w-32 border-b border-slate-400 mt-1 ml-auto"></div>
+              <p class="text-[8px] font-bold uppercase tracking-wider text-slate-500 mt-0.5">Pharmacist Sign & Seal</p>
             </div>
           </div>
         </div>
 
         <!-- Subtle Legal Watermark -->
-        <div id="prev-branding" class="text-center text-[10px] text-slate-400 pt-1 font-medium select-none border-t border-slate-200">
+        <div id="prev-branding" class="text-center text-[9px] text-slate-400 pt-1.5 font-medium select-none">
           This is a Computer Generated Pharmacy Invoice • Generated by UPIBillMaker.com
         </div>
 
