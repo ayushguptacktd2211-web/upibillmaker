@@ -2101,7 +2101,13 @@
                   <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-600"></i>
                   <span>Quick Add Popular Items (1-Tap):</span>
                 </span>
-                <span class="text-[10px] text-amber-700 font-medium">Click to add with standard rates</span>
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] text-amber-700 font-medium hidden sm:inline">1-Tap to add</span>
+                  <button type="button" onclick="openQuickItemsModal()" class="inline-flex items-center gap-1 text-[10px] font-bold text-amber-800 hover:text-amber-950 bg-amber-100 hover:bg-amber-200 px-2 py-0.5 rounded-md border border-amber-300 transition-colors cursor-pointer shadow-2xs" title="Customize your 1-Tap Quick Items">
+                    <i data-lucide="sliders-horizontal" class="w-2.5 h-2.5 text-amber-700"></i>
+                    <span>Customize Items</span>
+                  </button>
+                </div>
               </div>
               <div id="quick-item-chips" class="flex flex-wrap items-center gap-1.5">
                 <!-- Populated dynamically based on active template preset -->
@@ -2861,6 +2867,71 @@
         <button type="button" onclick="applyGeneratedLogo()" class="flex-1 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg shadow-sm flex items-center justify-center gap-1.5 transition-colors">
           <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Apply to Bill
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom 1-Tap Quick Items Manager Modal -->
+  <div id="quick-items-modal" onclick="if(event.target === this) closeQuickItemsModal()" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border border-slate-200 space-y-3 sm:space-y-4 relative max-h-[90vh] flex flex-col" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div>
+          <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900 flex items-center gap-1.5">
+            <i data-lucide="zap" class="w-5 h-5 text-amber-600 inline"></i>
+            <span>Customize 1-Tap Quick Items</span>
+          </h3>
+          <p class="text-[11px] text-slate-500 mt-0.5">Apne daily bikne wale items aur rates set karein (1-Click billing)</p>
+        </div>
+        <button type="button" onclick="closeQuickItemsModal()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Quick Actions Bar inside Modal -->
+      <div class="flex items-center justify-between gap-2 bg-amber-50/80 p-2 sm:p-2.5 rounded-xl border border-amber-200 text-xs">
+        <span class="text-amber-900 font-semibold text-[11px] flex items-center gap-1">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-600 shrink-0"></i>
+          <span class="hidden sm:inline">Add frequently billed items</span>
+        </span>
+        <button type="button" onclick="importItemsFromCurrentBill()" class="text-[11px] font-bold text-brand-700 hover:text-brand-900 bg-white hover:bg-brand-50 border border-brand-200 px-2.5 py-1 rounded-lg transition-all shadow-2xs cursor-pointer flex items-center gap-1">
+          <i data-lucide="import" class="w-3 h-3 text-brand-600"></i>
+          <span>Import from Current Bill</span>
+        </button>
+      </div>
+
+      <!-- Header Labels for Rows -->
+      <div class="grid grid-cols-12 gap-2 text-[10px] font-bold text-slate-500 uppercase px-1">
+        <div class="col-span-7 sm:col-span-6">Item / Service Name</div>
+        <div class="col-span-4 sm:col-span-3">Rate (₹)</div>
+        <div class="hidden sm:block sm:col-span-2 text-center">HSN/SAC</div>
+        <div class="col-span-1 text-center"></div>
+      </div>
+
+      <!-- Scrollable List of Quick Items -->
+      <div id="quick-items-editor-list" class="space-y-2 overflow-y-auto pr-1 flex-1 min-h-[140px] max-h-[300px]">
+        <!-- Populated dynamically via JS -->
+      </div>
+
+      <div class="pt-1">
+        <button type="button" onclick="addEmptyQuickItemRow()" class="w-full py-2 text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-dashed border-amber-300 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+          <i data-lucide="plus" class="w-3.5 h-3.5 text-amber-600"></i>
+          <span>+ Add Another Item Button</span>
+        </button>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+        <button type="button" onclick="resetQuickItemsToDefault()" class="py-2 px-2.5 sm:px-3 text-xs font-semibold text-rose-600 hover:text-rose-800 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer" title="Reset to standard industry presets">
+          Reset Defaults
+        </button>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeQuickItemsModal()" class="py-2 px-3 text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer">
+            Cancel
+          </button>
+          <button type="button" onclick="saveCustomQuickItems()" class="py-2 px-3.5 sm:px-4 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm flex items-center gap-1.5 transition-all cursor-pointer">
+            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            <span>Save My Items</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -5276,24 +5347,59 @@
       ]
     };
 
+    function getActiveQuickItems(type) {
+      const activeType = type || currentTemplate || 'shop';
+      try {
+        const saved = localStorage.getItem('upibill_custom_quick_items_' + activeType);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch(e) {}
+      return templateQuickItems[activeType] || templateQuickItems.shop;
+    }
+
     function renderQuickItemChips(type) {
       const container = document.getElementById('quick-item-chips');
       if (!container) return;
-      const items = templateQuickItems[type] || templateQuickItems.shop;
+      const activeType = type || currentTemplate || 'shop';
+      const items = getActiveQuickItems(activeType);
       container.innerHTML = '';
       items.forEach(it => {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'text-[11px] font-semibold bg-white hover:bg-amber-100 text-slate-800 border border-amber-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95';
         btn.innerHTML = `<span class="text-amber-600 font-bold">+</span> <span>${escapeHTML(it.desc)}</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹${it.rate}</span>`;
-        btn.onclick = () => quickAddItem(it.desc, it.rate, it.hsn);
+        btn.onclick = () => quickAddItem(it.desc, it.rate, it.hsn || '');
         container.appendChild(btn);
       });
+
+      // Quick Add / Customize Action Button
+      const editBtn = document.createElement('button');
+      editBtn.type = 'button';
+      editBtn.className = 'text-[10px] font-bold text-amber-800 hover:text-amber-950 bg-amber-100 hover:bg-amber-200 border border-dashed border-amber-400 px-2.5 py-1 rounded-md transition-all flex items-center gap-1 cursor-pointer';
+      editBtn.innerHTML = `<i data-lucide="edit-3" class="w-3 h-3 text-amber-700"></i> <span>Edit / Add Custom</span>`;
+      editBtn.onclick = () => openQuickItemsModal();
+      container.appendChild(editBtn);
+
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
     }
 
     function quickAddItem(desc, rate, hsn) {
       const itemsContainer = document.getElementById('items-container');
       if (!itemsContainer) return;
+
+      // If exactly 1 row exists and it's blank, replace it
+      const existingRows = itemsContainer.querySelectorAll('.item-row');
+      if (existingRows.length === 1) {
+        const firstDesc = existingRows[0].querySelector('.item-desc')?.value.trim();
+        const firstPrice = parseFloat(existingRows[0].querySelector('.item-price')?.value) || 0;
+        if (!firstDesc && firstPrice === 0) {
+          existingRows[0].remove();
+        }
+      }
 
       const div = document.createElement('div');
       div.className = 'item-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center';
@@ -5333,9 +5439,136 @@
       `;
       itemsContainer.appendChild(div);
       attachRowEvents(div);
-      if (window.lucide) lucide.createIcons();
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
       updateInvoice();
-      showDownloadToast(`Added "${desc}" (₹${rate}) to bill`);
+      showMemoryToast(`Added "${desc}" (₹${rate}) to bill`);
+    }
+
+    // Modal Operations for Custom Quick Items
+    function openQuickItemsModal() {
+      const modal = document.getElementById('quick-items-modal');
+      const list = document.getElementById('quick-items-editor-list');
+      if (!modal || !list) return;
+
+      const activeType = currentTemplate || 'shop';
+      const items = getActiveQuickItems(activeType);
+      list.innerHTML = '';
+
+      items.forEach(it => {
+        renderQuickItemEditorRow(it.desc, it.rate, it.hsn || '');
+      });
+
+      if (items.length === 0) {
+        addEmptyQuickItemRow();
+      }
+
+      modal.classList.remove('hidden');
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    }
+
+    function closeQuickItemsModal() {
+      const modal = document.getElementById('quick-items-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderQuickItemEditorRow(desc = '', rate = '', hsn = '') {
+      const list = document.getElementById('quick-items-editor-list');
+      if (!list) return;
+      const div = document.createElement('div');
+      div.className = 'quick-editor-row flex items-center gap-2 bg-slate-50 p-2 rounded-lg border border-slate-200';
+      div.innerHTML = `
+        <div class="flex-1 min-w-0">
+          <input type="text" class="quick-edit-desc w-full text-xs px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500 font-medium" placeholder="Item Name (e.g. Rice 5kg / Repair Fee)" value="${escapeHTML(desc)}">
+        </div>
+        <div class="w-24 shrink-0">
+          <div class="relative">
+            <span class="absolute left-2 top-1.5 text-xs text-slate-400 font-bold">₹</span>
+            <input type="number" step="any" min="0" class="quick-edit-rate w-full text-xs pl-5 pr-2 py-1.5 bg-white rounded border border-slate-300 font-mono font-bold text-slate-800 focus:ring-2 focus:ring-brand-500" placeholder="0" value="${rate !== '' ? rate : ''}">
+          </div>
+        </div>
+        <div class="w-20 hidden sm:block shrink-0">
+          <input type="text" class="quick-edit-hsn w-full text-xs px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-center text-slate-600 focus:ring-2 focus:ring-brand-500" placeholder="HSN" value="${escapeHTML(hsn || '')}">
+        </div>
+        <button type="button" onclick="this.closest('.quick-editor-row').remove()" class="text-slate-400 hover:text-rose-600 p-1.5 rounded hover:bg-rose-50 transition-colors cursor-pointer shrink-0" title="Delete">
+          <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
+        </button>
+      `;
+      list.appendChild(div);
+      if (window.lucide && typeof lucide.createIcons === 'function') {
+        lucide.createIcons();
+      }
+    }
+
+    function addEmptyQuickItemRow() {
+      renderQuickItemEditorRow('', '', '');
+      const list = document.getElementById('quick-items-editor-list');
+      if (list && list.lastElementChild) {
+        const inp = list.lastElementChild.querySelector('.quick-edit-desc');
+        if (inp) inp.focus();
+      }
+    }
+
+    function saveCustomQuickItems() {
+      const rows = document.querySelectorAll('.quick-editor-row');
+      const items = [];
+      rows.forEach(r => {
+        const desc = r.querySelector('.quick-edit-desc')?.value.trim();
+        const rate = parseFloat(r.querySelector('.quick-edit-rate')?.value) || 0;
+        const hsn = r.querySelector('.quick-edit-hsn')?.value.trim() || '';
+        if (desc) {
+          items.push({ desc, rate, hsn });
+        }
+      });
+
+      if (items.length === 0) {
+        alert('Please add at least 1 item name, or click Reset Defaults.');
+        return;
+      }
+
+      const activeType = currentTemplate || 'shop';
+      try {
+        localStorage.setItem('upibill_custom_quick_items_' + activeType, JSON.stringify(items));
+      } catch(e) {}
+
+      renderQuickItemChips(activeType);
+      closeQuickItemsModal();
+      showMemoryToast('Quick items saved! 1-Tap buttons updated.');
+    }
+
+    function resetQuickItemsToDefault() {
+      if (confirm('Reset quick items to standard defaults for this category?')) {
+        const activeType = currentTemplate || 'shop';
+        try {
+          localStorage.removeItem('upibill_custom_quick_items_' + activeType);
+        } catch(e) {}
+        renderQuickItemChips(activeType);
+        openQuickItemsModal();
+        showMemoryToast('Reset to standard template items.');
+      }
+    }
+
+    function importItemsFromCurrentBill() {
+      const rows = document.querySelectorAll('.item-row');
+      let count = 0;
+      rows.forEach(r => {
+        const desc = r.querySelector('.item-desc')?.value.trim();
+        const rate = parseFloat(r.querySelector('.item-price')?.value) || 0;
+        const hsn = r.querySelector('.item-hsn')?.value.trim() || '';
+        if (desc) {
+          renderQuickItemEditorRow(desc, rate, hsn);
+          count++;
+        }
+      });
+
+      if (count === 0) {
+        showMemoryToast('No items currently in your bill to import.');
+      } else {
+        showMemoryToast(`Imported ${count} item(s) from current bill! Click "Save" below.`);
+      }
     }
 
     // Bill Creation Mode Toggle: Simple Quick Bill vs Pro GST Invoice
@@ -5692,7 +5925,10 @@
         }
       });
       window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeLogoMakerModal();
+        if (e.key === 'Escape') {
+          closeLogoMakerModal();
+          closeQuickItemsModal();
+        }
       });
     }
 
