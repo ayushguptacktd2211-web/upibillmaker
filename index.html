@@ -169,7 +169,7 @@
 
     /* 1. Format: Modern Tax Invoice (Clean Standard Authentic) */
     #invoice-preview-container.format-modern {
-      border-radius: 0px !important;
+      border-radius: 4px;
       border: 1px solid #1e293b !important;
       box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
     }
@@ -180,24 +180,33 @@
       border: 2px solid #0f172a !important;
       box-shadow: none !important;
     }
-    #invoice-preview-container.format-classic #prev-doc-type {
+    #invoice-preview-container.format-classic .doc-title-bar {
       background: #0f172a !important;
       color: #ffffff !important;
-      padding: 4px 12px !important;
+      padding: 6px 12px !important;
+    }
+    #invoice-preview-container.format-classic .doc-title-bar h2 {
+      color: #ffffff !important;
       letter-spacing: 0.15em !important;
+    }
+    #invoice-preview-container.format-classic .doc-title-bar p {
+      color: #cbd5e1 !important;
     }
     #invoice-preview-container.format-classic table {
       border: 1.5px solid #0f172a !important;
     }
     #invoice-preview-container.format-classic thead tr {
-      background: #e2e8f0 !important;
+      background: #1e293b !important;
       border-bottom: 2px solid #0f172a !important;
-      color: #0f172a !important;
+      color: #ffffff !important;
     }
     #invoice-preview-container.format-classic th,
     #invoice-preview-container.format-classic td {
       border-right: 1px solid #cbd5e1 !important;
       padding: 6px 8px !important;
+    }
+    #invoice-preview-container.format-classic th {
+      color: #ffffff !important;
     }
     #invoice-preview-container.format-classic th:last-child,
     #invoice-preview-container.format-classic td:last-child {
@@ -217,22 +226,33 @@
     /* 3. Format: Executive Navy (Corporate Tax Invoice) */
     #invoice-preview-container.format-executive {
       border-radius: 0px !important;
-      border: 2px solid #0f172a !important;
+      border: 2px solid #1e3a8a !important;
       box-shadow: none !important;
     }
+    #invoice-preview-container.format-executive .doc-title-bar {
+      background: #1e3a8a !important;
+      color: #ffffff !important;
+      padding: 6px 12px !important;
+    }
+    #invoice-preview-container.format-executive .doc-title-bar h2 {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-executive .doc-title-bar p {
+      color: #bfdbfe !important;
+    }
     #invoice-preview-container.format-executive thead tr {
-      background: #0f172a !important;
+      background: #1e3a8a !important;
       color: #ffffff !important;
     }
     #invoice-preview-container.format-executive th {
-      color: #f8fafc !important;
+      color: #ffffff !important;
       padding: 7px 10px !important;
     }
     #invoice-preview-container.format-executive tbody tr:nth-child(even) {
-      background: #f8fafc;
+      background: #f0f7ff;
     }
     #invoice-preview-container.format-executive #prev-grand-total {
-      color: #0f172a !important;
+      color: #1e3a8a !important;
     }
 
     /* 4. Format: Minimalist Clean (Studio B&W) */
@@ -240,6 +260,10 @@
       border-radius: 0px !important;
       border: 1px solid #000000 !important;
       box-shadow: none !important;
+    }
+    #invoice-preview-container.format-minimal .doc-title-bar {
+      background: transparent !important;
+      border-bottom: 2px solid #000000 !important;
     }
     #invoice-preview-container.format-minimal thead tr {
       border-top: 2px solid #000000 !important;
@@ -257,6 +281,213 @@
     #invoice-preview-container.format-minimal #prev-grand-total {
       color: #000000 !important;
       font-weight: 900 !important;
+    }
+
+    /* =========================================================================
+       INDUSTRY DOMAIN THEMES (AUTHENTIC DISTINCT DESIGNS FOR EACH PRESET)
+       ========================================================================= */
+
+    /* Theme: Shop / Retail (Professional Slate & Blue) */
+    #invoice-preview-container.theme-shop {
+      border-color: #1e293b !important;
+    }
+
+    /* Theme: Medical / Chemist & Druggist (Clinical Teal & Emerald) */
+    #invoice-preview-container.theme-medical {
+      border-color: #0f766e !important;
+    }
+    #invoice-preview-container.theme-medical #prev-doc-type {
+      color: #0f766e !important;
+    }
+    #invoice-preview-container.theme-medical .doc-title-bar {
+      background: #f0fdfa !important;
+      border-bottom-color: #0f766e !important;
+    }
+    #invoice-preview-container.theme-medical thead tr {
+      background: #0f766e !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-medical thead th {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-medical #prev-industry-meta-strip {
+      background: #f0fdfa !important;
+      border-color: #0f766e !important;
+    }
+    #invoice-preview-container.theme-medical #prev-grand-total {
+      color: #0f766e !important;
+    }
+
+    /* Theme: Restaurant / Dining Cafe (Warm Gourmet Terracotta & Amber) */
+    #invoice-preview-container.theme-restaurant {
+      border: 1.5px dashed #c2410c !important;
+    }
+    #invoice-preview-container.theme-restaurant #prev-doc-type {
+      color: #c2410c !important;
+    }
+    #invoice-preview-container.theme-restaurant .doc-title-bar {
+      background: #fff7ed !important;
+      border-bottom: 1.5px dashed #ea580c !important;
+    }
+    #invoice-preview-container.theme-restaurant thead tr {
+      background: #ea580c !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-restaurant thead th {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-restaurant #prev-industry-meta-strip {
+      background: #fff7ed !important;
+      border-color: #ea580c !important;
+    }
+    #invoice-preview-container.theme-restaurant #prev-grand-total {
+      color: #c2410c !important;
+    }
+
+    /* Theme: Hotel & Luxury Stay (Executive Navy & Gold Folio) */
+    #invoice-preview-container.theme-hotel {
+      border: 2px solid #1e3a8a !important;
+    }
+    #invoice-preview-container.theme-hotel #prev-doc-type {
+      color: #1e3a8a !important;
+    }
+    #invoice-preview-container.theme-hotel .doc-title-bar {
+      background: #f8fafc !important;
+      border-bottom: 2px solid #1e3a8a !important;
+    }
+    #invoice-preview-container.theme-hotel thead tr {
+      background: #1e3a8a !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-hotel thead th {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-hotel #prev-industry-meta-strip {
+      background: #eff6ff !important;
+      border-color: #1e3a8a !important;
+    }
+    #invoice-preview-container.theme-hotel #prev-grand-total {
+      color: #1e3a8a !important;
+    }
+
+    /* Theme: Rent HRA Certificate (Official Legal Olive Green) */
+    #invoice-preview-container.theme-rent {
+      border: 2px solid #15803d !important;
+    }
+    #invoice-preview-container.theme-rent #prev-doc-type {
+      color: #15803d !important;
+    }
+    #invoice-preview-container.theme-rent .doc-title-bar {
+      background: #f0fdf4 !important;
+      border-bottom: 2px solid #15803d !important;
+    }
+    #invoice-preview-container.theme-rent thead tr {
+      background: #15803d !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-rent thead th {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-rent #prev-industry-meta-strip {
+      background: #f0fdf4 !important;
+      border-color: #15803d !important;
+    }
+    #invoice-preview-container.theme-rent #prev-grand-total {
+      color: #15803d !important;
+    }
+
+    /* Theme: Tuition & Academic Fee (Royal Indigo) */
+    #invoice-preview-container.theme-tuition {
+      border: 2px solid #4338ca !important;
+    }
+    #invoice-preview-container.theme-tuition #prev-doc-type {
+      color: #4338ca !important;
+    }
+    #invoice-preview-container.theme-tuition .doc-title-bar {
+      background: #eef2ff !important;
+      border-bottom: 2px solid #4338ca !important;
+    }
+    #invoice-preview-container.theme-tuition thead tr {
+      background: #4338ca !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-tuition thead th {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-tuition #prev-industry-meta-strip {
+      background: #eef2ff !important;
+      border-color: #4338ca !important;
+    }
+    #invoice-preview-container.theme-tuition #prev-grand-total {
+      color: #4338ca !important;
+    }
+
+    /* Table Columns Visibility Customizer */
+    #invoice-preview-container.hide-col-sno #th-sno,
+    #invoice-preview-container.hide-col-sno .td-sno {
+      display: none !important;
+    }
+    #invoice-preview-container.hide-col-hsn #th-hsn,
+    #invoice-preview-container.hide-col-hsn .td-hsn,
+    #invoice-preview-container.hide-hsn-col #th-hsn,
+    #invoice-preview-container.hide-hsn-col .td-hsn {
+      display: none !important;
+    }
+    #invoice-preview-container.hide-col-qty #th-qty,
+    #invoice-preview-container.hide-col-qty .td-qty {
+      display: none !important;
+    }
+    #invoice-preview-container.hide-col-rate #th-rate,
+    #invoice-preview-container.hide-col-rate .td-rate {
+      display: none !important;
+    }
+
+    .col-hide-btn {
+      display: inline-block;
+      opacity: 0;
+      margin-left: 3px;
+      font-size: 9px;
+      color: #94a3b8;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0 2px;
+      line-height: 1;
+      transition: opacity 0.15s ease, color 0.15s ease;
+      vertical-align: middle;
+    }
+    .group\/th:hover .col-hide-btn {
+      opacity: 1;
+    }
+    .col-hide-btn:hover {
+      color: #ef4444;
+    }
+
+    /* Quick Hover Section Hide Button */
+    .sec-hide-btn {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #64748b;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+      z-index: 10;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    .group\/sec:hover .sec-hide-btn {
+      opacity: 1;
+    }
+    .sec-hide-btn:hover {
+      background: #fee2e2;
+      color: #dc2626;
+      border-color: #fca5a5;
     }
 
     /* Direct WYSIWYG Editable Fields in Preview */
@@ -493,89 +724,208 @@
     </div>
   </div>
 
-  <!-- Main Tool Workspace (Centered Form with Preview Below for High Ads & SaaS UX) -->
-  <main id="tool-section" class="google-anno-skip max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
-    
-    <!-- Sleek Horizontal Industry Template Pills (Compact, Zero Emojis) -->
-    <div id="industry-template-bar" class="w-full no-print">
-      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs font-semibold">
-        <button type="button" id="tab-tpl-shop" onclick="switchTemplate('shop')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all text-white bg-brand-600 border-brand-700 shadow-xs cursor-pointer flex items-center gap-1.5">
-          <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
-          <span>Retail & Shop</span>
-        </button>
-        <button type="button" id="tab-tpl-medical" onclick="switchTemplate('medical')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
-          <i data-lucide="activity" class="w-3.5 h-3.5 text-teal-600"></i>
-          <span>Medical / Rx</span>
-        </button>
-        <button type="button" id="tab-tpl-restaurant" onclick="switchTemplate('restaurant')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
-          <i data-lucide="utensils" class="w-3.5 h-3.5 text-orange-600"></i>
-          <span>Restaurant</span>
-        </button>
-        <button type="button" id="tab-tpl-hotel" onclick="switchTemplate('hotel')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
-          <i data-lucide="hotel" class="w-3.5 h-3.5 text-indigo-600"></i>
-          <span>Hotel & Stay</span>
-        </button>
-        <button type="button" id="tab-tpl-rent" onclick="switchTemplate('rent')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
-          <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-600"></i>
-          <span>Rent (HRA)</span>
-        </button>
-        <button type="button" id="tab-tpl-tuition" onclick="switchTemplate('tuition')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
-          <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-600"></i>
-          <span>Tuition Fee</span>
-        </button>
-      </div>
-    </div>
+  <!-- Desktop 3-Column Layout: Left Rail Ad + Central Bill Workspace + Right Rail Ad -->
+  <div class="w-full max-w-[1480px] mx-auto px-2 sm:px-4 flex justify-center items-start gap-4">
 
-    <!-- Live Interactive Preview Section -->
-    <div id="col-main-preview" class="google-anno-skip w-full space-y-3">
-        
-      <!-- Compact Unified Preview Action Toolbar -->
-      <div class="bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 shadow-xs flex flex-wrap items-center justify-between gap-2 no-print">
-        <!-- Left Side: Format Theme -->
-        <div class="flex items-center gap-2">
-          <div class="flex items-center gap-1.5">
-            <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Theme:</span>
-            <select id="invoice-format-select" onchange="setInvoiceFormat(this.value)" class="text-xs font-semibold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer">
-              <option value="format-modern" selected>Modern SaaS</option>
-              <option value="format-classic">Classic Grid</option>
-              <option value="format-executive">Executive Navy</option>
-              <option value="format-minimal">Minimal Clean</option>
-            </select>
+    <!-- Left Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
+    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Left Advertisement Rail">
+      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:160px;height:600px"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1122334455"></ins>
+        <span class="text-xs font-semibold mt-2">160x600</span>
+        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
+      </div>
+    </aside>
+
+    <!-- Main Tool Workspace (Centered Form with Preview for SaaS & Ad Efficiency) -->
+    <main id="tool-section" class="google-anno-skip flex-1 max-w-4xl min-w-0 py-4 sm:py-8 space-y-6 sm:space-y-8">
+      
+      <!-- Sleek Horizontal Industry Template Pills (Compact, Zero Emojis) -->
+      <div id="industry-template-bar" class="w-full no-print">
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs font-semibold">
+          <button type="button" id="tab-tpl-shop" onclick="switchTemplate('shop')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all text-white bg-brand-600 border-brand-700 shadow-xs cursor-pointer flex items-center gap-1.5">
+            <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+            <span>Retail & Shop</span>
+          </button>
+          <button type="button" id="tab-tpl-medical" onclick="switchTemplate('medical')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
+            <i data-lucide="activity" class="w-3.5 h-3.5 text-teal-600"></i>
+            <span>Medical / Rx</span>
+          </button>
+          <button type="button" id="tab-tpl-restaurant" onclick="switchTemplate('restaurant')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
+            <i data-lucide="utensils" class="w-3.5 h-3.5 text-orange-600"></i>
+            <span>Restaurant</span>
+          </button>
+          <button type="button" id="tab-tpl-hotel" onclick="switchTemplate('hotel')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
+            <i data-lucide="hotel" class="w-3.5 h-3.5 text-indigo-600"></i>
+            <span>Hotel & Stay</span>
+          </button>
+          <button type="button" id="tab-tpl-rent" onclick="switchTemplate('rent')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
+            <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Rent (HRA)</span>
+          </button>
+          <button type="button" id="tab-tpl-tuition" onclick="switchTemplate('tuition')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>Tuition Fee</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Interactive Preview Section -->
+      <div id="col-main-preview" class="google-anno-skip w-full space-y-3">
+          
+        <!-- Compact Unified Preview Action Toolbar -->
+        <div class="bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 shadow-xs flex flex-wrap items-center justify-between gap-2 no-print">
+          <!-- Left Side: Format Theme & Customize Sections Button -->
+          <div class="flex items-center gap-2 flex-wrap">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Theme:</span>
+              <select id="invoice-format-select" onchange="setInvoiceFormat(this.value)" class="text-xs font-semibold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer">
+                <option value="format-modern" selected>Modern SaaS</option>
+                <option value="format-classic">Classic Grid</option>
+                <option value="format-executive">Executive Navy</option>
+                <option value="format-minimal">Minimal Clean</option>
+              </select>
+            </div>
+            
+            <button type="button" onclick="toggleSectionCustomizer()" id="btn-toggle-customizer" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer shadow-2xs" title="Hide/Show sections from this bill">
+              <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-brand-600"></i>
+              <span>Customize Sections</span>
+            </button>
+          </div>
+
+          <!-- Right Side: Export Action Buttons -->
+          <div class="flex items-center gap-1.5 ml-auto">
+            <button type="button" onclick="downloadAsPDF()" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-xs shadow-brand-600/20 transition-all cursor-pointer">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+              <span>Download PDF</span>
+            </button>
+            <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Save PNG">
+              <i data-lucide="image" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span class="hidden sm:inline">PNG</span>
+            </button>
+            <button type="button" id="btn-share-whatsapp" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors cursor-pointer" title="Share Invoice on WhatsApp">
+              <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span class="hidden sm:inline">WhatsApp</span>
+            </button>
+            <button type="button" onclick="printInvoice()" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Print Bill">
+              <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-500"></i>
+              <span class="hidden sm:inline">Print</span>
+            </button>
           </div>
         </div>
 
-        <!-- Right Side: Export Action Buttons -->
-        <div class="flex items-center gap-1.5 ml-auto">
-          <button type="button" onclick="downloadAsPDF()" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-xs shadow-brand-600/20 transition-all cursor-pointer">
-            <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
-            <span>Download PDF</span>
-          </button>
-          <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Save PNG">
-            <i data-lucide="image" class="w-3.5 h-3.5 text-slate-500"></i>
-            <span class="hidden sm:inline">PNG</span>
-          </button>
-          <button type="button" id="btn-share-whatsapp" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors cursor-pointer" title="Share Invoice on WhatsApp">
-            <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-600"></i>
-            <span class="hidden sm:inline">WhatsApp</span>
-          </button>
-          <button type="button" onclick="printInvoice()" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Print Bill">
-            <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-500"></i>
-            <span class="hidden sm:inline">Print</span>
-          </button>
+        <!-- Section Customizer Drawer (Show/Hide any bill section or table column with 1 click) -->
+        <div id="section-customizer-drawer" class="hidden bg-white rounded-xl border border-slate-200 p-3 sm:p-4 shadow-sm no-print space-y-3 transition-all">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+            <div class="flex items-center gap-2">
+              <i data-lucide="sliders" class="w-4 h-4 text-brand-600"></i>
+              <h4 class="text-xs sm:text-sm font-bold text-slate-900">Customize Bill Sections & Columns (कॉलम और सेक्शन हटाएं / दिखाएं)</h4>
+            </div>
+            <div class="flex items-center gap-3">
+              <button type="button" onclick="resetSectionVisibility()" class="text-xs font-semibold text-brand-600 hover:text-brand-800 transition-colors">Show All (सब दिखाएं)</button>
+              <button type="button" onclick="toggleSectionCustomizer()" class="text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-500">Uncheck any item below to immediately remove it from your bill. For example, uncheck HSN/SAC or Qty/Rate if not needed.</p>
+
+          <!-- Group A: Table Columns -->
+          <div class="space-y-1.5 pt-1">
+            <span class="text-[10px] font-bold text-brand-700 uppercase tracking-wider block">📊 Items Table Columns (टेबल के कॉलम):</span>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-col-sno" checked onchange="toggleBillSection('col-sno', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800"># (S.No) Column</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-col-hsn" checked onchange="toggleBillSection('col-hsn', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">HSN/SAC Column</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-col-qty" checked onchange="toggleBillSection('col-qty', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Quantity (Qty)</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-col-rate" checked onchange="toggleBillSection('col-rate', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Rate (Unit Price)</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Group B: Bill Sections & Cards -->
+          <div class="space-y-1.5 pt-1 border-t border-slate-100">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">📄 Bill Sections & Cards (बिल के हिस्से):</span>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-xs">
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-billed-to" checked onchange="toggleBillSection('billed-to', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Customer Info</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-seller-tagline" checked onchange="toggleBillSection('seller-tagline', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Business Tagline</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-payment-status" checked onchange="toggleBillSection('payment-status', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Status Badge</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-industry-meta" checked onchange="toggleBillSection('industry-meta', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Industry Details</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-amount-in-words" checked onchange="toggleBillSection('amount-in-words', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Amount in Words</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-upi-qr" checked onchange="toggleBillSection('upi-qr', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Bank & UPI QR</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-terms-block" checked onchange="toggleBillSection('terms-block', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Terms & Notes</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-tax-breakdown" checked onchange="toggleBillSection('tax-breakdown', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Tax Breakdown</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+                <input type="checkbox" id="chk-sec-signatory-block" checked onchange="toggleBillSection('signatory-block', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
+                <span class="font-medium text-slate-800">Signatory Block</span>
+              </label>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <!-- Direct WYSIWYG Edit Tip Banner -->
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/80 text-amber-900 px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-between gap-2 shadow-2xs no-print">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-[11px] flex-shrink-0">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            </span>
+            <span class="text-[11px] sm:text-xs">
+              <strong>आसान तरीका (Direct Edit):</strong> Aap neeche bill par kisi bhi text (naam, rate, item) par direct click karke bhi edit kar sakte hain!
+            </span>
+          </div>
+          <span class="text-[10px] font-bold text-amber-800 uppercase bg-amber-200/70 px-2 py-0.5 rounded-full flex-shrink-0 hidden sm:inline">
+            Click & Type
+          </span>
+        </div>
 
         <!-- Mobile Fit Viewport Wrapper -->
         <div id="invoice-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
           <!-- The Live Rendered Sheet (Authentic Real Indian Invoice Format) -->
-          <div id="invoice-preview-container" class="format-modern google-anno-skip bg-white rounded-none border border-slate-800 shadow-md p-3.5 sm:p-5 transition-all relative text-slate-900 font-sans">
+          <div id="invoice-preview-container" class="format-modern theme-shop google-anno-skip bg-white rounded-none border border-slate-800 shadow-md p-3.5 sm:p-5 transition-all relative text-slate-900 font-sans">
           
           <!-- Top Tax Invoice Legal Title Bar -->
-          <div class="text-center pb-2 mb-2 border-b border-slate-800">
+          <div class="doc-title-bar text-center pb-2 mb-2 border-b border-slate-800 transition-colors">
             <h2 id="prev-doc-type" class="font-heading font-black text-lg sm:text-xl text-slate-900 tracking-wider uppercase">
               TAX INVOICE
             </h2>
-            <p class="text-[9px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">
+            <p id="prev-doc-subtitle" class="text-[9px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">
               (Issued under Section 31 of CGST Act, 2017 • Original for Recipient)
             </p>
           </div>
@@ -616,11 +966,7 @@
                     <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Invoice Date:</td>
                     <td class="py-1 px-2 font-mono text-slate-800 font-medium" id="prev-invoice-date"></td>
                   </tr>
-                  <tr class="border-b border-slate-200" id="prev-supply-row">
-                    <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Place of Supply:</td>
-                    <td class="py-1 px-2 text-slate-800 font-medium" id="prev-supply-state">07 - Delhi</td>
-                  </tr>
-                  <tr>
+                  <tr class="border-b border-slate-200" id="sec-payment-status-row">
                     <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Payment Status:</td>
                     <td class="py-1 px-2">
                       <div role="button" tabindex="0" onclick="toggleBillStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none inline-block">
@@ -636,7 +982,8 @@
           </div>
 
           <!-- Billed To (Buyer Info): Continuous Accounting Bar -->
-          <div class="py-1.5 px-2 bg-slate-50/40 border-b border-slate-800 grid grid-cols-1 sm:grid-cols-12 gap-2 text-xs">
+          <div id="sec-billed-to" class="group/sec relative py-1.5 px-2 bg-slate-50/40 border-b border-slate-800 grid grid-cols-1 sm:grid-cols-12 gap-2 text-xs">
+            <button type="button" onclick="hideBillSection('billed-to')" class="sec-hide-btn no-print" title="Hide customer details from bill">✕ Hide</button>
             <div class="sm:col-span-7">
               <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 block">Billed To (Customer / Recipient):</span>
               <div class="flex items-center gap-2 flex-wrap">
@@ -654,19 +1001,31 @@
           </div>
 
           <!-- Dynamic Industry Meta Strip (Auto-populated only when fields have values) -->
-          <div id="prev-industry-meta-strip" class="hidden border-b border-slate-800 bg-slate-50/30 py-1.5 px-3 text-xs text-slate-800"></div>
+          <div id="prev-industry-meta-strip" class="group/sec relative hidden border-b border-slate-800 bg-slate-50/30 py-1.5 px-3 text-xs text-slate-800"></div>
 
           <!-- Items Table (Crisp Accounting Ledger Grid with S.No) -->
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
                 <tr class="bg-slate-100 border-b border-slate-800 text-slate-900 font-bold uppercase text-[9px] sm:text-[10px] tracking-wider">
-                  <th class="py-1.5 px-2 text-center w-8 border-r border-slate-300">#</th>
-                  <th class="py-1.5 px-2.5 border-r border-slate-300">Description of Goods / Services</th>
-                  <th id="th-hsn" class="py-1.5 px-2 text-center w-16 sm:w-20 border-r border-slate-300">HSN/SAC</th>
-                  <th class="py-1.5 px-2 text-center w-12 sm:w-14 border-r border-slate-300">Qty</th>
-                  <th class="py-1.5 px-2.5 text-right w-20 sm:w-24 border-r border-slate-300">Rate (₹)</th>
-                  <th class="py-1.5 px-2.5 text-right w-24 sm:w-28">Amount (₹)</th>
+                  <th id="th-sno" class="group/th relative py-1.5 px-2 text-center w-8 border-r border-slate-300">
+                    <span>#</span>
+                    <button type="button" onclick="hideBillSection('col-sno')" class="col-hide-btn no-print" title="Remove S.No column from bill">✕</button>
+                  </th>
+                  <th id="th-desc" class="py-1.5 px-2.5 border-r border-slate-300">Description of Goods / Services</th>
+                  <th id="th-hsn" class="group/th relative py-1.5 px-2 text-center w-16 sm:w-20 border-r border-slate-300">
+                    <span>HSN/SAC</span>
+                    <button type="button" onclick="hideBillSection('col-hsn')" class="col-hide-btn no-print" title="Remove HSN/SAC column from bill">✕</button>
+                  </th>
+                  <th id="th-qty" class="group/th relative py-1.5 px-2 text-center w-12 sm:w-14 border-r border-slate-300">
+                    <span>Qty</span>
+                    <button type="button" onclick="hideBillSection('col-qty')" class="col-hide-btn no-print" title="Remove Quantity column from bill">✕</button>
+                  </th>
+                  <th id="th-rate" class="group/th relative py-1.5 px-2.5 text-right w-20 sm:w-24 border-r border-slate-300">
+                    <span>Rate (₹)</span>
+                    <button type="button" onclick="hideBillSection('col-rate')" class="col-hide-btn no-print" title="Remove Rate column from bill">✕</button>
+                  </th>
+                  <th id="th-amount" class="py-1.5 px-2.5 text-right w-24 sm:w-28">Amount (₹)</th>
                   <th class="py-1 px-1 text-center w-6 no-print"></th>
                 </tr>
               </thead>
@@ -687,7 +1046,8 @@
           </div>
 
           <!-- Statutory Amount in Words Bar -->
-          <div class="border-t border-b border-slate-800 py-1.5 px-2.5 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
+          <div id="sec-amount-in-words" class="group/sec relative border-t border-b border-slate-800 py-1.5 px-2.5 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
+            <button type="button" onclick="hideBillSection('amount-in-words')" class="sec-hide-btn no-print" title="Hide amount in words">✕ Hide</button>
             <div>
               <span class="font-bold text-slate-800 text-[11px]">Amount in Words:</span>
               <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1 text-[11px]">INR Zero Rupees Only</span>
@@ -700,7 +1060,8 @@
             
             <!-- Left 7 Cols: Bank & UPI Payment Details + Terms -->
             <div class="sm:col-span-7 sm:border-r border-slate-800 p-2.5 flex flex-col justify-between space-y-2">
-              <div id="upi-payment-block" class="border border-slate-300 bg-white p-2 text-xs space-y-1.5">
+              <div id="upi-payment-block" class="group/sec relative border border-slate-300 bg-white p-2 text-xs space-y-1.5">
+                <button type="button" onclick="hideBillSection('upi-qr')" class="sec-hide-btn no-print" title="Hide UPI payment details">✕ Hide</button>
                 <div class="font-bold text-[9px] uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 flex items-center justify-between">
                   <span>Bank & UPI Payment Details</span>
                   <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
@@ -726,7 +1087,8 @@
               </div>
 
               <!-- Terms & Conditions as its own authentic accounting block -->
-              <div id="terms-conditions-block" class="text-xs text-slate-600">
+              <div id="terms-conditions-block" class="group/sec relative text-xs text-slate-600">
+                <button type="button" onclick="hideBillSection('terms-block')" class="sec-hide-btn no-print" title="Hide terms & conditions">✕ Hide</button>
                 <span class="font-bold text-[9px] text-slate-700 uppercase tracking-wider block mb-0.5">Terms & Conditions:</span>
                 <p id="prev-notes" contenteditable="true" spellcheck="false" class="editable-field text-[10px] text-slate-600 italic block leading-relaxed" data-bind="invoice-notes" title="Click to edit terms & notes">Thank you for your business!</p>
               </div>
@@ -744,17 +1106,19 @@
                   <span>Discount:</span>
                   <span id="prev-discount" class="font-medium font-mono">-₹0.00</span>
                 </div>
-                <div id="prev-cgst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
-                  <span id="prev-cgst-label">CGST (9%):</span>
-                  <span id="prev-cgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
-                </div>
-                <div id="prev-sgst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
-                  <span id="prev-sgst-label">SGST (9%):</span>
-                  <span id="prev-sgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
-                </div>
-                <div id="prev-igst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
-                  <span id="prev-igst-label">IGST (18%):</span>
-                  <span id="prev-igst" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                <div id="sec-tax-breakdown-box" class="space-y-1">
+                  <div id="prev-cgst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
+                    <span id="prev-cgst-label">CGST (9%):</span>
+                    <span id="prev-cgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                  </div>
+                  <div id="prev-sgst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
+                    <span id="prev-sgst-label">SGST (9%):</span>
+                    <span id="prev-sgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                  </div>
+                  <div id="prev-igst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
+                    <span id="prev-igst-label">IGST (18%):</span>
+                    <span id="prev-igst" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                  </div>
                 </div>
                 <div class="border-t-2 border-slate-900 pt-1.5 flex justify-between items-center text-slate-900">
                   <span class="font-bold text-xs uppercase">Total Due:</span>
@@ -763,7 +1127,8 @@
               </div>
 
               <!-- Authorized Signatory -->
-              <div class="text-right pt-2 border-t border-slate-200">
+              <div id="sec-signatory-block" class="group/sec relative text-right pt-2 border-t border-slate-200">
+                <button type="button" onclick="hideBillSection('signatory-block')" class="sec-hide-btn no-print" title="Hide signatory block">✕ Hide</button>
                 <p class="text-[9px] font-bold text-slate-600">For <span id="prev-seller-sign-name" class="text-slate-900">Sharma Electronics & Services</span></p>
                 <div class="h-8 flex items-center justify-end my-0.5">
                   <div class="font-signature text-xl text-slate-900 leading-none editable-field" id="prev-signature-cursive" contenteditable="true" spellcheck="false" data-bind="signatory-name" title="Click to edit signatory">
@@ -774,8 +1139,6 @@
                   Authorized Signatory
                 </p>
               </div>
-            </div>
-
           </div>
 
           <!-- Bottom Statutory Notice -->
@@ -828,6 +1191,32 @@
           </div>
         </div>
 
+        <!-- Easy Mode vs Pro GST Mode Switcher (Make bill making super fast and easy!) -->
+        <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 p-2.5 sm:p-3 rounded-xl border border-emerald-200 flex flex-wrap items-center justify-between gap-2.5">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold shadow-xs">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                <span>Bill Mode:</span>
+                <span id="current-mode-label" class="text-emerald-700 font-extrabold uppercase tracking-wide">⚡ Simple Quick Mode</span>
+              </div>
+              <p class="text-[11px] text-slate-600">Basic 3-step billing for 30-second bills • Switch to Pro for detailed B2B GST</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 bg-white p-1 rounded-lg border border-slate-200 shadow-2xs">
+            <button type="button" id="btn-mode-simple" onclick="setBillCreationMode('simple')" class="px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-emerald-600 text-white shadow-xs cursor-pointer flex items-center gap-1">
+              <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+              <span>⚡ Quick Bill</span>
+            </button>
+            <button type="button" id="btn-mode-pro" onclick="setBillCreationMode('pro')" class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer flex items-center gap-1">
+              <i data-lucide="settings-2" class="w-3.5 h-3.5"></i>
+              <span>⚙️ Pro GST</span>
+            </button>
+          </div>
+        </div>
+
         <form id="bill-form" class="space-y-4 sm:space-y-6">
 
           <!-- 1. Logo & Business Info -->
@@ -840,7 +1229,7 @@
             </div>
 
             <!-- Logo Upload Row -->
-            <div class="flex items-start sm:items-center gap-3 bg-white p-2.5 sm:p-3 rounded-lg border border-slate-200">
+            <div class="pro-only-field flex items-start sm:items-center gap-3 bg-white p-2.5 sm:p-3 rounded-lg border border-slate-200">
               <div id="logo-preview-box" class="w-14 h-14 sm:w-16 sm:h-16 rounded-lg bg-slate-100 border border-dashed border-slate-300 flex items-center justify-center overflow-hidden flex-shrink-0">
                 <i data-lucide="upload-cloud" class="w-5 h-5 sm:w-6 sm:h-6 text-slate-400"></i>
               </div>
@@ -913,7 +1302,7 @@
           </div>
 
           <!-- 2. GST & TAX SETTINGS (THE POWERHOUSE MODULE) -->
-          <div class="bg-indigo-50/50 p-4 rounded-xl border border-indigo-200/80 space-y-3.5">
+          <div class="pro-only-field bg-indigo-50/50 p-4 rounded-xl border border-indigo-200/80 space-y-3.5">
             <div class="flex items-center justify-between">
               <label class="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" id="enable-gst" checked class="w-4 h-4 text-indigo-600 rounded border-indigo-300 focus:ring-indigo-500">
@@ -953,7 +1342,7 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="pro-only-field grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-semibold text-slate-700 mb-1">Buyer / Client GSTIN (For B2B)</label>
                   <input type="text" id="buyer-gstin" maxlength="15" placeholder="e.g. 07AAAPL****C1ZV" value=""
@@ -1192,6 +1581,20 @@
               </button>
             </div>
 
+            <!-- 1-Click Quick Add Item Chips Bar (Fast 5-second bill making) -->
+            <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-2.5 space-y-1.5">
+              <div class="flex items-center justify-between text-[11px]">
+                <span class="flex items-center gap-1 font-bold text-amber-900">
+                  <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-600"></i>
+                  <span>⚡ Quick Add Popular Items (1-Tap):</span>
+                </span>
+                <span class="text-[10px] text-amber-700 font-medium">Click to add with standard rates</span>
+              </div>
+              <div id="quick-item-chips" class="flex flex-wrap items-center gap-1.5">
+                <!-- Populated dynamically based on active template preset -->
+              </div>
+            </div>
+
             <div id="items-container" class="space-y-2.5">
               <!-- Item 1 -->
               <div class="item-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center">
@@ -1291,7 +1694,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="pro-only-field grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-semibold text-slate-700 mb-1">Authorized Signatory Name</label>
               <input type="text" id="signatory-name" placeholder="e.g. Authorized Signatory" value="Authorized Signatory"
@@ -1344,6 +1747,21 @@
         </form>
       </div>
   </main>
+
+    <!-- Right Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
+    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Right Advertisement Rail">
+      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:160px;height:600px"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="6677889900"></ins>
+        <span class="text-xs font-semibold mt-2">160x600</span>
+        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
+      </div>
+    </aside>
+
+  </div> <!-- End Desktop 3-Column Container -->
 
   <!-- Deep SEO & Content Section -->
   <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 space-y-12 no-print">
@@ -1949,20 +2367,20 @@
             tr.setAttribute('data-row-index', index);
             tr.className = 'border-b border-slate-200 hover:bg-slate-50/50';
             tr.innerHTML = `
-              <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200">${index + 1}</td>
-              <td class="py-2 px-3 font-medium text-slate-900 border-r border-slate-200">
+              <td class="td-sno py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200">${index + 1}</td>
+              <td class="td-desc py-2 px-3 font-medium text-slate-900 border-r border-slate-200">
                 <span contenteditable="true" spellcheck="false" class="editable-field editable-desc block" data-row-idx="${index}" title="Click to edit item description">${escapeHTML(desc)}</span>
               </td>
-              <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200 ${isGstEnabled ? '' : 'hidden'}">
+              <td class="td-hsn py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200 ${isGstEnabled ? '' : 'hidden'}">
                 <span contenteditable="true" spellcheck="false" class="editable-field editable-hsn inline-block" data-row-idx="${index}" title="Click to edit HSN/SAC">${escapeHTML(hsn)}</span>
               </td>
-              <td class="py-2 px-2 text-center text-slate-800 font-semibold border-r border-slate-200">
+              <td class="td-qty py-2 px-2 text-center text-slate-800 font-semibold border-r border-slate-200">
                 <span contenteditable="true" spellcheck="false" class="editable-field editable-qty inline-block" data-row-idx="${index}" title="Click to edit quantity">${qty}</span>
               </td>
-              <td class="py-2 px-3 text-right font-mono text-slate-800 border-r border-slate-200">
+              <td class="td-rate py-2 px-3 text-right font-mono text-slate-800 border-r border-slate-200">
                 <span contenteditable="true" spellcheck="false" class="editable-field editable-price inline-block font-semibold" data-row-idx="${index}" title="Click to edit rate">₹${formatINR(price)}</span>
               </td>
-              <td class="py-2 px-3 text-right font-mono font-bold text-slate-900 prev-row-amount">
+              <td class="td-amount py-2 px-3 text-right font-mono font-bold text-slate-900 prev-row-amount">
                 ₹${formatINR(amount)}
               </td>
               <td class="py-2 px-2 text-center w-6 no-print">
@@ -3249,8 +3667,278 @@
         if (window.lucide) lucide.createIcons();
       }
 
+      // Apply Authentic Theme Styling & Subtitle to Invoice Preview
+      const previewContainer = document.getElementById('invoice-preview-container');
+      if (previewContainer) {
+        ['theme-shop', 'theme-medical', 'theme-restaurant', 'theme-hotel', 'theme-rent', 'theme-tuition'].forEach(cls => {
+          previewContainer.classList.remove(cls);
+        });
+        previewContainer.classList.add(`theme-${type}`);
+      }
+
+      const subtitleEl = document.getElementById('prev-doc-subtitle');
+      if (subtitleEl) {
+        const subtitles = {
+          shop: '(Issued under Section 31 of CGST Act, 2017 • Original for Recipient)',
+          medical: '(Retail Pharmacy Cash Memo • Regd. Under D&C Act 1940 & Rules • Schedule H/H1)',
+          restaurant: '(Dining & FSSAI Compliant Food Services Memo • Original Customer Copy)',
+          hotel: '(Guest Folio & Stay Invoice • Category SAC 9963 • Luxury Accommodations)',
+          rent: '(Official Rent Receipt for Income Tax HRA Exemption u/s 10(13A))',
+          tuition: '(Official Coaching / Institute Fee Receipt • Student Copy)'
+        };
+        subtitleEl.innerText = subtitles[type] || subtitles.shop;
+      }
+
+      // Update Quick Add Item Chips
+      renderQuickItemChips(type);
+
       // Immediately Update Live Preview
       updateInvoice();
+    }
+
+    // ⚡ 1-Click Quick Add Popular Line Items (Make bill making ultra-fast)
+    const templateQuickItems = {
+      shop: [
+        { desc: 'Mobile Screen / Display Replacement', rate: 1800, hsn: '8471' },
+        { desc: 'Laptop OS Installation & Cleanup', rate: 850, hsn: '9987' },
+        { desc: 'Logitech Wireless Mouse', rate: 450, hsn: '8471' },
+        { desc: '65W Fast Type-C Charger', rate: 650, hsn: '8504' },
+        { desc: 'CCTV Camera 2MP HD + Installation', rate: 2800, hsn: '8525' },
+        { desc: 'General Service & Diagnostic Fee', rate: 350, hsn: '9987' }
+      ],
+      medical: [
+        { desc: 'Paracetamol 650mg (15 Tabs Strip)', rate: 42, hsn: '3004' },
+        { desc: 'Amoxicillin 625mg (10 Tabs Strip)', rate: 145, hsn: '3004' },
+        { desc: 'Vitamin C 500mg Chewable (15 Tabs)', rate: 95, hsn: '3004' },
+        { desc: 'Cough & Cold Relief Syrup 100ml', rate: 120, hsn: '3004' },
+        { desc: 'Fast-Acting Pain Relief Gel 30g', rate: 135, hsn: '3004' },
+        { desc: 'Surgical 3-Ply Protective Face Mask (Box of 50)', rate: 150, hsn: '6307' }
+      ],
+      restaurant: [
+        { desc: 'Paneer Butter Masala (Handi)', rate: 360, hsn: '2106' },
+        { desc: 'Dal Makhani (Special)', rate: 290, hsn: '2106' },
+        { desc: 'Butter Naan (Clay Tandoor)', rate: 45, hsn: '1905' },
+        { desc: 'Veg Dum Biryani with Raita', rate: 280, hsn: '2106' },
+        { desc: 'Masala Chai / Coffee', rate: 35, hsn: '2202' },
+        { desc: 'Fresh Lime Soda (Sweet & Salt)', rate: 95, hsn: '2202' }
+      ],
+      hotel: [
+        { desc: 'Deluxe AC Room - 1 Night Tariff', rate: 2500, hsn: '9963' },
+        { desc: 'Executive Suite - 1 Night Tariff', rate: 4500, hsn: '9963' },
+        { desc: 'Buffet Breakfast & Morning Coffee', rate: 350, hsn: '9963' },
+        { desc: 'Extra Rollaway Bed with Linen', rate: 800, hsn: '9963' },
+        { desc: 'Express In-House Laundry Service', rate: 250, hsn: '9997' },
+        { desc: 'Airport Cab Transfer Pickup', rate: 1200, hsn: '9964' }
+      ],
+      rent: [
+        { desc: 'Monthly Residential Apartment Rent', rate: 18000, hsn: '9972' },
+        { desc: 'Monthly Society Maintenance Charges', rate: 2500, hsn: '9972' },
+        { desc: 'Dedicated Covered Car Parking Space', rate: 1500, hsn: '9972' },
+        { desc: 'Electricity & Water Utility Contribution', rate: 1850, hsn: '9972' }
+      ],
+      tuition: [
+        { desc: 'Monthly Coaching Tuition Fee', rate: 3500, hsn: '9992' },
+        { desc: 'Printed Study Modules & Assignment Booklet', rate: 500, hsn: '9992' },
+        { desc: 'Monthly Mock Test & Assessment Series', rate: 750, hsn: '9992' },
+        { desc: 'Annual Registration & Library Fee', rate: 1000, hsn: '9992' }
+      ]
+    };
+
+    function renderQuickItemChips(type) {
+      const container = document.getElementById('quick-item-chips');
+      if (!container) return;
+      const items = templateQuickItems[type] || templateQuickItems.shop;
+      container.innerHTML = '';
+      items.forEach(it => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'text-[11px] font-semibold bg-white hover:bg-amber-100 text-slate-800 border border-amber-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95';
+        btn.innerHTML = `<span class="text-amber-600 font-bold">+</span> <span>${escapeHTML(it.desc)}</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹${it.rate}</span>`;
+        btn.onclick = () => quickAddItem(it.desc, it.rate, it.hsn);
+        container.appendChild(btn);
+      });
+    }
+
+    function quickAddItem(desc, rate, hsn) {
+      const itemsContainer = document.getElementById('items-container');
+      if (!itemsContainer) return;
+
+      const div = document.createElement('div');
+      div.className = 'item-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center';
+      div.innerHTML = `
+        <div class="sm:col-span-5 flex items-center gap-1.5">
+          <div class="flex-1 min-w-0">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Item / Service Name</label>
+            <input type="text" class="item-desc w-full text-sm px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                   placeholder="Item / Service description" value="${desc.replace(/"/g, '&quot;')}">
+          </div>
+          <button type="button" class="btn-remove-item sm:hidden text-slate-400 hover:text-rose-600 p-2 mt-3.5 rounded-md hover:bg-rose-50" title="Delete Item">
+            <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
+          </button>
+        </div>
+        <div class="grid grid-cols-3 gap-2 sm:contents">
+          <div class="min-w-0 sm:col-span-2">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">HSN/SAC</label>
+            <input type="text" class="item-hsn w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-center font-mono bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                   placeholder="HSN" value="${hsn || ''}">
+          </div>
+          <div class="min-w-0 sm:col-span-2">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Quantity</label>
+            <input type="number" min="1" class="item-qty w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-center bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                   placeholder="Qty" value="1">
+          </div>
+          <div class="min-w-0 sm:col-span-2">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Price (₹)</label>
+            <input type="number" min="0" step="any" class="item-price w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-right font-mono bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                   placeholder="Price (₹)" value="${rate}">
+          </div>
+        </div>
+        <div class="hidden sm:block sm:col-span-1 text-center">
+          <button type="button" class="btn-remove-item text-slate-400 hover:text-rose-600 p-1" title="Delete Item">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `;
+      itemsContainer.appendChild(div);
+      attachRowEvents(div);
+      if (window.lucide) lucide.createIcons();
+      updateInvoice();
+      showDownloadToast(`Added "${desc}" (₹${rate}) to bill`);
+    }
+
+    // Bill Creation Mode Toggle: ⚡ Simple Quick Bill vs ⚙️ Pro GST Invoice
+    function setBillCreationMode(mode) {
+      const isSimple = mode === 'simple';
+      const btnSimple = document.getElementById('btn-mode-simple');
+      const btnPro = document.getElementById('btn-mode-pro');
+      const label = document.getElementById('current-mode-label');
+
+      if (btnSimple && btnPro) {
+        if (isSimple) {
+          btnSimple.className = 'px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-emerald-600 text-white shadow-xs cursor-pointer flex items-center gap-1';
+          btnPro.className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer flex items-center gap-1';
+          if (label) {
+            label.innerText = '⚡ Simple Quick Mode';
+            label.className = 'text-emerald-700 font-extrabold uppercase tracking-wide';
+          }
+        } else {
+          btnSimple.className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer flex items-center gap-1';
+          btnPro.className = 'px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-brand-600 text-white shadow-xs cursor-pointer flex items-center gap-1';
+          if (label) {
+            label.innerText = '⚙️ Pro GST Invoice Mode';
+            label.className = 'text-brand-700 font-extrabold uppercase tracking-wide';
+          }
+        }
+      }
+
+      // Hide/Show .pro-only-field elements
+      document.querySelectorAll('.pro-only-field').forEach(el => {
+        el.style.display = isSimple ? 'none' : '';
+      });
+
+      try {
+        localStorage.setItem('upibill_creation_mode', mode);
+      } catch (e) {}
+    }
+
+    // Section & Table Column Customizer Drawer Logic
+    const billSectionsList = [
+      'col-sno', 'col-hsn', 'col-qty', 'col-rate',
+      'billed-to', 'seller-tagline', 'payment-status', 'industry-meta',
+      'amount-in-words', 'upi-qr', 'terms-block', 'tax-breakdown', 'signatory-block'
+    ];
+
+    let sectionVisibilityState = {};
+
+    function toggleSectionCustomizer() {
+      const drawer = document.getElementById('section-customizer-drawer');
+      if (drawer) {
+        drawer.classList.toggle('hidden');
+        if (!drawer.classList.contains('hidden')) {
+          drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    }
+
+    function toggleBillSection(key, isVisible) {
+      sectionVisibilityState[key] = isVisible;
+      applySectionVisibility(key, isVisible);
+      try {
+        localStorage.setItem('upibill_section_visibility', JSON.stringify(sectionVisibilityState));
+      } catch (e) {}
+
+      if (!isVisible) {
+        showDownloadToast(`Removed section from bill. Click "Customize Sections" to restore.`);
+      }
+    }
+
+    function hideBillSection(key) {
+      const chk = document.getElementById(`chk-sec-${key}`);
+      if (chk) chk.checked = false;
+      toggleBillSection(key, false);
+    }
+
+    function applySectionVisibility(key, isVisible) {
+      const preview = document.getElementById('invoice-preview-container');
+      if (!preview) return;
+
+      if (key === 'col-sno') {
+        preview.classList.toggle('hide-col-sno', !isVisible);
+      } else if (key === 'col-hsn') {
+        preview.classList.toggle('hide-col-hsn', !isVisible);
+      } else if (key === 'col-qty') {
+        preview.classList.toggle('hide-col-qty', !isVisible);
+      } else if (key === 'col-rate') {
+        preview.classList.toggle('hide-col-rate', !isVisible);
+      } else {
+        const idMap = {
+          'billed-to': 'sec-billed-to',
+          'seller-tagline': 'prev-seller-tagline',
+          'payment-status': 'sec-payment-status-row',
+          'industry-meta': 'prev-industry-meta-strip',
+          'amount-in-words': 'sec-amount-in-words',
+          'upi-qr': 'upi-payment-block',
+          'terms-block': 'terms-conditions-block',
+          'tax-breakdown': 'sec-tax-breakdown-box',
+          'signatory-block': 'sec-signatory-block'
+        };
+        const targetId = idMap[key];
+        if (targetId) {
+          const el = document.getElementById(targetId);
+          if (el) {
+            el.style.display = isVisible ? '' : 'none';
+          }
+        }
+      }
+    }
+
+    function resetSectionVisibility() {
+      billSectionsList.forEach(key => {
+        sectionVisibilityState[key] = true;
+        const chk = document.getElementById(`chk-sec-${key}`);
+        if (chk) chk.checked = true;
+        applySectionVisibility(key, true);
+      });
+      try {
+        localStorage.removeItem('upibill_section_visibility');
+      } catch (e) {}
+      showDownloadToast('All bill sections and table columns restored!');
+    }
+
+    function initSectionVisibility() {
+      try {
+        const saved = localStorage.getItem('upibill_section_visibility');
+        if (saved) {
+          sectionVisibilityState = JSON.parse(saved);
+        }
+      } catch (e) {}
+
+      billSectionsList.forEach(key => {
+        const isVisible = sectionVisibilityState[key] !== false;
+        const chk = document.getElementById(`chk-sec-${key}`);
+        if (chk) chk.checked = isVisible;
+        applySectionVisibility(key, isVisible);
+      });
     }
 
     // Logo Maker Modal & Canvas Generator Logic (Zero Emojis, Pure Vector Graphics)
@@ -3560,6 +4248,14 @@
 
       try { initLogoMakerListeners(); } catch(e) {}
       try { initPreviewInlineEditing(); } catch(e) {}
+      try { initSectionVisibility(); } catch(e) {}
+
+      try {
+        const savedMode = localStorage.getItem('upibill_creation_mode') || 'simple';
+        setBillCreationMode(savedMode);
+      } catch(e) {}
+
+      try { renderQuickItemChips(currentTemplate || 'shop'); } catch(e) {}
 
       try {
         const savedFormat = localStorage.getItem('upibill_invoice_format') || 'format-modern';

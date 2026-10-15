@@ -140,8 +140,66 @@
       pointer-events: none !important;
       transform: translateY(20px) scale(0.9) !important;
     }
-    #floating-view-btn {
-      transition: opacity 0.2s ease, transform 0.2s ease;
+    /* Table Columns Visibility Customizer */
+    #food-bill-preview.hide-col-sno .th-sno,
+    #food-bill-preview.hide-col-sno .td-sno {
+      display: none !important;
+    }
+    #food-bill-preview.hide-col-qty .th-qty,
+    #food-bill-preview.hide-col-qty .td-qty {
+      display: none !important;
+    }
+    #food-bill-preview.hide-col-rate .th-rate,
+    #food-bill-preview.hide-col-rate .td-rate {
+      display: none !important;
+    }
+
+    .col-hide-btn {
+      display: inline-block;
+      opacity: 0;
+      margin-left: 2px;
+      font-size: 8px;
+      color: #94a3b8;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0 1px;
+      line-height: 1;
+      transition: opacity 0.15s ease, color 0.15s ease;
+      vertical-align: middle;
+    }
+    .group\/th:hover .col-hide-btn {
+      opacity: 1;
+    }
+    .col-hide-btn:hover {
+      color: #ef4444;
+    }
+
+    /* Quick Hover Section Hide Button */
+    .sec-hide-btn {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: #ffffff;
+      border: 1px solid #fed7aa;
+      color: #c2410c;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s ease, background-color 0.15s ease;
+      z-index: 10;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    .group\/sec:hover .sec-hide-btn {
+      opacity: 1;
+    }
+    .sec-hide-btn:hover {
+      background: #fee2e2;
+      color: #dc2626;
+      border-color: #fca5a5;
     }
   </style>
 </head>
@@ -243,7 +301,23 @@
     </div>
   </div>
 
-  <main class="max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
+  <!-- Desktop 3-Column Container with Dedicated Side Rail Ad Slots (Desktop >= 1280px) -->
+  <div class="w-full max-w-[1480px] mx-auto px-2 sm:px-4 flex justify-center items-start gap-4">
+
+    <!-- Left Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
+    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Left Advertisement Rail">
+      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:160px;height:600px"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1122334455"></ins>
+        <span class="text-xs font-semibold mt-2">160x600</span>
+        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
+      </div>
+    </aside>
+
+  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
     <div id="col-preview" class="w-full space-y-4 flex flex-col items-center">
 
       <!-- Preview Header & Actions Bar -->
@@ -269,32 +343,114 @@
           </div>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button type="button" onclick="toggleSectionCustomizer()" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Customize bill sections and table columns">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-orange-600"></i>
+            <span>Customize Bill</span>
+          </button>
           <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-sm shadow-orange-600/20 transition-all cursor-pointer">
             <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
           </button>
           <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
             <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
           </button>
-          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
             <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
           </button>
         </div>
       </div>
 
+      <!-- Section Customizer Drawer (Show/Hide any bill section or table column with 1 click) -->
+      <div id="section-customizer-drawer" class="hidden w-full max-w-sm mx-auto bg-white rounded-xl border border-orange-200 p-3 sm:p-4 shadow-sm no-print space-y-3 transition-all text-left">
+        <div class="flex items-center justify-between border-b border-orange-100 pb-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="sliders" class="w-4 h-4 text-orange-600"></i>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900">Customize Thermal Slip (कॉलम और सेक्शन हटाएं)</h4>
+          </div>
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="resetSectionVisibility()" class="text-xs font-semibold text-orange-600 hover:text-orange-800 transition-colors">Show All</button>
+            <button type="button" onclick="toggleSectionCustomizer()" class="text-slate-400 hover:text-slate-600">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-500">Uncheck any item below to immediately remove it from your thermal bill.</p>
+
+        <!-- Table Columns -->
+        <div class="space-y-1.5 pt-1">
+          <span class="text-[10px] font-bold text-orange-700 uppercase tracking-wider block">📊 Food Table Columns:</span>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-col-sno" checked onchange="toggleBillSection('col-sno', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]"># (S.No)</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-col-qty" checked onchange="toggleBillSection('col-qty', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Qty</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-col-rate" checked onchange="toggleBillSection('col-rate', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Rate</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Bill Sections -->
+        <div class="space-y-1.5 pt-1 border-t border-orange-100">
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">📄 Bill Sections & Badges:</span>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-table-kot" checked onchange="toggleBillSection('table-kot', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Table & KOT</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-tax-breakdown" checked onchange="toggleBillSection('tax-breakdown', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Tax Breakdown</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-amount-in-words" checked onchange="toggleBillSection('amount-in-words', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Words Total</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-upi-qr" checked onchange="toggleBillSection('upi-qr', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">UPI QR Box</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-footer-notice" checked onchange="toggleBillSection('footer-notice', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Footer Greeting</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Direct WYSIWYG Edit Tip Banner -->
+      <div class="w-full max-w-sm bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/80 text-amber-900 px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-between gap-2 shadow-2xs no-print">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-[11px] flex-shrink-0">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          </span>
+          <span class="text-[11px]">
+            <strong>Direct Edit:</strong> Slip par kisi bhi text par direct click karke bhi edit kar sakte hain!
+          </span>
+        </div>
+        <span class="text-[10px] font-bold text-amber-800 uppercase bg-amber-200/70 px-2 py-0.5 rounded-full flex-shrink-0">
+          Click & Type
+        </span>
+      </div>
+
       <!-- Mobile Fit Viewport Wrapper -->
       <div id="restaurant-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen flex justify-center">
-        <div id="food-bill-preview" class="w-full max-w-sm mx-auto bg-white p-5 rounded-none border border-slate-200 shadow-lg space-y-2.5 font-mono text-xs relative">
+        <div id="food-bill-preview" class="w-full max-w-sm mx-auto bg-white p-5 rounded-none border-2 border-dashed border-amber-600/80 shadow-lg space-y-2.5 font-mono text-xs relative">
         
         <!-- Header -->
-        <div class="text-center border-b border-dashed border-slate-400 pb-2.5">
+        <div class="text-center bg-amber-50/60 p-3 -m-5 mb-2.5 border-b-2 border-dashed border-amber-300">
           <h2 class="editable-field font-heading font-extrabold text-lg text-slate-900 leading-snug" id="prev-c-name" contenteditable="true" spellcheck="false" data-bind="cafe-name" title="Click to edit restaurant name">Your Restaurant / Cafe</h2>
           <p class="editable-field text-[11px] text-slate-600 mt-0.5" id="prev-c-address" contenteditable="true" spellcheck="false" data-bind="cafe-address" title="Click to edit address">Location / Address</p>
           <p class="text-[10px] text-slate-700 mt-0.5" id="prev-c-gstin-row">GSTIN: <span id="prev-c-gstin" class="editable-field font-bold" contenteditable="true" spellcheck="false" data-bind="cafe-gstin"></span></p>
-          <div class="mt-1.5 pt-1 border-t border-dotted border-slate-300">
+          <div class="mt-1.5 pt-1 border-t border-dotted border-amber-300">
             <div class="flex items-center justify-between text-[10px]">
-              <span class="font-bold text-slate-700 uppercase tracking-wider">TAX INVOICE / CASH MEMO</span>
+              <span class="font-bold text-amber-900 uppercase tracking-wider">RESTAURANT CASH MEMO</span>
               <div role="button" tabindex="0" onclick="toggleCafeStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none">
-                <span id="prev-cafe-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-amber-700">
+                <span id="prev-cafe-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-amber-700 bg-white px-2 py-0.5 rounded border border-amber-300 shadow-2xs">
                   DUE (PENDING)
                 </span>
               </div>
@@ -303,7 +459,8 @@
         </div>
 
         <!-- Meta Grid: Table, KOT, Date, Time -->
-        <div class="flex justify-between text-[11px] border-b border-dashed border-slate-400 pb-2">
+        <div id="sec-table-kot" class="group/sec relative flex justify-between text-[11px] border-b border-dashed border-slate-400 pb-2">
+          <button type="button" onclick="hideBillSection('table-kot')" class="sec-hide-btn no-print" title="Hide table/KOT details">✕ Hide</button>
           <div class="space-y-0.5">
             <p id="prev-c-table-row"><strong>Table:</strong> <span id="prev-c-table" class="editable-field" contenteditable="true" spellcheck="false" data-bind="table-no">Table #01</span></p>
             <p><strong>KOT:</strong> <span id="prev-c-kot">#101</span></p>
@@ -319,11 +476,20 @@
           <table class="w-full text-left text-[11px] border-collapse">
             <thead>
               <tr class="border-b-2 border-slate-800 text-slate-900 font-bold uppercase text-[9px] tracking-wider">
-                <th class="pb-1 w-6">#</th>
-                <th class="pb-1">Item Description</th>
-                <th class="pb-1 text-center w-8">Qty</th>
-                <th class="pb-1 text-right w-14">Rate</th>
-                <th class="pb-1 text-right w-16">Amount</th>
+                <th class="th-sno group/th relative pb-1 w-6">
+                  <span>#</span>
+                  <button type="button" onclick="hideBillSection('col-sno')" class="col-hide-btn no-print" title="Remove S.No column">✕</button>
+                </th>
+                <th class="th-desc pb-1">Item Description</th>
+                <th class="th-qty group/th relative pb-1 text-center w-8">
+                  <span>Qty</span>
+                  <button type="button" onclick="hideBillSection('col-qty')" class="col-hide-btn no-print" title="Remove Qty column">✕</button>
+                </th>
+                <th class="th-rate group/th relative pb-1 text-right w-14">
+                  <span>Rate</span>
+                  <button type="button" onclick="hideBillSection('col-rate')" class="col-hide-btn no-print" title="Remove Rate column">✕</button>
+                </th>
+                <th class="th-amount pb-1 text-right w-16">Amount</th>
               </tr>
             </thead>
             <tbody id="prev-f-body" class="divide-y divide-dotted divide-slate-300 text-slate-800"></tbody>
@@ -331,7 +497,8 @@
         </div>
 
         <!-- Calculation Breakdown -->
-        <div class="border-t border-dashed border-slate-400 pt-2 space-y-1 text-[11px]">
+        <div id="sec-calc-breakdown" class="group/sec relative border-t border-dashed border-slate-400 pt-2 space-y-1 text-[11px]">
+          <button type="button" onclick="hideBillSection('tax-breakdown')" class="sec-hide-btn no-print" title="Hide taxes breakdown">✕ Hide</button>
           <div class="flex justify-between text-slate-700">
             <span>Subtotal:</span>
             <span id="prev-f-subtotal" class="font-bold font-mono">₹0.00</span>
@@ -352,17 +519,19 @@
           </div>
           <div class="border-t-2 border-slate-800 pt-1.5 flex justify-between font-bold text-sm text-slate-900">
             <span>TOTAL PAYABLE:</span>
-            <span id="prev-f-total" class="font-black font-mono text-base">₹0.00</span>
+            <span id="prev-f-total" class="font-black font-mono text-base text-amber-900">₹0.00</span>
           </div>
         </div>
 
         <!-- Amount in Words -->
-        <div class="border-t border-b border-dotted border-slate-300 py-1.5 text-[10px] text-slate-700">
+        <div id="sec-amount-in-words" class="group/sec relative border-t border-b border-dotted border-slate-300 py-1.5 text-[10px] text-slate-700">
+          <button type="button" onclick="hideBillSection('amount-in-words')" class="sec-hide-btn no-print" title="Hide amount in words">✕ Hide</button>
           <span class="font-bold">Words:</span> <span id="prev-amount-in-words" class="italic">INR Zero Rupees Only</span>
         </div>
 
         <!-- QR Code Block -->
-        <div id="prev-restaurant-qr-block" class="pt-2 text-center space-y-1.5 border-b border-dashed border-slate-400 pb-2">
+        <div id="prev-restaurant-qr-block" class="group/sec relative pt-2 text-center space-y-1.5 border-b border-dashed border-slate-400 pb-2">
+          <button type="button" onclick="hideBillSection('upi-qr')" class="sec-hide-btn no-print" title="Hide UPI QR Code">✕ Hide</button>
           <div class="bg-white border border-slate-300 p-1 inline-block">
             <div id="cafe-qr" class="w-24 h-24 flex items-center justify-center"></div>
           </div>
@@ -371,7 +540,8 @@
         </div>
 
         <!-- Footer Notice -->
-        <div class="text-center space-y-0.5 pt-1">
+        <div id="sec-footer-notice" class="group/sec relative text-center space-y-0.5 pt-1">
+          <button type="button" onclick="hideBillSection('footer-notice')" class="sec-hide-btn no-print" title="Hide footer notice">✕ Hide</button>
           <p class="text-[10px] font-semibold text-slate-700 uppercase">Thank you! Please visit again!</p>
           <p class="text-[9px] text-slate-400 select-none" id="prev-branding">Generated by UPIBillMaker.com</p>
         </div>
@@ -471,6 +641,37 @@
           </button>
         </div>
 
+        <!-- 1-Click Quick Add Popular Cafe Items (1-Tap) -->
+        <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-2.5 space-y-1.5">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="flex items-center gap-1 font-bold text-amber-900">
+              <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-600"></i>
+              <span>⚡ Quick Add Popular Food Items (1-Tap):</span>
+            </span>
+            <span class="text-[10px] text-amber-700 font-medium">Click to add with standard rates</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button type="button" onclick="quickAddCafeItem('Masala Chai / Coffee', 35)" class="text-[11px] font-semibold bg-white hover:bg-amber-100 text-slate-800 border border-amber-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-amber-600 font-bold">+</span> <span>Masala Chai</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹35</span>
+            </button>
+            <button type="button" onclick="quickAddCafeItem('Paneer Butter Masala (Handi)', 360)" class="text-[11px] font-semibold bg-white hover:bg-amber-100 text-slate-800 border border-amber-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-amber-600 font-bold">+</span> <span>Paneer Butter Masala</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹360</span>
+            </button>
+            <button type="button" onclick="quickAddCafeItem('Butter Naan (Tandoor)', 45)" class="text-[11px] font-semibold bg-white hover:bg-amber-100 text-slate-800 border border-amber-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-amber-600 font-bold">+</span> <span>Butter Naan</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹45</span>
+            </button>
+            <button type="button" onclick="quickAddCafeItem('Veg Dum Biryani with Raita', 280)" class="text-[11px] font-semibold bg-white hover:bg-amber-100 text-slate-800 border border-amber-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-amber-600 font-bold">+</span> <span>Veg Dum Biryani</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹280</span>
+            </button>
+            <button type="button" onclick="quickAddCafeItem('Cold Drink / Fresh Lime', 60)" class="text-[11px] font-semibold bg-white hover:bg-amber-100 text-slate-800 border border-amber-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-amber-600 font-bold">+</span> <span>Cold Drink</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹60</span>
+            </button>
+            <button type="button" onclick="quickAddCafeItem('Gulab Jamun (2 Pcs)', 80)" class="text-[11px] font-semibold bg-white hover:bg-amber-100 text-slate-800 border border-amber-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-amber-600 font-bold">+</span> <span>Gulab Jamun</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹80</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Column Header Labels (Hidden on mobile) -->
         <div class="hidden sm:grid grid-cols-12 gap-2 text-[10px] font-bold text-slate-400 uppercase px-1">
           <div class="col-span-7">Item Name / Description</div>
@@ -560,10 +761,23 @@
             </button>
           </div>
         </div>
-      </div>
-
     </div>
   </main>
+
+    <!-- Right Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
+    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Right Advertisement Rail">
+      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:160px;height:600px"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="6677889900"></ins>
+        <span class="text-xs font-semibold mt-2">160x600</span>
+        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
+      </div>
+    </aside>
+
+  </div> <!-- End Desktop 3-Column Container -->
 
 
   <script>
@@ -760,11 +974,11 @@
         const tr = document.createElement('tr');
         tr.className = 'py-1 border-b border-dotted border-slate-300';
         tr.innerHTML = `
-          <td class="py-1 text-slate-500 font-mono text-[10px]">${idx + 1}</td>
-          <td class="py-1 font-medium text-slate-900">${escapeHTML(desc)}</td>
-          <td class="py-1 text-center font-mono text-slate-700">${qty}</td>
-          <td class="py-1 text-right font-mono text-slate-700">₹${formatINR(price)}</td>
-          <td class="py-1 text-right font-bold font-mono text-slate-900">₹${formatINR(amt)}</td>
+          <td class="td-sno py-1 text-slate-500 font-mono text-[10px]">${idx + 1}</td>
+          <td class="td-desc py-1 font-medium text-slate-900">${escapeHTML(desc)}</td>
+          <td class="td-qty py-1 text-center font-mono text-slate-700">${qty}</td>
+          <td class="td-rate py-1 text-right font-mono text-slate-700">₹${formatINR(price)}</td>
+          <td class="td-amount py-1 text-right font-bold font-mono text-slate-900">₹${formatINR(amt)}</td>
         `;
         body.appendChild(tr);
       });
@@ -883,6 +1097,119 @@
       attachFoodEvents(div);
       updateRestaurantBill();
     });
+
+    // ⚡ Quick Add Popular Food Items (1-Tap)
+    function quickAddCafeItem(desc, price) {
+      const c = document.getElementById('food-items-container');
+      if (!c) return;
+      const div = document.createElement('div');
+      div.className = 'food-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center';
+      div.innerHTML = `
+        <div class="sm:col-span-7 flex items-center gap-1.5">
+          <div class="flex-1 min-w-0">
+            <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Item Name / Description</label>
+            <input type="text" class="f-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-rose-500" placeholder="Food item name" value="${desc.replace(/"/g, '&quot;')}">
+          </div>
+          <button type="button" class="sm:hidden btn-del-food text-rose-500 hover:text-rose-700 p-1.5 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
+        </div>
+        <div class="grid grid-cols-2 gap-2 sm:contents">
+          <div class="sm:col-span-2 min-w-0">
+            <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Qty</label>
+            <input type="number" class="f-qty w-full text-center px-2 py-1.5 bg-white rounded border border-slate-300 text-xs" placeholder="Qty" value="1">
+          </div>
+          <div class="sm:col-span-2 min-w-0">
+            <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Price (₹)</label>
+            <input type="number" step="0.5" class="f-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" placeholder="Rate ₹" value="${price}">
+          </div>
+        </div>
+        <div class="hidden sm:block sm:col-span-1 text-center">
+          <button type="button" class="btn-del-food text-rose-500 hover:text-rose-700 p-1 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
+        </div>
+      `;
+      c.appendChild(div);
+      attachFoodEvents(div);
+      updateRestaurantBill();
+      showDownloadToast(`Added "${desc}" (₹${price}) to bill`);
+    }
+
+    // Section Customizer Logic for Restaurant Bill
+    const cafeSectionsList = ['col-sno', 'col-qty', 'col-rate', 'table-kot', 'tax-breakdown', 'amount-in-words', 'upi-qr', 'footer-notice'];
+    let cafeSectionState = {};
+
+    function toggleSectionCustomizer() {
+      const drawer = document.getElementById('section-customizer-drawer');
+      if (drawer) {
+        drawer.classList.toggle('hidden');
+        if (!drawer.classList.contains('hidden')) {
+          drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    }
+
+    function toggleBillSection(key, isVisible) {
+      cafeSectionState[key] = isVisible;
+      applyCafeSectionVisibility(key, isVisible);
+      try {
+        localStorage.setItem('upibill_cafe_sections', JSON.stringify(cafeSectionState));
+      } catch(e) {}
+      if (!isVisible) {
+        showDownloadToast('Removed section from bill. Click "Customize Bill" to restore.');
+      }
+    }
+
+    function hideBillSection(key) {
+      const chk = document.getElementById(`chk-sec-${key}`);
+      if (chk) chk.checked = false;
+      toggleBillSection(key, false);
+    }
+
+    function applyCafeSectionVisibility(key, isVisible) {
+      const preview = document.getElementById('food-bill-preview');
+      if (!preview) return;
+
+      if (key === 'col-sno') {
+        preview.classList.toggle('hide-col-sno', !isVisible);
+      } else if (key === 'col-qty') {
+        preview.classList.toggle('hide-col-qty', !isVisible);
+      } else if (key === 'col-rate') {
+        preview.classList.toggle('hide-col-rate', !isVisible);
+      } else {
+        const idMap = {
+          'table-kot': 'sec-table-kot',
+          'tax-breakdown': 'sec-calc-breakdown',
+          'amount-in-words': 'sec-amount-in-words',
+          'upi-qr': 'prev-restaurant-qr-block',
+          'footer-notice': 'sec-footer-notice'
+        };
+        const el = document.getElementById(idMap[key]);
+        if (el) el.style.display = isVisible ? '' : 'none';
+      }
+    }
+
+    function resetSectionVisibility() {
+      cafeSectionsList.forEach(key => {
+        cafeSectionState[key] = true;
+        const chk = document.getElementById(`chk-sec-${key}`);
+        if (chk) chk.checked = true;
+        applyCafeSectionVisibility(key, true);
+      });
+      try { localStorage.removeItem('upibill_cafe_sections'); } catch(e) {}
+      showDownloadToast('All bill sections and table columns restored!');
+    }
+
+    function initSectionVisibility() {
+      try {
+        const saved = localStorage.getItem('upibill_cafe_sections');
+        if (saved) cafeSectionState = JSON.parse(saved);
+      } catch(e) {}
+
+      cafeSectionsList.forEach(key => {
+        const isVisible = cafeSectionState[key] !== false;
+        const chk = document.getElementById(`chk-sec-${key}`);
+        if (chk) chk.checked = isVisible;
+        applyCafeSectionVisibility(key, isVisible);
+      });
+    }
 
     function attachFoodEvents(row) {
       row.querySelectorAll('input').forEach(i => i.addEventListener('input', updateRestaurantBill));
@@ -1370,6 +1697,7 @@
           lucide.createIcons();
         }
       } catch(e) {}
+      try { initSectionVisibility(); } catch(e) {}
       try {
         const nameInput = document.getElementById('cafe-name');
         if (!nameInput || !nameInput.value.trim()) {

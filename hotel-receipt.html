@@ -120,6 +120,43 @@
     #floating-view-btn {
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
+
+    /* Table Column Hiding Classes */
+    #hotel-bill-preview.hide-col-sno .col-sno { display: none !important; }
+    #hotel-bill-preview.hide-col-sac .col-sac { display: none !important; }
+    #hotel-bill-preview.hide-col-qty .col-qty { display: none !important; }
+    #hotel-bill-preview.hide-col-rate .col-rate { display: none !important; }
+
+    /* Quick Remove Hover Buttons */
+    .col-hide-btn {
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+    }
+    th:hover .col-hide-btn {
+      opacity: 0.9;
+    }
+    .col-hide-btn:hover {
+      opacity: 1 !important;
+      transform: scale(1.15);
+    }
+    .sec-hide-btn {
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+    }
+    .bill-section-wrapper:hover .sec-hide-btn {
+      opacity: 0.85;
+    }
+    .sec-hide-btn:hover {
+      opacity: 1 !important;
+      transform: scale(1.1);
+    }
+    @media print {
+      .col-hide-btn, .sec-hide-btn, #section-customizer-drawer {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
@@ -220,172 +257,276 @@
     </div>
   </div>
 
-  <main class="max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
-    <div id="col-preview" class="w-full space-y-4">
-
-      <!-- Preview Header & Actions Bar -->
-      <div class="flex items-center justify-between px-1 no-print">
-        <div>
-          <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
-            <i data-lucide="hotel" class="w-5 h-5 text-indigo-600"></i>
-            <span>Live Hotel & Homestay Bill Preview</span>
-          </h3>
-          <p class="text-xs text-slate-500">Real-time live rendering • Ready for Guest Checkout & GST Claim</p>
-        </div>
-        <a href="#col-form" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 transition-colors">
-          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
-        </a>
-      </div>
-
-      <!-- Action Buttons Bar -->
-      <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
-        <div class="flex items-center gap-2">
-          <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
-            <span>Hotel Folio & GST</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm shadow-indigo-600/20 transition-all cursor-pointer">
-            <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
-          </button>
-          <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
-            <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
-          </button>
-          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
-            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
-          </button>
+  <div class="w-full max-w-[1480px] mx-auto px-2 sm:px-4 flex justify-center items-start gap-4">
+    <!-- Left Side Rail Ad Slot (Desktop Skyscraper) -->
+    <aside class="hidden xl:block w-[160px] shrink-0 sticky top-20 no-print" aria-label="Advertisement">
+      <div class="w-[160px] h-[600px] bg-slate-100 rounded-xl border border-dashed border-slate-300 flex flex-col items-center justify-center p-3 text-center shadow-xs">
+        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-600 mb-2">Advertisement</span>
+        <div class="text-[11px] text-slate-600 font-medium leading-relaxed">
+          Google AdSense<br>160×600<br>Side Rail Unit
         </div>
       </div>
+    </aside>
 
-      <!-- Mobile Fit Viewport Wrapper -->
-      <div id="hotel-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
-        <div id="hotel-bill-preview" class="w-full bg-white p-3.5 sm:p-5 rounded-none border border-slate-800 shadow-md space-y-3 font-sans text-xs relative text-slate-900">
-        
-        <!-- Centered Statutory Header -->
-        <div class="text-center pb-3 border-b-2 border-slate-800">
-          <div class="inline-block px-3 py-0.5 border border-slate-800 bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-900">
-            HOTEL GUEST FOLIO & TAX INVOICE
+    <main class="w-full max-w-4xl shrink-0 space-y-6 sm:space-y-8 py-4 sm:py-8">
+      <div id="col-preview" class="w-full space-y-4">
+
+        <!-- Preview Header & Actions Bar -->
+        <div class="flex items-center justify-between px-1 no-print">
+          <div>
+            <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
+              <i data-lucide="hotel" class="w-5 h-5 text-amber-700"></i>
+              <span>Live Hotel & Homestay Bill Preview</span>
+            </h3>
+            <p class="text-xs text-slate-500">Real-time live rendering • Ready for Guest Checkout & GST Claim</p>
           </div>
-          <p class="text-[10px] text-slate-600 mt-1">(SAC Code: 9963 – Hotel & Accommodation Services under GST)</p>
-          <h2 class="editable-field font-heading font-extrabold text-2xl text-slate-900 mt-1" id="prev-h-name" contenteditable="true" spellcheck="false" data-bind="hotel-name" title="Click to edit hotel name">The Grand Heritage Resort & Spa</h2>
-          <p class="editable-field text-xs text-slate-600" id="prev-h-address" contenteditable="true" spellcheck="false" data-bind="hotel-address" title="Click to edit address">Near Mall Road, Civil Lines, Jaipur, Rajasthan</p>
-          <p class="text-xs text-slate-700 font-mono mt-0.5" id="prev-h-phone-gst-row">
-            <span id="prev-h-phone-wrap">Tel: <span id="prev-h-phone" class="editable-field font-semibold" contenteditable="true" spellcheck="false" data-bind="hotel-phone">+91 98765 *****</span></span>
-            <span id="prev-h-gst-wrap"> | GSTIN: <span id="prev-h-gstin" class="editable-field font-bold text-slate-900" contenteditable="true" spellcheck="false" data-bind="hotel-gstin">08AABCH****C1ZK</span></span>
-          </p>
+          <a href="#col-form" class="text-xs font-semibold text-amber-700 hover:text-amber-900 flex items-center gap-1 transition-colors">
+            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
+          </a>
         </div>
 
-        <!-- 2-Column Meta & Stay Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-slate-300 pb-3">
-          <!-- Left: Guest Details -->
-          <div class="space-y-1">
-            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">GUEST INFORMATION</span>
-            <p class="font-bold text-sm text-slate-900 editable-field" id="prev-g-name" contenteditable="true" spellcheck="false" data-bind="guest-name">Vikramaditya R.</p>
-            <p class="text-xs text-slate-600 font-mono editable-field" id="prev-g-phone" contenteditable="true" spellcheck="false" data-bind="guest-phone">+91 99887 *****</p>
-            <p class="text-xs text-slate-600 editable-field" id="prev-g-id" contenteditable="true" spellcheck="false" data-bind="guest-id">2 Adults (Aadhaar: ****8912)</p>
-          </div>
-          <!-- Right: Folio & Room Stay Details -->
-          <div class="space-y-1 sm:text-right">
-            <div class="flex sm:justify-end items-center gap-2">
-              <span class="text-[10px] font-bold text-slate-400 uppercase">Folio #:</span>
-              <span class="font-mono font-bold text-slate-900 text-xs" id="prev-h-folio">HTL-2026-891</span>
-              <div role="button" tabindex="0" onclick="toggleHotelStatus()" title="Click to toggle status" class="cursor-pointer ml-1">
-                <span id="prev-hotel-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-amber-700">
-                  DUE (PENDING)
-                </span>
-              </div>
+        <!-- Action Buttons Bar -->
+        <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
+          <div class="flex items-center gap-2">
+            <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+              <span>Hotel Folio & GST</span>
             </div>
-            <p class="text-xs text-slate-700"><strong>Room:</strong> <span id="prev-r-no" class="font-bold text-slate-900 editable-field" contenteditable="true" spellcheck="false" data-bind="room-no">Room 304 (Deluxe Royal Suite)</span></p>
-            <p class="text-xs text-slate-600"><strong>Check-In:</strong> <span id="prev-checkin" class="editable-field" contenteditable="true" spellcheck="false" data-bind="checkin-date">12 Oct 2026, 01:00 PM</span></p>
-            <p class="text-xs text-slate-600"><strong>Check-Out:</strong> <span id="prev-checkout" class="editable-field" contenteditable="true" spellcheck="false" data-bind="checkout-date">14 Oct 2026, 11:30 AM</span></p>
+          </div>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <button type="button" onclick="toggleSectionCustomizer()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-lg shadow-xs transition-colors cursor-pointer" title="Hide/Show Columns & Sections">
+              <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-amber-700"></i> Customize Bill
+            </button>
+            <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm shadow-indigo-600/20 transition-all cursor-pointer">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
+            </button>
+            <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+              <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+            </button>
+            <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+              <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+            </button>
           </div>
         </div>
 
-        <!-- Room & Billing Items Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse border border-slate-700 text-xs">
-            <thead>
-              <tr class="bg-slate-800 text-white font-bold text-[11px]">
-                <th class="py-1.5 px-2.5 border border-slate-700 text-center w-8">#</th>
-                <th class="py-1.5 px-2.5 border border-slate-700">Room / Service Description</th>
-                <th class="py-1.5 px-2.5 border border-slate-700 text-center w-16">SAC</th>
-                <th class="py-1.5 px-2.5 border border-slate-700 text-center w-16">Nights/Qty</th>
-                <th class="py-1.5 px-2.5 border border-slate-700 text-right w-24">Rate (₹)</th>
-                <th class="py-1.5 px-2.5 border border-slate-700 text-right w-24">Amount (₹)</th>
-              </tr>
-            </thead>
-            <tbody id="prev-h-items-body" class="divide-y divide-slate-200 text-slate-800"></tbody>
-          </table>
+        <!-- Section & Column Customizer Drawer (Collapsible) -->
+        <div id="section-customizer-drawer" class="hidden bg-white border border-amber-200 rounded-xl p-3.5 shadow-sm space-y-3 no-print">
+          <div class="flex items-center justify-between border-b border-amber-100 pb-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-amber-950">
+              <i data-lucide="sliders-horizontal" class="w-4 h-4 text-amber-600"></i>
+              <span>Customize Hotel Bill Sections & Table Columns</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="resetSectionVisibility()" class="text-[11px] text-amber-700 hover:underline font-semibold cursor-pointer">Reset All</button>
+              <button type="button" onclick="toggleSectionCustomizer()" class="text-slate-400 hover:text-slate-600 p-0.5 rounded cursor-pointer">✕</button>
+            </div>
+          </div>
+          <p class="text-[11px] text-slate-500">Uncheck any column or section to hide it from preview and print/PDF output:</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-col-sno" checked onchange="toggleBillSection('col-sno', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>S.No (#)</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-col-sac" checked onchange="toggleBillSection('col-sac', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>SAC Code</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-col-qty" checked onchange="toggleBillSection('col-qty', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>Nights/Qty</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-col-rate" checked onchange="toggleBillSection('col-rate', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>Room Rate</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-guest-info" checked onchange="toggleBillSection('guest-info', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>Guest Details</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-stay-info" checked onchange="toggleBillSection('stay-info', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>Stay & Folio Info</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-amount-in-words" checked onchange="toggleBillSection('amount-in-words', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>Amount in Words</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-upi-qr" checked onchange="toggleBillSection('upi-qr', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>UPI QR Auto-Pay</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-signatures" checked onchange="toggleBillSection('signatures', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>Signatures</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-status-badge" checked onchange="toggleBillSection('status-badge', this.checked)" class="rounded text-amber-600 focus:ring-amber-500 w-3.5 h-3.5">
+              <span>Status Badge</span>
+            </label>
+          </div>
         </div>
 
-        <!-- Totals & Payment Section -->
-        <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-2 border-t border-slate-300">
-          <!-- Left: Amount in Words, Bank & UPI, Signatures -->
-          <div class="sm:col-span-7 space-y-3">
+        <!-- Direct WYSIWYG Click-to-Edit Tip Banner -->
+        <div class="w-full bg-gradient-to-r from-amber-50 to-blue-50 border border-amber-200/80 rounded-xl p-2.5 sm:p-3 text-xs text-amber-950 flex items-center justify-between gap-2 shadow-xs no-print">
+          <div class="flex items-center gap-2">
+            <span class="text-base sm:text-lg">✨</span>
             <div>
-              <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">AMOUNT IN WORDS</p>
-              <p class="font-serif italic text-xs text-slate-800 font-semibold mt-0.5" id="prev-h-words">INR Zero Rupees Only</p>
+              <strong class="font-bold">Direct Click-to-Edit Enabled:</strong>
+              <span class="text-amber-900"> Bill ke kisi bhi text par direct click karke naam, room no, dates aur hotel details edit karein. Section hatane ke liye upar 'Customize Bill' use karein ya hover karke [✕] dabayein.</span>
             </div>
+          </div>
+          <button type="button" onclick="toggleSectionCustomizer()" class="shrink-0 text-[11px] font-bold text-amber-800 bg-white hover:bg-amber-100 border border-amber-300 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shadow-xs">
+            <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i> Customize
+          </button>
+        </div>
 
-            <!-- UPI QR Auto-Pay Box -->
-            <div id="prev-hotel-qr-block" class="border border-slate-700 p-2.5 bg-slate-50 flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3">
-                <div id="hotel-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
-                <div>
-                  <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
-                  <p class="text-xs font-bold text-slate-900 mt-1">Scan & Pay via Any UPI App</p>
-                  <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-h-upi" class="font-bold">yourhotel@upi</span></p>
+        <!-- Mobile Fit Viewport Wrapper -->
+        <div id="hotel-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
+          <div id="hotel-bill-preview" class="w-full bg-white p-3.5 sm:p-5 rounded-none border-2 border-slate-900 shadow-md space-y-3 font-sans text-xs relative text-slate-900">
+          
+          <!-- Centered Statutory Header -->
+          <div class="text-center pb-3 border-b-2 border-slate-900">
+            <div class="inline-flex items-center gap-1.5 px-3 py-0.5 border border-amber-400 bg-amber-50 text-[10px] font-bold uppercase tracking-widest text-amber-900 rounded-sm">
+              <span>★★★★★</span>
+              <span>HOTEL GUEST FOLIO & TAX INVOICE</span>
+              <span>★★★★★</span>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-1">(SAC Code: 9963 – Hotel & Accommodation Services under GST)</p>
+            <h2 class="editable-field font-heading font-extrabold text-2xl text-slate-900 mt-1" id="prev-h-name" contenteditable="true" spellcheck="false" data-bind="hotel-name" title="Click to edit hotel name">The Grand Heritage Resort & Spa</h2>
+            <p class="editable-field text-xs text-slate-600" id="prev-h-address" contenteditable="true" spellcheck="false" data-bind="hotel-address" title="Click to edit address">Near Mall Road, Civil Lines, Jaipur, Rajasthan</p>
+            <p class="text-xs text-slate-700 font-mono mt-0.5" id="prev-h-phone-gst-row">
+              <span id="prev-h-phone-wrap">Tel: <span id="prev-h-phone" class="editable-field font-semibold" contenteditable="true" spellcheck="false" data-bind="hotel-phone">+91 98765 *****</span></span>
+              <span id="prev-h-gst-wrap"> | GSTIN: <span id="prev-h-gstin" class="editable-field font-bold text-slate-900" contenteditable="true" spellcheck="false" data-bind="hotel-gstin">08AABCH****C1ZK</span></span>
+            </p>
+          </div>
+
+          <!-- 2-Column Meta & Stay Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-slate-300 pb-3">
+            <!-- Left: Guest Details -->
+            <div id="sec-guest-info" class="bill-section-wrapper relative group/sec space-y-1 bg-slate-50/60 p-2.5 rounded border border-slate-200">
+              <button type="button" onclick="hideBillSection('guest-info')" title="Hide Guest Info" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
+              <span class="text-[10px] font-bold text-amber-900 uppercase tracking-wider block">GUEST INFORMATION</span>
+              <p class="font-bold text-sm text-slate-900 editable-field" id="prev-g-name" contenteditable="true" spellcheck="false" data-bind="guest-name">Vikramaditya R.</p>
+              <p class="text-xs text-slate-600 font-mono editable-field" id="prev-g-phone" contenteditable="true" spellcheck="false" data-bind="guest-phone">+91 99887 *****</p>
+              <p class="text-xs text-slate-600 editable-field" id="prev-g-id" contenteditable="true" spellcheck="false" data-bind="guest-id">2 Adults (Aadhaar: ****8912)</p>
+            </div>
+            <!-- Right: Folio & Room Stay Details -->
+            <div id="sec-stay-info" class="bill-section-wrapper relative group/sec space-y-1 sm:text-right bg-amber-50/30 p-2.5 rounded border border-amber-200/60">
+              <button type="button" onclick="hideBillSection('stay-info')" title="Hide Stay Info" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
+              <div class="flex sm:justify-end items-center gap-2">
+                <span class="text-[10px] font-bold text-slate-500 uppercase">Folio #:</span>
+                <span class="font-mono font-bold text-slate-900 text-xs" id="prev-h-folio">HTL-2026-891</span>
+                <div role="button" tabindex="0" onclick="toggleHotelStatus()" title="Click to toggle status" class="cursor-pointer ml-1">
+                  <span id="prev-hotel-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-amber-700">
+                    DUE (PENDING)
+                  </span>
                 </div>
               </div>
-              <div class="text-right">
-                <span class="text-[9px] font-bold text-slate-400 uppercase block">Total Due</span>
-                <span id="prev-h-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹0.00</span>
-              </div>
-            </div>
-
-            <!-- Signatures -->
-            <div class="grid grid-cols-2 gap-4 pt-4 text-xs">
-              <div class="border-t border-slate-400 pt-1 text-center">
-                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Guest Signature</p>
-              </div>
-              <div class="border-t border-slate-400 pt-1 text-center">
-                <p class="font-signature text-base text-slate-800 leading-tight">Front Desk</p>
-                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Front Office Manager</p>
-              </div>
+              <p class="text-xs text-slate-700"><strong>Room:</strong> <span id="prev-r-no" class="font-bold text-amber-950 bg-amber-100/70 px-1.5 py-0.5 rounded border border-amber-300 editable-field" contenteditable="true" spellcheck="false" data-bind="room-no">Room 304 (Deluxe Royal Suite)</span></p>
+              <p class="text-xs text-slate-600"><strong>Check-In:</strong> <span id="prev-checkin" class="editable-field" contenteditable="true" spellcheck="false" data-bind="checkin-date">12 Oct 2026, 01:00 PM</span></p>
+              <p class="text-xs text-slate-600"><strong>Check-Out:</strong> <span id="prev-checkout" class="editable-field" contenteditable="true" spellcheck="false" data-bind="checkout-date">14 Oct 2026, 11:30 AM</span></p>
             </div>
           </div>
 
-          <!-- Right: Summary Table -->
-          <div class="sm:col-span-5 space-y-1.5 text-xs">
-            <div class="flex justify-between py-1 border-b border-slate-200">
-              <span class="text-slate-600 font-medium">Subtotal (Room & Food):</span>
-              <span id="prev-h-subtotal" class="font-mono text-slate-900 font-bold">₹0.00</span>
-            </div>
-            <div id="prev-h-discount-row" class="flex justify-between py-1 border-b border-slate-200 text-emerald-700 hidden">
-              <span class="font-medium">Discount / Privilege Offer:</span>
-              <span id="prev-h-discount" class="font-mono font-bold">-₹0.00</span>
-            </div>
-            <div class="flex justify-between py-1 border-b border-slate-200">
-              <span id="prev-h-tax-label" class="text-slate-600 font-medium">GST (12%):</span>
-              <span id="prev-h-tax" class="font-mono text-slate-900 font-bold">₹0.00</span>
-            </div>
-            <div class="flex justify-between py-2 border-b-2 border-slate-900 text-slate-900 font-bold text-sm bg-slate-50 px-2">
-              <span>TOTAL PAYABLE:</span>
-              <span id="prev-h-total" class="font-mono text-base font-extrabold text-slate-900">₹0.00</span>
-            </div>
-            <p class="text-[10px] text-slate-400 italic text-right pt-1">Inclusive of all accommodation taxes</p>
+          <!-- Room & Billing Items Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse border border-slate-700 text-xs">
+              <thead>
+                <tr class="bg-slate-900 text-amber-200 font-bold text-[11px]">
+                  <th id="th-sno" class="col-sno py-1.5 px-2.5 border border-slate-700 text-center w-8 relative group/th">
+                    #
+                    <button type="button" onclick="hideBillSection('col-sno')" title="Hide S.No Column" class="col-hide-btn absolute -top-1.5 -right-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center text-[9px] shadow-sm">✕</button>
+                  </th>
+                  <th id="th-desc" class="col-desc py-1.5 px-2.5 border border-slate-700">Room / Service Description</th>
+                  <th id="th-sac" class="col-sac py-1.5 px-2.5 border border-slate-700 text-center w-16 relative group/th">
+                    SAC
+                    <button type="button" onclick="hideBillSection('col-sac')" title="Hide SAC Column" class="col-hide-btn absolute -top-1.5 -right-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center text-[9px] shadow-sm">✕</button>
+                  </th>
+                  <th id="th-qty" class="col-qty py-1.5 px-2.5 border border-slate-700 text-center w-16 relative group/th">
+                    Nights/Qty
+                    <button type="button" onclick="hideBillSection('col-qty')" title="Hide Qty Column" class="col-hide-btn absolute -top-1.5 -right-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center text-[9px] shadow-sm">✕</button>
+                  </th>
+                  <th id="th-rate" class="col-rate py-1.5 px-2.5 border border-slate-700 text-right w-24 relative group/th">
+                    Rate (₹)
+                    <button type="button" onclick="hideBillSection('col-rate')" title="Hide Rate Column" class="col-hide-btn absolute -top-1.5 -right-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center text-[9px] shadow-sm">✕</button>
+                  </th>
+                  <th class="col-amt py-1.5 px-2.5 border border-slate-700 text-right w-24">Amount (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="prev-h-items-body" class="divide-y divide-slate-200 text-slate-800"></tbody>
+            </table>
           </div>
-        </div>
 
-        <!-- Subtle Watermark Branding -->
-        <div id="prev-branding" class="text-center text-[10px] text-slate-400 pt-1 border-t border-slate-200 select-none">
-          Generated by UPIBillMaker.com
-        </div>
+          <!-- Totals & Payment Section -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-2 border-t border-slate-300">
+            <!-- Left: Amount in Words, Bank & UPI, Signatures -->
+            <div class="sm:col-span-7 space-y-3">
+              <div id="sec-amount-in-words" class="bill-section-wrapper relative group/sec">
+                <button type="button" onclick="hideBillSection('amount-in-words')" title="Hide Amount in Words" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">AMOUNT IN WORDS</p>
+                <p class="font-serif italic text-xs text-slate-800 font-semibold mt-0.5" id="prev-h-words">INR Zero Rupees Only</p>
+              </div>
 
+              <!-- UPI QR Auto-Pay Box -->
+              <div id="prev-hotel-qr-block" class="bill-section-wrapper relative group/sec border border-slate-700 p-2.5 bg-slate-50 flex items-center justify-between gap-3">
+                <button type="button" onclick="hideBillSection('upi-qr')" title="Hide UPI QR Code" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
+                <div class="flex items-center gap-3">
+                  <div id="hotel-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
+                  <div>
+                    <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
+                    <p class="text-xs font-bold text-slate-900 mt-1">Scan & Pay via Any UPI App</p>
+                    <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-h-upi" class="font-bold">yourhotel@upi</span></p>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Total Due</span>
+                  <span id="prev-h-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹0.00</span>
+                </div>
+              </div>
+
+              <!-- Signatures -->
+              <div id="sec-hotel-signatures" class="bill-section-wrapper relative group/sec grid grid-cols-2 gap-4 pt-4 text-xs">
+                <button type="button" onclick="hideBillSection('signatures')" title="Hide Signatures" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
+                <div class="border-t border-slate-400 pt-1 text-center">
+                  <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Guest Signature</p>
+                </div>
+                <div class="border-t border-slate-400 pt-1 text-center">
+                  <p class="font-signature text-base text-slate-800 leading-tight">Front Desk</p>
+                  <p class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Front Office Manager</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Summary Table -->
+            <div class="sm:col-span-5 space-y-1.5 text-xs">
+              <div class="flex justify-between py-1 border-b border-slate-200">
+                <span class="text-slate-600 font-medium">Subtotal (Room & Food):</span>
+                <span id="prev-h-subtotal" class="font-mono text-slate-900 font-bold">₹0.00</span>
+              </div>
+              <div id="prev-h-discount-row" class="flex justify-between py-1 border-b border-slate-200 text-emerald-700 hidden">
+                <span class="font-medium">Discount / Privilege Offer:</span>
+                <span id="prev-h-discount" class="font-mono font-bold">-₹0.00</span>
+              </div>
+              <div class="flex justify-between py-1 border-b border-slate-200">
+                <span id="prev-h-tax-label" class="text-slate-600 font-medium">GST (12%):</span>
+                <span id="prev-h-tax" class="font-mono text-slate-900 font-bold">₹0.00</span>
+              </div>
+              <div class="flex justify-between py-2 border-b-2 border-slate-900 text-slate-900 font-bold text-sm bg-slate-50 px-2">
+                <span>TOTAL PAYABLE:</span>
+                <span id="prev-h-total" class="font-mono text-base font-extrabold text-slate-900">₹0.00</span>
+              </div>
+              <p class="text-[10px] text-slate-400 italic text-right pt-1">Inclusive of all accommodation taxes</p>
+            </div>
+          </div>
+
+          <!-- Subtle Watermark Branding -->
+          <div id="prev-branding" class="text-center text-[10px] text-slate-400 pt-1 border-t border-slate-200 select-none">
+            Generated by UPIBillMaker.com
+          </div>
+
+          </div>
         </div>
       </div>
-    </div>
 
     
     <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
@@ -512,6 +653,24 @@
           </button>
         </div>
 
+        <!-- 1-Click Quick Add Popular Hotel Services Chips -->
+        <div class="bg-amber-50/60 border border-amber-200/80 rounded-xl p-2.5 space-y-1.5 no-print">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-amber-950 flex items-center gap-1">
+              ⚡ 1-Click Quick Add Hotel Services:
+            </span>
+            <span class="text-[10px] text-slate-500">Tap chip to append row</span>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <button type="button" onclick="quickAddHotelItem('Deluxe Room (1 Night)', 1, 3500)" class="text-[11px] bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ Deluxe Room (₹3500)</button>
+            <button type="button" onclick="quickAddHotelItem('Executive Suite (1 Night)', 1, 6500)" class="text-[11px] bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ Exec Suite (₹6500)</button>
+            <button type="button" onclick="quickAddHotelItem('Buffet Breakfast (2 Pax)', 2, 450)" class="text-[11px] bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ Breakfast (₹450)</button>
+            <button type="button" onclick="quickAddHotelItem('Extra Rollaway Bed', 1, 800)" class="text-[11px] bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ Extra Bed (₹800)</button>
+            <button type="button" onclick="quickAddHotelItem('Express Laundry Service', 1, 350)" class="text-[11px] bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ Laundry (₹350)</button>
+            <button type="button" onclick="quickAddHotelItem('Airport Pickup & Drop Cab', 1, 1200)" class="text-[11px] bg-white hover:bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ Airport Cab (₹1200)</button>
+          </div>
+        </div>
+
         <!-- Column Header Labels (Hidden on mobile) -->
         <div class="hidden sm:grid grid-cols-12 gap-2 text-[10px] font-bold text-slate-400 uppercase px-1">
           <div class="col-span-7">Service / Room Description</div>
@@ -604,6 +763,17 @@
 
     </div>
   </main>
+
+  <!-- Right Side Rail Ad Slot (Desktop Skyscraper) -->
+  <aside class="hidden xl:block w-[160px] shrink-0 sticky top-20 no-print" aria-label="Advertisement">
+    <div class="w-[160px] h-[600px] bg-slate-100 rounded-xl border border-dashed border-slate-300 flex flex-col items-center justify-center p-3 text-center shadow-xs">
+      <span class="text-[10px] uppercase font-bold tracking-wider text-slate-600 mb-2">Advertisement</span>
+      <div class="text-[11px] text-slate-600 font-medium leading-relaxed">
+        Google AdSense<br>160×600<br>Side Rail Unit
+      </div>
+    </div>
+  </aside>
+</div>
 
 
   <script>
@@ -766,12 +936,12 @@
         const tr = document.createElement('tr');
         tr.className = idx % 2 === 1 ? 'bg-slate-50' : 'bg-white';
         tr.innerHTML = `
-          <td class="py-1.5 px-2.5 border border-slate-700 text-center font-mono">${idx + 1}</td>
-          <td class="py-1.5 px-2.5 border border-slate-700 font-medium text-slate-900">${desc}</td>
-          <td class="py-1.5 px-2.5 border border-slate-700 text-center font-mono text-slate-600">9963</td>
-          <td class="py-1.5 px-2.5 border border-slate-700 text-center">${qty}</td>
-          <td class="py-1.5 px-2.5 border border-slate-700 text-right font-mono text-slate-700">₹${formatINR(price)}</td>
-          <td class="py-1.5 px-2.5 border border-slate-700 text-right font-mono font-bold text-slate-900">₹${formatINR(amt)}</td>
+          <td class="col-sno py-1.5 px-2.5 border border-slate-700 text-center font-mono">${idx + 1}</td>
+          <td class="col-desc py-1.5 px-2.5 border border-slate-700 font-medium text-slate-900">${desc}</td>
+          <td class="col-sac py-1.5 px-2.5 border border-slate-700 text-center font-mono text-slate-600">9963</td>
+          <td class="col-qty py-1.5 px-2.5 border border-slate-700 text-center">${qty}</td>
+          <td class="col-rate py-1.5 px-2.5 border border-slate-700 text-right font-mono text-slate-700">₹${formatINR(price)}</td>
+          <td class="col-amt py-1.5 px-2.5 border border-slate-700 text-right font-mono font-bold text-slate-900">₹${formatINR(amt)}</td>
         `;
         body.appendChild(tr);
       });
@@ -1383,6 +1553,134 @@
     window.addEventListener('resize', fitHotelPreviewToScreen);
     window.addEventListener('scroll', updateHotelFloatingBtnState, { passive: true });
 
+    // 1-Click Quick Add Hotel Item
+    function quickAddHotelItem(name, qty, price) {
+      const c = document.getElementById('hotel-items-box');
+      if (!c) return;
+
+      // If only 1 row exists and it's empty, replace it
+      const rows = c.querySelectorAll('.h-row');
+      if (rows.length === 1) {
+        const firstDesc = rows[0].querySelector('.h-desc');
+        const firstPrice = rows[0].querySelector('.h-price');
+        if (firstDesc && !firstDesc.value.trim() && (!firstPrice || parseFloat(firstPrice.value) === 0 || !firstPrice.value)) {
+          firstDesc.value = name;
+          rows[0].querySelector('.h-qty').value = qty;
+          rows[0].querySelector('.h-price').value = price;
+          updateHotelBill();
+          showDownloadToast(`Added "${name}"`);
+          return;
+        }
+      }
+
+      const div = document.createElement('div');
+      div.className = 'h-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center';
+      div.innerHTML = `
+        <div class="sm:col-span-7 flex items-center gap-1.5">
+          <div class="flex-1 min-w-0">
+            <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Service / Room</label>
+            <input type="text" class="h-desc w-full px-2.5 py-1.5 bg-white rounded border border-slate-300 font-medium text-xs focus:ring-2 focus:ring-indigo-500" value="${name}">
+          </div>
+          <button type="button" class="sm:hidden btn-del-hotel text-rose-500 hover:text-rose-700 p-1.5 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
+        </div>
+        <div class="grid grid-cols-2 gap-2 sm:contents">
+          <div class="sm:col-span-2 min-w-0">
+            <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Nights/Qty</label>
+            <input type="number" class="h-qty w-full text-center px-2 py-1.5 bg-white rounded border border-slate-300 text-xs" placeholder="Qty" value="${qty}">
+          </div>
+          <div class="sm:col-span-2 min-w-0">
+            <label class="block sm:hidden text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Rate (₹)</label>
+            <input type="number" step="0.5" class="h-price w-full text-right px-2 py-1.5 bg-white rounded border border-slate-300 font-mono text-xs" placeholder="Rate ₹" value="${price}">
+          </div>
+        </div>
+        <div class="hidden sm:block sm:col-span-1 text-center">
+          <button type="button" class="btn-del-hotel text-rose-500 hover:text-rose-700 p-1 hover:bg-rose-50 rounded transition-colors" title="Delete item">✕</button>
+        </div>
+      `;
+      c.appendChild(div);
+      attachHotelEvents(div);
+      updateHotelBill();
+      showDownloadToast(`Added "${name}"`);
+    }
+
+    // Section & Column Customization State
+    const hotelSectionVisibility = {
+      'col-sno': true,
+      'col-sac': true,
+      'col-qty': true,
+      'col-rate': true,
+      'guest-info': true,
+      'stay-info': true,
+      'amount-in-words': true,
+      'upi-qr': true,
+      'signatures': true,
+      'status-badge': true
+    };
+
+    function toggleSectionCustomizer() {
+      const drawer = document.getElementById('section-customizer-drawer');
+      if (drawer) {
+        drawer.classList.toggle('hidden');
+      }
+    }
+
+    function toggleBillSection(sectionKey, isVisible) {
+      hotelSectionVisibility[sectionKey] = isVisible;
+      const chk = document.getElementById(`chk-${sectionKey}`) || document.getElementById(`chk-sec-${sectionKey}`);
+      if (chk) chk.checked = isVisible;
+      applyHotelSectionVisibility();
+    }
+
+    function hideBillSection(sectionKey) {
+      toggleBillSection(sectionKey, false);
+      const label = sectionKey.replace('col-', '').replace('sec-', '').replace('-', ' ');
+      showDownloadToast(`Hidden "${label}" - Use 'Customize Bill' to restore`);
+    }
+
+    function applyHotelSectionVisibility() {
+      const preview = document.getElementById('hotel-bill-preview');
+      if (!preview) return;
+
+      // Table columns
+      preview.classList.toggle('hide-col-sno', !hotelSectionVisibility['col-sno']);
+      preview.classList.toggle('hide-col-sac', !hotelSectionVisibility['col-sac']);
+      preview.classList.toggle('hide-col-qty', !hotelSectionVisibility['col-qty']);
+      preview.classList.toggle('hide-col-rate', !hotelSectionVisibility['col-rate']);
+
+      // Sections
+      const guestInfo = document.getElementById('sec-guest-info');
+      if (guestInfo) guestInfo.style.display = hotelSectionVisibility['guest-info'] ? '' : 'none';
+
+      const stayInfo = document.getElementById('sec-stay-info');
+      if (stayInfo) stayInfo.style.display = hotelSectionVisibility['stay-info'] ? '' : 'none';
+
+      const words = document.getElementById('sec-amount-in-words');
+      if (words) words.style.display = hotelSectionVisibility['amount-in-words'] ? '' : 'none';
+
+      const qr = document.getElementById('prev-hotel-qr-block');
+      if (qr) qr.style.display = hotelSectionVisibility['upi-qr'] ? '' : 'none';
+
+      const sig = document.getElementById('sec-hotel-signatures');
+      if (sig) sig.style.display = hotelSectionVisibility['signatures'] ? '' : 'none';
+
+      const badge = document.getElementById('prev-hotel-status-badge');
+      if (badge) badge.style.display = hotelSectionVisibility['status-badge'] ? '' : 'none';
+    }
+
+    function resetSectionVisibility() {
+      Object.keys(hotelSectionVisibility).forEach(k => {
+        hotelSectionVisibility[k] = true;
+        const chk = document.getElementById(`chk-${k}`) || document.getElementById(`chk-sec-${k}`);
+        if (chk) chk.checked = true;
+      });
+      applyHotelSectionVisibility();
+      showDownloadToast('All bill sections restored');
+    }
+
+    function initSectionVisibility() {
+      applyHotelSectionVisibility();
+    }
+
     function initHotelApp() {
       try {
         if (window.lucide && typeof lucide.createIcons === 'function') {
@@ -1399,6 +1697,7 @@
       } catch(e) {
         try { updateHotelBill(); } catch(err) {}
       }
+      try { initSectionVisibility(); } catch(e) {}
       try { fitHotelPreviewToScreen(); } catch(e) {}
       setTimeout(fitHotelPreviewToScreen, 150);
       try { updateHotelFloatingBtnState(); } catch(e) {}

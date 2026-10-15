@@ -119,6 +119,46 @@
     #floating-view-btn {
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
+
+    /* Table Column & Section Hiding Classes */
+    #tuition-receipt-preview.hide-col-sno .col-sno { display: none !important; }
+    #tuition-receipt-preview.hide-col-month .col-month { display: none !important; }
+    #tuition-receipt-preview.hide-sec-student #sec-student-info { display: none !important; }
+    #tuition-receipt-preview.hide-sec-words #sec-amount-in-words { display: none !important; }
+    #tuition-receipt-preview.hide-sec-qr #prev-tuition-qr-block { display: none !important; }
+    #tuition-receipt-preview.hide-sec-sig #sec-tuition-signature { display: none !important; }
+    #tuition-receipt-preview.hide-sec-status #prev-tuition-status-badge { display: none !important; }
+
+    /* Quick Remove Hover Buttons */
+    .col-hide-btn {
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+    }
+    th:hover .col-hide-btn {
+      opacity: 0.9;
+    }
+    .col-hide-btn:hover {
+      opacity: 1 !important;
+      transform: scale(1.15);
+    }
+    .sec-hide-btn {
+      opacity: 0;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      cursor: pointer;
+    }
+    .bill-section-wrapper:hover .sec-hide-btn {
+      opacity: 0.85;
+    }
+    .sec-hide-btn:hover {
+      opacity: 1 !important;
+      transform: scale(1.1);
+    }
+    @media print {
+      .col-hide-btn, .sec-hide-btn, #section-customizer-drawer {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
@@ -220,168 +260,251 @@
     </div>
   </div>
 
-  <main class="max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
-    <div id="col-preview" class="w-full space-y-4">
-
-      <!-- Preview Header & Actions Bar -->
-      <div class="flex items-center justify-between px-1 no-print">
-        <div>
-          <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
-            <i data-lucide="graduation-cap" class="w-5 h-5 text-blue-600"></i>
-            <span>Live Tuition & Coaching Fee Receipt Preview</span>
-          </h3>
-          <p class="text-xs text-slate-500">Real-time live rendering • Tax Exemption under Sec 80C</p>
-        </div>
-        <a href="#col-form" class="text-xs font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 transition-colors">
-          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Details ↓
-        </a>
-      </div>
-
-      <!-- Action Buttons Bar -->
-      <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
-        <div class="flex items-center gap-2">
-          <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
-            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
-            <span>Official Coaching Receipt</span>
-          </div>
-        </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm shadow-blue-600/20 transition-all cursor-pointer">
-            <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
-          </button>
-          <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
-            <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
-          </button>
-          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
-            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
-          </button>
+  <div class="w-full max-w-[1480px] mx-auto px-2 sm:px-4 flex justify-center items-start gap-4">
+    <!-- Left Side Rail Ad Slot (Desktop Skyscraper) -->
+    <aside class="hidden xl:block w-[160px] shrink-0 sticky top-20 no-print" aria-label="Advertisement">
+      <div class="w-[160px] h-[600px] bg-slate-100 rounded-xl border border-dashed border-slate-300 flex flex-col items-center justify-center p-3 text-center shadow-xs">
+        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-600 mb-2">Advertisement</span>
+        <div class="text-[11px] text-slate-600 font-medium leading-relaxed">
+          Google AdSense<br>160×600<br>Side Rail Unit
         </div>
       </div>
+    </aside>
 
-      <!-- Mobile Fit Viewport Wrapper -->
-      <div id="tuition-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
-        <div id="tuition-receipt-preview" class="w-full bg-white p-3.5 sm:p-5 rounded-none border border-slate-800 shadow-md space-y-3 font-sans text-xs relative text-slate-900">
-        
-        <!-- Centered Statutory Header -->
-        <div class="text-center pb-2.5 border-b-2 border-slate-800">
-          <div class="inline-block px-3 py-0.5 border border-slate-800 bg-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-900">
-            COACHING & TUITION FEE RECEIPT
+    <main class="w-full max-w-4xl shrink-0 space-y-6 sm:space-y-8 py-4 sm:py-8">
+      <div id="col-preview" class="w-full space-y-4">
+
+        <!-- Preview Header & Actions Bar -->
+        <div class="flex items-center justify-between px-1 no-print">
+          <div>
+            <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
+              <i data-lucide="graduation-cap" class="w-5 h-5 text-indigo-600"></i>
+              <span>Live Tuition & Coaching Fee Receipt Preview</span>
+            </h3>
+            <p class="text-xs text-slate-500">Real-time live rendering • Tax Exemption under Sec 80C</p>
           </div>
-          <p class="text-[10px] text-slate-600 mt-1">(Tuition & Academic Training Services • Valid Proof for Educational Expense Claim)</p>
-          <h2 class="font-heading font-extrabold text-2xl text-slate-900 mt-1.5 editable-field" id="prev-tutor-name" contenteditable="true" spellcheck="false" data-bind="tutor-name" title="Click to edit coaching name">Apex Mathematics & Science Academy</h2>
-          <p class="editable-field text-xs text-slate-600" id="prev-tutor-sub" contenteditable="true" spellcheck="false" data-bind="tutor-sub" title="Click to edit center tagline">Premier Coaching & Academic Training Center</p>
+          <a href="#col-form" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 transition-colors">
+            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Details ↓
+          </a>
         </div>
 
-        <!-- Receipt Meta & Payment Status Bar -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-2.5">
-          <div class="flex items-center gap-4 text-xs">
-            <div>
-              <span class="text-slate-500 font-bold uppercase text-[10px]">Receipt #:</span>
-              <span class="font-mono font-bold text-slate-900" id="prev-fee-rec">FEE-2026-102</span>
-            </div>
-            <div>
-              <span class="text-slate-500 font-bold uppercase text-[10px]">Date:</span>
-              <span class="font-bold text-slate-900 font-mono" id="prev-fee-date">Today</span>
-            </div>
-          </div>
+        <!-- Action Buttons Bar -->
+        <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
           <div class="flex items-center gap-2">
-            <span class="text-slate-600 text-[11px] font-medium">Payment Status:</span>
-            <div role="button" tabindex="0" onclick="toggleTuitionStatus()" title="Click to toggle status" class="cursor-pointer">
-              <span id="prev-tuition-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-emerald-700">
-                FULLY PAID (CASH)
-              </span>
+            <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
+              <span>Official Coaching Receipt</span>
             </div>
           </div>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <button type="button" onclick="toggleSectionCustomizer()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 bg-indigo-50 hover:bg-indigo-100 border border-indigo-300 rounded-lg shadow-xs transition-colors cursor-pointer" title="Hide/Show Columns & Sections">
+              <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-indigo-700"></i> Customize Receipt
+            </button>
+            <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-sm shadow-indigo-600/20 transition-all cursor-pointer">
+              <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
+            </button>
+            <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+              <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+            </button>
+            <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+              <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+            </button>
+          </div>
         </div>
 
-        <!-- Student & Course Information Block -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 border border-slate-800 p-2.5 sm:p-3 bg-slate-50/50 text-xs">
-          <div>
-            <span class="text-slate-500 font-bold uppercase text-[10px] block">STUDENT DETAILS</span>
-            <p class="font-bold text-sm text-slate-900 mt-0.5 editable-field" id="prev-student" contenteditable="true" spellcheck="false" data-bind="student-name" title="Click to edit student name">Aarav S.</p>
-            <p class="text-slate-700 mt-0.5 editable-field" id="prev-class" contenteditable="true" spellcheck="false" data-bind="student-class" title="Click to edit class">Class 10 (CBSE) - Evening Batch</p>
+        <!-- Section & Column Customizer Drawer (Collapsible) -->
+        <div id="section-customizer-drawer" class="hidden bg-white border border-indigo-200 rounded-xl p-3.5 shadow-sm space-y-3 no-print">
+          <div class="flex items-center justify-between border-b border-indigo-100 pb-2">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-indigo-950">
+              <i data-lucide="sliders-horizontal" class="w-4 h-4 text-indigo-600"></i>
+              <span>Customize Tuition Receipt Sections & Columns</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="resetSectionVisibility()" class="text-[11px] text-indigo-700 hover:underline font-semibold cursor-pointer">Reset All</button>
+              <button type="button" onclick="toggleSectionCustomizer()" class="text-slate-400 hover:text-slate-600 p-0.5 rounded cursor-pointer">✕</button>
+            </div>
           </div>
-          <div>
-            <span class="text-slate-500 font-bold uppercase text-[10px] block">TERM & COURSE INFO</span>
-            <p class="font-bold text-sm text-slate-900 mt-0.5">Month: <span id="prev-fee-month" class="editable-field" contenteditable="true" spellcheck="false" data-bind="fee-month" title="Click to edit month">October 2026</span></p>
-            <p class="text-slate-700 mt-0.5 editable-field" id="prev-subjects" contenteditable="true" spellcheck="false" data-bind="fee-subjects" title="Click to edit subjects">Mathematics, Physics & Chemistry</p>
+          <p class="text-[11px] text-slate-500">Uncheck any column or section to hide it from preview and print/PDF output:</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-col-sno" checked onchange="toggleBillSection('col-sno', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+              <span>S.No (#)</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-col-month" checked onchange="toggleBillSection('col-month', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+              <span>Academic Month</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-student" checked onchange="toggleBillSection('sec-student', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+              <span>Student Details</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-words" checked onchange="toggleBillSection('sec-words', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+              <span>Amount in Words</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-qr" checked onchange="toggleBillSection('sec-qr', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+              <span>UPI QR Auto-Pay</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-sig" checked onchange="toggleBillSection('sec-sig', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+              <span>Tutor Seal/Sign</span>
+            </label>
+            <label class="flex items-center gap-1.5 cursor-pointer text-slate-700 hover:text-slate-900 select-none">
+              <input type="checkbox" id="chk-sec-status" checked onchange="toggleBillSection('sec-status', this.checked)" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+              <span>Payment Status Badge</span>
+            </label>
           </div>
         </div>
 
-        <!-- Fee Particulars Table -->
-        <div class="overflow-x-auto">
-          <table class="w-full text-left border-collapse border border-slate-800 text-xs">
-            <thead>
-              <tr class="bg-slate-800 text-white font-bold text-[11px]">
-                <th class="py-1.5 px-2.5 border border-slate-800 text-center w-8">#</th>
-                <th class="py-1.5 px-2.5 border border-slate-800">Fee Particulars / Course Description</th>
-                <th class="py-1.5 px-2.5 border border-slate-800 text-center w-28">Academic Month</th>
-                <th class="py-1.5 px-2.5 border border-slate-800 text-right w-28">Amount (₹)</th>
-              </tr>
-            </thead>
-            <tbody class="text-slate-800">
-              <tr class="bg-white">
-                <td class="py-2 px-2.5 border border-slate-800 text-center font-mono">1</td>
-                <td class="py-2 px-2.5 border border-slate-800 font-medium text-slate-900">
-                  <span id="prev-fee-item-desc">Monthly Tuition & Coaching Fee</span>
-                </td>
-                <td class="py-2 px-2.5 border border-slate-800 text-center font-medium" id="prev-fee-table-month">October 2026</td>
-                <td class="py-2 px-2.5 border border-slate-800 text-right font-mono font-bold text-slate-900" id="prev-fee-table-amt">₹3,000.00</td>
-              </tr>
-              <tr class="bg-slate-100 font-bold text-slate-900">
-                <td colspan="3" class="py-2 px-2.5 border border-slate-800 text-right uppercase tracking-wider">TOTAL FEE PAID:</td>
-                <td class="py-2 px-2.5 border border-slate-800 text-right font-mono text-sm" id="prev-fee-amt">₹3,000.00</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Direct WYSIWYG Click-to-Edit Tip Banner -->
+        <div class="w-full bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200/80 rounded-xl p-2.5 sm:p-3 text-xs text-indigo-950 flex items-center justify-between gap-2 shadow-xs no-print">
+          <div class="flex items-center gap-2">
+            <span class="text-base sm:text-lg">✨</span>
+            <div>
+              <strong class="font-bold">Direct Click-to-Edit Enabled:</strong>
+              <span class="text-indigo-900"> Receipt par student ka naam, class, subjects aur amount direct click karke change karein. Kisi section ya column ko hatane ke liye 'Customize Receipt' use karein ya [✕] dabayein.</span>
+            </div>
+          </div>
+          <button type="button" onclick="toggleSectionCustomizer()" class="shrink-0 text-[11px] font-bold text-indigo-800 bg-white hover:bg-indigo-100 border border-indigo-300 px-2.5 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shadow-xs">
+            <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i> Customize
+          </button>
         </div>
 
-        <!-- Amount in Words & Lower Section -->
-        <div class="space-y-2.5 pt-1">
-          <div>
-            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">AMOUNT IN WORDS</p>
-            <p class="font-serif italic text-xs text-slate-900 font-semibold mt-0.5" id="prev-words-text">Rupees Three Thousand Only</p>
+        <!-- Mobile Fit Viewport Wrapper -->
+        <div id="tuition-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
+          <div id="tuition-receipt-preview" class="w-full bg-white p-3.5 sm:p-5 rounded-none border-2 border-indigo-800 shadow-md space-y-3 font-sans text-xs relative text-slate-900">
+          
+          <!-- Centered Statutory Header -->
+          <div class="text-center pb-2.5 border-b-2 border-indigo-800">
+            <div class="inline-block px-3 py-0.5 border border-indigo-700 bg-indigo-950 text-[10px] font-bold uppercase tracking-widest text-indigo-100 rounded-sm">
+              COACHING & TUITION FEE RECEIPT
+            </div>
+            <p class="text-[10px] text-slate-600 mt-1">(Tuition & Academic Training Services • Valid Proof for Educational Expense Claim)</p>
+            <h2 class="font-heading font-extrabold text-2xl text-indigo-950 mt-1.5 editable-field" id="prev-tutor-name" contenteditable="true" spellcheck="false" data-bind="tutor-name" title="Click to edit coaching name">Apex Mathematics & Science Academy</h2>
+            <p class="editable-field text-xs text-slate-600" id="prev-tutor-sub" contenteditable="true" spellcheck="false" data-bind="tutor-sub" title="Click to edit center tagline">Premier Coaching & Academic Training Center</p>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-2 border-t border-slate-800 items-end">
-            <!-- Left: UPI Auto-Pay Box (7 cols) -->
-            <div class="sm:col-span-7">
-              <div id="prev-tuition-qr-block" class="border border-slate-800 p-2 bg-slate-50 flex items-center justify-between gap-3">
-                <div class="flex items-center gap-2.5">
-                  <div id="tuition-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
-                  <div>
-                    <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
-                    <p class="text-xs font-bold text-slate-900 mt-0.5">Scan to Pay Fee via Any UPI App</p>
-                    <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-tutor-upi" class="font-bold">apexacademy@demobank</span></p>
+          <!-- Receipt Meta & Payment Status Bar -->
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-indigo-800 pb-2.5">
+            <div class="flex items-center gap-4 text-xs">
+              <div>
+                <span class="text-slate-500 font-bold uppercase text-[10px]">Receipt #:</span>
+                <span class="font-mono font-bold text-slate-900" id="prev-fee-rec">FEE-2026-102</span>
+              </div>
+              <div>
+                <span class="text-slate-500 font-bold uppercase text-[10px]">Date:</span>
+                <span class="font-bold text-slate-900 font-mono" id="prev-fee-date">Today</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-slate-600 text-[11px] font-medium">Payment Status:</span>
+              <div role="button" tabindex="0" onclick="toggleTuitionStatus()" title="Click to toggle status" class="cursor-pointer">
+                <span id="prev-tuition-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-emerald-700">
+                  FULLY PAID (CASH)
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Student & Course Information Block -->
+          <div id="sec-student-info" class="bill-section-wrapper relative group/sec grid grid-cols-1 sm:grid-cols-2 gap-3 border border-indigo-200 p-2.5 sm:p-3 bg-indigo-50/40 text-xs rounded">
+            <button type="button" onclick="hideBillSection('sec-student')" title="Hide Student Details" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
+            <div>
+              <span class="text-indigo-900 font-bold uppercase text-[10px] block">STUDENT DETAILS</span>
+              <p class="font-bold text-sm text-slate-900 mt-0.5 editable-field" id="prev-student" contenteditable="true" spellcheck="false" data-bind="student-name" title="Click to edit student name">Aarav S.</p>
+              <p class="text-slate-700 mt-0.5 editable-field" id="prev-class" contenteditable="true" spellcheck="false" data-bind="student-class" title="Click to edit class">Class 10 (CBSE) - Evening Batch</p>
+            </div>
+            <div>
+              <span class="text-indigo-900 font-bold uppercase text-[10px] block">TERM & COURSE INFO</span>
+              <p class="font-bold text-sm text-slate-900 mt-0.5">Month: <span id="prev-fee-month" class="editable-field" contenteditable="true" spellcheck="false" data-bind="fee-month" title="Click to edit month">October 2026</span></p>
+              <p class="text-slate-700 mt-0.5 editable-field" id="prev-subjects" contenteditable="true" spellcheck="false" data-bind="fee-subjects" title="Click to edit subjects">Mathematics, Physics & Chemistry</p>
+            </div>
+          </div>
+
+          <!-- Fee Particulars Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse border border-indigo-800 text-xs">
+              <thead>
+                <tr class="bg-indigo-900 text-indigo-100 font-bold text-[11px]">
+                  <th id="th-sno" class="col-sno py-1.5 px-2.5 border border-indigo-800 text-center w-8 relative group/th">
+                    #
+                    <button type="button" onclick="hideBillSection('col-sno')" title="Hide S.No Column" class="col-hide-btn absolute -top-1.5 -right-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center text-[9px] shadow-sm">✕</button>
+                  </th>
+                  <th id="th-desc" class="py-1.5 px-2.5 border border-indigo-800">Fee Particulars / Course Description</th>
+                  <th id="th-month" class="col-month py-1.5 px-2.5 border border-indigo-800 text-center w-28 relative group/th">
+                    Academic Month
+                    <button type="button" onclick="hideBillSection('col-month')" title="Hide Month Column" class="col-hide-btn absolute -top-1.5 -right-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full w-3.5 h-3.5 flex items-center justify-center text-[9px] shadow-sm">✕</button>
+                  </th>
+                  <th class="py-1.5 px-2.5 border border-indigo-800 text-right w-28">Amount (₹)</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-800">
+                <tr class="bg-white">
+                  <td class="col-sno py-2 px-2.5 border border-indigo-800 text-center font-mono">1</td>
+                  <td class="py-2 px-2.5 border border-indigo-800 font-medium text-slate-900">
+                    <span id="prev-fee-item-desc">Monthly Tuition & Coaching Fee</span>
+                  </td>
+                  <td class="col-month py-2 px-2.5 border border-indigo-800 text-center font-medium" id="prev-fee-table-month">October 2026</td>
+                  <td class="py-2 px-2.5 border border-indigo-800 text-right font-mono font-bold text-slate-900" id="prev-fee-table-amt">₹3,000.00</td>
+                </tr>
+                <tr class="bg-indigo-50 font-bold text-indigo-950">
+                  <td id="td-total-label" colspan="3" class="py-2 px-2.5 border border-indigo-800 text-right uppercase tracking-wider">TOTAL FEE PAID:</td>
+                  <td class="py-2 px-2.5 border border-indigo-800 text-right font-mono text-sm" id="prev-fee-amt">₹3,000.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Amount in Words & Lower Section -->
+          <div class="space-y-2.5 pt-1">
+            <div id="sec-amount-in-words" class="bill-section-wrapper relative group/sec">
+              <button type="button" onclick="hideBillSection('sec-words')" title="Hide Amount in Words" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">AMOUNT IN WORDS</p>
+              <p class="font-serif italic text-xs text-slate-900 font-semibold mt-0.5" id="prev-words-text">Rupees Three Thousand Only</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-2 border-t border-indigo-800 items-end">
+              <!-- Left: UPI Auto-Pay Box (7 cols) -->
+              <div class="sm:col-span-7">
+                <div id="prev-tuition-qr-block" class="bill-section-wrapper relative group/sec border border-indigo-800 p-2 bg-slate-50 flex items-center justify-between gap-3">
+                  <button type="button" onclick="hideBillSection('sec-qr')" title="Hide UPI QR Code" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
+                  <div class="flex items-center gap-2.5">
+                    <div id="tuition-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
+                    <div>
+                      <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
+                      <p class="text-xs font-bold text-slate-900 mt-0.5">Scan to Pay Fee via Any UPI App</p>
+                      <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-tutor-upi" class="font-bold">apexacademy@demobank</span></p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-[9px] font-bold text-slate-500 uppercase block">Total Fee</span>
+                    <span id="prev-tuition-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹3,000.00</span>
                   </div>
                 </div>
-                <div class="text-right">
-                  <span class="text-[9px] font-bold text-slate-500 uppercase block">Total Fee</span>
-                  <span id="prev-tuition-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹3,000.00</span>
+              </div>
+
+              <!-- Right: Signatures (5 cols) -->
+              <div class="sm:col-span-5 flex flex-col items-center sm:items-end justify-between space-y-1.5">
+                <span class="text-[10px] text-indigo-700 font-semibold italic">ORIGINAL / STUDENT COPY</span>
+                <div id="sec-tuition-signature" class="bill-section-wrapper relative group/sec text-center sm:text-right w-full pt-1">
+                  <button type="button" onclick="hideBillSection('sec-sig')" title="Hide Tutor Seal & Signature" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
+                  <div class="font-signature text-2xl text-slate-900 leading-none" id="prev-tutor-sig">Apex Academy</div>
+                  <div class="w-40 border-b border-indigo-800 mt-1 ml-auto mr-auto sm:mr-0"></div>
+                  <p class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Authorized Tutor / Center Seal</p>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Right: Signatures (5 cols) -->
-            <div class="sm:col-span-5 flex flex-col items-center sm:items-end justify-between space-y-1.5">
-              <span class="text-[10px] text-slate-500 italic">Student / Parent Copy</span>
-              <div class="text-center sm:text-right w-full pt-1">
-                <div class="font-signature text-2xl text-slate-900 leading-none" id="prev-tutor-sig">Apex Academy</div>
-                <div class="w-40 border-b border-slate-800 mt-1 ml-auto mr-auto sm:mr-0"></div>
-                <p class="text-[10px] font-bold uppercase tracking-wider text-slate-700 mt-1">Authorized Tutor / Center Seal</p>
-              </div>
-            </div>
+          <!-- Subtle Watermark Branding -->
+          <div id="prev-branding" class="text-center text-[10px] text-slate-400 pt-1 border-t border-slate-200 select-none">
+            Generated by UPIBillMaker.com
+          </div>
+
           </div>
         </div>
-
-        <!-- Subtle Watermark Branding -->
-        <div id="prev-branding" class="text-center text-[10px] text-slate-400 pt-1 border-t border-slate-200 select-none">
-          Generated by UPIBillMaker.com
-        </div>
-
-        </div>
       </div>
-    </div>
 
     
     <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
@@ -433,6 +556,23 @@
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Class / Grade / Batch</label>
             <input type="text" id="student-class" value="Class 10 (CBSE) - Evening" placeholder="e.g. Class 10 (CBSE) - Evening" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <!-- 1-Click Quick Tuition Fee Presets Chips -->
+        <div class="bg-indigo-50/60 border border-indigo-200/80 rounded-xl p-2.5 space-y-1.5 no-print">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-indigo-950 flex items-center gap-1">
+              ⚡ 1-Click Quick Tuition Fee Presets:
+            </span>
+            <span class="text-[10px] text-slate-500">Tap chip to fill amount</span>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <button type="button" onclick="quickSetTuitionFee(1500)" class="text-[11px] bg-white hover:bg-indigo-100 text-indigo-900 border border-indigo-300 px-2.5 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ ₹1,500 (Single Sub)</button>
+            <button type="button" onclick="quickSetTuitionFee(3000)" class="text-[11px] bg-white hover:bg-indigo-100 text-indigo-900 border border-indigo-300 px-2.5 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ ₹3,000 (Science + Maths)</button>
+            <button type="button" onclick="quickSetTuitionFee(5000)" class="text-[11px] bg-white hover:bg-indigo-100 text-indigo-900 border border-indigo-300 px-2.5 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ ₹5,000 (Full Academic)</button>
+            <button type="button" onclick="quickSetTuitionFee(8500)" class="text-[11px] bg-white hover:bg-indigo-100 text-indigo-900 border border-indigo-300 px-2.5 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ ₹8,500 (Quarterly Foundation)</button>
+            <button type="button" onclick="quickSetTuitionFee(12000)" class="text-[11px] bg-white hover:bg-indigo-100 text-indigo-900 border border-indigo-300 px-2.5 py-0.5 rounded-full font-medium transition cursor-pointer shadow-2xs">+ ₹12,000 (Crash Course)</button>
           </div>
         </div>
 
@@ -514,6 +654,17 @@
 
     </div>
   </main>
+
+  <!-- Right Side Rail Ad Slot (Desktop Skyscraper) -->
+  <aside class="hidden xl:block w-[160px] shrink-0 sticky top-20 no-print" aria-label="Advertisement">
+    <div class="w-[160px] h-[600px] bg-slate-100 rounded-xl border border-dashed border-slate-300 flex flex-col items-center justify-center p-3 text-center shadow-xs">
+      <span class="text-[10px] uppercase font-bold tracking-wider text-slate-600 mb-2">Advertisement</span>
+      <div class="text-[11px] text-slate-600 font-medium leading-relaxed">
+        Google AdSense<br>160×600<br>Side Rail Unit
+      </div>
+    </div>
+  </aside>
+</div>
 
 
   <script>
@@ -1105,6 +1256,83 @@
     window.addEventListener('resize', fitTuitionPreviewToScreen);
     window.addEventListener('scroll', updateTuitionFloatingBtnState, { passive: true });
 
+    // 1-Click Quick Preset Tuition Fee
+    function quickSetTuitionFee(amount) {
+      const amtInput = document.getElementById('fee-amount');
+      if (amtInput) {
+        amtInput.value = amount;
+        updateTuition();
+        showDownloadToast(`Fee set to ₹${amount.toLocaleString('en-IN')}`);
+      }
+    }
+
+    // Tuition Section Customization State
+    const tuitionSectionVisibility = {
+      'col-sno': true,
+      'col-month': true,
+      'sec-student': true,
+      'sec-words': true,
+      'sec-qr': true,
+      'sec-sig': true,
+      'sec-status': true
+    };
+
+    function toggleSectionCustomizer() {
+      const drawer = document.getElementById('section-customizer-drawer');
+      if (drawer) {
+        drawer.classList.toggle('hidden');
+      }
+    }
+
+    function toggleBillSection(sectionKey, isVisible) {
+      tuitionSectionVisibility[sectionKey] = isVisible;
+      const chk = document.getElementById(`chk-${sectionKey}`) || document.getElementById(`chk-col-${sectionKey}`);
+      if (chk) chk.checked = isVisible;
+      applyTuitionSectionVisibility();
+    }
+
+    function hideBillSection(sectionKey) {
+      toggleBillSection(sectionKey, false);
+      const label = sectionKey.replace('col-', '').replace('sec-', '').replace('-', ' ');
+      showDownloadToast(`Hidden "${label}" - Use 'Customize Receipt' to restore`);
+    }
+
+    function applyTuitionSectionVisibility() {
+      const preview = document.getElementById('tuition-receipt-preview');
+      if (!preview) return;
+
+      preview.classList.toggle('hide-col-sno', !tuitionSectionVisibility['col-sno']);
+      preview.classList.toggle('hide-col-month', !tuitionSectionVisibility['col-month']);
+      preview.classList.toggle('hide-sec-student', !tuitionSectionVisibility['sec-student']);
+      preview.classList.toggle('hide-sec-words', !tuitionSectionVisibility['sec-words']);
+      preview.classList.toggle('hide-sec-qr', !tuitionSectionVisibility['sec-qr']);
+      preview.classList.toggle('hide-sec-sig', !tuitionSectionVisibility['sec-sig']);
+      preview.classList.toggle('hide-sec-status', !tuitionSectionVisibility['sec-status']);
+
+      // Adjust colspan of total row if columns are hidden
+      const tdTotal = document.getElementById('td-total-label');
+      if (tdTotal) {
+        let cols = 3;
+        if (!tuitionSectionVisibility['col-sno']) cols--;
+        if (!tuitionSectionVisibility['col-month']) cols--;
+        tdTotal.colSpan = Math.max(1, cols);
+      }
+    }
+
+    function resetSectionVisibility() {
+      Object.keys(tuitionSectionVisibility).forEach(k => {
+        tuitionSectionVisibility[k] = true;
+        const chk = document.getElementById(`chk-${k}`) || document.getElementById(`chk-col-${k}`);
+        if (chk) chk.checked = true;
+      });
+      applyTuitionSectionVisibility();
+      showDownloadToast('All receipt sections restored');
+    }
+
+    function initSectionVisibility() {
+      applyTuitionSectionVisibility();
+    }
+
     function initTuitionApp() {
       try {
         if (window.lucide && typeof lucide.createIcons === 'function') {
@@ -1121,6 +1349,7 @@
       } catch(e) {
         try { updateTuition(); } catch(err) {}
       }
+      try { initSectionVisibility(); } catch(e) {}
       try { fitTuitionPreviewToScreen(); } catch(e) {}
       setTimeout(fitTuitionPreviewToScreen, 150);
       try { updateTuitionFloatingBtnState(); } catch(e) {}

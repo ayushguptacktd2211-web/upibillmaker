@@ -143,6 +143,76 @@
         outline: none !important;
       }
     }
+
+    /* Table Columns Visibility Customizer */
+    #medical-bill-preview.hide-col-sno .th-sno,
+    #medical-bill-preview.hide-col-sno .td-sno {
+      display: none !important;
+    }
+    #medical-bill-preview.hide-col-batch .th-batch,
+    #medical-bill-preview.hide-col-batch .td-batch {
+      display: none !important;
+    }
+    #medical-bill-preview.hide-col-exp .th-exp,
+    #medical-bill-preview.hide-col-exp .td-exp {
+      display: none !important;
+    }
+    #medical-bill-preview.hide-col-qty .th-qty,
+    #medical-bill-preview.hide-col-qty .td-qty {
+      display: none !important;
+    }
+    #medical-bill-preview.hide-col-rate .th-rate,
+    #medical-bill-preview.hide-col-rate .td-rate {
+      display: none !important;
+    }
+
+    .col-hide-btn {
+      display: inline-block;
+      opacity: 0;
+      margin-left: 2px;
+      font-size: 8px;
+      color: #94a3b8;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0 1px;
+      line-height: 1;
+      transition: opacity 0.15s ease, color 0.15s ease;
+      vertical-align: middle;
+    }
+    .group\/th:hover .col-hide-btn {
+      opacity: 1;
+    }
+    .col-hide-btn:hover {
+      color: #ef4444;
+    }
+
+    /* Quick Hover Section Hide Button */
+    .sec-hide-btn {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 4px;
+      background: #ffffff;
+      border: 1px solid #99f6e4;
+      color: #0f766e;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s ease, background-color 0.15s ease;
+      z-index: 10;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    .group\/sec:hover .sec-hide-btn {
+      opacity: 1;
+    }
+    .sec-hide-btn:hover {
+      background: #fee2e2;
+      color: #dc2626;
+      border-color: #fca5a5;
+    }
   </style>
 
   <!-- FAQ Schema -->
@@ -277,7 +347,23 @@
     </div>
   </div>
 
-  <main class="max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
+  <!-- Desktop 3-Column Container with Dedicated Side Rail Ad Slots (Desktop >= 1280px) -->
+  <div class="w-full max-w-[1480px] mx-auto px-2 sm:px-4 flex justify-center items-start gap-4">
+
+    <!-- Left Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
+    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Left Advertisement Rail">
+      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:160px;height:600px"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="1122334455"></ins>
+        <span class="text-xs font-semibold mt-2">160x600</span>
+        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
+      </div>
+    </aside>
+
+  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
     <div id="col-preview" class="w-full space-y-4">
 
       <!-- Preview Header & Actions Bar -->
@@ -303,10 +389,14 @@
           </div>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button type="button" onclick="toggleSectionCustomizer()" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Customize bill sections and table columns">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-teal-600"></i>
+            <span>Customize Bill</span>
+          </button>
           <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm shadow-teal-600/20 transition-all cursor-pointer">
             <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
           </button>
-          <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
+          <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
             <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
           </button>
           <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
@@ -315,22 +405,109 @@
         </div>
       </div>
 
+      <!-- Section Customizer Drawer (Show/Hide any bill section or table column with 1 click) -->
+      <div id="section-customizer-drawer" class="hidden w-full bg-white rounded-xl border border-teal-200 p-3 sm:p-4 shadow-sm no-print space-y-3 transition-all text-left">
+        <div class="flex items-center justify-between border-b border-teal-100 pb-2">
+          <div class="flex items-center gap-2">
+            <i data-lucide="sliders" class="w-4 h-4 text-teal-600"></i>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900">Customize Pharmacy Bill (कॉलम और सेक्शन हटाएं / दिखाएं)</h4>
+          </div>
+          <div class="flex items-center gap-3">
+            <button type="button" onclick="resetSectionVisibility()" class="text-xs font-semibold text-teal-600 hover:text-teal-800 transition-colors">Show All</button>
+            <button type="button" onclick="toggleSectionCustomizer()" class="text-slate-400 hover:text-slate-600">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-500">Uncheck any item below to immediately remove it from your medical bill.</p>
+
+        <!-- Table Columns -->
+        <div class="space-y-1.5 pt-1">
+          <span class="text-[10px] font-bold text-teal-700 uppercase tracking-wider block">📊 Medicines Table Columns:</span>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-col-sno" checked onchange="toggleBillSection('col-sno', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]"># (S.No)</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-col-batch" checked onchange="toggleBillSection('col-batch', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Batch No</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-col-exp" checked onchange="toggleBillSection('col-exp', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Exp Date</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-col-qty" checked onchange="toggleBillSection('col-qty', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Quantity</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-col-rate" checked onchange="toggleBillSection('col-rate', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Rate / MRP</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Bill Sections -->
+        <div class="space-y-1.5 pt-1 border-t border-teal-100">
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">📄 Bill Cards & Badges:</span>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-pt-dr-bar" checked onchange="toggleBillSection('pt-dr-bar', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Doctor & Patient</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-dl-number" checked onchange="toggleBillSection('dl-number', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Drug Lic (DL) No</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-tax-breakdown" checked onchange="toggleBillSection('tax-breakdown', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Tax Breakdown</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-amount-in-words" checked onchange="toggleBillSection('amount-in-words', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">Amount in Words</span>
+            </label>
+            <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
+              <input type="checkbox" id="chk-sec-upi-qr" checked onchange="toggleBillSection('upi-qr', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
+              <span class="font-medium text-slate-800 text-[11px]">UPI QR Details</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Direct WYSIWYG Edit Tip Banner -->
+      <div class="bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-200/80 text-teal-900 px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-between gap-2 shadow-2xs no-print">
+        <div class="flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-[11px] flex-shrink-0">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          </span>
+          <span class="text-[11px] sm:text-xs">
+            <strong>Direct Edit:</strong> Bill par kisi bhi text (medicine naam, batch, rate, doctor) par direct click karke bhi edit kar sakte hain!
+          </span>
+        </div>
+        <span class="text-[10px] font-bold text-teal-800 uppercase bg-teal-200/70 px-2 py-0.5 rounded-full flex-shrink-0 hidden sm:inline">
+          Click & Type
+        </span>
+      </div>
+
       <!-- Mobile Fit Viewport Wrapper -->
       <div id="medical-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
-        <div id="medical-bill-preview" class="bg-white p-3.5 sm:p-5 rounded-none border border-slate-800 shadow-md relative text-slate-900 font-sans">
+        <div id="medical-bill-preview" class="bg-white p-3.5 sm:p-5 rounded-none border-2 border-teal-700 shadow-md relative text-slate-900 font-sans">
         
-        <!-- Centered Pharmacy Tax Invoice Legal Header -->
-        <div class="text-center pb-2 mb-2 border-b border-slate-800">
-          <h2 class="font-heading font-black text-lg sm:text-xl text-slate-900 tracking-wider uppercase" id="prev-doc-title">
-            TAX INVOICE / RETAIL CASH MEMO
+        <!-- Centered Pharmacy Tax Invoice Legal Header with Clinical Emblem -->
+        <div class="text-center pb-2 mb-2 border-b-2 border-teal-700 bg-teal-50/60 p-2.5 -m-3.5 sm:-m-5 mb-2.5 relative">
+          <div class="absolute left-3 top-2.5 text-teal-700 font-serif font-black text-2xl tracking-tighter select-none hidden sm:block">℞</div>
+          <h2 class="font-heading font-black text-lg sm:text-xl text-teal-900 tracking-wider uppercase" id="prev-doc-title">
+            PHARMACY TAX INVOICE / RETAIL CASH MEMO
           </h2>
-          <p class="text-[9px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">
-            (Drugs & Cosmetics Act, 1940 • Form 20/21 Retail Chemist & Druggist)
+          <p class="text-[9px] font-semibold text-teal-700 tracking-wider uppercase mt-0.5">
+            (Drugs & Cosmetics Act, 1940 • Form 20/21 Retail Chemist & Druggist • Schedule H/H1)
           </p>
         </div>
 
         <!-- Pharmacy & Bill Meta Grid: Continuous Two Column Accounting Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800 pb-2">
+        <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-teal-700 pb-2">
           <!-- Left 7 Cols: Pharmacy / Store Info -->
           <div class="sm:col-span-7 sm:pr-3 space-y-0.5 text-xs">
             <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 block">Dispensed & Billed By:</span>
@@ -340,13 +517,16 @@
               <span id="prev-ph-phone-wrap">Phone: <span id="prev-ph-phone" class="editable-field font-bold" contenteditable="true" spellcheck="false" data-bind="pharmacy-phone"></span></span>
               <span id="prev-ph-gst-wrap"> | GSTIN: <span id="prev-ph-gstin" class="editable-field font-bold text-slate-900" contenteditable="true" spellcheck="false" data-bind="pharmacy-gstin"></span></span>
             </p>
-            <p class="text-[11px] font-mono font-bold text-teal-800 mt-0.5 hidden" id="prev-dl-row">
-              Drug Lic. (DL) No: <span id="prev-dl-number" class="editable-field" contenteditable="true" spellcheck="false" data-bind="dl-number"></span>
-            </p>
+            <div id="prev-dl-row" class="group/sec relative inline-block mt-0.5">
+              <button type="button" onclick="hideBillSection('dl-number')" class="sec-hide-btn no-print" title="Hide DL No">✕</button>
+              <p class="text-[11px] font-mono font-bold text-teal-800">
+                Drug Lic. (DL) No: <span id="prev-dl-number" class="editable-field" contenteditable="true" spellcheck="false" data-bind="dl-number">DL-20B/**** & DL-21B/****</span>
+              </p>
+            </div>
           </div>
 
           <!-- Right 5 Cols: Structured Invoice Table with Divider -->
-          <div class="sm:col-span-5 sm:border-l border-slate-800 sm:pl-3 pt-2 sm:pt-0 text-xs flex flex-col justify-between">
+          <div class="sm:col-span-5 sm:border-l border-teal-700 sm:pl-3 pt-2 sm:pt-0 text-xs flex flex-col justify-between">
             <table class="w-full text-xs border border-slate-300 border-collapse">
               <tbody>
                 <tr class="border-b border-slate-200">
@@ -361,7 +541,7 @@
                   <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Status:</td>
                   <td class="py-1 px-2">
                     <div role="button" tabindex="0" onclick="toggleMedStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none inline-block">
-                      <span id="prev-med-status-badge" class="font-mono font-bold text-[11px] uppercase tracking-wider text-amber-700">
+                      <span id="prev-med-status-badge" class="font-mono font-bold text-[11px] uppercase tracking-wider text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-300">
                         DUE (PENDING)
                       </span>
                     </div>
@@ -373,14 +553,15 @@
         </div>
 
         <!-- Doctor & Patient Info Bar: Continuous Accounting Bar -->
-        <div id="prev-pt-dr-bar" class="hidden grid-cols-1 sm:grid-cols-2 gap-2 bg-slate-50/40 border-b border-slate-800 py-1.5 px-2 text-xs">
+        <div id="prev-pt-dr-bar" class="group/sec relative hidden grid-cols-1 sm:grid-cols-2 gap-2 bg-teal-50/30 border-b border-teal-700 py-1.5 px-2 text-xs">
+          <button type="button" onclick="hideBillSection('pt-dr-bar')" class="sec-hide-btn no-print" title="Hide Doctor & Patient Info">✕ Hide</button>
           <div id="prev-pt-box" class="space-y-0.5">
-            <span class="text-slate-500 font-bold uppercase text-[9px] block">Patient Information:</span>
+            <span class="text-teal-700 font-bold uppercase text-[9px] block">Patient Information:</span>
             <p class="font-bold text-slate-900 text-xs sm:text-sm" id="prev-pt-name"></p>
             <p class="text-slate-600 text-[11px]" id="prev-pt-age"></p>
           </div>
           <div id="prev-dr-box" class="space-y-0.5 sm:text-right">
-            <span class="text-slate-500 font-bold uppercase text-[9px] block">Prescribed By Doctor:</span>
+            <span class="text-teal-700 font-bold uppercase text-[9px] block">Prescribed By Doctor:</span>
             <p class="font-bold text-teal-950 text-xs sm:text-sm" id="prev-dr-name"></p>
             <p class="text-slate-600 font-mono text-[11px]" id="prev-dr-reg"></p>
           </div>
@@ -390,14 +571,29 @@
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs border-collapse min-w-[480px]">
             <thead>
-              <tr class="bg-slate-100 border-b border-slate-800 text-slate-900 font-bold uppercase text-[9px] sm:text-[10px] tracking-wider">
-                <th class="py-1.5 px-2 text-center w-8 border-r border-slate-300">#</th>
-                <th class="py-1.5 px-2.5 border-r border-slate-300">Medicine / Item Description</th>
-                <th class="py-1.5 px-2 text-center w-20 border-r border-slate-300">Batch No</th>
-                <th class="py-1.5 px-2 text-center w-16 border-r border-slate-300">Exp Date</th>
-                <th class="py-1.5 px-2 text-center w-12 border-r border-slate-300">Qty</th>
-                <th class="py-1.5 px-2.5 text-right w-20 border-r border-slate-300">Rate (₹)</th>
-                <th class="py-1.5 px-2.5 text-right w-24">Amount (₹)</th>
+              <tr class="bg-teal-700 text-white font-bold uppercase text-[9px] sm:text-[10px] tracking-wider">
+                <th class="th-sno group/th relative py-1.5 px-2 text-center w-8 border-r border-teal-600">
+                  <span>#</span>
+                  <button type="button" onclick="hideBillSection('col-sno')" class="col-hide-btn text-teal-200 hover:text-white no-print" title="Remove S.No column">✕</button>
+                </th>
+                <th class="th-desc py-1.5 px-2.5 border-r border-teal-600">Medicine / Item Description</th>
+                <th class="th-batch group/th relative py-1.5 px-2 text-center w-20 border-r border-teal-600">
+                  <span>Batch No</span>
+                  <button type="button" onclick="hideBillSection('col-batch')" class="col-hide-btn text-teal-200 hover:text-white no-print" title="Remove Batch No column">✕</button>
+                </th>
+                <th class="th-exp group/th relative py-1.5 px-2 text-center w-16 border-r border-teal-600">
+                  <span>Exp Date</span>
+                  <button type="button" onclick="hideBillSection('col-exp')" class="col-hide-btn text-teal-200 hover:text-white no-print" title="Remove Exp Date column">✕</button>
+                </th>
+                <th class="th-qty group/th relative py-1.5 px-2 text-center w-12 border-r border-teal-600">
+                  <span>Qty</span>
+                  <button type="button" onclick="hideBillSection('col-qty')" class="col-hide-btn text-teal-200 hover:text-white no-print" title="Remove Qty column">✕</button>
+                </th>
+                <th class="th-rate group/th relative py-1.5 px-2.5 text-right w-20 border-r border-teal-600">
+                  <span>Rate (₹)</span>
+                  <button type="button" onclick="hideBillSection('col-rate')" class="col-hide-btn text-teal-200 hover:text-white no-print" title="Remove Rate column">✕</button>
+                </th>
+                <th class="th-amount py-1.5 px-2.5 text-right w-24">Amount (₹)</th>
               </tr>
             </thead>
             <tbody id="prev-med-body" class="divide-y divide-slate-200 text-slate-800"></tbody>
@@ -405,7 +601,8 @@
         </div>
 
         <!-- Statutory Amount in Words Bar -->
-        <div class="border-t border-b border-slate-800 py-1.5 px-2.5 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
+        <div id="sec-amount-in-words" class="group/sec relative border-t border-b border-teal-700 py-1.5 px-2.5 bg-teal-50/20 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
+          <button type="button" onclick="hideBillSection('amount-in-words')" class="sec-hide-btn no-print" title="Hide amount in words">✕ Hide</button>
           <div>
             <span class="font-bold text-slate-800 text-[11px]">Amount in Words:</span>
             <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1 text-[11px]">INR Zero Rupees Only</span>
@@ -414,11 +611,12 @@
         </div>
 
         <!-- Bottom Section: Continuous 2-Column Ledger Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800">
+        <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-teal-700">
           <!-- Left 7 Cols: Bank & UPI Payment Details Box -->
-          <div id="prev-med-qr-block" class="sm:col-span-7 sm:border-r border-slate-800 p-2.5 flex flex-col justify-between space-y-2">
-            <div class="border border-slate-300 bg-white p-2 text-xs space-y-1.5">
-              <div class="font-bold text-[9px] uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 flex items-center justify-between">
+          <div class="sm:col-span-7 sm:border-r border-teal-700 p-2.5 flex flex-col justify-between space-y-2">
+            <div id="prev-med-qr-block" class="group/sec relative border border-slate-300 bg-white p-2 text-xs space-y-1.5">
+              <button type="button" onclick="hideBillSection('upi-qr')" class="sec-hide-btn no-print" title="Hide UPI details">✕ Hide</button>
+              <div class="font-bold text-[9px] uppercase tracking-wider text-teal-900 border-b border-slate-200 pb-1 flex items-center justify-between">
                 <span>UPI & Payment Details</span>
                 <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
               </div>
@@ -438,9 +636,10 @@
             </div>
 
             <!-- Mandatory Statutory Terms -->
-            <div class="text-[10px] text-slate-500 leading-snug">
+            <div class="text-[10px] text-slate-500 leading-snug bg-slate-50/50 p-1.5 rounded border border-slate-200">
+              <p class="font-bold text-teal-800">Schedule H Statutory Warning:</p>
               <p>* Schedule H/H1 drugs dispensed strictly against valid medical prescription.<br>
-              * Medicines sold once cannot be returned or exchanged without original cash memo.</p>
+              * Medicines sold once cannot be returned without original cash memo.</p>
             </div>
           </div>
 
@@ -455,17 +654,19 @@
                 <span>Discount:</span>
                 <span id="prev-discount" class="font-medium font-mono">-₹0.00</span>
               </div>
-              <div class="flex justify-between text-slate-600 text-[11px]">
+              <div id="sec-tax-breakdown-box" class="group/sec relative flex justify-between text-slate-600 text-[11px]">
+                <button type="button" onclick="hideBillSection('tax-breakdown')" class="sec-hide-btn no-print" title="Hide tax">✕ Hide</button>
                 <span id="prev-tax-label">GST (12%):</span>
                 <span id="prev-tax" class="font-medium text-slate-900 font-mono">₹0.00</span>
               </div>
-              <div class="border-t-2 border-slate-900 pt-1.5 flex justify-between items-center text-slate-900">
-                <span class="font-bold text-xs uppercase">Total Due:</span>
-                <span id="prev-total" class="font-heading font-black text-lg text-slate-900 font-mono">₹0.00</span>
+              <div class="border-t-2 border-teal-700 pt-1.5 flex justify-between items-center text-slate-900">
+                <span class="font-bold text-xs uppercase text-teal-900">Total Due:</span>
+                <span id="prev-total" class="font-heading font-black text-lg text-teal-800 font-mono">₹0.00</span>
               </div>
             </div>
 
-            <div class="text-right pt-2 border-t border-slate-200">
+            <div id="sec-signatory-block" class="group/sec relative text-right pt-2 border-t border-slate-200">
+              <button type="button" onclick="hideBillSection('signatory-block')" class="sec-hide-btn no-print" title="Hide signature">✕ Hide</button>
               <div class="font-signature text-xl text-slate-900 leading-none">Registered Pharmacist</div>
               <div class="w-32 border-b border-slate-400 mt-1 ml-auto"></div>
               <p class="text-[8px] font-bold uppercase tracking-wider text-slate-500 mt-0.5">Pharmacist Sign & Seal</p>
@@ -617,6 +818,37 @@
           </button>
         </div>
 
+        <!-- 1-Click Quick Add Popular Medicine Items (1-Tap) -->
+        <div class="bg-teal-50/70 border border-teal-200/80 rounded-xl p-2.5 space-y-1.5">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="flex items-center gap-1 font-bold text-teal-900">
+              <i data-lucide="zap" class="w-3.5 h-3.5 text-teal-600"></i>
+              <span>⚡ Quick Add Popular Medicines (1-Tap):</span>
+            </span>
+            <span class="text-[10px] text-teal-700 font-medium">Click to add with batch & rates</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button type="button" onclick="quickAddMedItem('Paracetamol 650mg Fast Relief (15 Tabs)', 42, 'BT-709', '12/28')" class="text-[11px] font-semibold bg-white hover:bg-teal-100 text-slate-800 border border-teal-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-teal-600 font-bold">+</span> <span>Paracetamol 650mg</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹42</span>
+            </button>
+            <button type="button" onclick="quickAddMedItem('Amoxicillin & Clavulanate 625mg (10 Tabs)', 145, 'AX-441', '08/27')" class="text-[11px] font-semibold bg-white hover:bg-teal-100 text-slate-800 border border-teal-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-teal-600 font-bold">+</span> <span>Amoxicillin 625mg</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹145</span>
+            </button>
+            <button type="button" onclick="quickAddMedItem('Cough & Throat Relief Syrup 100ml', 120, 'CS-102', '03/27')" class="text-[11px] font-semibold bg-white hover:bg-teal-100 text-slate-800 border border-teal-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-teal-600 font-bold">+</span> <span>Cough Syrup 100ml</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹120</span>
+            </button>
+            <button type="button" onclick="quickAddMedItem('Vitamin C 500mg Chewable (15 Tabs)', 95, 'VC-991', '10/28')" class="text-[11px] font-semibold bg-white hover:bg-teal-100 text-slate-800 border border-teal-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-teal-600 font-bold">+</span> <span>Vitamin C 500mg</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹95</span>
+            </button>
+            <button type="button" onclick="quickAddMedItem('Fast-Acting Pain Relief Gel 30g', 135, 'PG-332', '11/27')" class="text-[11px] font-semibold bg-white hover:bg-teal-100 text-slate-800 border border-teal-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-teal-600 font-bold">+</span> <span>Pain Gel 30g</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹135</span>
+            </button>
+            <button type="button" onclick="quickAddMedItem('Surgical 3-Ply Protective Face Mask (Box of 50)', 150, 'MSK-88', '06/29')" class="text-[11px] font-semibold bg-white hover:bg-teal-100 text-slate-800 border border-teal-300/80 px-2.5 py-1 rounded-md transition-all shadow-2xs hover:scale-[1.02] cursor-pointer flex items-center gap-1 active:scale-95">
+              <span class="text-teal-600 font-bold">+</span> <span>Mask Box (50)</span> <span class="font-mono text-emerald-700 font-bold ml-0.5">₹150</span>
+            </button>
+          </div>
+        </div>
+
         <div id="med-items-container" class="space-y-2 text-xs">
           <!-- Item 1 -->
           <div class="med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5">
@@ -691,6 +923,21 @@
 
     </div>
   </main>
+
+    <!-- Right Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
+    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Right Advertisement Rail">
+      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
+      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:160px;height:600px"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="6677889900"></ins>
+        <span class="text-xs font-semibold mt-2">160x600</span>
+        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
+      </div>
+    </aside>
+
+  </div> <!-- End Desktop 3-Column Container -->
   <script>
     try {
       if (window.lucide && typeof lucide.createIcons === 'function') {
@@ -945,13 +1192,13 @@
         const tr = document.createElement('tr');
         tr.className = 'border-b border-slate-200';
         tr.innerHTML = `
-          <td class="py-2 px-2 text-center font-mono font-medium text-slate-500 border-r border-slate-300">${idx + 1}</td>
-          <td class="py-2 px-3 font-medium text-slate-800 border-r border-slate-300">${escapeHTML(name)}</td>
-          <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-300">${escapeHTML(batch)}</td>
-          <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-300">${escapeHTML(exp)}</td>
-          <td class="py-2 px-2 text-center font-mono text-slate-700 border-r border-slate-300">${qty}</td>
-          <td class="py-2 px-3 text-right font-mono text-slate-700 border-r border-slate-300">₹${formatINR(rate)}</td>
-          <td class="py-2 px-3 text-right font-mono font-bold text-slate-900">₹${formatINR(amt)}</td>
+          <td class="td-sno py-2 px-2 text-center font-mono font-medium text-slate-500 border-r border-slate-300">${idx + 1}</td>
+          <td class="td-desc py-2 px-3 font-medium text-slate-800 border-r border-slate-300">${escapeHTML(name)}</td>
+          <td class="td-batch py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-300">${escapeHTML(batch)}</td>
+          <td class="td-exp py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-300">${escapeHTML(exp)}</td>
+          <td class="td-qty py-2 px-2 text-center font-mono text-slate-700 border-r border-slate-300">${qty}</td>
+          <td class="td-rate py-2 px-3 text-right font-mono text-slate-700 border-r border-slate-300">₹${formatINR(rate)}</td>
+          <td class="td-amount py-2 px-3 text-right font-mono font-bold text-slate-900">₹${formatINR(amt)}</td>
         `;
         body.appendChild(tr);
       });
@@ -1065,6 +1312,114 @@
       attachMedEvents(div);
       updateMedicalBill();
     });
+
+    // ⚡ Quick Add Popular Medicine Items (1-Tap)
+    function quickAddMedItem(desc, rate, batch, exp) {
+      const c = document.getElementById('med-items-container');
+      if (!c) return;
+      const div = document.createElement('div');
+      div.className = 'med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5';
+      div.innerHTML = `
+        <div class="flex justify-between items-center">
+          <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" placeholder="Medicine Name & Dosage" value="${desc.replace(/"/g, '&quot;')}">
+          <button type="button" class="btn-del-med text-rose-500 hover:text-rose-700 px-2">✕</button>
+        </div>
+        <div class="grid grid-cols-4 gap-1.5">
+          <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Batch No" value="${batch || '-'}">
+          <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Exp (MM/YY)" value="${exp || '-'}">
+          <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" placeholder="Qty" value="1">
+          <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" placeholder="Rate ₹" value="${rate}">
+        </div>
+      `;
+      c.appendChild(div);
+      attachMedEvents(div);
+      updateMedicalBill();
+      showDownloadToast(`Added "${desc}" (₹${rate}) to bill`);
+    }
+
+    // Section Customizer Logic for Medical Bill
+    const medSectionsList = ['col-sno', 'col-batch', 'col-exp', 'col-qty', 'col-rate', 'pt-dr-bar', 'dl-number', 'tax-breakdown', 'amount-in-words', 'upi-qr', 'signatory-block'];
+    let medSectionState = {};
+
+    function toggleSectionCustomizer() {
+      const drawer = document.getElementById('section-customizer-drawer');
+      if (drawer) {
+        drawer.classList.toggle('hidden');
+        if (!drawer.classList.contains('hidden')) {
+          drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    }
+
+    function toggleBillSection(key, isVisible) {
+      medSectionState[key] = isVisible;
+      applyMedSectionVisibility(key, isVisible);
+      try {
+        localStorage.setItem('upibill_med_sections', JSON.stringify(medSectionState));
+      } catch(e) {}
+      if (!isVisible) {
+        showDownloadToast('Removed section from bill. Click "Customize Bill" to restore.');
+      }
+    }
+
+    function hideBillSection(key) {
+      const chk = document.getElementById(`chk-sec-${key}`);
+      if (chk) chk.checked = false;
+      toggleBillSection(key, false);
+    }
+
+    function applyMedSectionVisibility(key, isVisible) {
+      const preview = document.getElementById('medical-bill-preview');
+      if (!preview) return;
+
+      if (key === 'col-sno') {
+        preview.classList.toggle('hide-col-sno', !isVisible);
+      } else if (key === 'col-batch') {
+        preview.classList.toggle('hide-col-batch', !isVisible);
+      } else if (key === 'col-exp') {
+        preview.classList.toggle('hide-col-exp', !isVisible);
+      } else if (key === 'col-qty') {
+        preview.classList.toggle('hide-col-qty', !isVisible);
+      } else if (key === 'col-rate') {
+        preview.classList.toggle('hide-col-rate', !isVisible);
+      } else {
+        const idMap = {
+          'pt-dr-bar': 'prev-pt-dr-bar',
+          'dl-number': 'prev-dl-row',
+          'tax-breakdown': 'sec-tax-breakdown-box',
+          'amount-in-words': 'sec-amount-in-words',
+          'upi-qr': 'prev-med-qr-block',
+          'signatory-block': 'sec-signatory-block'
+        };
+        const el = document.getElementById(idMap[key]);
+        if (el) el.style.display = isVisible ? '' : 'none';
+      }
+    }
+
+    function resetSectionVisibility() {
+      medSectionsList.forEach(key => {
+        medSectionState[key] = true;
+        const chk = document.getElementById(`chk-sec-${key}`);
+        if (chk) chk.checked = true;
+        applyMedSectionVisibility(key, true);
+      });
+      try { localStorage.removeItem('upibill_med_sections'); } catch(e) {}
+      showDownloadToast('All bill sections and table columns restored!');
+    }
+
+    function initSectionVisibility() {
+      try {
+        const saved = localStorage.getItem('upibill_med_sections');
+        if (saved) medSectionState = JSON.parse(saved);
+      } catch(e) {}
+
+      medSectionsList.forEach(key => {
+        const isVisible = medSectionState[key] !== false;
+        const chk = document.getElementById(`chk-sec-${key}`);
+        if (chk) chk.checked = isVisible;
+        applyMedSectionVisibility(key, isVisible);
+      });
+    }
 
     function attachMedEvents(row) {
       row.querySelectorAll('input').forEach(i => i.addEventListener('input', updateMedicalBill));
@@ -1536,6 +1891,7 @@
       } catch(e) {
         try { updateMedicalBill(); } catch(err) {}
       }
+      try { initSectionVisibility(); } catch(e) {}
       try { fitMedPreviewToScreen(); } catch(e) {}
       setTimeout(fitMedPreviewToScreen, 150);
       try { updateMedFloatingBtnState(); } catch(e) {}
