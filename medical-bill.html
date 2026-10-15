@@ -1476,6 +1476,7 @@
         }
       }
       fitMedPreviewToScreen();
+      try { debounceSaveMedDraft(); } catch(e) {}
     }
 
     // Add Row
@@ -1724,7 +1725,128 @@
         </div>
       `;
       c.querySelectorAll('.med-row').forEach(r => attachMedEvents(r));
+      try { localStorage.removeItem('upibill_med_draft_v1'); } catch(e){}
       updateMedicalBill();
+    }
+
+    // Auto-Save Draft & Cross-Page Business Sync
+    function saveMedDraft() {
+      try {
+        const draft = {
+          phName: document.getElementById('pharmacy-name')?.value || '',
+          dlNo: document.getElementById('dl-number')?.value || '',
+          gstin: document.getElementById('pharmacy-gstin')?.value || '',
+          phone: document.getElementById('pharmacy-phone')?.value || '',
+          address: document.getElementById('pharmacy-address')?.value || '',
+          upi: document.getElementById('pharmacy-upi')?.value || '',
+          ptName: document.getElementById('patient-name')?.value || '',
+          ptAge: document.getElementById('patient-age')?.value || '',
+          drName: document.getElementById('doctor-name')?.value || '',
+          drReg: document.getElementById('doctor-reg')?.value || '',
+          invNo: document.getElementById('med-inv-no')?.value || '',
+          date: document.getElementById('med-date')?.value || '',
+          discount: document.getElementById('med-discount')?.value || '',
+          taxRate: document.getElementById('med-gst-rate')?.value || '',
+          items: []
+        };
+        document.querySelectorAll('.med-row').forEach(row => {
+          draft.items.push({
+            name: row.querySelector('.med-name')?.value || '',
+            batch: row.querySelector('.med-batch')?.value || '',
+            exp: row.querySelector('.med-exp')?.value || '',
+            qty: row.querySelector('.med-qty')?.value || '',
+            rate: row.querySelector('.med-rate')?.value || ''
+          });
+        });
+        localStorage.setItem('upibill_med_draft_v1', JSON.stringify(draft));
+
+        // Sync to global business profile (remembered across all pages)
+        if (draft.phone || draft.upi || (draft.phName && draft.phName !== 'Sanjeevani Medicos & Healthcare')) {
+          let biz = {};
+          try { biz = JSON.parse(localStorage.getItem('upibill_business_v3')) || {}; } catch(e){}
+          if (draft.phName && draft.phName !== 'Sanjeevani Medicos & Healthcare') biz.name = draft.phName;
+          if (draft.phone && !draft.phone.includes('*****')) biz.phone = draft.phone;
+          if (draft.upi && !draft.upi.includes('demobank')) biz.upi = draft.upi;
+          if (draft.address && !draft.address.includes('Civil Hospital')) biz.address = draft.address;
+          if (draft.gstin && !draft.gstin.includes('*****')) biz.gstin = draft.gstin;
+          localStorage.setItem('upibill_business_v3', JSON.stringify(biz));
+        }
+      } catch(e) {}
+    }
+
+    let medSaveTimer;
+    function debounceSaveMedDraft() {
+      clearTimeout(medSaveTimer);
+      medSaveTimer = setTimeout(saveMedDraft, 400);
+    }
+
+    function loadMedDraft() {
+      try {
+        const raw = localStorage.getItem('upibill_med_draft_v1');
+        if (raw) {
+          const d = JSON.parse(raw);
+          if (d && (d.phName || d.items?.length || d.invNo)) {
+            if (d.phName) document.getElementById('pharmacy-name').value = d.phName;
+            if (d.dlNo) document.getElementById('dl-number').value = d.dlNo;
+            if (d.gstin) document.getElementById('pharmacy-gstin').value = d.gstin;
+            if (d.phone) document.getElementById('pharmacy-phone').value = d.phone;
+            if (d.address) document.getElementById('pharmacy-address').value = d.address;
+            if (d.upi) document.getElementById('pharmacy-upi').value = d.upi;
+            if (d.ptName) document.getElementById('patient-name').value = d.ptName;
+            if (d.ptAge) document.getElementById('patient-age').value = d.ptAge;
+            if (d.drName) document.getElementById('doctor-name').value = d.drName;
+            if (d.drReg) document.getElementById('doctor-reg').value = d.drReg;
+            if (d.invNo) document.getElementById('med-inv-no').value = d.invNo;
+            if (d.date) document.getElementById('med-date').value = d.date;
+            if (d.discount) document.getElementById('med-discount').value = d.discount;
+            if (d.taxRate) document.getElementById('med-gst-rate').value = d.taxRate;
+
+            if (d.items && d.items.length > 0) {
+              const c = document.getElementById('med-items-container');
+              c.innerHTML = '';
+              d.items.forEach(it => {
+                const row = document.createElement('div');
+                row.className = 'med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5';
+                row.innerHTML = `
+                  <div class="flex justify-between items-center">
+                    <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" value="${it.name || ''}" placeholder="Medicine Name & Dosage">
+                    <button type="button" class="btn-del-med text-rose-500 hover:text-rose-700 px-2">✕</button>
+                  </div>
+                  <div class="grid grid-cols-4 gap-1.5">
+                    <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="${it.batch || ''}" placeholder="Batch No">
+                    <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="${it.exp || ''}" placeholder="Exp (MM/YY)">
+                    <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" value="${it.qty || 1}">
+                    <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" value="${it.rate || 0}">
+                  </div>
+                `;
+                c.appendChild(row);
+                attachMedEvents(row);
+              });
+            }
+            updateMedicalBill();
+            return true;
+          }
+        }
+      } catch(e) {}
+
+      // Try prefilling from global upibill_business_v3
+      try {
+        const rawBiz = localStorage.getItem('upibill_business_v3');
+        if (rawBiz) {
+          const biz = JSON.parse(rawBiz);
+          let loadedAny = false;
+          if (biz.name && document.getElementById('pharmacy-name')) { document.getElementById('pharmacy-name').value = biz.name; loadedAny = true; }
+          if (biz.phone && document.getElementById('pharmacy-phone')) { document.getElementById('pharmacy-phone').value = biz.phone; loadedAny = true; }
+          if (biz.upi && document.getElementById('pharmacy-upi')) { document.getElementById('pharmacy-upi').value = biz.upi; loadedAny = true; }
+          if (biz.address && document.getElementById('pharmacy-address')) { document.getElementById('pharmacy-address').value = biz.address; loadedAny = true; }
+          if (biz.gstin && document.getElementById('pharmacy-gstin')) { document.getElementById('pharmacy-gstin').value = biz.gstin; loadedAny = true; }
+          if (loadedAny) {
+            updateMedicalBill();
+            return true;
+          }
+        }
+      } catch(e) {}
+      return false;
     }
 
     async function downloadAsPDF() {
@@ -2000,14 +2122,14 @@
         viewport.classList.add('is-fit-screen');
         viewport.classList.remove('is-scrollable');
         const baseWidth = 680;
-        const availableWidth = viewport.clientWidth;
-        const scale = Math.min(1, availableWidth / baseWidth);
+        const availableWidth = (viewport.clientWidth || (window.innerWidth - 32)) - 16;
+        const scale = Math.min(1, Math.max(0.35, availableWidth / baseWidth));
 
         container.style.width = baseWidth + 'px';
         container.style.minWidth = baseWidth + 'px';
-        container.style.transformOrigin = 'top left';
+        container.style.transformOrigin = 'top center';
         container.style.transform = `scale(${scale})`;
-        viewport.style.height = Math.ceil(container.offsetHeight * scale) + 'px';
+        viewport.style.height = Math.ceil(container.offsetHeight * scale + 24) + 'px';
       } else {
         container.style.width = '100%';
         container.style.minWidth = 'auto';
@@ -2141,19 +2263,21 @@
         setMedTheme(savedThm);
       } catch(e) {}
       try {
-        const nameInput = document.getElementById('pharmacy-name');
-        if (!nameInput || !nameInput.value.trim()) {
+        const hasDraft = loadMedDraft();
+        if (!hasDraft) {
           loadMedSampleData();
-        } else {
-          updateMedicalBill();
         }
       } catch(e) {
-        try { updateMedicalBill(); } catch(err) {}
+        try { loadMedSampleData(); } catch(err) {}
       }
       try { initSectionVisibility(); } catch(e) {}
       try { fitMedPreviewToScreen(); } catch(e) {}
       setTimeout(fitMedPreviewToScreen, 150);
       try { updateMedFloatingBtnState(); } catch(e) {}
+
+      window.addEventListener('beforeunload', () => {
+        try { saveMedDraft(); } catch(e) {}
+      });
     }
 
     if (document.readyState === 'loading') {

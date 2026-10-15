@@ -1020,24 +1020,24 @@
           
           <div class="absolute left-0 top-full pt-1 w-56 hidden group-hover:block z-50">
             <div class="bg-white rounded-xl shadow-xl border border-slate-200 py-2 text-xs space-y-0.5">
-              <a href="index.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-brand-700 font-medium">
+              <button type="button" onclick="switchTemplate('shop'); document.getElementById('tool-section')?.scrollIntoView({behavior: 'smooth'});" class="w-full flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-brand-700 font-medium text-left cursor-pointer">
                 <i data-lucide="shopping-bag" class="w-4 h-4 text-brand-600"></i> Retail & General GST Bill
-              </a>
-              <a href="medical-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-teal-700 font-medium">
+              </button>
+              <button type="button" onclick="switchTemplate('medical'); document.getElementById('tool-section')?.scrollIntoView({behavior: 'smooth'});" class="w-full flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-teal-700 font-medium text-left cursor-pointer">
                 <i data-lucide="activity" class="w-4 h-4 text-teal-600"></i> Pharmacy & Medical Bill
-              </a>
-              <a href="restaurant-bill.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-orange-700 font-medium">
+              </button>
+              <button type="button" onclick="switchTemplate('restaurant'); document.getElementById('tool-section')?.scrollIntoView({behavior: 'smooth'});" class="w-full flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-orange-700 font-medium text-left cursor-pointer">
                 <i data-lucide="utensils" class="w-4 h-4 text-orange-600"></i> Restaurant / Cafe Food Bill
-              </a>
-              <a href="hotel-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-indigo-700 font-medium">
+              </button>
+              <button type="button" onclick="switchTemplate('hotel'); document.getElementById('tool-section')?.scrollIntoView({behavior: 'smooth'});" class="w-full flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-indigo-700 font-medium text-left cursor-pointer">
                 <i data-lucide="hotel" class="w-4 h-4 text-indigo-600"></i> Hotel & Homestay Receipt
-              </a>
-              <a href="rent-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-emerald-700 font-medium">
+              </button>
+              <button type="button" onclick="switchTemplate('rent'); document.getElementById('tool-section')?.scrollIntoView({behavior: 'smooth'});" class="w-full flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-emerald-700 font-medium text-left cursor-pointer">
                 <i data-lucide="home" class="w-4 h-4 text-emerald-600"></i> House Rent Receipt (HRA)
-              </a>
-              <a href="tuition-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-blue-700 font-medium">
+              </button>
+              <button type="button" onclick="switchTemplate('tuition'); document.getElementById('tool-section')?.scrollIntoView({behavior: 'smooth'});" class="w-full flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-blue-700 font-medium text-left cursor-pointer">
                 <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i> Coaching / Tuition Fee
-              </a>
+              </button>
               <a href="scanner-maker.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-slate-50 hover:text-purple-700 font-medium border-t border-slate-100">
                 <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i> UPI Standee & Sticker Maker
               </a>

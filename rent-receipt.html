@@ -386,8 +386,12 @@
                 <span class="text-[9px] text-slate-500">80mm Thermal & Cafe</span>
               </div>
             </a>
-            <a href="hotel-receipt.html" class="flex items-center gap-2.5 px-3.5 py-2 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 font-medium transition-colors">
-              <i data-lucide="hotel" class="w-4 h-4 text-indigo-600"></i> Hotel & Homestay Receipt
+            <a href="hotel-receipt.html" class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-300 text-left transition-colors">
+              <i data-lucide="hotel" class="w-4 h-4 text-indigo-600 flex-shrink-0"></i>
+              <div>
+                <span class="font-bold text-slate-800 text-xs block">Hotel & Stay</span>
+                <span class="text-[9px] text-slate-500">Guest Folio & Lodging</span>
+              </div>
             </a>
             <a href="rent-receipt.html" class="flex items-center gap-2 p-2.5 rounded-lg bg-emerald-50 border border-emerald-300 text-left transition-colors">
               <i data-lucide="home" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i>
@@ -1221,9 +1225,90 @@
 
       fitRentPreviewToScreen();
       if (window.lucide) lucide.createIcons();
+      try { debounceSaveRentDraft(); } catch(e) {}
     }
 
-    // Two-Way Live Inline Editing Sync
+    // Auto-Save Draft & Cross-Page Business Sync
+    function saveRentDraft() {
+      try {
+        const draft = {
+          tenant: document.getElementById('tenant-name')?.value || '',
+          landlord: document.getElementById('landlord-name')?.value || '',
+          pan: document.getElementById('landlord-pan')?.value || '',
+          amt: document.getElementById('rent-amount')?.value || '',
+          month: document.getElementById('rent-month')?.value || '',
+          address: document.getElementById('rent-address')?.value || '',
+          upi: document.getElementById('landlord-upi')?.value || '',
+          status: document.getElementById('rent-status')?.value || 'online'
+        };
+        localStorage.setItem('upibill_rent_draft_v1', JSON.stringify(draft));
+
+        if (draft.upi || (draft.landlord && draft.landlord !== 'Suresh Chandra V.')) {
+          let biz = {};
+          try { biz = JSON.parse(localStorage.getItem('upibill_business_v3')) || {}; } catch(e){}
+          if (draft.landlord && draft.landlord !== 'Suresh Chandra V.') biz.name = draft.landlord;
+          if (draft.upi && !draft.upi.includes('demobank')) biz.upi = draft.upi;
+          if (draft.pan && !draft.pan.includes('*****')) biz.pan = draft.pan;
+          localStorage.setItem('upibill_business_v3', JSON.stringify(biz));
+        }
+      } catch(e) {}
+    }
+
+    let rentSaveTimer;
+    function debounceSaveRentDraft() {
+      clearTimeout(rentSaveTimer);
+      rentSaveTimer = setTimeout(saveRentDraft, 400);
+    }
+
+    function loadRentDraft() {
+      try {
+        const raw = localStorage.getItem('upibill_rent_draft_v1');
+        if (raw) {
+          const d = JSON.parse(raw);
+          if (d && (d.tenant || d.landlord || d.amt)) {
+            if (d.tenant) document.getElementById('tenant-name').value = d.tenant;
+            if (d.landlord) document.getElementById('landlord-name').value = d.landlord;
+            if (d.pan) document.getElementById('landlord-pan').value = d.pan;
+            if (d.amt) document.getElementById('rent-amount').value = d.amt;
+            if (d.month) document.getElementById('rent-month').value = d.month;
+            if (d.address) document.getElementById('rent-address').value = d.address;
+            if (d.upi) document.getElementById('landlord-upi').value = d.upi;
+            if (d.status) setRentStatus(d.status);
+            updateRent();
+            return true;
+          }
+        }
+      } catch(e) {}
+
+      // Try prefilling from global upibill_business_v3
+      try {
+        const rawBiz = localStorage.getItem('upibill_business_v3');
+        if (rawBiz) {
+          const biz = JSON.parse(rawBiz);
+          let loadedAny = false;
+          if (biz.name && document.getElementById('landlord-name')) { document.getElementById('landlord-name').value = biz.name; loadedAny = true; }
+          if (biz.upi && document.getElementById('landlord-upi')) { document.getElementById('landlord-upi').value = biz.upi; loadedAny = true; }
+          if (biz.address && document.getElementById('rent-address')) { document.getElementById('rent-address').value = biz.address; loadedAny = true; }
+          if (loadedAny) {
+            updateRent();
+            return true;
+          }
+        }
+      } catch(e) {}
+      return false;
+    }
+
+    function clearRentForm() {
+      document.getElementById('tenant-name').value = '';
+      document.getElementById('landlord-name').value = '';
+      document.getElementById('landlord-pan').value = '';
+      document.getElementById('rent-amount').value = '';
+      document.getElementById('rent-month').value = '';
+      document.getElementById('rent-address').value = '';
+      document.getElementById('landlord-upi').value = '';
+      try { localStorage.removeItem('upibill_rent_draft_v1'); } catch(e){}
+      updateRent();
+    }
     document.querySelectorAll('.editable-field').forEach(el => {
       el.addEventListener('blur', function() {
         const bindId = this.getAttribute('data-bind');
@@ -1288,18 +1373,6 @@
       document.getElementById('landlord-upi').value = 'sureshverma@demobank';
       setRentStatus('online');
       setSignatureMode('cursive');
-      updateRent();
-    }
-
-    function clearRentForm() {
-      document.getElementById('tenant-name').value = '';
-      document.getElementById('landlord-name').value = '';
-      document.getElementById('landlord-pan').value = '';
-      document.getElementById('rent-amount').value = '';
-      document.getElementById('rent-month').value = '';
-      document.getElementById('rent-address').value = '';
-      document.getElementById('landlord-upi').value = '';
-      updateRent();
     }
 
 
@@ -1563,14 +1636,14 @@
         viewport.classList.add('is-fit-screen');
         viewport.classList.remove('is-scrollable');
         const baseWidth = 680;
-        const availableWidth = viewport.clientWidth;
-        const scale = Math.min(1, availableWidth / baseWidth);
+        const availableWidth = (viewport.clientWidth || (window.innerWidth - 32)) - 16;
+        const scale = Math.min(1, Math.max(0.35, availableWidth / baseWidth));
 
         container.style.width = baseWidth + 'px';
         container.style.minWidth = baseWidth + 'px';
-        container.style.transformOrigin = 'top left';
+        container.style.transformOrigin = 'top center';
         container.style.transform = `scale(${scale})`;
-        viewport.style.height = Math.ceil(container.offsetHeight * scale) + 'px';
+        viewport.style.height = Math.ceil(container.offsetHeight * scale + 24) + 'px';
       } else {
         container.style.width = '100%';
         container.style.minWidth = 'auto';
@@ -1706,19 +1779,21 @@
         setRentTheme(savedThm);
       } catch(e) {}
       try {
-        const nameInput = document.getElementById('tenant-name');
-        if (!nameInput || !nameInput.value.trim()) {
+        const hasDraft = loadRentDraft();
+        if (!hasDraft) {
           loadRentSampleData();
-        } else {
-          updateRent();
         }
       } catch(e) {
-        try { updateRent(); } catch(err) {}
+        try { loadRentSampleData(); } catch(err) {}
       }
       try { initSectionVisibility(); } catch(e) {}
       try { fitRentPreviewToScreen(); } catch(e) {}
       setTimeout(fitRentPreviewToScreen, 150);
       try { updateRentFloatingBtnState(); } catch(e) {}
+
+      window.addEventListener('beforeunload', () => {
+        try { saveRentDraft(); } catch(e) {}
+      });
     }
 
     if (document.readyState === 'loading') {
