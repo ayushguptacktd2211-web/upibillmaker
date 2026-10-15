@@ -161,14 +161,21 @@
     /* =========================================================================
        Authentic Hotel Bill Formats & Themes
        ========================================================================= */
-    #hotel-bill-preview.format-resort,
-    #hotel-bill-preview.format-homestay,
-    #hotel-bill-preview.format-express {
-      width: 100%;
-      max-width: 100%;
+    #hotel-bill-preview.format-resort {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 2px solid #1e3a8a !important;
     }
     #hotel-bill-preview.format-homestay {
+      max-width: 660px;
+      margin: 0 auto;
+      border: 2px solid #92400e !important;
       border-radius: 8px;
+    }
+    #hotel-bill-preview.format-express {
+      max-width: 580px;
+      margin: 0 auto;
+      border: 2px solid #334155 !important;
     }
 
     #hotel-bill-preview.theme-heritage {
@@ -450,24 +457,6 @@
               </div>
             </div>
 
-            <!-- Theme Selector -->
-            <div class="flex items-center gap-2">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Theme:</span>
-              <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 text-xs font-semibold">
-                <button type="button" onclick="setHotelTheme('heritage')" id="btn-thm-heritage" class="px-2.5 py-1 rounded-md transition-all bg-white text-slate-900 shadow-xs font-bold flex items-center gap-1.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-blue-900 inline-block"></span> Heritage Navy
-                </button>
-                <button type="button" onclick="setHotelTheme('slate')" id="btn-thm-slate" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
-                  <span class="w-2.5 h-2.5 rounded-full bg-slate-700 inline-block"></span> Executive Slate
-                </button>
-                <button type="button" onclick="setHotelTheme('emerald')" id="btn-thm-emerald" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-700 inline-block"></span> Eco Emerald
-                </button>
-                <button type="button" onclick="setHotelTheme('mono')" id="btn-thm-mono" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
-                  <span class="w-2.5 h-2.5 rounded-full bg-slate-900 inline-block"></span> Classic Folio (B&W)
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -485,8 +474,8 @@
           </button>
         </div>
 
-        <!-- Mobile Fit Viewport Wrapper -->
-        <div id="hotel-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
+        <!-- Mobile Fit Viewport Wrapper (Paper Mat Container with Generous Left & Right Space) -->
+        <div id="hotel-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
           <div id="hotel-bill-preview" class="w-full bg-white p-3.5 sm:p-5 rounded-none border-2 border-slate-900 shadow-md space-y-3 font-sans text-xs relative text-slate-900 format-resort theme-heritage">
           
           <!-- Centered Statutory Header -->

@@ -130,10 +130,13 @@
     }
     #invoice-preview-container {
       width: 100%;
-      max-width: 100%;
+      max-width: 760px;
       margin: 0 auto;
       background: #ffffff;
       box-sizing: border-box;
+      box-shadow: 0 4px 25px -4px rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+      transition: max-width 0.2s ease;
     }
     #qrcode-container {
       width: 84px;
@@ -164,315 +167,393 @@
     }
 
     /* =========================================================================
-       INVOICE BILL FORMAT TEMPLATES (4 DISTINCT HIGH-END SAAS DESIGNS)
+       CATEGORY-SPECIFIC AUTHENTIC BILL FORMATS (NO FULL WIDTH - CENTERED WITH SPACE)
        ========================================================================= */
 
-    /* 1. Format: Modern Tax Invoice (Clean Standard Authentic) */
-    #invoice-preview-container.format-modern {
+    /* 1. Retail & Shop Formats */
+    #invoice-preview-container.format-shop-a4 {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 1.5px solid #1e293b !important;
       border-radius: 4px;
-      border: 1px solid #1e293b !important;
-      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
     }
-
-    /* 2. Format: Classic Corporate (Tally / Ledger Grid Standard) */
-    #invoice-preview-container.format-classic {
-      border-radius: 0px !important;
+    #invoice-preview-container.format-shop-counter {
+      max-width: 620px;
+      margin: 0 auto;
+      border: 1.5px solid #334155 !important;
+      border-radius: 6px;
+    }
+    #invoice-preview-container.format-shop-counter .doc-title-bar {
+      background: #f1f5f9 !important;
+      border-bottom: 2px solid #334155 !important;
+    }
+    #invoice-preview-container.format-shop-corporate {
+      max-width: 760px;
+      margin: 0 auto;
       border: 2px solid #0f172a !important;
-      box-shadow: none !important;
+      border-radius: 0px !important;
     }
-    #invoice-preview-container.format-classic .doc-title-bar {
+    #invoice-preview-container.format-shop-corporate .doc-title-bar {
       background: #0f172a !important;
       color: #ffffff !important;
-      padding: 6px 12px !important;
     }
-    #invoice-preview-container.format-classic .doc-title-bar h2 {
+    #invoice-preview-container.format-shop-corporate .doc-title-bar h2 {
       color: #ffffff !important;
-      letter-spacing: 0.15em !important;
+      letter-spacing: 0.12em !important;
     }
-    #invoice-preview-container.format-classic .doc-title-bar p {
+    #invoice-preview-container.format-shop-corporate .doc-title-bar p {
       color: #cbd5e1 !important;
     }
-    #invoice-preview-container.format-classic table {
-      border: 1.5px solid #0f172a !important;
-    }
-    #invoice-preview-container.format-classic thead tr {
-      background: #1e293b !important;
-      border-bottom: 2px solid #0f172a !important;
+    #invoice-preview-container.format-shop-corporate thead tr {
+      background: #0f172a !important;
       color: #ffffff !important;
     }
-    #invoice-preview-container.format-classic th,
-    #invoice-preview-container.format-classic td {
-      border-right: 1px solid #cbd5e1 !important;
-      padding: 6px 8px !important;
-    }
-    #invoice-preview-container.format-classic th {
+    #invoice-preview-container.format-shop-corporate thead th {
       color: #ffffff !important;
-    }
-    #invoice-preview-container.format-classic th:last-child,
-    #invoice-preview-container.format-classic td:last-child {
-      border-right: none !important;
-    }
-    #invoice-preview-container.format-classic tbody tr {
-      border-bottom: 1px solid #e2e8f0 !important;
-    }
-    #invoice-preview-container.format-classic tbody tr:nth-child(even) {
-      background: #f8fafc;
-    }
-    #invoice-preview-container.format-classic #prev-grand-total {
-      color: #0f172a !important;
-      border-bottom: 3px double #0f172a;
     }
 
-    /* 3. Format: Executive Navy (Corporate Tax Invoice) */
-    #invoice-preview-container.format-executive {
-      border-radius: 0px !important;
-      border: 2px solid #1e3a8a !important;
-      box-shadow: none !important;
+    /* 2. Medical & Pharmacy Formats */
+    #invoice-preview-container.format-med-chemist {
+      max-width: 720px;
+      margin: 0 auto;
+      border: 2px solid #0f766e !important;
+      border-radius: 4px;
     }
-    #invoice-preview-container.format-executive .doc-title-bar {
-      background: #1e3a8a !important;
-      color: #ffffff !important;
-      padding: 6px 12px !important;
+    #invoice-preview-container.format-med-chemist .doc-title-bar {
+      background: #f0fdfa !important;
+      border-bottom: 2px solid #0f766e !important;
     }
-    #invoice-preview-container.format-executive .doc-title-bar h2 {
-      color: #ffffff !important;
-    }
-    #invoice-preview-container.format-executive .doc-title-bar p {
-      color: #bfdbfe !important;
-    }
-    #invoice-preview-container.format-executive thead tr {
-      background: #1e3a8a !important;
-      color: #ffffff !important;
-    }
-    #invoice-preview-container.format-executive th {
-      color: #ffffff !important;
-      padding: 7px 10px !important;
-    }
-    #invoice-preview-container.format-executive tbody tr:nth-child(even) {
-      background: #f0f7ff;
-    }
-    #invoice-preview-container.format-executive #prev-grand-total {
-      color: #1e3a8a !important;
-    }
-
-    /* 4. Format: Minimalist Clean (Studio B&W) */
-    #invoice-preview-container.format-minimal {
-      border-radius: 0px !important;
-      border: 1px solid #000000 !important;
-      box-shadow: none !important;
-    }
-    #invoice-preview-container.format-minimal .doc-title-bar {
-      background: transparent !important;
-      border-bottom: 2px solid #000000 !important;
-    }
-    #invoice-preview-container.format-minimal thead tr {
-      border-top: 2px solid #000000 !important;
-      border-bottom: 2px solid #000000 !important;
-      color: #000000 !important;
-      font-weight: 800 !important;
-      background: transparent !important;
-    }
-    #invoice-preview-container.format-minimal th {
-      color: #000000 !important;
-    }
-    #invoice-preview-container.format-minimal tbody tr {
-      border-bottom: 1px solid #e5e7eb !important;
-    }
-    #invoice-preview-container.format-minimal #prev-grand-total {
-      color: #000000 !important;
-      font-weight: 900 !important;
-    }
-
-    /* =========================================================================
-       INDUSTRY DOMAIN THEMES (AUTHENTIC DISTINCT DESIGNS FOR EACH PRESET)
-       ========================================================================= */
-
-    /* Theme: Shop / Retail (Professional Slate & Blue) */
-    #invoice-preview-container.theme-shop {
-      border-color: #1e293b !important;
-    }
-
-    /* Theme: Medical / Chemist & Druggist (Clinical Teal & Emerald) */
-    #invoice-preview-container.theme-medical {
-      border-color: #0f766e !important;
-    }
-    #invoice-preview-container.theme-medical #prev-doc-type {
+    #invoice-preview-container.format-med-chemist #prev-doc-type {
       color: #0f766e !important;
     }
-    #invoice-preview-container.theme-medical .doc-title-bar {
-      background: #f0fdfa !important;
-      border-bottom-color: #0f766e !important;
-    }
-    #invoice-preview-container.theme-medical thead tr {
+    #invoice-preview-container.format-med-chemist thead tr {
       background: #0f766e !important;
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-medical thead th {
+    #invoice-preview-container.format-med-chemist thead th {
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-medical #prev-industry-meta-strip {
-      background: #f0fdfa !important;
-      border-color: #0f766e !important;
-    }
-    #invoice-preview-container.theme-medical #prev-grand-total {
+    #invoice-preview-container.format-med-chemist #prev-grand-total {
       color: #0f766e !important;
     }
 
-    /* Theme: Restaurant / Dining Cafe (Warm Gourmet Terracotta & Amber) */
-    #invoice-preview-container.theme-restaurant {
-      border: 1.5px dashed #c2410c !important;
-    }
-    #invoice-preview-container.theme-restaurant #prev-doc-type {
-      color: #c2410c !important;
-    }
-    #invoice-preview-container.theme-restaurant .doc-title-bar {
-      background: #fff7ed !important;
-      border-bottom: 1.5px dashed #ea580c !important;
-    }
-    #invoice-preview-container.theme-restaurant thead tr {
-      background: #ea580c !important;
-      color: #ffffff !important;
-    }
-    #invoice-preview-container.theme-restaurant thead th {
-      color: #ffffff !important;
-    }
-    #invoice-preview-container.theme-restaurant #prev-industry-meta-strip {
-      background: #fff7ed !important;
-      border-color: #ea580c !important;
-    }
-    #invoice-preview-container.theme-restaurant #prev-grand-total {
-      color: #c2410c !important;
-    }
-
-    /* Theme: Hotel & Luxury Stay (Executive Navy & Gold Folio) */
-    #invoice-preview-container.theme-hotel {
+    #invoice-preview-container.format-med-hospital {
+      max-width: 760px;
+      margin: 0 auto;
       border: 2px solid #1e3a8a !important;
+      border-radius: 0px;
     }
-    #invoice-preview-container.theme-hotel #prev-doc-type {
-      color: #1e3a8a !important;
-    }
-    #invoice-preview-container.theme-hotel .doc-title-bar {
-      background: #f8fafc !important;
-      border-bottom: 2px solid #1e3a8a !important;
-    }
-    #invoice-preview-container.theme-hotel thead tr {
+    #invoice-preview-container.format-med-hospital .doc-title-bar {
       background: #1e3a8a !important;
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-hotel thead th {
+    #invoice-preview-container.format-med-hospital .doc-title-bar h2,
+    #invoice-preview-container.format-med-hospital .doc-title-bar p {
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-hotel #prev-industry-meta-strip {
-      background: #eff6ff !important;
-      border-color: #1e3a8a !important;
+    #invoice-preview-container.format-med-hospital thead tr {
+      background: #1e3a8a !important;
+      color: #ffffff !important;
     }
-    #invoice-preview-container.theme-hotel #prev-grand-total {
-      color: #1e3a8a !important;
+    #invoice-preview-container.format-med-hospital thead th {
+      color: #ffffff !important;
     }
 
-    /* Theme: Rent HRA Certificate (Official Legal Olive Green) */
-    #invoice-preview-container.theme-rent {
-      border: 2px solid #15803d !important;
+    #invoice-preview-container.format-med-lab {
+      max-width: 680px;
+      margin: 0 auto;
+      border: 1.5px solid #4338ca !important;
+      border-radius: 6px;
     }
-    #invoice-preview-container.theme-rent #prev-doc-type {
-      color: #15803d !important;
+    #invoice-preview-container.format-med-lab .doc-title-bar {
+      background: #eef2ff !important;
+      border-bottom: 1.5px solid #4338ca !important;
     }
-    #invoice-preview-container.theme-rent .doc-title-bar {
-      background: #f0fdf4 !important;
-      border-bottom: 2px solid #15803d !important;
-    }
-    #invoice-preview-container.theme-rent thead tr {
-      background: #15803d !important;
-      color: #ffffff !important;
-    }
-    #invoice-preview-container.theme-rent thead th {
-      color: #ffffff !important;
-    }
-    #invoice-preview-container.theme-rent #prev-industry-meta-strip {
-      background: #f0fdf4 !important;
-      border-color: #15803d !important;
-    }
-    #invoice-preview-container.theme-rent #prev-grand-total {
-      color: #15803d !important;
-    }
-
-    /* Theme: Tuition & Academic Fee (Royal Indigo) */
-    #invoice-preview-container.theme-tuition {
-      border: 2px solid #4338ca !important;
-    }
-    #invoice-preview-container.theme-tuition #prev-doc-type {
+    #invoice-preview-container.format-med-lab #prev-doc-type {
       color: #4338ca !important;
     }
-    #invoice-preview-container.theme-tuition .doc-title-bar {
-      background: #eef2ff !important;
-      border-bottom: 2px solid #4338ca !important;
-    }
-    #invoice-preview-container.theme-tuition thead tr {
+    #invoice-preview-container.format-med-lab thead tr {
       background: #4338ca !important;
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-tuition thead th {
+    #invoice-preview-container.format-med-lab thead th {
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-tuition #prev-industry-meta-strip {
-      background: #eef2ff !important;
-      border-color: #4338ca !important;
+
+    /* 3. Restaurant Formats */
+    /* Format 1: Narrow Thermal POS Slip (80mm) - Authentic Real Restaurant Receipt */
+    #invoice-preview-container.format-rest-thermal {
+      max-width: 380px !important;
+      margin: 0 auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+      border: 2px dashed #d97706 !important;
+      border-radius: 0px !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12) !important;
+      padding: 14px 16px !important;
     }
-    #invoice-preview-container.theme-tuition #prev-grand-total {
+    #invoice-preview-container.format-rest-thermal .doc-title-bar {
+      background: #fffbeb !important;
+      border-bottom: 2px dashed #d97706 !important;
+      padding: 6px !important;
+    }
+    #invoice-preview-container.format-rest-thermal #prev-doc-type {
+      color: #b45309 !important;
+      font-size: 14px !important;
+      letter-spacing: 0.1em;
+    }
+    #invoice-preview-container.format-rest-thermal thead tr {
+      background: #fef3c7 !important;
+      color: #92400e !important;
+      border-top: 1px dashed #d97706 !important;
+      border-bottom: 1px dashed #d97706 !important;
+    }
+    #invoice-preview-container.format-rest-thermal thead th {
+      color: #92400e !important;
+      padding: 4px 6px !important;
+      font-size: 10px !important;
+    }
+    #invoice-preview-container.format-rest-thermal tbody td {
+      padding: 4px 6px !important;
+      font-size: 11px !important;
+    }
+    #invoice-preview-container.format-rest-thermal #prev-grand-total {
+      color: #b45309 !important;
+      font-size: 16px !important;
+      border-top: 2px dashed #d97706 !important;
+    }
+
+    /* Format 2: Dining Guest Check */
+    #invoice-preview-container.format-rest-dining {
+      max-width: 540px;
+      margin: 0 auto;
+      border: 2px solid #881337 !important;
+      border-radius: 8px !important;
+    }
+    #invoice-preview-container.format-rest-dining .doc-title-bar {
+      background: #fff1f2 !important;
+      border-bottom: 2px solid #881337 !important;
+    }
+    #invoice-preview-container.format-rest-dining #prev-doc-type {
+      color: #881337 !important;
+    }
+    #invoice-preview-container.format-rest-dining thead tr {
+      background: #881337 !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-rest-dining thead th {
+      color: #ffffff !important;
+    }
+
+    /* Format 3: Fine Dine Tax Invoice */
+    #invoice-preview-container.format-rest-taxinv {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 1.5px solid #c2410c !important;
+      border-radius: 4px;
+    }
+    #invoice-preview-container.format-rest-taxinv .doc-title-bar {
+      background: #fff7ed !important;
+      border-bottom: 2px solid #c2410c !important;
+    }
+    #invoice-preview-container.format-rest-taxinv #prev-doc-type {
+      color: #c2410c !important;
+    }
+    #invoice-preview-container.format-rest-taxinv thead tr {
+      background: #c2410c !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-rest-taxinv thead th {
+      color: #ffffff !important;
+    }
+
+    /* 4. Hotel & Stay Formats */
+    #invoice-preview-container.format-hotel-resort {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 2px solid #1e3a8a !important;
+    }
+    #invoice-preview-container.format-hotel-resort .doc-title-bar {
+      background: #1e3a8a !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-hotel-resort .doc-title-bar h2,
+    #invoice-preview-container.format-hotel-resort .doc-title-bar p {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-hotel-resort thead tr {
+      background: #1e3a8a !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-hotel-resort thead th {
+      color: #ffffff !important;
+    }
+
+    #invoice-preview-container.format-hotel-homestay {
+      max-width: 660px;
+      margin: 0 auto;
+      border: 1.5px solid #92400e !important;
+      border-radius: 8px;
+    }
+    #invoice-preview-container.format-hotel-homestay .doc-title-bar {
+      background: #fef3c7 !important;
+      border-bottom: 1.5px solid #92400e !important;
+    }
+    #invoice-preview-container.format-hotel-homestay #prev-doc-type {
+      color: #92400e !important;
+    }
+    #invoice-preview-container.format-hotel-homestay thead tr {
+      background: #92400e !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-hotel-homestay thead th {
+      color: #ffffff !important;
+    }
+
+    #invoice-preview-container.format-hotel-express {
+      max-width: 580px;
+      margin: 0 auto;
+      border: 1.5px solid #334155 !important;
+    }
+    #invoice-preview-container.format-hotel-express .doc-title-bar {
+      background: #f8fafc !important;
+      border-bottom: 1.5px solid #334155 !important;
+    }
+
+    /* 5. Rent (HRA) Formats */
+    #invoice-preview-container.format-rent-hra {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 2px solid #047857 !important;
+      border-radius: 4px;
+    }
+    #invoice-preview-container.format-rent-hra .doc-title-bar {
+      background: #064e3b !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-rent-hra .doc-title-bar h2,
+    #invoice-preview-container.format-rent-hra .doc-title-bar p {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-rent-hra thead tr {
+      background: #047857 !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-rent-hra thead th {
+      color: #ffffff !important;
+    }
+
+    #invoice-preview-container.format-rent-monthly {
+      max-width: 640px;
+      margin: 0 auto;
+      border: 1.5px solid #065f46 !important;
+      border-radius: 8px;
+    }
+    #invoice-preview-container.format-rent-monthly .doc-title-bar {
+      background: #ecfdf5 !important;
+      border-bottom: 1.5px solid #065f46 !important;
+    }
+    #invoice-preview-container.format-rent-monthly #prev-doc-type {
+      color: #065f46 !important;
+    }
+    #invoice-preview-container.format-rent-monthly thead tr {
+      background: #065f46 !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-rent-monthly thead th {
+      color: #ffffff !important;
+    }
+
+    #invoice-preview-container.format-rent-commercial {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 2px solid #1e293b !important;
+    }
+    #invoice-preview-container.format-rent-commercial .doc-title-bar {
+      background: #1e293b !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-rent-commercial .doc-title-bar h2,
+    #invoice-preview-container.format-rent-commercial .doc-title-bar p {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-rent-commercial thead tr {
+      background: #1e293b !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-rent-commercial thead th {
+      color: #ffffff !important;
+    }
+
+    /* 6. Tuition Fee Formats */
+    #invoice-preview-container.format-tuition-coaching {
+      max-width: 740px;
+      margin: 0 auto;
+      border: 2px solid #3730a3 !important;
+      border-radius: 4px;
+    }
+    #invoice-preview-container.format-tuition-coaching .doc-title-bar {
+      background: #3730a3 !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-tuition-coaching .doc-title-bar h2,
+    #invoice-preview-container.format-tuition-coaching .doc-title-bar p {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-tuition-coaching thead tr {
+      background: #3730a3 !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.format-tuition-coaching thead th {
+      color: #ffffff !important;
+    }
+
+    #invoice-preview-container.format-tuition-tutor {
+      max-width: 600px;
+      margin: 0 auto;
+      border: 1.5px solid #4338ca !important;
+      border-radius: 8px;
+    }
+    #invoice-preview-container.format-tuition-tutor .doc-title-bar {
+      background: #eef2ff !important;
+      border-bottom: 1.5px solid #4338ca !important;
+    }
+    #invoice-preview-container.format-tuition-tutor #prev-doc-type {
       color: #4338ca !important;
     }
-
-    /* Theme: Commercial Trade Maroon */
-    #invoice-preview-container.theme-maroon {
-      border-color: #991b1b !important;
-    }
-    #invoice-preview-container.theme-maroon #prev-doc-type {
-      color: #991b1b !important;
-    }
-    #invoice-preview-container.theme-maroon .doc-title-bar {
-      background: #fef2f2 !important;
-      border-bottom-color: #991b1b !important;
-    }
-    #invoice-preview-container.theme-maroon thead tr {
-      background: #991b1b !important;
+    #invoice-preview-container.format-tuition-tutor thead tr {
+      background: #4338ca !important;
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-maroon thead th {
+    #invoice-preview-container.format-tuition-tutor thead th {
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-maroon #prev-industry-meta-strip {
-      background: #fef2f2 !important;
-      border-color: #991b1b !important;
-    }
-    #invoice-preview-container.theme-maroon #prev-grand-total {
-      color: #991b1b !important;
-    }
 
-    /* Theme: Laser Monochrome (Classic B&W) */
-    #invoice-preview-container.theme-mono {
-      border-color: #0f172a !important;
+    #invoice-preview-container.format-tuition-school {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 2px solid #0f172a !important;
     }
-    #invoice-preview-container.theme-mono #prev-doc-type {
-      color: #0f172a !important;
-    }
-    #invoice-preview-container.theme-mono .doc-title-bar {
-      background: #f8fafc !important;
-      border-bottom-color: #0f172a !important;
-    }
-    #invoice-preview-container.theme-mono thead tr {
+    #invoice-preview-container.format-tuition-school .doc-title-bar {
       background: #0f172a !important;
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-mono thead th {
+    #invoice-preview-container.format-tuition-school .doc-title-bar h2,
+    #invoice-preview-container.format-tuition-school .doc-title-bar p {
       color: #ffffff !important;
     }
-    #invoice-preview-container.theme-mono #prev-industry-meta-strip {
-      background: #f8fafc !important;
-      border-color: #0f172a !important;
+    #invoice-preview-container.format-tuition-school thead tr {
+      background: #0f172a !important;
+      color: #ffffff !important;
     }
-    #invoice-preview-container.theme-mono #prev-grand-total {
-      color: #0f172a !important;
+    #invoice-preview-container.format-tuition-school thead th {
+      color: #ffffff !important;
     }
+
+    /* Fallback / Legacy Format Aliases */
+    #invoice-preview-container.format-modern { max-width: 760px; margin: 0 auto; border: 1.5px solid #1e293b !important; }
+    #invoice-preview-container.format-classic { max-width: 620px; margin: 0 auto; border: 2px solid #0f172a !important; }
+    #invoice-preview-container.format-executive { max-width: 760px; margin: 0 auto; border: 2px solid #1e3a8a !important; }
+    #invoice-preview-container.format-minimal { max-width: 620px; margin: 0 auto; border: 1px solid #000000 !important; }
 
     /* Table Columns Visibility Customizer */
     #invoice-preview-container.hide-col-sno #th-sno,
@@ -800,25 +881,14 @@
           
         <!-- Compact Unified Preview Action Toolbar -->
         <div class="bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 shadow-xs flex flex-wrap items-center justify-between gap-2 no-print">
-          <!-- Left Side: Format Theme & Customize Sections Button -->
+          <!-- Left Side: Format & Customize Sections Button -->
           <div class="flex items-center gap-2 flex-wrap">
             <div class="flex items-center gap-1.5">
               <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Format:</span>
               <select id="invoice-format-select" onchange="setInvoiceFormat(this.value)" class="text-xs font-semibold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer">
-                <option value="format-modern" selected>Standard B2B Tax Invoice</option>
-                <option value="format-classic">Retail Store Cash Memo</option>
-                <option value="format-executive">Corporate Trade Invoice</option>
-                <option value="format-minimal">Compact Counter Slip</option>
-              </select>
-            </div>
-
-            <div class="flex items-center gap-1.5">
-              <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Theme:</span>
-              <select id="invoice-theme-select" onchange="setInvoiceTheme(this.value)" class="text-xs font-semibold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer">
-                <option value="theme-shop" selected>Merchant Slate</option>
-                <option value="theme-medical">Clinical Emerald</option>
-                <option value="theme-maroon">Trade Maroon</option>
-                <option value="theme-mono">Laser Monochrome (B&W)</option>
+                <option value="format-shop-a4" selected>Standard B2B Tax Invoice (A4)</option>
+                <option value="format-shop-counter">Retail Store Cash Memo</option>
+                <option value="format-shop-corporate">Corporate Trade Invoice</option>
               </select>
             </div>
             
@@ -947,10 +1017,10 @@
           </span>
         </div>
 
-        <!-- Mobile Fit Viewport Wrapper -->
-        <div id="invoice-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
+        <!-- Mobile Fit Viewport Wrapper (Paper Mat Container with Generous Left & Right Space) -->
+        <div id="invoice-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
           <!-- The Live Rendered Sheet (Authentic Real Indian Invoice Format) -->
-          <div id="invoice-preview-container" class="format-modern theme-shop google-anno-skip bg-white rounded-none border border-slate-800 shadow-md p-3.5 sm:p-5 transition-all relative text-slate-900 font-sans">
+          <div id="invoice-preview-container" class="format-shop-a4 theme-shop google-anno-skip bg-white rounded-none border border-slate-800 shadow-md p-3.5 sm:p-5 transition-all relative text-slate-900 font-sans">
           
           <!-- Top Tax Invoice Legal Title Bar -->
           <div class="doc-title-bar text-center pb-2 mb-2 border-b border-slate-800 transition-colors">
@@ -2619,26 +2689,28 @@
       el.addEventListener('change', updateInvoice);
     });
 
-    // Invoice Bill Format Switcher (4 Distinct High-End SaaS Designs)
+    const allFormatClasses = [
+      'format-shop-a4', 'format-shop-counter', 'format-shop-corporate',
+      'format-med-chemist', 'format-med-hospital', 'format-med-lab',
+      'format-rest-thermal', 'format-rest-dining', 'format-rest-taxinv',
+      'format-hotel-resort', 'format-hotel-homestay', 'format-hotel-express',
+      'format-rent-hra', 'format-rent-monthly', 'format-rent-commercial',
+      'format-tuition-coaching', 'format-tuition-tutor', 'format-tuition-school',
+      'format-modern', 'format-classic', 'format-executive', 'format-minimal'
+    ];
+
+    let currentInvoiceFormat = 'format-shop-a4';
+
     function setInvoiceFormat(formatName) {
+      currentInvoiceFormat = formatName;
       const container = document.getElementById('invoice-preview-container');
       if (!container) return;
-      container.classList.remove('format-modern', 'format-classic', 'format-executive', 'format-minimal');
+      allFormatClasses.forEach(c => container.classList.remove(c));
       container.classList.add(formatName);
-      try { localStorage.setItem('upibill_invoice_format', formatName); } catch(e) {}
+      try { localStorage.setItem('upibill_invoice_format_' + (currentTemplate || 'shop'), formatName); } catch(e) {}
       const sel = document.getElementById('invoice-format-select');
       if (sel && sel.value !== formatName) sel.value = formatName;
-    }
-
-    // Invoice Bill Theme Switcher
-    function setInvoiceTheme(themeName) {
-      const container = document.getElementById('invoice-preview-container');
-      if (!container) return;
-      container.classList.remove('theme-shop', 'theme-medical', 'theme-restaurant', 'theme-hotel', 'theme-rent', 'theme-tuition', 'theme-maroon', 'theme-mono');
-      container.classList.add(themeName);
-      try { localStorage.setItem('upibill_invoice_theme', themeName); } catch(e) {}
-      const sel = document.getElementById('invoice-theme-select');
-      if (sel && sel.value !== themeName) sel.value = themeName;
+      try { fitPreviewToScreen(); } catch(e) {}
     }
 
     // Quick Date & Time Picker Helpers
@@ -2917,9 +2989,11 @@
             if (clonedContainer) {
               clonedContainer.style.setProperty('box-shadow', 'none', 'important');
               clonedContainer.style.setProperty('outline', 'none', 'important');
-              clonedContainer.style.width = '794px';
-              clonedContainer.style.maxWidth = '794px';
-              clonedContainer.style.margin = '0 auto';
+            const isThermal = clonedContainer.classList.contains('format-rest-thermal');
+            const targetW = isThermal ? '380px' : '794px';
+            clonedContainer.style.width = targetW;
+            clonedContainer.style.maxWidth = targetW;
+            clonedContainer.style.margin = '0 auto';
             }
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
@@ -3042,9 +3116,11 @@
             if (clonedContainer) {
               clonedContainer.style.setProperty('box-shadow', 'none', 'important');
               clonedContainer.style.setProperty('outline', 'none', 'important');
-              clonedContainer.style.width = '794px';
-              clonedContainer.style.maxWidth = '794px';
-              clonedContainer.style.margin = '0 auto';
+            const isThermal = clonedContainer.classList.contains('format-rest-thermal');
+            const targetW = isThermal ? '380px' : '794px';
+            clonedContainer.style.width = targetW;
+            clonedContainer.style.maxWidth = targetW;
+            clonedContainer.style.margin = '0 auto';
             }
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
@@ -3555,6 +3631,40 @@
       }
     };
 
+    // Category-Specific Authentic Indian Invoice Formats
+    const categoryFormats = {
+      shop: [
+        { id: 'format-shop-a4', label: 'Standard B2B Tax Invoice (A4)' },
+        { id: 'format-shop-counter', label: 'Retail Store Cash Memo' },
+        { id: 'format-shop-corporate', label: 'Corporate Trade Invoice' }
+      ],
+      medical: [
+        { id: 'format-med-chemist', label: 'Retail Pharmacy & Chemist Memo (Rx)' },
+        { id: 'format-med-hospital', label: 'Hospital & OPD Consultation Bill' },
+        { id: 'format-med-lab', label: 'Diagnostic & Pathology Lab Slip' }
+      ],
+      restaurant: [
+        { id: 'format-rest-thermal', label: 'Thermal POS Slip (80mm Narrow)' },
+        { id: 'format-rest-dining', label: 'Dining Guest Check (Table Bill)' },
+        { id: 'format-rest-taxinv', label: 'Fine-Dine Food Tax Invoice (A4)' }
+      ],
+      hotel: [
+        { id: 'format-hotel-resort', label: 'Luxury Resort & Hotel Folio' },
+        { id: 'format-hotel-homestay', label: 'Homestay & Guest House Voucher' },
+        { id: 'format-hotel-express', label: 'Express Checkout Memo' }
+      ],
+      rent: [
+        { id: 'format-rent-hra', label: 'Official HRA Exemption Receipt (Sec 10)' },
+        { id: 'format-rent-monthly', label: 'Monthly House Rent Voucher' },
+        { id: 'format-rent-commercial', label: 'Commercial Property Lease Memo' }
+      ],
+      tuition: [
+        { id: 'format-tuition-coaching', label: 'Coaching Center & Academy Slip' },
+        { id: 'format-tuition-tutor', label: 'Private Home Tutor Voucher' },
+        { id: 'format-tuition-school', label: 'School / College Term Fee Receipt' }
+      ]
+    };
+
     // 1-Click Professional Industry Template Switcher (Live updates form, items, QR and preview)
     function switchTemplate(type) {
       currentTemplate = type;
@@ -3704,6 +3814,30 @@
           tuition: '(Official Coaching / Institute Fee Receipt • Student Copy)'
         };
         subtitleEl.innerText = subtitles[type] || subtitles.shop;
+      }
+
+      // Populate Category-Specific Authentic Formats into the single Format dropdown
+      const formatSelect = document.getElementById('invoice-format-select');
+      const catFormats = categoryFormats[type] || categoryFormats.shop;
+      if (formatSelect) {
+        formatSelect.innerHTML = '';
+        catFormats.forEach(fmt => {
+          const opt = document.createElement('option');
+          opt.value = fmt.id;
+          opt.textContent = fmt.label;
+          formatSelect.appendChild(opt);
+        });
+
+        // Determine format: saved format for this category or default to first
+        let chosenFormat = catFormats[0].id;
+        try {
+          const saved = localStorage.getItem('upibill_invoice_format_' + type);
+          if (saved && catFormats.some(f => f.id === saved)) {
+            chosenFormat = saved;
+          }
+        } catch(e) {}
+        formatSelect.value = chosenFormat;
+        setInvoiceFormat(chosenFormat);
       }
 
       // Update Quick Add Item Chips
@@ -4186,25 +4320,33 @@
       showDownloadToast('Sample demo data loaded successfully!');
     }
 
-    // Automatic Responsive Mobile Scaling for A4 Invoice Preview
+    // Automatic Responsive Mobile Scaling for Invoice Preview (Centered, never forced 100%)
     function fitPreviewToScreen() {
       const container = document.getElementById('invoice-preview-container');
       const viewport = document.getElementById('invoice-preview-viewport');
       if (!container || !viewport) return;
 
-      if (window.innerWidth < 768) {
-        const baseWidth = 720;
-        const availableWidth = viewport.clientWidth || (window.innerWidth - 32);
-        const scale = Math.min(1, Math.max(0.3, availableWidth / baseWidth));
+      const isThermal = container.classList.contains('format-rest-thermal');
+      const baseWidth = isThermal ? 380 : 740;
 
-        container.style.width = baseWidth + 'px';
-        container.style.minWidth = baseWidth + 'px';
-        container.style.transformOrigin = 'top left';
-        container.style.transform = `scale(${scale})`;
-        viewport.style.height = Math.ceil(container.offsetHeight * scale) + 'px';
+      if (window.innerWidth < 768) {
+        const availableWidth = (viewport.clientWidth || (window.innerWidth - 32)) - 16;
+        if (availableWidth < baseWidth) {
+          const scale = Math.min(1, Math.max(0.35, availableWidth / baseWidth));
+          container.style.width = baseWidth + 'px';
+          container.style.minWidth = baseWidth + 'px';
+          container.style.transformOrigin = 'top center';
+          container.style.transform = `scale(${scale})`;
+          viewport.style.height = Math.ceil(container.offsetHeight * scale + 24) + 'px';
+        } else {
+          container.style.width = isThermal ? '380px' : '';
+          container.style.minWidth = '';
+          container.style.transform = 'none';
+          viewport.style.height = 'auto';
+        }
       } else {
-        container.style.width = '100%';
-        container.style.minWidth = 'auto';
+        container.style.width = isThermal ? '380px' : '';
+        container.style.minWidth = '';
         container.style.transform = 'none';
         viewport.style.height = 'auto';
       }
@@ -4275,18 +4417,8 @@
       try { renderQuickItemChips(currentTemplate || 'shop'); } catch(e) {}
 
       try {
-        const savedFormat = localStorage.getItem('upibill_invoice_format') || 'format-modern';
-        setInvoiceFormat(savedFormat);
-      } catch(e) {
-        setInvoiceFormat('format-modern');
-      }
-
-      try {
-        const savedTheme = localStorage.getItem('upibill_invoice_theme') || 'theme-shop';
-        setInvoiceTheme(savedTheme);
-      } catch(e) {
-        setInvoiceTheme('theme-shop');
-      }
+        switchTemplate(currentTemplate || 'shop');
+      } catch(e) {}
 
       try { loadBusinessFromLocal(); } catch(e) {}
       try { updateInvoice(); } catch(e) {}

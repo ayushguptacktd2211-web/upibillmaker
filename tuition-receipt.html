@@ -160,14 +160,21 @@
     }
 
     /* Authentic Tuition Formats & Themes */
-    #tuition-receipt-preview.format-coaching,
-    #tuition-receipt-preview.format-tutor,
-    #tuition-receipt-preview.format-school {
-      width: 100%;
-      max-width: 100%;
+    #tuition-receipt-preview.format-coaching {
+      max-width: 720px;
+      margin: 0 auto;
+      border: 2px solid #3730a3 !important;
     }
     #tuition-receipt-preview.format-tutor {
+      max-width: 600px;
+      margin: 0 auto;
+      border: 2px solid #6d28d9 !important;
       border-radius: 8px;
+    }
+    #tuition-receipt-preview.format-school {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 2px solid #0f172a !important;
     }
 
     #tuition-receipt-preview.theme-indigo {
@@ -422,24 +429,6 @@
               </div>
             </div>
 
-            <!-- Theme Selector -->
-            <div class="flex items-center gap-2">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Theme:</span>
-              <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 text-xs font-semibold">
-                <button type="button" onclick="setTuitionTheme('indigo')" id="btn-thm-indigo" class="px-2.5 py-1 rounded-md transition-all bg-white text-slate-900 shadow-xs font-bold flex items-center gap-1.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-indigo-700 inline-block"></span> Royal Indigo
-                </button>
-                <button type="button" onclick="setTuitionTheme('forest')" id="btn-thm-forest" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-700 inline-block"></span> Campus Forest
-                </button>
-                <button type="button" onclick="setTuitionTheme('violet')" id="btn-thm-violet" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
-                  <span class="w-2.5 h-2.5 rounded-full bg-purple-700 inline-block"></span> EdTech Violet
-                </button>
-                <button type="button" onclick="setTuitionTheme('mono')" id="btn-thm-mono" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
-                  <span class="w-2.5 h-2.5 rounded-full bg-slate-900 inline-block"></span> Classic Academic (B&W)
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -457,8 +446,8 @@
           </button>
         </div>
 
-        <!-- Mobile Fit Viewport Wrapper -->
-        <div id="tuition-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
+        <!-- Mobile Fit Viewport Wrapper (Paper Mat Container with Generous Left & Right Space) -->
+        <div id="tuition-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
           <div id="tuition-receipt-preview" class="w-full bg-white p-3.5 sm:p-5 rounded-none border-2 border-indigo-800 shadow-md space-y-3 font-sans text-xs relative text-slate-900 format-coaching theme-indigo">
           
           <!-- Centered Statutory Header -->

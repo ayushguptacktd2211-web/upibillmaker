@@ -215,8 +215,33 @@
     }
 
     /* =========================================================================
-       Authentic Medical Bill Formats & Themes
+       Authentic Medical Bill Formats
        ========================================================================= */
+    #medical-bill-preview.format-chemist {
+      max-width: 720px;
+      margin: 0 auto;
+      border: 2px solid #0f766e !important;
+    }
+    #medical-bill-preview.format-chemist thead tr {
+      background-color: #0f766e !important;
+    }
+    #medical-bill-preview.format-hospital {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 2px solid #1e3a8a !important;
+    }
+    #medical-bill-preview.format-hospital thead tr {
+      background-color: #1e3a8a !important;
+    }
+    #medical-bill-preview.format-diagnostic {
+      max-width: 680px;
+      margin: 0 auto;
+      border: 2px solid #4338ca !important;
+    }
+    #medical-bill-preview.format-diagnostic thead tr {
+      background-color: #4338ca !important;
+    }
+
     #medical-bill-preview.theme-cyan {
       border-color: #0284c7 !important;
     }
@@ -539,18 +564,6 @@
           </div>
         </div>
 
-        <!-- Color Theme Selection -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pt-1.5 border-t border-slate-100">
-          <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
-            <i data-lucide="palette" class="w-3.5 h-3.5 text-teal-600"></i>
-            <span>Theme Variation:</span>
-          </span>
-          <div class="flex items-center gap-1 flex-wrap" id="med-theme-group">
-            <button type="button" onclick="setMedTheme('cyan')" id="btn-med-thm-cyan" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-bold border border-sky-400 bg-sky-50 text-sky-900 shadow-2xs transition-all cursor-pointer">Clinical Cyan</button>
-            <button type="button" onclick="setMedTheme('emerald')" id="btn-med-thm-emerald" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Chemist Emerald</button>
-            <button type="button" onclick="setMedTheme('mono')" id="btn-med-thm-mono" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Classic Rx (B&W)</button>
-            <button type="button" onclick="setMedTheme('burgundy')" id="btn-med-thm-burgundy" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Care Burgundy</button>
-          </div>
         </div>
       </div>
 
@@ -569,9 +582,9 @@
         </span>
       </div>
 
-      <!-- Mobile Fit Viewport Wrapper -->
-      <div id="medical-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
-        <div id="medical-bill-preview" class="bg-white p-3.5 sm:p-5 rounded-none border-2 border-teal-700 format-chemist theme-cyan shadow-md relative text-slate-900 font-sans transition-all">
+      <!-- Mobile Fit Viewport Wrapper (Paper Mat Container with Generous Left & Right Space) -->
+      <div id="medical-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
+        <div id="medical-bill-preview" class="bg-white p-3.5 sm:p-5 rounded-none border-2 border-teal-700 format-chemist shadow-md relative text-slate-900 font-sans transition-all">
         
         <!-- Centered Pharmacy Tax Invoice Legal Header with Clinical Emblem -->
         <div class="text-center pb-2 mb-2 border-b-2 border-teal-700 bg-teal-50/60 p-2.5 -m-3.5 sm:-m-5 mb-2.5 relative med-header-box">

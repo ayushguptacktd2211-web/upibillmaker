@@ -147,14 +147,21 @@
         display: none !important;
       }
     /* Authentic Rent Formats & Themes */
-    #rent-receipt-preview.format-hra,
-    #rent-receipt-preview.format-residential,
-    #rent-receipt-preview.format-commercial {
-      width: 100%;
-      max-width: 100%;
+    #rent-receipt-preview.format-hra {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 2px solid #047857 !important;
     }
     #rent-receipt-preview.format-residential {
+      max-width: 620px;
+      margin: 0 auto;
+      border: 2px solid #065f46 !important;
       border-radius: 8px;
+    }
+    #rent-receipt-preview.format-commercial {
+      max-width: 760px;
+      margin: 0 auto;
+      border: 2px solid #1e293b !important;
     }
 
     #rent-receipt-preview.theme-emerald {
@@ -408,24 +415,6 @@
               </div>
             </div>
 
-            <!-- Theme Selector -->
-            <div class="flex items-center gap-2">
-              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Theme:</span>
-              <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 text-xs font-semibold">
-                <button type="button" onclick="setRentTheme('emerald')" id="btn-thm-emerald" class="px-2.5 py-1 rounded-md transition-all bg-white text-slate-900 shadow-xs font-bold flex items-center gap-1.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-700 inline-block"></span> Official Emerald
-                </button>
-                <button type="button" onclick="setRentTheme('stamp')" id="btn-thm-stamp" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
-                  <span class="w-2.5 h-2.5 rounded-full bg-red-800 inline-block"></span> Stamp Rose
-                </button>
-                <button type="button" onclick="setRentTheme('slate')" id="btn-thm-slate" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
-                  <span class="w-2.5 h-2.5 rounded-full bg-slate-700 inline-block"></span> Executive Slate
-                </button>
-                <button type="button" onclick="setRentTheme('mono')" id="btn-thm-mono" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
-                  <span class="w-2.5 h-2.5 rounded-full bg-slate-900 inline-block"></span> Classic Legal (B&W)
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -443,8 +432,8 @@
           </button>
         </div>
 
-        <!-- Mobile Fit Viewport Wrapper -->
-        <div id="rent-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
+        <!-- Mobile Fit Viewport Wrapper (Paper Mat Container with Generous Left & Right Space) -->
+        <div id="rent-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
           <div id="rent-receipt-preview" class="w-full bg-white p-3.5 sm:p-5 rounded-none border-2 border-emerald-800 shadow-md space-y-3 font-sans text-xs relative text-slate-900 format-hra theme-emerald">
           
           <!-- Centered Statutory Header -->

@@ -505,20 +505,6 @@
             </button>
           </div>
         </div>
-
-        <!-- Color Theme Selection -->
-        <div class="flex items-center justify-between gap-1 pt-1.5 border-t border-slate-100">
-          <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
-            <i data-lucide="palette" class="w-3.5 h-3.5 text-orange-600"></i>
-            <span>Theme:</span>
-          </span>
-          <div class="flex items-center gap-1 flex-wrap justify-end" id="restaurant-theme-group">
-            <button type="button" onclick="setRestaurantTheme('amber')" id="btn-thm-amber" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-bold border border-amber-400 bg-amber-50 text-amber-900 shadow-2xs transition-all cursor-pointer">Bistro Amber</button>
-            <button type="button" onclick="setRestaurantTheme('mono')" id="btn-thm-mono" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Classic POS (B&W)</button>
-            <button type="button" onclick="setRestaurantTheme('maroon')" id="btn-thm-maroon" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Royal Maroon</button>
-            <button type="button" onclick="setRestaurantTheme('mint')" id="btn-thm-mint" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Fresh Mint</button>
-          </div>
-        </div>
       </div>
 
       <!-- Direct WYSIWYG Edit Tip Banner -->
@@ -536,8 +522,8 @@
         </span>
       </div>
 
-      <!-- Mobile Fit Viewport Wrapper -->
-      <div id="restaurant-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen flex justify-center">
+      <!-- Mobile Fit Viewport Wrapper (Paper Mat Container with Generous Left & Right Space) -->
+      <div id="restaurant-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
         <div id="food-bill-preview" class="w-full mx-auto bg-white p-5 rounded-none format-thermal theme-amber shadow-lg space-y-2.5 font-mono text-xs relative transition-all">
         
         <!-- Header -->
