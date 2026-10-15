@@ -39,8 +39,9 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- QRCode.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- QRCode.js (Local first for 100% Brave & offline compatibility, CDN fallback) -->
+  <script src="js/qrcode.min.js"></script>
+  <script>if (typeof QRCode === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'); }</script>
 
   <!-- html2canvas & jsPDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -52,6 +53,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden !important;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    #tool-section, #col-main-preview, #col-main-form, #invoice-preview-viewport {
+      max-width: 100% !important;
+      box-sizing: border-box;
+    }
+    input, select, textarea {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    input[type="date"], input[type="time"] {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      -webkit-appearance: none;
+      display: block;
+      width: 100%;
+    }
+
+    /* Prevent iOS Safari from auto-zooming and displacing the viewport when focusing inputs */
+    @media screen and (max-width: 767px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; }
     .font-signature { font-family: 'Dancing Script', cursive; }
@@ -82,8 +116,10 @@
     /* Mobile Fit Viewport & Responsive Preview */
     #invoice-preview-viewport {
       width: 100%;
+      max-width: 100% !important;
       position: relative;
       transition: height 0.15s ease-out;
+      contain: paint layout;
     }
     #invoice-preview-viewport.is-fit-screen {
       overflow: hidden !important;
@@ -110,7 +146,7 @@
     /* 1. Format: Modern Tax Invoice (Clean Standard Authentic) */
     #invoice-preview-container.format-modern {
       border-radius: 0px !important;
-      border: 1px solid #e2e8f0 !important;
+      border: 1px solid #1e293b !important;
       box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
     }
 
@@ -653,7 +689,7 @@
                   <div class="space-y-0.5 text-[11px] text-slate-700">
                     <div class="flex items-center gap-1 flex-wrap">
                       <span class="font-bold text-slate-800">Payee UPI ID:</span>
-                      <span id="prev-vpa" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="seller-upi" title="Click to edit UPI ID">sharma@okhdfcbank</span>
+                      <span id="prev-vpa" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="seller-upi" title="Click to edit UPI ID">sharma@demobank</span>
                     </div>
                     <p class="text-[10px] text-slate-500">Scan using any UPI App (GPay, PhonePe, Paytm, BHIM).</p>
                     <p class="text-[10px] text-slate-500">Amount is pre-filled on camera scan.</p>
@@ -842,10 +878,10 @@
               <div id="upi-input-group" class="space-y-1">
                 <div class="flex items-center justify-between text-xs">
                   <label class="font-semibold text-slate-700">Receiver UPI ID / VPA</label>
-                  <span class="text-[10px] text-slate-400">e.g. yourname@okhdfcbank, 9876543210@paytm</span>
+                  <span class="text-[10px] text-slate-400">e.g. yourname@demobank, 9876543210@demobank</span>
                 </div>
                 <div class="relative">
-                  <input type="text" id="seller-upi" placeholder="e.g. yourbusiness@okhdfcbank (untick above for plain bill)" value="sharma@okhdfcbank"
+                  <input type="text" id="seller-upi" placeholder="e.g. yourbusiness@demobank (untick above for plain bill)" value="sharma@demobank"
                          class="w-full text-sm font-mono font-medium px-3 py-2 bg-emerald-50/50 rounded-lg border border-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
                 <p class="text-[10px] text-slate-500">Untick box above if you want a clean bill without scanner or UPI details.</p>
@@ -1502,12 +1538,37 @@
   <script>
     lucide.createIcons();
 
-    document.getElementById('invoice-date').valueAsDate = new Date();
+    try {
+      const now = new Date();
+      const yr = now.getFullYear();
+      const mo = String(now.getMonth() + 1).padStart(2, '0');
+      const da = String(now.getDate()).padStart(2, '0');
+      const dateInp = document.getElementById('invoice-date');
+      if (dateInp) {
+        dateInp.value = `${yr}-${mo}-${da}`;
+        dateInp.valueAsDate = now;
+      }
+    } catch(e) {}
     
     function formatDateDisplay(dateStr) {
       if (!dateStr) return '';
-      const d = new Date(dateStr);
-      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+      try {
+        const parts = String(dateStr).trim().split('-');
+        if (parts.length === 3) {
+          const yr = parseInt(parts[0], 10);
+          const mo = parseInt(parts[1], 10) - 1;
+          const da = parseInt(parts[2], 10);
+          const d = new Date(yr, mo, da);
+          if (!isNaN(d.getTime())) {
+            return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+          }
+        }
+        const d = new Date(dateStr);
+        if (!isNaN(d.getTime())) {
+          return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+      } catch(e) {}
+      return String(dateStr);
     }
 
     let qrCodeInstance = null;
@@ -1833,46 +1894,50 @@
       if (!isEditingItems && itemsBody) {
         itemsBody.innerHTML = '';
         rows.forEach((row, index) => {
-          const desc = row.querySelector('.item-desc').value || 'Item Description';
-          const hsn = row.querySelector('.item-hsn').value || '-';
-          const qty = parseFloat(row.querySelector('.item-qty').value) || 1;
-          const price = parseFloat(row.querySelector('.item-price').value) || 0;
-          const amount = qty * price;
-          subtotal += amount;
+          try {
+            const desc = row.querySelector('.item-desc')?.value || 'Item Description';
+            const hsn = row.querySelector('.item-hsn')?.value || '-';
+            const qty = parseFloat(row.querySelector('.item-qty')?.value) || 1;
+            const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
+            const amount = qty * price;
+            subtotal += amount;
 
-          const tr = document.createElement('tr');
-          tr.setAttribute('data-row-index', index);
-          tr.className = 'border-b border-slate-200 hover:bg-slate-50/50';
-          tr.innerHTML = `
-            <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200">${index + 1}</td>
-            <td class="py-2 px-3 font-medium text-slate-900 border-r border-slate-200">
-              <span contenteditable="true" spellcheck="false" class="editable-field editable-desc block" data-row-idx="${index}" title="Click to edit item description">${escapeHTML(desc)}</span>
-            </td>
-            <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200 ${isGstEnabled ? '' : 'hidden'}">
-              <span contenteditable="true" spellcheck="false" class="editable-field editable-hsn inline-block" data-row-idx="${index}" title="Click to edit HSN/SAC">${escapeHTML(hsn)}</span>
-            </td>
-            <td class="py-2 px-2 text-center text-slate-800 font-semibold border-r border-slate-200">
-              <span contenteditable="true" spellcheck="false" class="editable-field editable-qty inline-block" data-row-idx="${index}" title="Click to edit quantity">${qty}</span>
-            </td>
-            <td class="py-2 px-3 text-right font-mono text-slate-800 border-r border-slate-200">
-              <span contenteditable="true" spellcheck="false" class="editable-field editable-price inline-block font-semibold" data-row-idx="${index}" title="Click to edit rate">₹${formatINR(price)}</span>
-            </td>
-            <td class="py-2 px-3 text-right font-mono font-bold text-slate-900 prev-row-amount">
-              ₹${formatINR(amount)}
-            </td>
-            <td class="py-2 px-2 text-center w-6 no-print">
-              <button type="button" onclick="deleteItemRowByIndex(${index})" title="Delete line item" class="text-slate-300 hover:text-rose-600 p-0.5 rounded transition-colors opacity-70 hover:opacity-100 cursor-pointer">
-                <svg class="w-3.5 h-3.5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-              </button>
-            </td>
-          `;
-          itemsBody.appendChild(tr);
+            const tr = document.createElement('tr');
+            tr.setAttribute('data-row-index', index);
+            tr.className = 'border-b border-slate-200 hover:bg-slate-50/50';
+            tr.innerHTML = `
+              <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200">${index + 1}</td>
+              <td class="py-2 px-3 font-medium text-slate-900 border-r border-slate-200">
+                <span contenteditable="true" spellcheck="false" class="editable-field editable-desc block" data-row-idx="${index}" title="Click to edit item description">${escapeHTML(desc)}</span>
+              </td>
+              <td class="py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200 ${isGstEnabled ? '' : 'hidden'}">
+                <span contenteditable="true" spellcheck="false" class="editable-field editable-hsn inline-block" data-row-idx="${index}" title="Click to edit HSN/SAC">${escapeHTML(hsn)}</span>
+              </td>
+              <td class="py-2 px-2 text-center text-slate-800 font-semibold border-r border-slate-200">
+                <span contenteditable="true" spellcheck="false" class="editable-field editable-qty inline-block" data-row-idx="${index}" title="Click to edit quantity">${qty}</span>
+              </td>
+              <td class="py-2 px-3 text-right font-mono text-slate-800 border-r border-slate-200">
+                <span contenteditable="true" spellcheck="false" class="editable-field editable-price inline-block font-semibold" data-row-idx="${index}" title="Click to edit rate">₹${formatINR(price)}</span>
+              </td>
+              <td class="py-2 px-3 text-right font-mono font-bold text-slate-900 prev-row-amount">
+                ₹${formatINR(amount)}
+              </td>
+              <td class="py-2 px-2 text-center w-6 no-print">
+                <button type="button" onclick="deleteItemRowByIndex(${index})" title="Delete line item" class="text-slate-300 hover:text-rose-600 p-0.5 rounded transition-colors opacity-70 hover:opacity-100 cursor-pointer">
+                  <svg class="w-3.5 h-3.5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </td>
+            `;
+            itemsBody.appendChild(tr);
+          } catch(e) {}
         });
       } else {
         rows.forEach(row => {
-          const qty = parseFloat(row.querySelector('.item-qty').value) || 1;
-          const price = parseFloat(row.querySelector('.item-price').value) || 0;
-          subtotal += (qty * price);
+          try {
+            const qty = parseFloat(row.querySelector('.item-qty')?.value) || 1;
+            const price = parseFloat(row.querySelector('.item-price')?.value) || 0;
+            subtotal += (qty * price);
+          } catch(e) {}
         });
       }
 
@@ -1959,16 +2024,31 @@
         const qrContainer = document.getElementById('qrcode-container');
         if (qrContainer) {
           qrContainer.innerHTML = '';
-          try {
-            qrCodeInstance = new QRCode(qrContainer, {
-              text: upiUrl,
-              width: 112,
-              height: 112,
-              colorDark: "#0f172a",
-              colorLight: "#ffffff",
-              correctLevel: QRCode.CorrectLevel.M
-            });
-          } catch(e) {}
+          let rendered = false;
+          if (typeof QRCode !== 'undefined') {
+            try {
+              qrCodeInstance = new QRCode(qrContainer, {
+                text: upiUrl,
+                width: 112,
+                height: 112,
+                colorDark: "#0f172a",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+              });
+              if (qrContainer.querySelector('canvas') || qrContainer.querySelector('img')) {
+                rendered = true;
+              }
+            } catch(e) {}
+          }
+          if (!rendered) {
+            const qrImg = document.createElement('img');
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=120x120`;
+            qrImg.alt = 'UPI Payment QR Code';
+            qrImg.className = 'w-full h-full object-contain';
+            qrImg.crossOrigin = 'anonymous';
+            qrContainer.innerHTML = '';
+            qrContainer.appendChild(qrImg);
+          }
         }
       }
       fitPreviewToScreen();
@@ -2784,7 +2864,7 @@
         signatory: 'Authorized Signatory',
         invoiceNotes: 'Thank you for your business! 30 Days warranty on hardware parts.',
         termsConditions: '1. Goods once sold will not be taken back without original bill.\n2. Warranty covers manufacturer defects only.',
-        payeeUpi: 'sharma@okhdfcbank',
+        payeeUpi: 'sharma@demobank',
         enableGst: true,
         taxRate: '18',
         items: [
@@ -2810,7 +2890,7 @@
         signatory: 'Regd. Pharmacist',
         invoiceNotes: 'Schedule H & H1 drugs dispensed strictly against registered medical prescription.',
         termsConditions: '1. Medicines once sold cannot be returned without original batch receipt.\n2. Cold storage items (2-8°C) are non-returnable.',
-        payeeUpi: 'sanjeevanimedicos@okaxis',
+        payeeUpi: 'sanjeevanimedicos@demobank',
         enableGst: true,
         taxRate: '12',
         items: [
@@ -2842,7 +2922,7 @@
         signatory: 'Manager / Cashier',
         invoiceNotes: 'Thank you for dining with us! Service charge is purely voluntary. Visit again!',
         termsConditions: '1. GST @ 5% applicable without input tax credit.\n2. FSSAI Central License compliant food preparation.',
-        payeeUpi: 'royalspice@icici',
+        payeeUpi: 'royalspice@demobank',
         enableGst: true,
         taxRate: '5',
         items: [
@@ -2874,7 +2954,7 @@
         signatory: 'Front Office Manager',
         invoiceNotes: 'Check-in: 12:00 PM | Check-out: 11:00 AM. Thank you for staying with us!',
         termsConditions: '1. All guests must provide valid government photo ID at check-in.\n2. Room tariff includes complimentary Wi-Fi and swimming pool access.',
-        payeeUpi: 'grandheritage@hdfcbank',
+        payeeUpi: 'grandheritage@demobank',
         enableGst: true,
         taxRate: '12',
         items: [
@@ -2906,7 +2986,7 @@
         signatory: 'Rajesh Kumar (Landlord)',
         invoiceNotes: 'Received with thanks from tenant towards monthly residential rent. Valid for Income Tax HRA Exemption under Sec 10(13A).',
         termsConditions: '1. Rent received for residential occupancy per Registered Tenancy Agreement.\n2. Landlord PAN is declared valid for Income Tax HRA rebate.',
-        payeeUpi: 'rajeshkumar.landlord@okhdfcbank',
+        payeeUpi: 'rajeshkumar.landlord@demobank',
         enableGst: false,
         taxRate: '0',
         items: [
@@ -2936,7 +3016,7 @@
         signatory: 'Director / Academic Head',
         invoiceNotes: 'Monthly tuition fee received with thanks. Classes conducted 5 days a week. Fee once paid is non-refundable.',
         termsConditions: '1. Receipt must be produced for obtaining monthly classroom access card.\n2. Study material issued on fee clearance.',
-        payeeUpi: 'apexacademy@okhdfcbank',
+        payeeUpi: 'apexacademy@demobank',
         enableGst: false,
         taxRate: '0',
         items: [

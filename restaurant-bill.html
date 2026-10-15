@@ -10,12 +10,40 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/qrcode.min.js"></script>
+  <script>if (typeof QRCode === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'); }</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden !important;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    input, select, textarea {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    input[type="date"], input[type="time"] {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      -webkit-appearance: none;
+      display: block;
+      width: 100%;
+    }
+    @media screen and (max-width: 767px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
     .font-signature { font-family: 'Dancing Script', cursive; }
@@ -432,7 +460,7 @@
           
           <div id="cafe-upi-input-group" class="space-y-1">
             <label class="block font-semibold text-slate-700">Receiver UPI ID (For Direct Table Payment)</label>
-            <input type="text" id="cafe-upi" placeholder="e.g. royalspice@okhdfcbank" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-rose-500">
+            <input type="text" id="cafe-upi" placeholder="e.g. royalspice@demobank" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-rose-500">
             <p class="text-[10px] text-slate-400">Untick box above if you want a clean bill without scanner or UPI details.</p>
           </div>
         </div>
@@ -777,7 +805,22 @@
         if (qrBlock) qrBlock.style.display = 'block';
         const receiverUpi = upi || 'yourcafe@upi';
         const upiUrl = `upi://pay?pa=${encodeURIComponent(receiverUpi)}&pn=${encodeURIComponent((name || 'Restaurant').substring(0,25))}&am=${grandTotal.toFixed(2)}&cu=INR&tn=${encodeURIComponent('Bill ' + (table || 'Counter'))}`;
-        new QRCode(qrBox, { text: upiUrl, width: 96, height: 96 });
+        let rendered = false;
+        if (typeof QRCode !== 'undefined') {
+          try {
+            new QRCode(qrBox, { text: upiUrl, width: 96, height: 96 });
+            if (qrBox.querySelector('canvas') || qrBox.querySelector('img')) rendered = true;
+          } catch(e) {}
+        }
+        if (!rendered) {
+          const qrImg = document.createElement('img');
+          qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=100x100`;
+          qrImg.alt = 'UPI Payment QR Code';
+          qrImg.className = 'w-full h-full object-contain';
+          qrImg.crossOrigin = 'anonymous';
+          qrBox.innerHTML = '';
+          qrBox.appendChild(qrImg);
+        }
       }
       fitRestPreviewToScreen();
     }
@@ -859,7 +902,7 @@
       document.getElementById('table-no').value = 'Table #04 (Dine-in)';
       document.getElementById('cafe-gstin').value = '07AABCR8811P1ZK';
       document.getElementById('cafe-address').value = 'Civil Lines, Near Metro Station';
-      document.getElementById('cafe-upi').value = 'royalspice@okhdfcbank';
+      document.getElementById('cafe-upi').value = 'royalspice@demobank';
       document.getElementById('cafe-discount').value = '20';
       document.getElementById('cafe-gst').value = '5';
 

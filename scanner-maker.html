@@ -32,8 +32,13 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- QRCode.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- QRCode.js (Local first for Brave/AdBlock protection, with CDN fallback) -->
+  <script src="js/qrcode.min.js"></script>
+  <script>
+    if (typeof QRCode === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>');
+    }
+  </script>
   
   <!-- html2canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -44,6 +49,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden !important;
+    }
+    @media screen and (max-width: 767px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; }
     @media print {
@@ -290,7 +304,7 @@
           <div class="space-y-1">
             <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Direct Bank Settlement to:</span>
             <p id="prev-shop-upi" class="font-mono text-sm font-bold text-slate-900 bg-slate-50 border border-slate-200 py-1.5 px-3 rounded-lg inline-block">
-              sharma@okhdfcbank
+              sharma@demobank
             </p>
           </div>
 
@@ -375,7 +389,7 @@
 
         <div>
           <label class="block text-xs font-bold text-purple-900 mb-1">Your Receiver UPI ID (VPA)</label>
-          <input type="text" id="shop-upi" value="sharma@okhdfcbank" placeholder="e.g. sharma@okhdfcbank" class="w-full text-sm font-mono font-bold px-3 py-2 bg-purple-50/60 rounded-lg border border-purple-300">
+          <input type="text" id="shop-upi" value="sharma@demobank" placeholder="e.g. sharma@demobank" class="w-full text-sm font-mono font-bold px-3 py-2 bg-purple-50/60 rounded-lg border border-purple-300">
           <p class="text-[10px] text-slate-400 mt-1">Direct bank settlement. No commission.</p>
         </div>
       </div>
@@ -587,7 +601,7 @@
     function updateStandee() {
       const shopName = document.getElementById('shop-name').value.trim() || 'Sharma Sweets & Dairy';
       const tagline = document.getElementById('shop-tagline').value.trim() || 'Pure Desi Ghee Sweets & Fresh Bakery';
-      const upiId = document.getElementById('shop-upi').value.trim() || 'sharma@okhdfcbank';
+      const upiId = document.getElementById('shop-upi').value.trim() || 'sharma@demobank';
       const modeRadio = document.querySelector('input[name="amt-mode"]:checked');
       const mode = modeRadio ? modeRadio.value : 'open';
       const fixedAmt = parseFloat(document.getElementById('fixed-amount-val').value) || 0;
@@ -614,15 +628,29 @@
       // Generate High-Res QR Code
       const qrContainer = document.getElementById('standee-qrcode');
       qrContainer.innerHTML = '';
+      let qrRendered = false;
       if (typeof QRCode !== 'undefined') {
-        new QRCode(qrContainer, {
-          text: upiUrl,
-          width: 208,
-          height: 208,
-          colorDark: '#0f172a',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.H
-        });
+        try {
+          new QRCode(qrContainer, {
+            text: upiUrl,
+            width: 208,
+            height: 208,
+            colorDark: '#0f172a',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+          });
+          qrRendered = true;
+        } catch (e) {
+          console.warn('QRCode JS error:', e);
+        }
+      }
+
+      if (!qrRendered || !qrContainer.hasChildNodes()) {
+        const fallbackImg = document.createElement('img');
+        fallbackImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=208x208&data=' + encodeURIComponent(upiUrl);
+        fallbackImg.alt = 'UPI QR Code';
+        fallbackImg.className = 'w-52 h-52 object-contain mx-auto';
+        qrContainer.appendChild(fallbackImg);
       }
 
       // Update Branding
@@ -699,7 +727,7 @@
     function loadStandeeSampleData() {
       document.getElementById('shop-name').value = 'Sharma Sweets & Dairy';
       document.getElementById('shop-tagline').value = 'Pure Desi Ghee Sweets & Fresh Bakery';
-      document.getElementById('shop-upi').value = 'sharma@okhdfcbank';
+      document.getElementById('shop-upi').value = 'sharma@demobank';
       document.getElementById('mode-open').checked = true;
       document.getElementById('fixed-amount-val').value = '150';
       setStandeeTheme('theme-purple');
@@ -742,6 +770,7 @@
             const cloneQr = clonedDoc.getElementById('standee-qrcode');
             if (origQr && cloneQr) {
               const origCanvas = origQr.querySelector('canvas');
+              const origImg = origQr.querySelector('img');
               if (origCanvas) {
                 cloneQr.innerHTML = '';
                 const newCvs = clonedDoc.createElement('canvas');
@@ -752,6 +781,15 @@
                 newCvs.style.display = 'block';
                 newCvs.style.margin = '0 auto';
                 cloneQr.appendChild(newCvs);
+              } else if (origImg) {
+                cloneQr.innerHTML = '';
+                const newImg = clonedDoc.createElement('img');
+                newImg.src = origImg.src;
+                newImg.style.width = '208px';
+                newImg.style.height = '208px';
+                newImg.style.display = 'block';
+                newImg.style.margin = '0 auto';
+                cloneQr.appendChild(newImg);
               }
             }
           }

@@ -10,12 +10,40 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/qrcode.min.js"></script>
+  <script>if (typeof QRCode === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'); }</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
   
   <style>
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden !important;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    input, select, textarea {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    input[type="date"], input[type="time"] {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      -webkit-appearance: none;
+      display: block;
+      width: 100%;
+    }
+    @media screen and (max-width: 767px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
     .font-signature { font-family: 'Dancing Script', cursive; }
@@ -405,7 +433,7 @@
                 <div class="space-y-0.5 text-[11px] text-slate-700">
                   <div class="flex items-center gap-1 flex-wrap">
                     <span class="font-bold text-slate-800">Pharmacy Payee UPI:</span>
-                    <span id="prev-ph-upi" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="pharmacy-upi" title="Click to edit UPI ID">sanjeevanimedicos@okhdfcbank</span>
+                    <span id="prev-ph-upi" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="pharmacy-upi" title="Click to edit UPI ID">sanjeevanimedicos@demobank</span>
                   </div>
                   <p class="text-[10px] text-slate-500">Scan to pay exact <span id="prev-qr-amt" class="font-bold text-teal-800">₹0.00</span> via any UPI App.</p>
                   <p class="text-[10px] text-slate-500">GPay, PhonePe, Paytm, BHIM.</p>
@@ -540,7 +568,7 @@
           
           <div id="med-upi-input-group" class="space-y-1">
             <label class="block font-semibold text-slate-700">Receiver UPI ID (For Direct Medicine Payment)</label>
-            <input type="text" id="pharmacy-upi" placeholder="e.g. sanjeevanimedicos@okhdfcbank" class="w-full font-mono px-3 py-2 bg-teal-50 rounded-lg border border-teal-300">
+            <input type="text" id="pharmacy-upi" placeholder="e.g. sanjeevanimedicos@demobank" class="w-full font-mono px-3 py-2 bg-teal-50 rounded-lg border border-teal-300">
             <p class="text-[10px] text-slate-400">Untick box above if you want a clean bill without scanner or UPI details.</p>
           </div>
         </div>
@@ -955,7 +983,22 @@
         if (qrBlock) qrBlock.style.display = 'block';
         const receiverUpi = upi || 'yourpharmacy@upi';
         const upiUrl = `upi://pay?pa=${encodeURIComponent(receiverUpi)}&pn=${encodeURIComponent(phName || 'Pharmacy')}&am=${total.toFixed(2)}&cu=INR&tn=${encodeURIComponent('Med Bill ' + (invNo || '101'))}`;
-        new QRCode(qrBox, { text: upiUrl, width: 80, height: 80 });
+        let rendered = false;
+        if (typeof QRCode !== 'undefined') {
+          try {
+            new QRCode(qrBox, { text: upiUrl, width: 80, height: 80 });
+            if (qrBox.querySelector('canvas') || qrBox.querySelector('img')) rendered = true;
+          } catch(e) {}
+        }
+        if (!rendered) {
+          const qrImg = document.createElement('img');
+          qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=100x100`;
+          qrImg.alt = 'UPI Payment QR Code';
+          qrImg.className = 'w-full h-full object-contain';
+          qrImg.crossOrigin = 'anonymous';
+          qrBox.innerHTML = '';
+          qrBox.appendChild(qrImg);
+        }
       }
       fitMedPreviewToScreen();
     }
@@ -1028,7 +1071,7 @@
       document.getElementById('pharmacy-gstin').value = '07AABCS9900P1ZM';
       document.getElementById('pharmacy-phone').value = '+91 98765 22334';
       document.getElementById('pharmacy-address').value = 'Opp. Civil Hospital Gate, Sector 12';
-      document.getElementById('pharmacy-upi').value = 'sanjeevanimedicos@okhdfcbank';
+      document.getElementById('pharmacy-upi').value = 'sanjeevanimedicos@demobank';
       document.getElementById('patient-name').value = 'Suresh Chandel';
       document.getElementById('patient-age').value = '45 Yrs / Male';
       document.getElementById('doctor-name').value = 'Dr. Arvind Mehrotra (MD)';

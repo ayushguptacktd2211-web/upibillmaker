@@ -7,11 +7,39 @@
   <meta name="description" content="Generate monthly tuition and coaching fee receipts with student name, roll number, subjects, and auto-pay UPI QR code. Free, instant print or download.">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/qrcode.min.js"></script>
+  <script>if (typeof QRCode === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'); }</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden !important;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    input, select, textarea {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    input[type="date"], input[type="time"] {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      -webkit-appearance: none;
+      display: block;
+      width: 100%;
+    }
+    @media screen and (max-width: 767px) {
+      input, select, textarea {
+        font-size: 16px !important;
+      }
+    }
+
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
     .font-signature { font-family: 'Dancing Script', cursive; }
@@ -328,7 +356,7 @@
                   <div>
                     <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
                     <p class="text-xs font-bold text-slate-900 mt-0.5">Scan to Pay Fee via Any UPI App</p>
-                    <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-tutor-upi" class="font-bold">apexacademy@okhdfcbank</span></p>
+                    <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-tutor-upi" class="font-bold">apexacademy@demobank</span></p>
                   </div>
                 </div>
                 <div class="text-right">
@@ -442,7 +470,7 @@
           
           <div id="tuition-upi-input-group" class="space-y-1">
             <label class="block font-semibold text-slate-700">Tutor / Academy UPI ID</label>
-            <input type="text" id="tutor-upi" value="apexacademy@okhdfcbank" placeholder="e.g. apexacademy@okhdfcbank" class="w-full text-sm font-mono px-3 py-2 bg-indigo-50 rounded-lg border border-indigo-300">
+            <input type="text" id="tutor-upi" value="apexacademy@demobank" placeholder="e.g. apexacademy@demobank" class="w-full text-sm font-mono px-3 py-2 bg-indigo-50 rounded-lg border border-indigo-300">
             <p class="text-[10px] text-slate-400">Untick box above if you want a clean receipt without QR code.</p>
           </div>
         </div>
@@ -616,7 +644,7 @@
         subjElem.style.display = 'none';
       }
 
-      document.getElementById('prev-tutor-upi').innerText = upi || 'apexacademy@okhdfcbank';
+      document.getElementById('prev-tutor-upi').innerText = upi || 'apexacademy@demobank';
 
       const now = new Date();
       document.getElementById('prev-fee-date').innerText = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -653,9 +681,24 @@
         if (qrBlock) qrBlock.style.display = 'none';
       } else {
         if (qrBlock) qrBlock.style.display = 'flex';
-        const receiverUpi = upi || 'apexacademy@okhdfcbank';
+        const receiverUpi = upi || 'apexacademy@demobank';
         const upiUrl = `upi://pay?pa=${encodeURIComponent(receiverUpi)}&pn=${encodeURIComponent((tutor || 'Tutor').substring(0, 25))}&am=${amt}&cu=INR&tn=${encodeURIComponent('Tuition ' + (month || 'Fee'))}`;
-        new QRCode(qrBox, { text: upiUrl, width: 64, height: 64 });
+        let rendered = false;
+        if (typeof QRCode !== 'undefined') {
+          try {
+            new QRCode(qrBox, { text: upiUrl, width: 64, height: 64 });
+            if (qrBox.querySelector('canvas') || qrBox.querySelector('img')) rendered = true;
+          } catch(e) {}
+        }
+        if (!rendered) {
+          const qrImg = document.createElement('img');
+          qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(upiUrl)}&size=100x100`;
+          qrImg.alt = 'UPI Payment QR Code';
+          qrImg.className = 'w-full h-full object-contain';
+          qrImg.crossOrigin = 'anonymous';
+          qrBox.innerHTML = '';
+          qrBox.appendChild(qrImg);
+        }
       }
 
       if (typeof fitTuitionPreviewToScreen === 'function') fitTuitionPreviewToScreen();
@@ -717,7 +760,7 @@
       document.getElementById('fee-amount').value = '3000';
       document.getElementById('fee-month').value = 'October 2026';
       document.getElementById('fee-subjects').value = 'Mathematics, Physics & Chemistry';
-      document.getElementById('tutor-upi').value = 'apexacademy@okhdfcbank';
+      document.getElementById('tutor-upi').value = 'apexacademy@demobank';
       updateTuition();
     }
 
