@@ -292,12 +292,15 @@
     /* Format 1: Narrow Thermal POS Slip (80mm) - Authentic Real Restaurant Receipt */
     #invoice-preview-container.format-rest-thermal {
       max-width: 380px !important;
-      margin: 0 auto;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+      width: 100% !important;
+      margin: 0 auto !important;
+      font-family: 'Courier New', Courier, ui-monospace, Menlo, Monaco, Consolas, monospace !important;
       border: 2px dashed #d97706 !important;
       border-radius: 0px !important;
       box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12) !important;
-      padding: 14px 16px !important;
+      padding: 12px 14px !important;
+      background: #ffffff !important;
+      box-sizing: border-box !important;
     }
     #invoice-preview-container.format-rest-thermal .doc-title-bar {
       background: #fffbeb !important;
@@ -306,8 +309,56 @@
     }
     #invoice-preview-container.format-rest-thermal #prev-doc-type {
       color: #b45309 !important;
-      font-size: 14px !important;
+      font-size: 15px !important;
       letter-spacing: 0.1em;
+    }
+    #invoice-preview-container.format-rest-thermal .sec-hide-btn,
+    #invoice-preview-container.format-rest-thermal .col-hide-btn {
+      display: none !important;
+    }
+    /* Header Stack & Center */
+    #invoice-preview-container.format-rest-thermal #sec-invoice-header {
+      display: flex !important;
+      flex-direction: column !important;
+      border-bottom: 1.5px dashed #d97706 !important;
+      padding-bottom: 8px !important;
+    }
+    #invoice-preview-container.format-rest-thermal #sec-invoice-header > div {
+      width: 100% !important;
+      border-left: none !important;
+      border-right: none !important;
+      padding: 2px 0 !important;
+      text-align: center !important;
+    }
+    #invoice-preview-container.format-rest-thermal #prev-seller-name {
+      text-align: center !important;
+      font-size: 16px !important;
+      letter-spacing: 0.05em !important;
+    }
+    #invoice-preview-container.format-rest-thermal #prev-seller-tagline,
+    #invoice-preview-container.format-rest-thermal #prev-seller-address,
+    #invoice-preview-container.format-rest-thermal #prev-seller-phone,
+    #invoice-preview-container.format-rest-thermal #prev-seller-gstin-box {
+      text-align: center !important;
+      font-size: 10px !important;
+    }
+    #invoice-preview-container.format-rest-thermal #sec-billed-to {
+      display: flex !important;
+      flex-direction: column !important;
+      border-bottom: 1.5px dashed #d97706 !important;
+      padding: 6px 4px !important;
+      background: #fffbeb !important;
+    }
+    #invoice-preview-container.format-rest-thermal #sec-billed-to > div {
+      width: 100% !important;
+      text-align: left !important;
+    }
+    /* Hide S.No and HSN Columns for clean 80mm slip */
+    #invoice-preview-container.format-rest-thermal #th-sno,
+    #invoice-preview-container.format-rest-thermal .td-sno,
+    #invoice-preview-container.format-rest-thermal #th-hsn,
+    #invoice-preview-container.format-rest-thermal .td-hsn {
+      display: none !important;
     }
     #invoice-preview-container.format-rest-thermal thead tr {
       background: #fef3c7 !important;
@@ -317,17 +368,88 @@
     }
     #invoice-preview-container.format-rest-thermal thead th {
       color: #92400e !important;
-      padding: 4px 6px !important;
+      padding: 4px 4px !important;
       font-size: 10px !important;
     }
     #invoice-preview-container.format-rest-thermal tbody td {
-      padding: 4px 6px !important;
+      padding: 4px 4px !important;
       font-size: 11px !important;
+    }
+    #invoice-preview-container.format-rest-thermal .td-desc {
+      width: 52% !important;
+      max-width: 190px !important;
+      word-break: break-word !important;
+    }
+    #invoice-preview-container.format-rest-thermal .td-qty {
+      width: 14% !important;
+      text-align: center !important;
+    }
+    #invoice-preview-container.format-rest-thermal .td-rate {
+      width: 16% !important;
+      text-align: right !important;
+    }
+    #invoice-preview-container.format-rest-thermal .td-amount {
+      width: 18% !important;
+      text-align: right !important;
+      font-weight: bold !important;
+    }
+    #invoice-preview-container.format-rest-thermal #sec-amount-in-words {
+      border-top: 1px dashed #d97706 !important;
+      border-bottom: 1px dashed #d97706 !important;
+      padding: 4px 4px !important;
+      background: #fffbeb !important;
+    }
+    /* Bottom Ledger: Stack Calculations First (Full-Width), then UPI QR & Terms below */
+    #invoice-preview-container.format-rest-thermal #sec-bottom-ledger {
+      display: flex !important;
+      flex-direction: column-reverse !important;
+      border-bottom: 2px dashed #d97706 !important;
+    }
+    #invoice-preview-container.format-rest-thermal #sec-bottom-left,
+    #invoice-preview-container.format-rest-thermal #sec-bottom-right {
+      width: 100% !important;
+      border-left: none !important;
+      border-right: none !important;
+      padding: 6px 0 !important;
     }
     #invoice-preview-container.format-rest-thermal #prev-grand-total {
       color: #b45309 !important;
-      font-size: 16px !important;
+      font-size: 17px !important;
       border-top: 2px dashed #d97706 !important;
+      padding-top: 3px !important;
+    }
+    #invoice-preview-container.format-rest-thermal #upi-payment-block {
+      border: 1px dashed #d97706 !important;
+      background: #fffbeb !important;
+      margin-top: 8px !important;
+      padding: 8px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    #invoice-preview-container.format-rest-thermal #upi-payment-block > .flex {
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+      gap: 6px !important;
+    }
+    #invoice-preview-container.format-rest-thermal #qrcode-container {
+      margin: 0 auto !important;
+    }
+    #invoice-preview-container.format-rest-thermal #terms-conditions-block {
+      text-align: center !important;
+      padding: 6px 0 !important;
+      border-top: 1px dashed #d97706 !important;
+      margin-top: 6px !important;
+    }
+    #invoice-preview-container.format-rest-thermal #sec-signatory-block {
+      text-align: center !important;
+      padding-top: 6px !important;
+      border-top: 1px dashed #d97706 !important;
+      margin-top: 6px !important;
+    }
+    #invoice-preview-container.format-rest-thermal #sec-signatory-block .font-signature {
+      text-align: center !important;
+      justify-content: center !important;
     }
 
     /* Format 2: Dining Guest Check */
@@ -1041,7 +1163,7 @@
           </div>
 
           <!-- Invoice Header: Continuous Two Column Accounting Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800 pb-2">
+          <div id="sec-invoice-header" class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800 pb-2">
             <!-- Left 7 Cols: Seller / Supplier Details -->
             <div class="sm:col-span-7 sm:pr-3 flex items-start gap-2.5">
               <div id="invoice-logo-wrapper" class="hidden flex-shrink-0 max-h-14 max-w-[120px] items-center justify-start overflow-hidden">
@@ -1166,10 +1288,10 @@
           </div>
 
           <!-- Bottom Section: Continuous 2-Column Ledger Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800">
+          <div id="sec-bottom-ledger" class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800">
             
             <!-- Left 7 Cols: Bank & UPI Payment Details + Terms -->
-            <div class="sm:col-span-7 sm:border-r border-slate-800 p-2.5 flex flex-col justify-between space-y-2">
+            <div id="sec-bottom-left" class="sm:col-span-7 sm:border-r border-slate-800 p-2.5 flex flex-col justify-between space-y-2">
               <div id="upi-payment-block" class="group/sec relative border border-slate-300 bg-white p-2 text-xs space-y-1.5">
                 <button type="button" onclick="hideBillSection('upi-qr')" class="sec-hide-btn no-print" title="Hide UPI payment details">✕ Hide</button>
                 <div class="font-bold text-[9px] uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 flex items-center justify-between">
@@ -1205,7 +1327,7 @@
             </div>
 
             <!-- Right 5 Cols: Calculations Ledger & Authorized Signatory -->
-            <div class="sm:col-span-5 p-2.5 flex flex-col justify-between space-y-3">
+            <div id="sec-bottom-right" class="sm:col-span-5 p-2.5 flex flex-col justify-between space-y-3">
               <!-- Calculations Ledger -->
               <div class="space-y-1 text-xs">
                 <div class="flex justify-between text-slate-600 text-[11px]">
@@ -2063,6 +2185,104 @@
   <script>
     let qrCodeInstance = null;
     let savedLogoBase64 = null;
+    let currentTemplate = 'shop';
+    let currentInvoiceFormat = 'format-shop-a4';
+
+    const allFormatClasses = [
+      'format-shop-a4', 'format-shop-counter', 'format-shop-corporate',
+      'format-med-chemist', 'format-med-hospital', 'format-med-lab',
+      'format-rest-thermal', 'format-rest-dining', 'format-rest-taxinv',
+      'format-hotel-resort', 'format-hotel-homestay', 'format-hotel-express',
+      'format-rent-hra', 'format-rent-monthly', 'format-rent-commercial',
+      'format-tuition-coaching', 'format-tuition-tutor', 'format-tuition-school',
+      'format-modern', 'format-classic', 'format-executive', 'format-minimal'
+    ];
+
+    const formatDetails = {
+      // 1. Retail & Shop
+      'format-shop-a4': {
+        docType: 'TAX INVOICE',
+        subtitle: '(Issued under Section 31 of CGST Act, 2017 • Original for Recipient)'
+      },
+      'format-shop-counter': {
+        docType: 'RETAIL CASH MEMO',
+        subtitle: '(Retail Store Counter Sales Memo • Non-Credit Cash Voucher)'
+      },
+      'format-shop-corporate': {
+        docType: 'COMMERCIAL TRADE INVOICE',
+        subtitle: '(Corporate B2B Trade & Goods Supply Invoice • Triplicate Copy)'
+      },
+
+      // 2. Medical & Pharmacy
+      'format-med-chemist': {
+        docType: 'PHARMACY TAX INVOICE',
+        subtitle: '(Retail Chemist Cash Memo • Regd. Under D&C Act 1940 & Rules • Schedule H/H1)'
+      },
+      'format-med-hospital': {
+        docType: 'HOSPITAL & OPD CONSULTATION BILL',
+        subtitle: '(Patient OPD Consultation & Clinical Healthcare Services Memo)'
+      },
+      'format-med-lab': {
+        docType: 'PATHOLOGY & DIAGNOSTIC LAB RECEIPT',
+        subtitle: '(Medical Diagnostic Tests & Clinical Pathology Investigation Slip)'
+      },
+
+      // 3. Restaurant & Dining
+      'format-rest-thermal': {
+        docType: 'RESTAURANT CASH MEMO',
+        subtitle: '(Dining & FSSAI Compliant Food Services Memo • Original Customer Copy)'
+      },
+      'format-rest-dining': {
+        docType: 'DINING GUEST CHECK',
+        subtitle: '(Table Service & FSSAI Compliant Food Services Folio)'
+      },
+      'format-rest-taxinv': {
+        docType: 'RESTAURANT TAX INVOICE',
+        subtitle: '(Issued under Section 31 of CGST Act • Food Services SAC 9963)'
+      },
+
+      // 4. Hotel & Stay
+      'format-hotel-resort': {
+        docType: 'HOTEL GUEST FOLIO & TAX INVOICE',
+        subtitle: '(Guest Stay Invoice • SAC 9963 • Luxury Accommodations)'
+      },
+      'format-hotel-homestay': {
+        docType: 'GUEST HOUSE & HOMESTAY RECEIPT',
+        subtitle: '(Homestay Lodging & Room Stay Voucher)'
+      },
+      'format-hotel-express': {
+        docType: 'EXPRESS LODGING CHECKOUT MEMO',
+        subtitle: '(Short Stay / Express Lodging Cash Receipt)'
+      },
+
+      // 5. Rent (HRA)
+      'format-rent-hra': {
+        docType: 'HOUSE RENT RECEIPT (HRA EXEMPTION)',
+        subtitle: '(Official Proof for Claiming HRA Exemption u/s 10(13A) of Income Tax Act)'
+      },
+      'format-rent-monthly': {
+        docType: 'MONTHLY HOUSE RENT VOUCHER',
+        subtitle: '(Landlord Tenancy Rent Payment Confirmation Voucher)'
+      },
+      'format-rent-commercial': {
+        docType: 'COMMERCIAL LEASE & RENT INVOICE',
+        subtitle: '(Commercial Property Office/Shop Lease Invoice with GST & TDS Notes)'
+      },
+
+      // 6. Tuition Fee
+      'format-tuition-coaching': {
+        docType: 'COACHING & TUITION FEE RECEIPT',
+        subtitle: '(Official Coaching Academy / Institute Monthly Fee Receipt)'
+      },
+      'format-tuition-tutor': {
+        docType: 'PRIVATE HOME TUTOR FEE VOUCHER',
+        subtitle: '(Home Tuition / Personal Academic Coaching Fee Slip)'
+      },
+      'format-tuition-school': {
+        docType: 'INSTITUTE / TERM FEE RECEIPT',
+        subtitle: '(Academic Term / Semester Fee Receipt • Student Copy)'
+      }
+    };
 
     try {
       if (window.lucide && typeof lucide.createIcons === 'function') {
@@ -2120,8 +2340,8 @@
             indicator.className = 'text-[10px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded';
           }
           if (docTypeBadge) {
-            docTypeBadge.innerText = 'TAX INVOICE';
-            docTypeBadge.className = 'font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase';
+            const fmt = formatDetails[currentInvoiceFormat];
+            docTypeBadge.innerText = fmt ? fmt.docType : 'TAX INVOICE';
           }
           if (sellerGstBox) sellerGstBox.classList.remove('hidden');
           if (thHsn) thHsn.classList.remove('hidden');
@@ -2132,8 +2352,12 @@
             indicator.className = 'text-[10px] font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded';
           }
           if (docTypeBadge) {
-            docTypeBadge.innerText = 'RETAIL CASH MEMO';
-            docTypeBadge.className = 'font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase';
+            if (currentTemplate === 'shop') {
+              docTypeBadge.innerText = 'RETAIL CASH MEMO';
+            } else {
+              const fmt = formatDetails[currentInvoiceFormat];
+              docTypeBadge.innerText = fmt ? fmt.docType : 'RETAIL CASH MEMO';
+            }
           }
           if (sellerGstBox) sellerGstBox.classList.add('hidden');
           if (thHsn) thHsn.classList.add('hidden');
@@ -2697,17 +2921,7 @@
       el.addEventListener('change', updateInvoice);
     });
 
-    const allFormatClasses = [
-      'format-shop-a4', 'format-shop-counter', 'format-shop-corporate',
-      'format-med-chemist', 'format-med-hospital', 'format-med-lab',
-      'format-rest-thermal', 'format-rest-dining', 'format-rest-taxinv',
-      'format-hotel-resort', 'format-hotel-homestay', 'format-hotel-express',
-      'format-rent-hra', 'format-rent-monthly', 'format-rent-commercial',
-      'format-tuition-coaching', 'format-tuition-tutor', 'format-tuition-school',
-      'format-modern', 'format-classic', 'format-executive', 'format-minimal'
-    ];
 
-    let currentInvoiceFormat = 'format-shop-a4';
 
     function setInvoiceFormat(formatName) {
       currentInvoiceFormat = formatName;
@@ -2715,6 +2929,21 @@
       if (!container) return;
       allFormatClasses.forEach(c => container.classList.remove(c));
       container.classList.add(formatName);
+
+      // Instantly update Document Title & Subtitle based on authentic format
+      const details = formatDetails[formatName];
+      if (details) {
+        const docTypeBadge = document.getElementById('prev-doc-type');
+        if (docTypeBadge) docTypeBadge.innerText = details.docType;
+        const subtitleEl = document.getElementById('prev-doc-subtitle');
+        if (subtitleEl) subtitleEl.innerText = details.subtitle;
+      }
+
+      // Re-render industry meta strip with format-specific contextual labels
+      if (typeof updateIndustryMetaStrip === 'function') {
+        updateIndustryMetaStrip();
+      }
+
       try { localStorage.setItem('upibill_invoice_format_' + (currentTemplate || 'shop'), formatName); } catch(e) {}
       const sel = document.getElementById('invoice-format-select');
       if (sel && sel.value !== formatName) sel.value = formatName;
@@ -3332,8 +3561,7 @@
       }
     });
 
-    // Active Template State
-    let currentTemplate = 'shop';
+
 
     function updateIndustryMetaStrip() {
       const strip = document.getElementById('prev-industry-meta-strip');
@@ -3347,10 +3575,27 @@
         const pat = (document.getElementById('tpl-patient-meta')?.value || '').trim();
         const rx = (document.getElementById('tpl-rx-ref')?.value || '').trim();
 
-        if (dl) items.push(`<div><span class="font-bold text-slate-900">DL No:</span> ${escapeHTML(dl)}</div>`);
-        if (doc) items.push(`<div><span class="font-bold text-slate-900">Doctor:</span> ${escapeHTML(doc)}</div>`);
-        if (pat) items.push(`<div><span class="font-bold text-slate-900">Patient:</span> ${escapeHTML(pat)}</div>`);
-        if (rx) items.push(`<div><span class="font-bold text-slate-900">Rx Ref:</span> ${escapeHTML(rx)}</div>`);
+        let l1 = 'DL No:';
+        let l2 = 'Doctor:';
+        let l3 = 'Patient:';
+        let l4 = 'Rx Ref:';
+
+        if (currentInvoiceFormat === 'format-med-hospital') {
+          l1 = 'UHID / Reg:';
+          l2 = 'Consultant:';
+          l3 = 'Patient / Bed:';
+          l4 = 'Dept / Ward:';
+        } else if (currentInvoiceFormat === 'format-med-lab') {
+          l1 = 'Sample ID:';
+          l2 = 'Ref. Doctor:';
+          l3 = 'Patient:';
+          l4 = 'Test Ref:';
+        }
+
+        if (dl) items.push(`<div><span class="font-bold text-slate-900">${l1}</span> ${escapeHTML(dl)}</div>`);
+        if (doc) items.push(`<div><span class="font-bold text-slate-900">${l2}</span> ${escapeHTML(doc)}</div>`);
+        if (pat) items.push(`<div><span class="font-bold text-slate-900">${l3}</span> ${escapeHTML(pat)}</div>`);
+        if (rx) items.push(`<div><span class="font-bold text-slate-900">${l4}</span> ${escapeHTML(rx)}</div>`);
 
         if (items.length > 0) {
           strip.innerHTML = `<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">${items.join('')}</div>`;
@@ -3365,12 +3610,22 @@
         const kot = (document.getElementById('tpl-kot-no')?.value || '').trim();
         const srv = (document.getElementById('tpl-server-name')?.value || '').trim();
 
-        if (tbl) items.push(`<div><span class="font-bold text-slate-900">Table:</span> ${escapeHTML(tbl)}</div>`);
-        if (kot) items.push(`<div><span class="font-bold text-slate-900">KOT / Order:</span> ${escapeHTML(kot)}</div>`);
-        if (srv) items.push(`<div><span class="font-bold text-slate-900">Server:</span> ${escapeHTML(srv)}</div>`);
+        let l1 = 'Table:';
+        let l2 = 'KOT / Order:';
+        let l3 = 'Server:';
+
+        if (currentInvoiceFormat === 'format-rest-thermal') {
+          l1 = 'TBL:';
+          l2 = 'KOT:';
+          l3 = 'CASHIER:';
+        }
+
+        if (tbl) items.push(`<div><span class="font-bold text-slate-900">${l1}</span> ${escapeHTML(tbl)}</div>`);
+        if (kot) items.push(`<div><span class="font-bold text-slate-900">${l2}</span> ${escapeHTML(kot)}</div>`);
+        if (srv) items.push(`<div><span class="font-bold text-slate-900">${l3}</span> ${escapeHTML(srv)}</div>`);
 
         if (items.length > 0) {
-          strip.innerHTML = `<div class="flex flex-wrap items-center gap-6 text-[11px]">${items.join('')}</div>`;
+          strip.innerHTML = `<div class="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-6 text-[11px]">${items.join('')}</div>`;
           strip.className = 'border-b border-slate-800 bg-slate-50/30 py-1.5 px-3 text-xs text-slate-800';
           strip.classList.remove('hidden');
         } else {
@@ -3383,7 +3638,10 @@
         const cin = (document.getElementById('tpl-checkin')?.value || '').trim();
         const cout = (document.getElementById('tpl-checkout')?.value || '').trim();
 
-        if (rm) items.push(`<div><span class="font-bold text-slate-900">Room:</span> ${escapeHTML(rm)}</div>`);
+        let l1 = 'Room:';
+        if (currentInvoiceFormat === 'format-hotel-homestay') l1 = 'Cottage/Room:';
+
+        if (rm) items.push(`<div><span class="font-bold text-slate-900">${l1}</span> ${escapeHTML(rm)}</div>`);
         if (gid) items.push(`<div><span class="font-bold text-slate-900">Guest ID:</span> ${escapeHTML(gid)}</div>`);
         if (cin) items.push(`<div><span class="font-bold text-slate-900">Check-in:</span> ${escapeHTML(cin)}</div>`);
         if (cout) items.push(`<div><span class="font-bold text-slate-900">Check-out:</span> ${escapeHTML(cout)}</div>`);
@@ -3401,9 +3659,19 @@
         const period = (document.getElementById('tpl-rent-period')?.value || '').trim();
         const addr = (document.getElementById('tpl-rent-address')?.value || '').trim();
 
-        if (pan) items.push(`<div><span class="font-bold text-slate-900">Landlord PAN:</span> ${escapeHTML(pan)}</div>`);
-        if (period) items.push(`<div><span class="font-bold text-slate-900">Rent Month:</span> ${escapeHTML(period)}</div>`);
-        if (addr) items.push(`<div class="w-full"><span class="font-bold text-slate-900">Rented Property:</span> ${escapeHTML(addr)}</div>`);
+        let l1 = 'Landlord PAN:';
+        let l2 = 'Rent Month:';
+        let l3 = 'Rented Property:';
+
+        if (currentInvoiceFormat === 'format-rent-commercial') {
+          l1 = 'Lessor PAN:';
+          l2 = 'Lease Period:';
+          l3 = 'Commercial Unit:';
+        }
+
+        if (pan) items.push(`<div><span class="font-bold text-slate-900">${l1}</span> ${escapeHTML(pan)}</div>`);
+        if (period) items.push(`<div><span class="font-bold text-slate-900">${l2}</span> ${escapeHTML(period)}</div>`);
+        if (addr) items.push(`<div class="w-full"><span class="font-bold text-slate-900">${l3}</span> ${escapeHTML(addr)}</div>`);
 
         if (items.length > 0) {
           strip.innerHTML = `
@@ -3423,9 +3691,23 @@
         const course = (document.getElementById('tpl-course')?.value || '').trim();
         const mon = (document.getElementById('tpl-tuition-month')?.value || '').trim();
 
-        if (roll) items.push(`<div><span class="font-bold text-slate-900">Roll No:</span> ${escapeHTML(roll)}</div>`);
-        if (course) items.push(`<div><span class="font-bold text-slate-900">Course:</span> ${escapeHTML(course)}</div>`);
-        if (mon) items.push(`<div><span class="font-bold text-slate-900">Fee Month:</span> ${escapeHTML(mon)}</div>`);
+        let l1 = 'Roll No:';
+        let l2 = 'Course:';
+        let l3 = 'Fee Month:';
+
+        if (currentInvoiceFormat === 'format-tuition-tutor') {
+          l1 = 'Student ID:';
+          l2 = 'Subject / Class:';
+          l3 = 'Tuition Month:';
+        } else if (currentInvoiceFormat === 'format-tuition-school') {
+          l1 = 'Admission / Reg:';
+          l2 = 'Grade / Stream:';
+          l3 = 'Term / Session:';
+        }
+
+        if (roll) items.push(`<div><span class="font-bold text-slate-900">${l1}</span> ${escapeHTML(roll)}</div>`);
+        if (course) items.push(`<div><span class="font-bold text-slate-900">${l2}</span> ${escapeHTML(course)}</div>`);
+        if (mon) items.push(`<div><span class="font-bold text-slate-900">${l3}</span> ${escapeHTML(mon)}</div>`);
 
         if (items.length > 0) {
           strip.innerHTML = `<div class="flex flex-wrap items-center gap-6 text-[11px]">${items.join('')}</div>`;
