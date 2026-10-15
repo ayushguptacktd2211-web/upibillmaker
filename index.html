@@ -214,6 +214,8 @@
       background-color: rgba(16, 185, 129, 0.12) !important;
       box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.65) !important;
     }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
     @media print {
       @page {
@@ -434,154 +436,108 @@
   <!-- Main Tool Workspace (Centered Form with Preview Below for High Ads & SaaS UX) -->
   <main id="tool-section" class="google-anno-skip max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
     
-    <!-- Industry Template Selector - Placed Directly Above Preview for Instant Visual Feedback -->
-    <div id="industry-template-bar" class="w-full bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm no-print space-y-3">
-      <div class="flex items-center justify-between">
-        <div>
-          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-            <i data-lucide="layout-template" class="w-4 h-4 text-brand-600"></i> Select Industry Template
-          </span>
-          <p class="text-[11px] text-slate-500 mt-0.5">Click any template to auto-fill sample bill & matching form fields</p>
-        </div>
-        <span class="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-brand-700 bg-brand-50 border border-brand-200 px-2.5 py-0.5 rounded-full">
-          <i data-lucide="zap" class="w-3 h-3 text-brand-600"></i> Instant 1-Click
-        </span>
-      </div>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 text-xs">
-        <button type="button" id="tab-tpl-shop" onclick="switchTemplate('shop')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-bold border flex items-center justify-center gap-1.5 transition-all text-white bg-brand-600 border-brand-700 shadow-xs cursor-pointer">
+    <!-- Sleek Horizontal Industry Template Pills (Compact, Zero Emojis) -->
+    <div id="industry-template-bar" class="w-full no-print">
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 text-xs font-semibold">
+        <button type="button" id="tab-tpl-shop" onclick="switchTemplate('shop')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all text-white bg-brand-600 border-brand-700 shadow-xs cursor-pointer flex items-center gap-1.5">
           <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
           <span>Retail & Shop</span>
         </button>
-        <button type="button" id="tab-tpl-medical" onclick="switchTemplate('medical')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-teal-500 hover:text-teal-700 hover:bg-teal-50/50 cursor-pointer">
+        <button type="button" id="tab-tpl-medical" onclick="switchTemplate('medical')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
           <i data-lucide="activity" class="w-3.5 h-3.5 text-teal-600"></i>
           <span>Medical / Rx</span>
         </button>
-        <button type="button" id="tab-tpl-restaurant" onclick="switchTemplate('restaurant')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-orange-500 hover:text-orange-700 hover:bg-orange-50/50 cursor-pointer">
+        <button type="button" id="tab-tpl-restaurant" onclick="switchTemplate('restaurant')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
           <i data-lucide="utensils" class="w-3.5 h-3.5 text-orange-600"></i>
           <span>Restaurant</span>
         </button>
-        <button type="button" id="tab-tpl-hotel" onclick="switchTemplate('hotel')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-indigo-500 hover:text-indigo-700 hover:bg-indigo-50/50 cursor-pointer">
+        <button type="button" id="tab-tpl-hotel" onclick="switchTemplate('hotel')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
           <i data-lucide="hotel" class="w-3.5 h-3.5 text-indigo-600"></i>
           <span>Hotel & Stay</span>
         </button>
-        <button type="button" id="tab-tpl-rent" onclick="switchTemplate('rent')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-emerald-500 hover:text-emerald-700 hover:bg-emerald-50/50 cursor-pointer">
+        <button type="button" id="tab-tpl-rent" onclick="switchTemplate('rent')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
           <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-600"></i>
           <span>Rent (HRA)</span>
         </button>
-        <button type="button" id="tab-tpl-tuition" onclick="switchTemplate('tuition')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-blue-500 hover:text-blue-700 hover:bg-blue-50/50 cursor-pointer">
+        <button type="button" id="tab-tpl-tuition" onclick="switchTemplate('tuition')" class="tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 cursor-pointer flex items-center gap-1.5">
           <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-600"></i>
           <span>Tuition Fee</span>
         </button>
       </div>
-
-      <!-- Quick Link to Dedicated Standalone Generators -->
-      <div class="pt-1 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500 border-t border-slate-100">
-        <span class="flex items-center gap-1 text-slate-600 font-medium">
-          <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i> Dedicated Format Tools:
-        </span>
-        <div class="flex flex-wrap items-center gap-2 font-medium">
-          <a href="medical-bill.html" class="text-teal-700 hover:underline">Pharmacy Rx Bill ↗</a>
-          <span class="text-slate-300">•</span>
-          <a href="restaurant-bill.html" class="text-orange-700 hover:underline">Restaurant Thermal Slip ↗</a>
-          <span class="text-slate-300">•</span>
-          <a href="hotel-receipt.html" class="text-indigo-700 hover:underline">Hotel Folio ↗</a>
-          <span class="text-slate-300">•</span>
-          <a href="rent-receipt.html" class="text-emerald-700 hover:underline">HRA Rent Slip ↗</a>
-          <span class="text-slate-300">•</span>
-          <a href="tuition-receipt.html" class="text-blue-700 hover:underline">Tuition Fee Receipt ↗</a>
-        </div>
-      </div>
     </div>
 
-    <!-- Live Interactive Preview Section (Centered, Stacked Below Form) -->
-    <div id="col-main-preview" class="google-anno-skip w-full space-y-4">
+    <!-- Live Interactive Preview Section -->
+    <div id="col-main-preview" class="google-anno-skip w-full space-y-3">
         
-        <!-- Preview Section Header -->
-        <div class="flex items-center justify-between px-1 no-print">
-          <div>
-            <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
-              <svg class="w-5 h-5 text-brand-600 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-              <span>Live Interactive Bill Preview</span>
-            </h3>
-            <p class="text-xs text-slate-500">Real-time live rendering • High-resolution A4 ready</p>
-          </div>
-          <a href="#col-main-form" class="text-xs font-semibold text-brand-600 hover:text-brand-800 flex items-center gap-1 transition-colors">
-            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
-          </a>
-        </div>
-        
-        <!-- Action Buttons Bar -->
-        <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
-          <div class="flex items-center justify-between w-full sm:w-auto gap-2">
-            <div class="flex items-center gap-2">
-              <label for="invoice-format-select" class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-brand-600 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-                <span class="hidden sm:inline">Bill Format:</span>
-              </label>
-              <select id="invoice-format-select" onchange="setInvoiceFormat(this.value)" class="text-xs font-bold bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer">
-                <option value="format-modern" selected>Modern SaaS</option>
-                <option value="format-classic">Classic Grid</option>
-                <option value="format-executive">Executive Navy</option>
-                <option value="format-minimal">Minimal Clean</option>
-              </select>
-            </div>
-
-            <!-- Mobile Fit to Screen Toggle -->
-            <button type="button" id="btn-toggle-fit" onclick="togglePreviewFit()" class="md:hidden inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-lg transition-colors cursor-pointer" title="Toggle between Fit-to-Screen and 100% Zoom">
-              <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-brand-600"></i>
-              <span id="fit-toggle-label">Fit Screen</span>
-            </button>
+      <!-- Compact Unified Preview Action Toolbar -->
+      <div class="bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 shadow-xs flex flex-wrap items-center justify-between gap-2 no-print">
+        <!-- Left Side: Format & Mobile Fit -->
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Theme:</span>
+            <select id="invoice-format-select" onchange="setInvoiceFormat(this.value)" class="text-xs font-semibold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer">
+              <option value="format-modern" selected>Modern SaaS</option>
+              <option value="format-classic">Classic Grid</option>
+              <option value="format-executive">Executive Navy</option>
+              <option value="format-minimal">Minimal Clean</option>
+            </select>
           </div>
 
-          <div class="flex items-center gap-2 w-full sm:w-auto">
-            <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm transition-all shadow-brand-600/20 cursor-pointer">
-              <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
-            </button>
-            <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg cursor-pointer">
-              <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
-            </button>
-            <button type="button" onclick="printInvoice()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg cursor-pointer">
-              <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
-            </button>
-            <button type="button" id="btn-share-whatsapp" class="hidden md:inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm cursor-pointer">
-              <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> WhatsApp
-            </button>
-          </div>
+          <button type="button" id="btn-toggle-fit" onclick="togglePreviewFit()" class="md:hidden inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-lg transition-colors cursor-pointer" title="Fit to screen">
+            <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-brand-600"></i>
+            <span id="fit-toggle-label">Fit Screen</span>
+          </button>
         </div>
+
+        <!-- Right Side: Export Action Buttons -->
+        <div class="flex items-center gap-1.5 ml-auto">
+          <button type="button" onclick="downloadAsPDF()" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-xs shadow-brand-600/20 transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+            <span>Download PDF</span>
+          </button>
+          <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Save PNG">
+            <i data-lucide="image" class="w-3.5 h-3.5 text-slate-500"></i>
+            <span class="hidden sm:inline">PNG</span>
+          </button>
+          <button type="button" onclick="printInvoice()" class="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Print Bill">
+            <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-500"></i>
+            <span class="hidden sm:inline">Print</span>
+          </button>
+        </div>
+      </div>
 
         <!-- Mobile Fit Viewport Wrapper -->
         <div id="invoice-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
           <!-- The Live Rendered Sheet (Authentic Real Indian Invoice Format) -->
-          <div id="invoice-preview-container" class="format-modern google-anno-skip bg-white rounded-none border border-slate-200 shadow-lg p-5 sm:p-8 transition-all relative">
+          <div id="invoice-preview-container" class="format-modern google-anno-skip bg-white rounded-none border border-slate-800 shadow-md p-3.5 sm:p-5 transition-all relative text-slate-900 font-sans">
           
           <!-- Top Tax Invoice Legal Title Bar -->
-          <div class="text-center pb-3 mb-3 border-b-2 border-slate-800">
-            <h2 id="prev-doc-type" class="font-heading font-black text-xl sm:text-2xl text-slate-900 tracking-wider uppercase">
+          <div class="text-center pb-2 mb-2 border-b border-slate-800">
+            <h2 id="prev-doc-type" class="font-heading font-black text-lg sm:text-xl text-slate-900 tracking-wider uppercase">
               TAX INVOICE
             </h2>
-            <p class="text-[10px] font-semibold text-slate-500 tracking-widest uppercase mt-0.5">
+            <p class="text-[9px] font-semibold text-slate-500 tracking-wider uppercase mt-0.5">
               (Issued under Section 31 of CGST Act, 2017 • Original for Recipient)
             </p>
           </div>
 
-          <!-- Invoice Header: Two Column Structured Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pb-3 border-b border-slate-300">
+          <!-- Invoice Header: Continuous Two Column Accounting Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800 pb-2">
             <!-- Left 7 Cols: Seller / Supplier Details -->
-            <div class="sm:col-span-7 flex items-start gap-3">
-              <div id="invoice-logo-wrapper" class="hidden flex-shrink-0 max-h-16 max-w-[130px] items-center justify-start overflow-hidden">
-                <img id="invoice-logo-img" src="" alt="Business Logo" class="max-h-14 max-w-full object-contain">
+            <div class="sm:col-span-7 sm:pr-3 flex items-start gap-2.5">
+              <div id="invoice-logo-wrapper" class="hidden flex-shrink-0 max-h-14 max-w-[120px] items-center justify-start overflow-hidden">
+                <img id="invoice-logo-img" src="" alt="Business Logo" class="max-h-12 max-w-full object-contain">
               </div>
-              <div class="space-y-0.5">
-                <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block">Supplier / Billed From:</span>
-                <h3 id="prev-seller-name" contenteditable="true" spellcheck="false" class="editable-field font-heading font-extrabold text-lg sm:text-xl text-slate-900 tracking-tight leading-snug" data-bind="seller-name" title="Click to edit business name">
+              <div class="space-y-0.5 min-w-0">
+                <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 block">Billed By / Supplier:</span>
+                <h3 id="prev-seller-name" contenteditable="true" spellcheck="false" class="editable-field font-heading font-extrabold text-base sm:text-lg text-slate-900 tracking-tight leading-snug" data-bind="seller-name" title="Click to edit business name">
                   Sharma Electronics & Services
                 </h3>
-                <p id="prev-seller-tagline" contenteditable="true" spellcheck="false" class="editable-field text-xs font-medium text-slate-600" data-bind="seller-tagline" title="Click to edit tagline">Laptop, Mobile & CCTV Sales & Repair</p>
-                <p id="prev-seller-address" contenteditable="true" spellcheck="false" class="editable-field text-xs text-slate-600 block mt-1" data-bind="seller-address" title="Click to edit address">Shop 12, Commercial Complex, Sector 18, Noida, UP - 201301</p>
-                <p id="prev-seller-phone" contenteditable="true" spellcheck="false" class="editable-field text-xs text-slate-700 font-medium block" data-bind="seller-phone" title="Click to edit phone">+91 98765 43210</p>
+                <p id="prev-seller-tagline" contenteditable="true" spellcheck="false" class="editable-field text-[11px] font-medium text-slate-600" data-bind="seller-tagline" title="Click to edit tagline">Laptop, Mobile & CCTV Sales & Repair</p>
+                <p id="prev-seller-address" contenteditable="true" spellcheck="false" class="editable-field text-[11px] text-slate-600 block mt-0.5" data-bind="seller-address" title="Click to edit address">Shop 12, Commercial Complex, Sector 18, Noida, UP - 201301</p>
+                <p id="prev-seller-phone" contenteditable="true" spellcheck="false" class="editable-field text-[11px] text-slate-700 font-medium block" data-bind="seller-phone" title="Click to edit phone">+91 98765 43210</p>
                 
-                <div id="prev-seller-gstin-box" class="pt-1 text-xs text-slate-800 font-mono">
+                <div id="prev-seller-gstin-box" class="pt-0.5 text-[11px] text-slate-800 font-mono">
                   <span class="font-bold">GSTIN: <span id="prev-seller-gstin" contenteditable="true" spellcheck="false" class="editable-field" data-bind="seller-gstin" title="Click to edit GSTIN">07AABCS1429B1Z8</span></span>
                   <span class="text-slate-400 mx-1.5">•</span>
                   <span>State: <span id="prev-seller-state" class="font-medium">07 - Delhi</span></span>
@@ -589,65 +545,70 @@
               </div>
             </div>
 
-            <!-- Right 5 Cols: Structured Invoice Details Table -->
-            <div class="sm:col-span-5 text-xs">
-              <div class="border border-slate-300 rounded-none bg-slate-50/60 p-2.5 space-y-1.5">
-                <div class="flex justify-between items-center border-b border-slate-200 pb-1">
-                  <span class="font-bold text-slate-600 uppercase text-[10px]">Invoice No:</span>
-                  <span id="prev-invoice-no" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900" data-bind="invoice-no" title="Click to edit Invoice #">INV-1001</span>
-                </div>
-                <div class="flex justify-between items-center border-b border-slate-200 pb-1">
-                  <span class="font-bold text-slate-600 uppercase text-[10px]">Invoice Date:</span>
-                  <span id="prev-invoice-date" class="font-mono text-slate-800 font-medium"></span>
-                </div>
-                <div class="flex justify-between items-center border-b border-slate-200 pb-1">
-                  <span class="font-bold text-slate-600 uppercase text-[10px]">Place of Supply:</span>
-                  <span id="prev-supply-state" class="font-medium text-slate-800">07 - Delhi</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="font-bold text-slate-600 uppercase text-[10px]">Payment Status:</span>
-                  <div role="button" tabindex="0" onclick="toggleBillStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none">
-                    <span id="prev-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-amber-700">
-                      DUE (PENDING)
-                    </span>
-                  </div>
-                </div>
-              </div>
+            <!-- Right 5 Cols: Structured Invoice Meta Table with Crisp Border Divider -->
+            <div class="sm:col-span-5 sm:border-l border-slate-800 sm:pl-3 pt-2 sm:pt-0 text-xs flex flex-col justify-between">
+              <table class="w-full text-xs border border-slate-300 border-collapse">
+                <tbody>
+                  <tr class="border-b border-slate-200">
+                    <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] w-2/5 border-r border-slate-200">Invoice No:</td>
+                    <td class="py-1 px-2 font-mono font-bold text-slate-900" id="prev-invoice-no" contenteditable="true" spellcheck="false" class="editable-field" data-bind="invoice-no" title="Click to edit Invoice #">INV-1001</td>
+                  </tr>
+                  <tr class="border-b border-slate-200">
+                    <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Invoice Date:</td>
+                    <td class="py-1 px-2 font-mono text-slate-800 font-medium" id="prev-invoice-date"></td>
+                  </tr>
+                  <tr class="border-b border-slate-200" id="prev-supply-row">
+                    <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Place of Supply:</td>
+                    <td class="py-1 px-2 text-slate-800 font-medium" id="prev-supply-state">07 - Delhi</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Payment Status:</td>
+                    <td class="py-1 px-2">
+                      <div role="button" tabindex="0" onclick="toggleBillStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none inline-block">
+                        <span id="prev-status-badge" class="font-mono font-bold text-[11px] uppercase tracking-wider text-amber-700">
+                          DUE (PENDING)
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <!-- Billed To (Buyer Info) -->
-          <div class="py-3 border-b border-slate-300 grid grid-cols-1 sm:grid-cols-12 gap-3 text-xs">
+          <!-- Billed To (Buyer Info): Continuous Accounting Bar -->
+          <div class="py-1.5 px-2 bg-slate-50/40 border-b border-slate-800 grid grid-cols-1 sm:grid-cols-12 gap-2 text-xs">
             <div class="sm:col-span-7">
-              <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Details of Receiver (Billed To):</span>
-              <h4 id="prev-client-name" contenteditable="true" spellcheck="false" class="editable-field font-bold text-sm text-slate-900" data-bind="client-name" title="Click to edit Customer Name">Rahul Verma</h4>
-              <p id="prev-client-phone" contenteditable="true" spellcheck="false" class="editable-field text-slate-600 font-mono text-[11px] block" data-bind="client-phone" title="Click to edit Customer Phone">+91 98111 22233</p>
-              <p id="prev-buyer-gstin-row" class="font-mono text-slate-800 font-bold mt-0.5 hidden">
+              <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 block">Billed To (Customer / Recipient):</span>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h4 id="prev-client-name" contenteditable="true" spellcheck="false" class="editable-field font-bold text-xs sm:text-sm text-slate-900" data-bind="client-name" title="Click to edit Customer Name">Rahul Verma</h4>
+                <span id="prev-client-phone" contenteditable="true" spellcheck="false" class="editable-field text-slate-600 font-mono text-[11px]" data-bind="client-phone" title="Click to edit Customer Phone">+91 98111 22233</span>
+              </div>
+              <p id="prev-buyer-gstin-row" class="font-mono text-slate-800 font-bold text-[11px] mt-0.5 hidden">
                 Buyer GSTIN: <span id="prev-buyer-gstin"></span>
               </p>
             </div>
-            <div class="sm:col-span-5 text-left sm:text-right text-slate-600 space-y-0.5">
-              <span class="text-[9px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">Dispatch / Tax Category:</span>
+            <div class="sm:col-span-5 text-left sm:text-right text-slate-600 text-[11px] flex flex-col justify-center">
               <p class="font-medium text-slate-800">Standard Commercial Tax Sale</p>
-              <p class="text-[11px] text-slate-500">Reverse Charge Applicable: <strong>No</strong></p>
+              <p class="text-[10px] text-slate-500">Reverse Charge Applicable: <strong>No</strong></p>
             </div>
           </div>
 
           <!-- Dynamic Industry Meta Strip (Auto-populated only when fields have values) -->
-          <div id="prev-industry-meta-strip" class="hidden my-2.5 py-2 px-3 bg-slate-50 border border-slate-300 text-xs text-slate-700"></div>
+          <div id="prev-industry-meta-strip" class="hidden border-b border-slate-800 bg-slate-50/30 py-1.5 px-3 text-xs text-slate-800"></div>
 
           <!-- Items Table (Crisp Accounting Ledger Grid with S.No) -->
-          <div class="py-3 overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse border border-slate-300">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
               <thead>
-                <tr class="bg-slate-100 border-b-2 border-slate-800 text-slate-800 font-bold uppercase text-[10px] tracking-wider">
-                  <th class="py-2 px-2 text-center w-10 border-r border-slate-300">#</th>
-                  <th class="py-2 px-3 border-r border-slate-300">Description of Goods / Services</th>
-                  <th id="th-hsn" class="py-2 px-2 text-center w-20 border-r border-slate-300">HSN/SAC</th>
-                  <th class="py-2 px-2 text-center w-14 border-r border-slate-300">Qty</th>
-                  <th class="py-2 px-3 text-right w-24 border-r border-slate-300">Rate (₹)</th>
-                  <th class="py-2 px-3 text-right w-28">Amount (₹)</th>
-                  <th class="py-2 px-2 text-center w-6 no-print"></th>
+                <tr class="bg-slate-100 border-b border-slate-800 text-slate-900 font-bold uppercase text-[9px] sm:text-[10px] tracking-wider">
+                  <th class="py-1.5 px-2 text-center w-8 border-r border-slate-300">#</th>
+                  <th class="py-1.5 px-2.5 border-r border-slate-300">Description of Goods / Services</th>
+                  <th id="th-hsn" class="py-1.5 px-2 text-center w-16 sm:w-20 border-r border-slate-300">HSN/SAC</th>
+                  <th class="py-1.5 px-2 text-center w-12 sm:w-14 border-r border-slate-300">Qty</th>
+                  <th class="py-1.5 px-2.5 text-right w-20 sm:w-24 border-r border-slate-300">Rate (₹)</th>
+                  <th class="py-1.5 px-2.5 text-right w-24 sm:w-28">Amount (₹)</th>
+                  <th class="py-1 px-1 text-center w-6 no-print"></th>
                 </tr>
               </thead>
               <tbody id="prev-items-body" class="divide-y divide-slate-200 text-slate-800">
@@ -655,9 +616,9 @@
               </tbody>
               <tfoot class="no-print">
                 <tr>
-                  <td colspan="7" class="pt-2">
-                    <button type="button" onclick="addNewItemRowDirectly()" class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200 px-3 py-1.5 rounded transition-colors cursor-pointer">
-                      <svg class="w-3.5 h-3.5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <td colspan="7" class="py-1.5 px-2">
+                    <button type="button" onclick="addNewItemRowDirectly()" class="inline-flex items-center gap-1 text-[11px] font-bold text-brand-600 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 border border-brand-200 px-2.5 py-1 rounded transition-colors cursor-pointer">
+                      <svg class="w-3 h-3 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                       <span>+ Add Line Item</span>
                     </button>
                   </td>
@@ -667,37 +628,37 @@
           </div>
 
           <!-- Statutory Amount in Words Bar -->
-          <div class="border-b border-slate-300 pb-2 mb-3 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
+          <div class="border-t border-b border-slate-800 py-1.5 px-2.5 bg-slate-50/50 flex flex-col sm:flex-row justify-between items-start text-xs text-slate-700">
             <div>
-              <span class="font-bold text-slate-800">Amount in Words:</span>
-              <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1">INR Zero Rupees Only</span>
+              <span class="font-bold text-slate-800 text-[11px]">Amount in Words:</span>
+              <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1 text-[11px]">INR Zero Rupees Only</span>
             </div>
-            <div class="text-[10px] text-slate-500 uppercase tracking-widest">E. & O.E.</div>
+            <div class="text-[9px] text-slate-500 uppercase tracking-widest font-semibold">E. & O.E.</div>
           </div>
 
-          <!-- Bottom Section: Bank/UPI Details (Left) + Tax Calculation & Totals (Right) -->
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-1">
+          <!-- Bottom Section: Continuous 2-Column Ledger Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-slate-800">
             
-            <!-- Left 7 Cols: Bank & UPI Payment Details + Standalone Terms -->
-            <div class="sm:col-span-7 flex flex-col justify-between space-y-2.5">
-              <div id="upi-payment-block" class="border border-slate-300 bg-slate-50/40 p-3 text-xs space-y-2">
-                <div class="font-bold text-[10px] uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 flex items-center justify-between">
+            <!-- Left 7 Cols: Bank & UPI Payment Details + Terms -->
+            <div class="sm:col-span-7 sm:border-r border-slate-800 p-2.5 flex flex-col justify-between space-y-2">
+              <div id="upi-payment-block" class="border border-slate-300 bg-white p-2 text-xs space-y-1.5">
+                <div class="font-bold text-[9px] uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 flex items-center justify-between">
                   <span>Bank & UPI Payment Details</span>
                   <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
                 </div>
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2.5">
                   <div class="bg-white border border-slate-300 p-1 flex-shrink-0">
-                    <div id="qrcode-container" class="w-24 h-24 flex items-center justify-center"></div>
+                    <div id="qrcode-container" class="w-20 h-20 flex items-center justify-center"></div>
                   </div>
-                  <div class="space-y-1 text-[11px] text-slate-700">
-                    <div class="flex items-center gap-1.5 flex-wrap">
+                  <div class="space-y-0.5 text-[11px] text-slate-700">
+                    <div class="flex items-center gap-1 flex-wrap">
                       <span class="font-bold text-slate-800">Payee UPI ID:</span>
                       <span id="prev-vpa" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="seller-upi" title="Click to edit UPI ID">sharma@okhdfcbank</span>
                     </div>
                     <p class="text-[10px] text-slate-500">Scan using any UPI App (GPay, PhonePe, Paytm, BHIM).</p>
                     <p class="text-[10px] text-slate-500">Amount is pre-filled on camera scan.</p>
                     <div class="no-print pt-0.5">
-                      <a id="btn-upi-deeplink" href="#" class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 hover:text-emerald-800 underline">
+                      <a id="btn-upi-deeplink" href="#" class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 hover:text-emerald-800 underline">
                         Tap to pay on mobile <i data-lucide="external-link" class="w-3 h-3"></i>
                       </a>
                     </div>
@@ -706,51 +667,51 @@
               </div>
 
               <!-- Terms & Conditions as its own authentic accounting block -->
-              <div id="terms-conditions-block" class="pt-1 text-xs text-slate-600">
-                <span class="font-bold text-[10px] text-slate-700 uppercase tracking-wider block mb-0.5">Terms & Conditions:</span>
-                <p id="prev-notes" contenteditable="true" spellcheck="false" class="editable-field text-[11px] text-slate-600 italic block leading-relaxed" data-bind="invoice-notes" title="Click to edit terms & notes">Thank you for your business!</p>
+              <div id="terms-conditions-block" class="text-xs text-slate-600">
+                <span class="font-bold text-[9px] text-slate-700 uppercase tracking-wider block mb-0.5">Terms & Conditions:</span>
+                <p id="prev-notes" contenteditable="true" spellcheck="false" class="editable-field text-[10px] text-slate-600 italic block leading-relaxed" data-bind="invoice-notes" title="Click to edit terms & notes">Thank you for your business!</p>
               </div>
             </div>
 
             <!-- Right 5 Cols: Calculations Ledger & Authorized Signatory -->
-            <div class="sm:col-span-5 flex flex-col justify-between space-y-4">
+            <div class="sm:col-span-5 p-2.5 flex flex-col justify-between space-y-3">
               <!-- Calculations Ledger -->
-              <div class="space-y-1.5 text-xs border border-slate-300 p-3 bg-white">
-                <div class="flex justify-between text-slate-600">
+              <div class="space-y-1 text-xs">
+                <div class="flex justify-between text-slate-600 text-[11px]">
                   <span>Taxable Value:</span>
                   <span id="prev-subtotal" class="font-medium text-slate-900 font-mono">₹0.00</span>
                 </div>
-                <div id="prev-discount-row" class="flex justify-between text-emerald-700 hidden">
+                <div id="prev-discount-row" class="flex justify-between text-emerald-700 text-[11px] hidden">
                   <span>Discount:</span>
                   <span id="prev-discount" class="font-medium font-mono">-₹0.00</span>
                 </div>
-                <div id="prev-cgst-row" class="flex justify-between text-slate-600 hidden">
+                <div id="prev-cgst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
                   <span id="prev-cgst-label">CGST (9%):</span>
                   <span id="prev-cgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
                 </div>
-                <div id="prev-sgst-row" class="flex justify-between text-slate-600 hidden">
+                <div id="prev-sgst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
                   <span id="prev-sgst-label">SGST (9%):</span>
                   <span id="prev-sgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
                 </div>
-                <div id="prev-igst-row" class="flex justify-between text-slate-600 hidden">
+                <div id="prev-igst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
                   <span id="prev-igst-label">IGST (18%):</span>
                   <span id="prev-igst" class="font-medium text-slate-900 font-mono">₹0.00</span>
                 </div>
-                <div class="border-t-2 border-slate-900 pt-2 flex justify-between items-center text-slate-900">
-                  <span class="font-bold text-sm uppercase">Total Due:</span>
-                  <span id="prev-grand-total" class="font-heading font-black text-xl text-slate-900 font-mono">₹0.00</span>
+                <div class="border-t-2 border-slate-900 pt-1.5 flex justify-between items-center text-slate-900">
+                  <span class="font-bold text-xs uppercase">Total Due:</span>
+                  <span id="prev-grand-total" class="font-heading font-black text-lg text-slate-900 font-mono">₹0.00</span>
                 </div>
               </div>
 
               <!-- Authorized Signatory -->
-              <div class="text-right pt-2">
-                <p class="text-[10px] font-bold text-slate-600">For <span id="prev-seller-sign-name" class="text-slate-900">Your Business Name</span></p>
-                <div class="h-10 flex items-center justify-end my-1">
-                  <div class="font-signature text-2xl text-slate-900 leading-none editable-field" id="prev-signature-cursive" contenteditable="true" spellcheck="false" data-bind="signatory-name" title="Click to edit signatory">
+              <div class="text-right pt-2 border-t border-slate-200">
+                <p class="text-[9px] font-bold text-slate-600">For <span id="prev-seller-sign-name" class="text-slate-900">Sharma Electronics & Services</span></p>
+                <div class="h-8 flex items-center justify-end my-0.5">
+                  <div class="font-signature text-xl text-slate-900 leading-none editable-field" id="prev-signature-cursive" contenteditable="true" spellcheck="false" data-bind="signatory-name" title="Click to edit signatory">
                     Authorized Signatory
                   </div>
                 </div>
-                <p class="text-[9px] uppercase tracking-wider font-bold text-slate-500 border-t border-slate-400 pt-0.5 inline-block min-w-[130px] text-center">
+                <p class="text-[8px] uppercase tracking-wider font-bold text-slate-500 border-t border-slate-400 pt-0.5 inline-block min-w-[120px] text-center">
                   Authorized Signatory
                 </p>
               </div>
@@ -759,12 +720,12 @@
           </div>
 
           <!-- Bottom Statutory Notice -->
-          <div class="mt-4 pt-2 text-center border-t border-slate-200 text-[10px] text-slate-500">
+          <div class="pt-1.5 text-center text-[9px] text-slate-500">
             <span>This is a Computer Generated Tax Invoice • Compliant with Section 31 of CGST Act, 2017</span>
           </div>
 
           <!-- Subtle Watermark Branding (Can be toggled off) -->
-          <div id="prev-branding" class="mt-0.5 text-center text-[10px] text-slate-400 font-medium select-none">
+          <div id="prev-branding" class="mt-0.5 text-center text-[9px] text-slate-400 font-medium select-none">
             Generated by UPIBillMaker.com
           </div>
 
@@ -1274,7 +1235,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-semibold text-slate-700 mb-1">Authorized Signatory Name</label>
-              <input type="text" id="signatory-name" placeholder="e.g. Authorized Signatory" value="Sharma Electronics"
+              <input type="text" id="signatory-name" placeholder="e.g. Authorized Signatory" value="Authorized Signatory"
                      class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
             </div>
             <div>
@@ -2347,19 +2308,22 @@
         }
 
         const canvas = await html2canvas(invoiceElem, {
-          scale: 2,
+          scale: 3, // 300+ DPI razor-sharp print quality
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           logging: false,
           scrollX: 0,
           scrollY: 0,
+          windowWidth: 1024,
           onclone: (clonedDoc) => {
             const clonedContainer = clonedDoc.getElementById('invoice-preview-container');
             if (clonedContainer) {
-              clonedContainer.style.setProperty('border', 'none', 'important');
               clonedContainer.style.setProperty('box-shadow', 'none', 'important');
               clonedContainer.style.setProperty('outline', 'none', 'important');
+              clonedContainer.style.width = '794px';
+              clonedContainer.style.maxWidth = '794px';
+              clonedContainer.style.margin = '0 auto';
             }
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
@@ -2382,39 +2346,40 @@
                 qrSrc = origImg.src;
               }
               if (qrSrc) {
-                cloneQr.innerHTML = `<img src="${qrSrc}" style="width: 100px; height: 100px; display: block; margin: 0 auto; object-fit: contain;" />`;
+                cloneQr.innerHTML = `<img src="${qrSrc}" style="width: 80px; height: 80px; display: block; margin: 0 auto; object-fit: contain;" />`;
               }
             }
           }
         });
 
-        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        const imgData = canvas.toDataURL('image/png');
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
         
-        const margin = 10;
-        const contentWidth = pdfWidth - (margin * 2);
-        const contentHeight = (canvas.height * contentWidth) / canvas.width;
+        const margin = 8;
+        const maxPrintWidth = pdfWidth - (margin * 2);
+        const maxSinglePageHeight = pdfHeight - (margin * 2);
+        const contentHeight = (canvas.height * maxPrintWidth) / canvas.width;
         
-        if (contentHeight <= pdfHeight - (margin * 2)) {
-          pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth, contentHeight);
+        // Single page auto-fit: If within 125% of single page (standard bills with 1-10 items), fit cleanly on 1 page!
+        if (contentHeight <= maxSinglePageHeight * 1.25) {
+          const scale = Math.min(1, maxSinglePageHeight / contentHeight);
+          const finalW = maxPrintWidth * scale;
+          const finalH = contentHeight * scale;
+          const xOffset = margin + (maxPrintWidth - finalW) / 2;
+          pdf.addImage(imgData, 'PNG', xOffset, margin, finalW, finalH, undefined, 'FAST');
         } else {
-          const scaleFactor = (pdfHeight - (margin * 2)) / contentHeight;
-          if (scaleFactor > 0.8) {
-            pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth * scaleFactor, contentHeight * scaleFactor);
-          } else {
-            let heightLeft = contentHeight;
-            let position = margin;
-            pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
-            heightLeft -= (pdfHeight - margin);
-            while (heightLeft > 0) {
-              position = heightLeft - contentHeight + margin;
-              pdf.addPage();
-              pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
-              heightLeft -= pdfHeight;
-            }
+          let heightLeft = contentHeight;
+          let position = margin;
+          pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
+          heightLeft -= maxSinglePageHeight;
+          while (heightLeft > 0) {
+            position = position - maxSinglePageHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
+            heightLeft -= maxSinglePageHeight;
           }
         }
 
@@ -2468,32 +2433,32 @@
         }
 
         const canvas = await html2canvas(invoiceElem, {
-          scale: 2,
+          scale: 3, // 300+ DPI razor-sharp print quality
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           logging: false,
           scrollX: 0,
           scrollY: 0,
+          windowWidth: 1024,
           onclone: (clonedDoc) => {
             const clonedContainer = clonedDoc.getElementById('invoice-preview-container');
             if (clonedContainer) {
-              clonedContainer.style.setProperty('border', 'none', 'important');
               clonedContainer.style.setProperty('box-shadow', 'none', 'important');
               clonedContainer.style.setProperty('outline', 'none', 'important');
+              clonedContainer.style.width = '794px';
+              clonedContainer.style.maxWidth = '794px';
+              clonedContainer.style.margin = '0 auto';
             }
-            // Strip any contenteditable borders, focus outlines, or highlights
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
               el.style.boxShadow = 'none';
               el.style.background = 'transparent';
               el.style.outline = 'none';
             });
-            // Hide delete buttons and interactive controls in clone
             clonedDoc.querySelectorAll('.no-print').forEach(el => {
               el.style.display = 'none';
             });
-            // Reliably preserve QR code as image
             const origQr = document.getElementById('qrcode-container');
             const cloneQr = clonedDoc.getElementById('qrcode-container');
             if (origQr && cloneQr) {
@@ -2506,7 +2471,7 @@
                 qrSrc = origImg.src;
               }
               if (qrSrc) {
-                cloneQr.innerHTML = `<img src="${qrSrc}" style="width: 112px; height: 112px; display: block; margin: 0 auto; object-fit: contain;" />`;
+                cloneQr.innerHTML = `<img src="${qrSrc}" style="width: 80px; height: 80px; display: block; margin: 0 auto; object-fit: contain;" />`;
               }
             }
           }
@@ -2694,14 +2659,14 @@
         const pat = (document.getElementById('tpl-patient-meta')?.value || '').trim();
         const rx = (document.getElementById('tpl-rx-ref')?.value || '').trim();
 
-        if (dl) items.push(`<div><span class="font-bold text-teal-900">DL No:</span> ${dl}</div>`);
-        if (doc) items.push(`<div><span class="font-bold text-teal-900">Doctor:</span> ${doc}</div>`);
-        if (pat) items.push(`<div><span class="font-bold text-teal-900">Patient:</span> ${pat}</div>`);
-        if (rx) items.push(`<div><span class="font-bold text-teal-900">Rx Ref:</span> ${rx}</div>`);
+        if (dl) items.push(`<div><span class="font-bold text-slate-900">DL No:</span> ${escapeHTML(dl)}</div>`);
+        if (doc) items.push(`<div><span class="font-bold text-slate-900">Doctor:</span> ${escapeHTML(doc)}</div>`);
+        if (pat) items.push(`<div><span class="font-bold text-slate-900">Patient:</span> ${escapeHTML(pat)}</div>`);
+        if (rx) items.push(`<div><span class="font-bold text-slate-900">Rx Ref:</span> ${escapeHTML(rx)}</div>`);
 
         if (items.length > 0) {
-          strip.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px]">${items.join('')}</div>`;
-          strip.className = 'my-3 py-2 px-3 bg-teal-50/70 rounded-lg border border-teal-200 text-xs text-slate-700';
+          strip.innerHTML = `<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">${items.join('')}</div>`;
+          strip.className = 'border-b border-slate-800 bg-slate-50/30 py-1.5 px-3 text-xs text-slate-800';
           strip.classList.remove('hidden');
         } else {
           strip.classList.add('hidden');
@@ -2712,13 +2677,13 @@
         const kot = (document.getElementById('tpl-kot-no')?.value || '').trim();
         const srv = (document.getElementById('tpl-server-name')?.value || '').trim();
 
-        if (tbl) items.push(`<div><span class="font-bold text-orange-900">Table:</span> ${tbl}</div>`);
-        if (kot) items.push(`<div><span class="font-bold text-orange-900">KOT / Order:</span> ${kot}</div>`);
-        if (srv) items.push(`<div><span class="font-bold text-orange-900">Server:</span> ${srv}</div>`);
+        if (tbl) items.push(`<div><span class="font-bold text-slate-900">Table:</span> ${escapeHTML(tbl)}</div>`);
+        if (kot) items.push(`<div><span class="font-bold text-slate-900">KOT / Order:</span> ${escapeHTML(kot)}</div>`);
+        if (srv) items.push(`<div><span class="font-bold text-slate-900">Server:</span> ${escapeHTML(srv)}</div>`);
 
         if (items.length > 0) {
-          strip.innerHTML = `<div class="flex flex-wrap items-center gap-4 text-[11px]">${items.join('')}</div>`;
-          strip.className = 'my-3 py-2 px-3 bg-orange-50/70 rounded-lg border border-orange-200 text-xs text-slate-700';
+          strip.innerHTML = `<div class="flex flex-wrap items-center gap-6 text-[11px]">${items.join('')}</div>`;
+          strip.className = 'border-b border-slate-800 bg-slate-50/30 py-1.5 px-3 text-xs text-slate-800';
           strip.classList.remove('hidden');
         } else {
           strip.classList.add('hidden');
@@ -2730,14 +2695,14 @@
         const cin = (document.getElementById('tpl-checkin')?.value || '').trim();
         const cout = (document.getElementById('tpl-checkout')?.value || '').trim();
 
-        if (rm) items.push(`<div><span class="font-bold text-indigo-900">Room / Category:</span> ${rm}</div>`);
-        if (gid) items.push(`<div><span class="font-bold text-indigo-900">Guest ID:</span> ${gid}</div>`);
-        if (cin) items.push(`<div><span class="font-bold text-indigo-900">Check-in:</span> ${cin}</div>`);
-        if (cout) items.push(`<div><span class="font-bold text-indigo-900">Check-out:</span> ${cout}</div>`);
+        if (rm) items.push(`<div><span class="font-bold text-slate-900">Room:</span> ${escapeHTML(rm)}</div>`);
+        if (gid) items.push(`<div><span class="font-bold text-slate-900">Guest ID:</span> ${escapeHTML(gid)}</div>`);
+        if (cin) items.push(`<div><span class="font-bold text-slate-900">Check-in:</span> ${escapeHTML(cin)}</div>`);
+        if (cout) items.push(`<div><span class="font-bold text-slate-900">Check-out:</span> ${escapeHTML(cout)}</div>`);
 
         if (items.length > 0) {
-          strip.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-[11px]">${items.join('')}</div>`;
-          strip.className = 'my-3 py-2 px-3 bg-indigo-50/70 rounded-lg border border-indigo-200 text-xs text-slate-700';
+          strip.innerHTML = `<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">${items.join('')}</div>`;
+          strip.className = 'border-b border-slate-800 bg-slate-50/30 py-1.5 px-3 text-xs text-slate-800';
           strip.classList.remove('hidden');
         } else {
           strip.classList.add('hidden');
@@ -2748,18 +2713,18 @@
         const period = (document.getElementById('tpl-rent-period')?.value || '').trim();
         const addr = (document.getElementById('tpl-rent-address')?.value || '').trim();
 
-        if (pan) items.push(`<div><span class="font-bold text-emerald-900">Landlord PAN:</span> ${pan}</div>`);
-        if (period) items.push(`<div><span class="font-bold text-emerald-900">Rent Month:</span> ${period}</div>`);
-        if (addr) items.push(`<div class="w-full"><span class="font-bold text-emerald-900">Rented Property:</span> ${addr}</div>`);
+        if (pan) items.push(`<div><span class="font-bold text-slate-900">Landlord PAN:</span> ${escapeHTML(pan)}</div>`);
+        if (period) items.push(`<div><span class="font-bold text-slate-900">Rent Month:</span> ${escapeHTML(period)}</div>`);
+        if (addr) items.push(`<div class="w-full"><span class="font-bold text-slate-900">Rented Property:</span> ${escapeHTML(addr)}</div>`);
 
         if (items.length > 0) {
           strip.innerHTML = `
-            <div class="space-y-1 text-[11px]">
-              <div class="flex flex-wrap justify-between gap-2">${items.join('')}</div>
-              <p class="text-[10px] text-slate-500 italic pt-1">Receipt eligible for HRA Tax Exemption under Sec 10(13A) of Income Tax Act.</p>
+            <div class="space-y-0.5 text-[11px]">
+              <div class="flex flex-wrap justify-between gap-3">${items.slice(0, 2).join('')}</div>
+              ${items[2] || ''}
             </div>
           `;
-          strip.className = 'my-3 py-2 px-3 bg-emerald-50/70 rounded-lg border border-emerald-200 text-xs text-slate-700';
+          strip.className = 'border-b border-slate-800 bg-slate-50/30 py-1.5 px-3 text-xs text-slate-800';
           strip.classList.remove('hidden');
         } else {
           strip.classList.add('hidden');
@@ -2770,13 +2735,13 @@
         const course = (document.getElementById('tpl-course')?.value || '').trim();
         const mon = (document.getElementById('tpl-tuition-month')?.value || '').trim();
 
-        if (roll) items.push(`<div><span class="font-bold text-blue-900">Student Roll No:</span> ${roll}</div>`);
-        if (course) items.push(`<div><span class="font-bold text-blue-900">Class / Subject:</span> ${course}</div>`);
-        if (mon) items.push(`<div><span class="font-bold text-blue-900">Fee Month:</span> ${mon}</div>`);
+        if (roll) items.push(`<div><span class="font-bold text-slate-900">Roll No:</span> ${escapeHTML(roll)}</div>`);
+        if (course) items.push(`<div><span class="font-bold text-slate-900">Course:</span> ${escapeHTML(course)}</div>`);
+        if (mon) items.push(`<div><span class="font-bold text-slate-900">Fee Month:</span> ${escapeHTML(mon)}</div>`);
 
         if (items.length > 0) {
-          strip.innerHTML = `<div class="flex flex-wrap items-center gap-4 text-[11px]">${items.join('')}</div>`;
-          strip.className = 'my-3 py-2 px-3 bg-blue-50/70 rounded-lg border border-blue-200 text-xs text-slate-700';
+          strip.innerHTML = `<div class="flex flex-wrap items-center gap-6 text-[11px]">${items.join('')}</div>`;
+          strip.className = 'border-b border-slate-800 bg-slate-50/30 py-1.5 px-3 text-xs text-slate-800';
           strip.classList.remove('hidden');
         } else {
           strip.classList.add('hidden');
@@ -2816,6 +2781,7 @@
         clientEmail: 'rahul.verma@example.com',
         clientAddress: 'B-44, Sector 62, Noida, UP - 201309',
         clientGstin: '',
+        signatory: 'Authorized Signatory',
         invoiceNotes: 'Thank you for your business! 30 Days warranty on hardware parts.',
         termsConditions: '1. Goods once sold will not be taken back without original bill.\n2. Warranty covers manufacturer defects only.',
         payeeUpi: 'sharma@okhdfcbank',
@@ -2841,6 +2807,7 @@
         clientEmail: '',
         clientAddress: 'House No 120, Model Town, Delhi - 110009',
         clientGstin: '',
+        signatory: 'Regd. Pharmacist',
         invoiceNotes: 'Schedule H & H1 drugs dispensed strictly against registered medical prescription.',
         termsConditions: '1. Medicines once sold cannot be returned without original batch receipt.\n2. Cold storage items (2-8°C) are non-returnable.',
         payeeUpi: 'sanjeevanimedicos@okaxis',
@@ -2872,6 +2839,7 @@
         clientEmail: '',
         clientAddress: 'Dining Hall - Table T-04',
         clientGstin: '',
+        signatory: 'Manager / Cashier',
         invoiceNotes: 'Thank you for dining with us! Service charge is purely voluntary. Visit again!',
         termsConditions: '1. GST @ 5% applicable without input tax credit.\n2. FSSAI Central License compliant food preparation.',
         payeeUpi: 'royalspice@icici',
@@ -2903,6 +2871,7 @@
         clientEmail: 'vikram.rathore@outlook.com',
         clientAddress: 'C-18, Malviya Nagar, Jaipur, Rajasthan - 302017',
         clientGstin: '',
+        signatory: 'Front Office Manager',
         invoiceNotes: 'Check-in: 12:00 PM | Check-out: 11:00 AM. Thank you for staying with us!',
         termsConditions: '1. All guests must provide valid government photo ID at check-in.\n2. Room tariff includes complimentary Wi-Fi and swimming pool access.',
         payeeUpi: 'grandheritage@hdfcbank',
@@ -2934,6 +2903,7 @@
         clientEmail: 'rahul.verma@example.com',
         clientAddress: 'Tenant residing at Flat 402, Green Valley Apartments, Sector 45, Gurgaon, HR - 122003',
         clientGstin: '',
+        signatory: 'Rajesh Kumar (Landlord)',
         invoiceNotes: 'Received with thanks from tenant towards monthly residential rent. Valid for Income Tax HRA Exemption under Sec 10(13A).',
         termsConditions: '1. Rent received for residential occupancy per Registered Tenancy Agreement.\n2. Landlord PAN is declared valid for Income Tax HRA rebate.',
         payeeUpi: 'rajeshkumar.landlord@okhdfcbank',
@@ -2963,6 +2933,7 @@
         clientEmail: 'parent.sharma@gmail.com',
         clientAddress: 'D-88, South Extension Part 1, New Delhi - 110049',
         clientGstin: '',
+        signatory: 'Director / Academic Head',
         invoiceNotes: 'Monthly tuition fee received with thanks. Classes conducted 5 days a week. Fee once paid is non-refundable.',
         termsConditions: '1. Receipt must be produced for obtaining monthly classroom access card.\n2. Study material issued on fee clearance.',
         payeeUpi: 'apexacademy@okhdfcbank',
@@ -3003,9 +2974,9 @@
         const btn = document.getElementById(`tab-tpl-${t}`);
         if (!btn) return;
         if (t === type) {
-          btn.className = `tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl border flex items-center justify-center gap-1.5 transition-all cursor-pointer ${themeColors[t] || themeColors.shop}`;
+          btn.className = `tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all cursor-pointer flex items-center gap-1.5 ${themeColors[t] || themeColors.shop}`;
         } else {
-          btn.className = 'tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-400 cursor-pointer';
+          btn.className = 'tpl-btn flex-shrink-0 px-3.5 py-1.5 rounded-full border transition-all cursor-pointer flex items-center gap-1.5 bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 font-semibold';
         }
       });
 
@@ -3041,8 +3012,12 @@
       setVal('client-email', preset.clientEmail);
       setVal('client-address', preset.clientAddress);
       setVal('buyer-gstin', preset.clientGstin);
+      setVal('signatory-name', preset.signatory || 'Authorized Signatory');
       setVal('invoice-notes', preset.invoiceNotes);
       setVal('terms-conditions', preset.termsConditions);
+
+      const sigCursive = document.getElementById('prev-signature-cursive');
+      if (sigCursive) sigCursive.innerText = preset.signatory || 'Authorized Signatory';
 
       if (isGstBox) {
         isGstBox.checked = preset.enableGst;
@@ -3387,7 +3362,7 @@
       if (!previewEl) return;
 
       const rect = previewEl.getBoundingClientRect();
-      const isPreviewVisible = rect.bottom > 250 && rect.top < 150;
+      const isPreviewVisible = rect.top < (window.innerHeight * 0.6) && rect.bottom > 200;
 
       if (isPreviewVisible) {
         floatBtn.setAttribute('href', '#col-main-form');

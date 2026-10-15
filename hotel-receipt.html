@@ -1006,15 +1006,15 @@
         }
 
         const canvas = await html2canvas(card, {
-          scale: 2,
+          scale: 3,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           logging: false,
+          windowWidth: 1024,
           onclone: (clonedDoc) => {
             const clonedCard = clonedDoc.getElementById('hotel-bill-preview');
             if (clonedCard) {
-              clonedCard.style.setProperty('border', 'none', 'important');
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
@@ -1048,33 +1048,33 @@
           }
         });
 
-        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        const imgData = canvas.toDataURL('image/png');
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('p', 'mm', 'a4');
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
         
-        const margin = 10;
-        const contentWidth = pdfWidth - (margin * 2);
-        const contentHeight = (canvas.height * contentWidth) / canvas.width;
+        const margin = 8;
+        const maxPrintWidth = pdfWidth - (margin * 2);
+        const maxSinglePageHeight = pdfHeight - (margin * 2);
+        const contentHeight = (canvas.height * maxPrintWidth) / canvas.width;
         
-        if (contentHeight <= pdfHeight - (margin * 2)) {
-          pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth, contentHeight);
+        if (contentHeight <= maxSinglePageHeight * 1.25) {
+          const scale = Math.min(1, maxSinglePageHeight / contentHeight);
+          const finalW = maxPrintWidth * scale;
+          const finalH = contentHeight * scale;
+          const xOffset = margin + (maxPrintWidth - finalW) / 2;
+          pdf.addImage(imgData, 'PNG', xOffset, margin, finalW, finalH, undefined, 'FAST');
         } else {
-          const scaleFactor = (pdfHeight - (margin * 2)) / contentHeight;
-          if (scaleFactor > 0.8) {
-            pdf.addImage(imgData, 'JPEG', margin, margin, contentWidth * scaleFactor, contentHeight * scaleFactor);
-          } else {
-            let heightLeft = contentHeight;
-            let position = margin;
-            pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
-            heightLeft -= (pdfHeight - margin);
-            while (heightLeft > 0) {
-              position = heightLeft - contentHeight + margin;
-              pdf.addPage();
-              pdf.addImage(imgData, 'JPEG', margin, position, contentWidth, contentHeight);
-              heightLeft -= pdfHeight;
-            }
+          let heightLeft = contentHeight;
+          let position = margin;
+          pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
+          heightLeft -= maxSinglePageHeight;
+          while (heightLeft > 0) {
+            position = position - maxSinglePageHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
+            heightLeft -= maxSinglePageHeight;
           }
         }
 
@@ -1124,11 +1124,12 @@
         }
 
         const canvas = await html2canvas(card, {
-          scale: 2,
+          scale: 3,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           logging: false,
+          windowWidth: 1024,
           onclone: (clonedDoc) => {
             const clonedCard = clonedDoc.getElementById('hotel-bill-preview');
             if (clonedCard) {
@@ -1275,7 +1276,7 @@
       if (!previewEl) return;
 
       const rect = previewEl.getBoundingClientRect();
-      const isPreviewVisible = rect.bottom > 250 && rect.top < 150;
+      const isPreviewVisible = rect.top < (window.innerHeight * 0.6) && rect.bottom > 200;
 
       if (isPreviewVisible) {
         floatBtn.setAttribute('href', '#col-form');

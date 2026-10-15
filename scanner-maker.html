@@ -793,7 +793,7 @@
       if (!previewEl) return;
 
       const rect = previewEl.getBoundingClientRect();
-      const isPreviewVisible = rect.bottom > 250 && rect.top < 150;
+      const isPreviewVisible = rect.top < (window.innerHeight * 0.6) && rect.bottom > 200;
 
       if (isPreviewVisible) {
         floatBtn.setAttribute('href', '#col-form');
