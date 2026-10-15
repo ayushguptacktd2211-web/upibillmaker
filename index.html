@@ -156,7 +156,6 @@
       width: 100%;
       max-width: 100% !important;
       position: relative;
-      transition: height 0.15s ease-out;
       contain: paint layout;
       overflow: hidden !important;
     }
@@ -168,7 +167,8 @@
       box-sizing: border-box;
       box-shadow: 0 4px 25px -4px rgba(0, 0, 0, 0.08);
       border-radius: 4px;
-      transition: max-width 0.2s ease;
+      will-change: transform;
+      transform-origin: top center;
     }
     #qrcode-container {
       width: 84px;
@@ -1665,6 +1665,71 @@
           </div>
         </div>
 
+        <!-- Smart Browser Memory & Draft Management Toolbar -->
+        <div class="bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 flex flex-wrap items-center justify-between gap-2 shadow-2xs">
+          <!-- Left: Real-time Auto-save status -->
+          <div class="flex items-center gap-2">
+            <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+            <div class="flex items-center gap-1.5 text-xs">
+              <span class="font-bold text-slate-800">Browser Memory:</span>
+              <span id="draft-autosave-badge" class="text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1 transition-all">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span id="draft-autosave-text">Auto-Saved (सुरक्षित)</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Right: New Bill + Memory Options Dropdown -->
+          <div class="flex items-center gap-2">
+            <!-- New Bill Button (Preserves shop details, clears customer & items for next customer) -->
+            <button type="button" onclick="startNewBill(true)" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors cursor-pointer shadow-2xs" title="Start next bill (Keeps your shop name, phone & UPI, clears customer & items)">
+              <i data-lucide="file-plus" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>New Bill (नया बिल)</span>
+            </button>
+
+            <!-- Memory Dropdown -->
+            <div class="relative">
+              <button type="button" id="btn-memory-toggle" onclick="toggleMemoryMenu(event)" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors cursor-pointer shadow-2xs">
+                <i data-lucide="database" class="w-3.5 h-3.5 text-slate-600"></i>
+                <span>Memory Options</span>
+                <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+              </button>
+
+              <div id="memory-dropdown-panel" class="hidden absolute right-0 top-full mt-1.5 w-64 bg-white rounded-xl shadow-xl border border-slate-200 py-1.5 text-xs z-50 animate-in fade-in zoom-in-95 duration-100">
+                <button type="button" onclick="loadFullBillDraft(); closeMemoryMenu();" class="w-full text-left flex items-center gap-2.5 px-3 py-2 text-slate-700 hover:bg-emerald-50 hover:text-emerald-800 font-medium transition-colors cursor-pointer">
+                  <i data-lucide="history" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                  <div>
+                    <span class="block font-bold">Restore Last Draft</span>
+                    <span class="text-[10px] text-slate-500">Reload auto-saved bill details</span>
+                  </div>
+                </button>
+                <button type="button" onclick="startNewBill(true); closeMemoryMenu();" class="w-full text-left flex items-center gap-2.5 px-3 py-2 text-slate-700 hover:bg-brand-50 hover:text-brand-800 font-medium transition-colors cursor-pointer">
+                  <i data-lucide="user-minus" class="w-4 h-4 text-brand-600 shrink-0"></i>
+                  <div>
+                    <span class="block font-bold">New Bill (Keep Shop)</span>
+                    <span class="text-[10px] text-slate-500">Keep shop name/UPI, clear items</span>
+                  </div>
+                </button>
+                <button type="button" onclick="resetToSampleData(); closeMemoryMenu();" class="w-full text-left flex items-center gap-2.5 px-3 py-2 text-slate-700 hover:bg-amber-50 hover:text-amber-800 font-medium transition-colors cursor-pointer">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-amber-600 shrink-0"></i>
+                  <div>
+                    <span class="block font-bold">Load Demo Sample Bill</span>
+                    <span class="text-[10px] text-slate-500">See sample items & pricing</span>
+                  </div>
+                </button>
+                <div class="border-t border-slate-100 my-1"></div>
+                <button type="button" onclick="clearAllDrafts(); closeMemoryMenu();" class="w-full text-left flex items-center gap-2.5 px-3 py-2 text-rose-600 hover:bg-rose-50 font-medium transition-colors cursor-pointer">
+                  <i data-lucide="trash-2" class="w-4 h-4 text-rose-500 shrink-0"></i>
+                  <div>
+                    <span class="block font-bold">Clear All Memory</span>
+                    <span class="text-[10px] text-rose-400">Reset all saved data from browser</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <form id="bill-form" class="space-y-4 sm:space-y-6">
 
           <!-- 1. Logo & Business Info -->
@@ -3020,6 +3085,367 @@
       });
     }
 
+    function escapeHtmlAttr(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function createItemRow(desc = '', hsn = '', qty = '1', price = '0') {
+      const div = document.createElement('div');
+      div.className = 'item-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center';
+      div.innerHTML = `
+        <div class="sm:col-span-5 flex items-center gap-1.5">
+          <div class="flex-1 min-w-0">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Item / Service Name</label>
+            <input type="text" class="item-desc w-full text-sm px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                   placeholder="Item / Service description" value="${escapeHtmlAttr(desc)}">
+          </div>
+          <button type="button" class="btn-remove-item sm:hidden text-slate-400 hover:text-rose-600 p-2 mt-3.5 rounded-md hover:bg-rose-50 cursor-pointer" title="Delete Item">
+            <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
+          </button>
+        </div>
+        <div class="grid grid-cols-3 gap-2 sm:contents">
+          <div class="min-w-0 sm:col-span-2">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">HSN/SAC</label>
+            <input type="text" class="item-hsn w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-center font-mono bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                   placeholder="HSN" value="${escapeHtmlAttr(hsn)}">
+          </div>
+          <div class="min-w-0 sm:col-span-2">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Quantity</label>
+            <input type="number" min="1" class="item-qty w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-center bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                   placeholder="Qty" value="${qty}">
+          </div>
+          <div class="min-w-0 sm:col-span-2">
+            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Price (₹)</label>
+            <input type="number" min="0" step="any" class="item-price w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-right font-mono bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                   placeholder="Price (₹)" value="${price}">
+          </div>
+        </div>
+        <div class="hidden sm:block sm:col-span-1 text-center">
+          <button type="button" class="btn-remove-item text-slate-400 hover:text-rose-600 p-1 cursor-pointer" title="Delete Item">
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `;
+      return div;
+    }
+
+    // Comprehensive Auto-Save Draft
+    let autosaveDebounceTimer = null;
+    function triggerAutoSave() {
+      showAutosaveStatus('saving');
+      if (autosaveDebounceTimer) clearTimeout(autosaveDebounceTimer);
+      autosaveDebounceTimer = setTimeout(() => {
+        saveFullBillDraft();
+      }, 350);
+    }
+
+    function showAutosaveStatus(state) {
+      const badge = document.getElementById('draft-autosave-badge');
+      const text = document.getElementById('draft-autosave-text');
+      if (!badge || !text) return;
+      if (state === 'saving') {
+        badge.className = 'text-amber-700 font-semibold bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200 flex items-center gap-1 transition-all';
+        text.innerText = 'Saving...';
+      } else {
+        badge.className = 'text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1 transition-all';
+        text.innerText = 'Auto-Saved (सुरक्षित)';
+      }
+    }
+
+    function saveFullBillDraft() {
+      try {
+        const items = [];
+        document.querySelectorAll('.item-row').forEach(row => {
+          const desc = row.querySelector('.item-desc')?.value || '';
+          const hsn = row.querySelector('.item-hsn')?.value || '';
+          const qty = row.querySelector('.item-qty')?.value || '1';
+          const price = row.querySelector('.item-price')?.value || '0';
+          items.push({ desc, hsn, qty, price });
+        });
+
+        const draft = {
+          template: currentTemplate || 'shop',
+          format: currentInvoiceFormat || 'format-shop-a4',
+          creationMode: currentBillMode || 'simple',
+          seller: {
+            name: document.getElementById('seller-name')?.value || '',
+            tagline: document.getElementById('seller-tagline')?.value || '',
+            phone: document.getElementById('seller-phone')?.value || '',
+            email: document.getElementById('seller-email')?.value || '',
+            address: document.getElementById('seller-address')?.value || '',
+            upi: document.getElementById('seller-upi')?.value || '',
+            gstin: document.getElementById('seller-gstin')?.value || '',
+            pan: document.getElementById('seller-pan')?.value || '',
+            state: document.getElementById('seller-state')?.value || '',
+            signatory: document.getElementById('signatory-name')?.value || '',
+            isGst: document.getElementById('enable-gst')?.checked,
+            taxRate: document.getElementById('tax-rate')?.value || '18',
+            logo: savedLogoBase64 || ''
+          },
+          invoice: {
+            number: document.getElementById('invoice-number')?.value || '',
+            date: document.getElementById('invoice-date')?.value || '',
+            time: document.getElementById('invoice-time')?.value || '',
+            dueDate: document.getElementById('due-date')?.value || '',
+            status: document.getElementById('bill-status')?.value || 'online',
+            notes: document.getElementById('invoice-notes')?.value || '',
+            terms: document.getElementById('terms-conditions')?.value || ''
+          },
+          client: {
+            name: document.getElementById('client-name')?.value || '',
+            phone: document.getElementById('client-phone')?.value || '',
+            email: document.getElementById('client-email')?.value || '',
+            address: document.getElementById('client-address')?.value || '',
+            gstin: document.getElementById('buyer-gstin')?.value || ''
+          },
+          industryFields: {},
+          items: items,
+          updatedAt: Date.now()
+        };
+
+        const indIds = [
+          'doctor-name', 'patient-name', 'patient-age', 'patient-gender', 'patient-uhid', 'rx-dl-no',
+          'rest-table-no', 'rest-waiter-name', 'rest-pax-count', 'rest-order-no', 'rest-fssai-no',
+          'hotel-guest-name', 'hotel-room-no', 'hotel-room-type', 'hotel-checkin', 'hotel-checkout', 'hotel-adults-count',
+          'rent-landlord-pan', 'rent-property-address', 'rent-tenant-name', 'rent-period-month',
+          'tuition-student-name', 'tuition-roll-no', 'tuition-batch-time', 'tuition-course-name'
+        ];
+        indIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) draft.industryFields[id] = el.value;
+        });
+
+        localStorage.setItem('upibill_full_draft_v1', JSON.stringify(draft));
+        showAutosaveStatus('saved');
+      } catch(e) {}
+    }
+
+    function loadFullBillDraft() {
+      try {
+        const raw = localStorage.getItem('upibill_full_draft_v1');
+        if (!raw) return false;
+        const draft = JSON.parse(raw);
+        if (!draft || !draft.seller) return false;
+
+        const setVal = (id, val) => {
+          const el = document.getElementById(id);
+          if (el && val !== undefined && val !== null) el.value = val;
+        };
+
+        // 1. Template
+        if (draft.template) {
+          currentTemplate = draft.template;
+          const themeColors = {
+            shop: 'text-white bg-brand-600 border-brand-700 shadow-xs font-bold',
+            medical: 'text-white bg-teal-600 border-teal-700 shadow-xs font-bold',
+            restaurant: 'text-white bg-orange-600 border-orange-700 shadow-xs font-bold',
+            hotel: 'text-white bg-indigo-600 border-indigo-700 shadow-xs font-bold',
+            rent: 'text-white bg-emerald-600 border-emerald-700 shadow-xs font-bold',
+            tuition: 'text-white bg-blue-600 border-blue-700 shadow-xs font-bold'
+          };
+          ['shop', 'medical', 'restaurant', 'hotel', 'rent', 'tuition'].forEach(t => {
+            const btn = document.getElementById(`tab-tpl-${t}`);
+            if (!btn) return;
+            if (t === draft.template) {
+              btn.className = `tpl-btn w-full py-2 px-1 sm:px-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 text-center text-[11px] sm:text-xs ${themeColors[t] || themeColors.shop}`;
+            } else {
+              btn.className = 'tpl-btn w-full py-2 px-1 sm:px-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 text-center text-[11px] sm:text-xs bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 font-semibold';
+            }
+          });
+
+          const indFields = document.getElementById('industry-specific-fields');
+          if (draft.template === 'shop') {
+            if (indFields) indFields.classList.add('hidden');
+          } else {
+            if (indFields) indFields.classList.remove('hidden');
+          }
+          ['medical', 'restaurant', 'hotel', 'rent', 'tuition'].forEach(t => {
+            const grp = document.getElementById(`field-group-${t}`);
+            if (grp) {
+              if (t === draft.template) grp.classList.remove('hidden');
+              else grp.classList.add('hidden');
+            }
+          });
+
+          const previewContainer = document.getElementById('invoice-preview-container');
+          if (previewContainer) {
+            ['theme-shop', 'theme-medical', 'theme-restaurant', 'theme-hotel', 'theme-rent', 'theme-tuition'].forEach(cls => {
+              previewContainer.classList.remove(cls);
+            });
+            previewContainer.classList.add(`theme-${draft.template}`);
+          }
+        }
+
+        // 2. Format
+        if (draft.format) {
+          setInvoiceFormat(draft.format);
+        }
+
+        // 3. Seller Details
+        if (draft.seller) {
+          setVal('seller-name', draft.seller.name);
+          setVal('seller-tagline', draft.seller.tagline);
+          setVal('seller-phone', draft.seller.phone);
+          setVal('seller-email', draft.seller.email);
+          setVal('seller-address', draft.seller.address);
+          setVal('seller-upi', draft.seller.upi);
+          setVal('seller-gstin', draft.seller.gstin);
+          setVal('seller-pan', draft.seller.pan);
+          setVal('seller-state', draft.seller.state);
+          setVal('signatory-name', draft.seller.signatory);
+          if (draft.seller.isGst !== undefined && document.getElementById('enable-gst')) {
+            document.getElementById('enable-gst').checked = draft.seller.isGst;
+            const gstRateSec = document.getElementById('gst-rate-section');
+            if (gstRateSec) gstRateSec.style.display = draft.seller.isGst ? 'block' : 'none';
+          }
+          if (draft.seller.taxRate) setVal('tax-rate', draft.seller.taxRate);
+          if (draft.seller.logo) {
+            savedLogoBase64 = draft.seller.logo;
+            renderLogoPreview(savedLogoBase64);
+          }
+        }
+
+        // 4. Invoice Details
+        if (draft.invoice) {
+          setVal('invoice-number', draft.invoice.number);
+          setVal('invoice-date', draft.invoice.date);
+          setVal('invoice-time', draft.invoice.time);
+          setVal('due-date', draft.invoice.dueDate);
+          setVal('bill-status', draft.invoice.status);
+          setVal('invoice-notes', draft.invoice.notes);
+          setVal('terms-conditions', draft.invoice.terms);
+        }
+
+        // 5. Client Details
+        if (draft.client) {
+          setVal('client-name', draft.client.name);
+          setVal('client-phone', draft.client.phone);
+          setVal('client-email', draft.client.email);
+          setVal('client-address', draft.client.address);
+          setVal('buyer-gstin', draft.client.gstin);
+        }
+
+        // 6. Industry Fields
+        if (draft.industryFields) {
+          Object.entries(draft.industryFields).forEach(([id, val]) => setVal(id, val));
+        }
+
+        // 7. Items List
+        const itemsContainer = document.getElementById('items-container');
+        if (itemsContainer && Array.isArray(draft.items) && draft.items.length > 0) {
+          itemsContainer.innerHTML = '';
+          draft.items.forEach(it => {
+            const row = createItemRow(it.desc, it.hsn, it.qty, it.price);
+            itemsContainer.appendChild(row);
+            attachRowEvents(row);
+          });
+          if (window.lucide) lucide.createIcons();
+        }
+
+        showAutosaveStatus('saved');
+        return true;
+      } catch(e) {
+        console.error('Error loading draft', e);
+        return false;
+      }
+    }
+
+    function toggleMemoryMenu(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('memory-dropdown-panel');
+      if (menu) menu.classList.toggle('hidden');
+    }
+
+    function closeMemoryMenu() {
+      const menu = document.getElementById('memory-dropdown-panel');
+      if (menu) menu.classList.add('hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+      const panel = document.getElementById('memory-dropdown-panel');
+      const btn = document.getElementById('btn-memory-toggle');
+      if (panel && !panel.contains(e.target) && btn && !btn.contains(e.target)) {
+        panel.classList.add('hidden');
+      }
+    });
+
+    function startNewBill(keepShop = true) {
+      if (keepShop) {
+        // Clear customer fields
+        ['client-name', 'client-phone', 'client-email', 'client-address', 'buyer-gstin'].forEach(id => {
+          const el = document.getElementById(id); if (el) el.value = '';
+        });
+        // Clear industry fields
+        ['patient-name', 'patient-age', 'patient-uhid', 'rest-table-no', 'rest-order-no', 'hotel-guest-name', 'hotel-room-no', 'rent-tenant-name', 'tuition-student-name', 'tuition-roll-no'].forEach(id => {
+          const el = document.getElementById(id); if (el) el.value = '';
+        });
+        // Increment invoice number
+        const invNumEl = document.getElementById('invoice-number');
+        if (invNumEl) {
+          const m = invNumEl.value.match(/(\d+)$/);
+          if (m) {
+            const next = parseInt(m[1], 10) + 1;
+            invNumEl.value = invNumEl.value.replace(/\d+$/, String(next).padStart(m[1].length, '0'));
+          } else {
+            invNumEl.value = 'INV-' + Math.floor(1000 + Math.random() * 9000);
+          }
+        }
+        setCurrentDate();
+        // Reset items to 1 blank row
+        const itemsContainer = document.getElementById('items-container');
+        if (itemsContainer) {
+          itemsContainer.innerHTML = '';
+          const row = createItemRow('', '', '1', '0');
+          itemsContainer.appendChild(row);
+          attachRowEvents(row);
+          if (window.lucide) lucide.createIcons();
+        }
+        updateInvoice();
+        saveFullBillDraft();
+        showMemoryToast('New bill started! Your shop details are preserved.');
+      }
+    }
+
+    function resetToSampleData() {
+      if (confirm('Load sample demo bill? Your current changes will be replaced with sample items.')) {
+        localStorage.removeItem('upibill_full_draft_v1');
+        switchTemplate(currentTemplate || 'shop');
+        updateInvoice();
+        showMemoryToast('Sample demo bill loaded.');
+      }
+    }
+
+    function clearAllDrafts() {
+      if (confirm('Clear all saved draft data from your browser?')) {
+        localStorage.removeItem('upibill_full_draft_v1');
+        localStorage.removeItem('upibill_business_v3');
+        window.location.reload();
+      }
+    }
+
+    function showMemoryToast(msg) {
+      let toast = document.getElementById('memory-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'memory-toast';
+        toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900/90 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg backdrop-blur-md transition-all duration-300 opacity-0 pointer-events-none';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2600);
+    }
+
     // Save & Load LocalStorage
     function saveBusinessToLocal() {
       try {
@@ -3188,6 +3614,7 @@
     // Update Invoice Calculations
     function updateInvoice() {
       saveBusinessToLocal();
+      triggerAutoSave();
 
       const isGstEnabled = document.getElementById('enable-gst').checked;
       const sellerName = document.getElementById('seller-name').value.trim() || 'Your Business Name';
@@ -3490,44 +3917,9 @@
     // Add Row
     document.getElementById('btn-add-item').addEventListener('click', () => {
       const container = document.getElementById('items-container');
-      const div = document.createElement('div');
-      div.className = 'item-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center';
-      div.innerHTML = `
-        <div class="sm:col-span-5 flex items-center gap-1.5">
-          <div class="flex-1 min-w-0">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Item / Service Name</label>
-            <input type="text" class="item-desc w-full text-sm px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
-                   placeholder="Item / Service description">
-          </div>
-          <button type="button" class="btn-remove-item sm:hidden text-slate-400 hover:text-rose-600 p-2 mt-3.5 rounded-md hover:bg-rose-50" title="Delete Item">
-            <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
-          </button>
-        </div>
-        <div class="grid grid-cols-3 gap-2 sm:contents">
-          <div class="min-w-0 sm:col-span-2">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">HSN/SAC</label>
-            <input type="text" class="item-hsn w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-center font-mono bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
-                   placeholder="HSN">
-          </div>
-          <div class="min-w-0 sm:col-span-2">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Quantity</label>
-            <input type="number" min="1" class="item-qty w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-center bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
-                   placeholder="Qty" value="1">
-          </div>
-          <div class="min-w-0 sm:col-span-2">
-            <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Price (₹)</label>
-            <input type="number" min="0" step="any" class="item-price w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-right font-mono bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
-                   placeholder="Price (₹)" value="0">
-          </div>
-        </div>
-        <div class="hidden sm:block sm:col-span-1 text-center">
-          <button type="button" class="btn-remove-item text-slate-400 hover:text-rose-600 p-1" title="Delete Item">
-            <i data-lucide="trash-2" class="w-4 h-4"></i>
-          </button>
-        </div>
-      `;
+      const div = createItemRow('', '', '1', '0');
       container.appendChild(div);
-      lucide.createIcons();
+      if (window.lucide) lucide.createIcons();
       attachRowEvents(div);
       updateInvoice();
     });
@@ -5344,16 +5736,23 @@
         setBillCreationMode(savedMode);
       } catch(e) {}
 
-      try { renderQuickItemChips(currentTemplate || 'shop'); } catch(e) {}
-
+      let hasDraft = false;
       try {
-        switchTemplate(currentTemplate || 'shop');
-      } catch(e) {}
+        hasDraft = loadFullBillDraft();
+      } catch(e) {
+        console.error('Error loading draft', e);
+      }
 
-      try { loadBusinessFromLocal(); } catch(e) {}
+      if (!hasDraft) {
+        try {
+          switchTemplate(currentTemplate || 'shop');
+        } catch(e) {}
+        try { loadBusinessFromLocal(); } catch(e) {}
+      }
+
+      try { renderQuickItemChips(currentTemplate || 'shop'); } catch(e) {}
       try { updateInvoice(); } catch(e) {}
       try { fitPreviewToScreen(); } catch(e) {}
-      setTimeout(fitPreviewToScreen, 150);
       try { updateFloatingBtnState(); } catch(e) {}
     }
 
