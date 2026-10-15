@@ -431,21 +431,71 @@
     </div>
   </div>
 
-  <!-- Mobile Quick Jump Bar (Preview vs Edit) -->
-  <div class="lg:hidden bg-white/95 backdrop-blur-md border-b border-slate-200 px-3 py-2 sticky top-[53px] z-30 no-print flex gap-2 shadow-2xs">
-    <a href="#col-main-preview" class="flex-1 py-2 text-xs font-bold rounded-lg bg-brand-600 hover:bg-brand-700 text-white flex items-center justify-center gap-1.5 shadow-sm transition-colors">
-      <i data-lucide="eye" class="w-3.5 h-3.5"></i> Live Bill Preview
-    </a>
-    <a href="#col-main-form" class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 flex items-center justify-center gap-1.5 transition-colors">
-      <i data-lucide="edit" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
-    </a>
-  </div>
-
   <!-- Main Tool Workspace (Centered Form with Preview Below for High Ads & SaaS UX) -->
   <main id="tool-section" class="google-anno-skip max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
     
+    <!-- Industry Template Selector - Placed Directly Above Preview for Instant Visual Feedback -->
+    <div id="industry-template-bar" class="w-full bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm no-print space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+            <i data-lucide="layout-template" class="w-4 h-4 text-brand-600"></i> Select Industry Template
+          </span>
+          <p class="text-[11px] text-slate-500 mt-0.5">Click any template to auto-fill sample bill & matching form fields</p>
+        </div>
+        <span class="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-brand-700 bg-brand-50 border border-brand-200 px-2.5 py-0.5 rounded-full">
+          <i data-lucide="zap" class="w-3 h-3 text-brand-600"></i> Instant 1-Click
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 text-xs">
+        <button type="button" id="tab-tpl-shop" onclick="switchTemplate('shop')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-bold border flex items-center justify-center gap-1.5 transition-all text-white bg-brand-600 border-brand-700 shadow-xs cursor-pointer">
+          <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
+          <span>Retail & Shop</span>
+        </button>
+        <button type="button" id="tab-tpl-medical" onclick="switchTemplate('medical')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-teal-500 hover:text-teal-700 hover:bg-teal-50/50 cursor-pointer">
+          <i data-lucide="activity" class="w-3.5 h-3.5 text-teal-600"></i>
+          <span>Medical / Rx</span>
+        </button>
+        <button type="button" id="tab-tpl-restaurant" onclick="switchTemplate('restaurant')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-orange-500 hover:text-orange-700 hover:bg-orange-50/50 cursor-pointer">
+          <i data-lucide="utensils" class="w-3.5 h-3.5 text-orange-600"></i>
+          <span>Restaurant</span>
+        </button>
+        <button type="button" id="tab-tpl-hotel" onclick="switchTemplate('hotel')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-indigo-500 hover:text-indigo-700 hover:bg-indigo-50/50 cursor-pointer">
+          <i data-lucide="hotel" class="w-3.5 h-3.5 text-indigo-600"></i>
+          <span>Hotel & Stay</span>
+        </button>
+        <button type="button" id="tab-tpl-rent" onclick="switchTemplate('rent')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-emerald-500 hover:text-emerald-700 hover:bg-emerald-50/50 cursor-pointer">
+          <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-600"></i>
+          <span>Rent (HRA)</span>
+        </button>
+        <button type="button" id="tab-tpl-tuition" onclick="switchTemplate('tuition')" class="tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-blue-500 hover:text-blue-700 hover:bg-blue-50/50 cursor-pointer">
+          <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-600"></i>
+          <span>Tuition Fee</span>
+        </button>
+      </div>
+
+      <!-- Quick Link to Dedicated Standalone Generators -->
+      <div class="pt-1 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500 border-t border-slate-100">
+        <span class="flex items-center gap-1 text-slate-600 font-medium">
+          <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i> Dedicated Format Tools:
+        </span>
+        <div class="flex flex-wrap items-center gap-2 font-medium">
+          <a href="medical-bill.html" class="text-teal-700 hover:underline">Pharmacy Rx Bill ↗</a>
+          <span class="text-slate-300">•</span>
+          <a href="restaurant-bill.html" class="text-orange-700 hover:underline">Restaurant Thermal Slip ↗</a>
+          <span class="text-slate-300">•</span>
+          <a href="hotel-receipt.html" class="text-indigo-700 hover:underline">Hotel Folio ↗</a>
+          <span class="text-slate-300">•</span>
+          <a href="rent-receipt.html" class="text-emerald-700 hover:underline">HRA Rent Slip ↗</a>
+          <span class="text-slate-300">•</span>
+          <a href="tuition-receipt.html" class="text-blue-700 hover:underline">Tuition Fee Receipt ↗</a>
+        </div>
+      </div>
+    </div>
+
     <!-- Live Interactive Preview Section (Centered, Stacked Below Form) -->
-      <div id="col-main-preview" class="google-anno-skip w-full space-y-4">
+    <div id="col-main-preview" class="google-anno-skip w-full space-y-4">
         
         <!-- Preview Section Header -->
         <div class="flex items-center justify-between px-1 no-print">
@@ -754,42 +804,6 @@
             </button>
             <button id="btn-reset" class="text-xs text-slate-400 hover:text-rose-600 flex items-center gap-1 font-medium transition-colors">
               <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Clear
-            </button>
-          </div>
-        </div>
-
-        <!-- Professional Industry Template Selector (Zero Emojis) -->
-        <div class="bg-slate-50/90 p-2.5 sm:p-3.5 rounded-lg sm:rounded-xl border border-slate-200 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
-              <i data-lucide="layout-template" class="w-3.5 h-3.5 text-brand-600"></i> Select Industry Template
-            </span>
-            <span class="text-[10px] text-slate-400 font-medium hidden sm:inline">1-Click Auto Configuration</span>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-            <button type="button" id="tab-tpl-shop" onclick="switchTemplate('shop')" class="tpl-btn px-2 sm:px-2.5 py-2 rounded-lg font-bold border flex items-center justify-center gap-1.5 transition-all text-white bg-brand-600 border-brand-700 shadow-xs">
-              <i data-lucide="shopping-bag" class="w-3.5 h-3.5"></i>
-              <span>Retail & Shop</span>
-            </button>
-            <button type="button" id="tab-tpl-medical" onclick="switchTemplate('medical')" class="tpl-btn px-2 sm:px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-teal-500 hover:text-teal-700">
-              <i data-lucide="activity" class="w-3.5 h-3.5 text-teal-600"></i>
-              <span>Medical / Rx</span>
-            </button>
-            <button type="button" id="tab-tpl-restaurant" onclick="switchTemplate('restaurant')" class="tpl-btn px-2 sm:px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-orange-500 hover:text-orange-700">
-              <i data-lucide="utensils" class="w-3.5 h-3.5 text-orange-600"></i>
-              <span>Restaurant</span>
-            </button>
-            <button type="button" id="tab-tpl-hotel" onclick="switchTemplate('hotel')" class="tpl-btn px-2 sm:px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-indigo-500 hover:text-indigo-700">
-              <i data-lucide="hotel" class="w-3.5 h-3.5 text-indigo-600"></i>
-              <span>Hotel & Stay</span>
-            </button>
-            <button type="button" id="tab-tpl-rent" onclick="switchTemplate('rent')" class="tpl-btn px-2 sm:px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-emerald-500 hover:text-emerald-700">
-              <i data-lucide="home" class="w-3.5 h-3.5 text-emerald-600"></i>
-              <span>Rent (HRA)</span>
-            </button>
-            <button type="button" id="tab-tpl-tuition" onclick="switchTemplate('tuition')" class="tpl-btn px-2 sm:px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-blue-500 hover:text-blue-700">
-              <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-600"></i>
-              <span>Tuition Fee</span>
             </button>
           </div>
         </div>
@@ -2786,33 +2800,220 @@
       }
     });
 
-    // 1-Click Professional Industry Template Switcher (SaaS Polish: Updates placeholders & standard tax rules without overriding typed user content)
+    // Complete Industry Template Presets (Auto-populates full demo bill, items & specific fields)
+    const templatePresets = {
+      shop: {
+        docType: 'TAX INVOICE',
+        sellerName: 'Sharma Electronics & Services',
+        sellerTagline: 'Laptop, Mobile & CCTV Sales & Repair',
+        sellerPhone: '+91 98765 43210',
+        sellerEmail: 'contact@sharmaelectronics.in',
+        sellerAddress: 'Shop 12, Commercial Complex, Sector 18, Noida, UP - 201301',
+        sellerGstin: '07AABCS1429B1Z8',
+        sellerPan: 'AABCS1429B',
+        clientName: 'Rahul Verma',
+        clientPhone: '+91 98111 22233',
+        clientEmail: 'rahul.verma@example.com',
+        clientAddress: 'B-44, Sector 62, Noida, UP - 201309',
+        clientGstin: '',
+        invoiceNotes: 'Thank you for your business! 30 Days warranty on hardware parts.',
+        termsConditions: '1. Goods once sold will not be taken back without original bill.\n2. Warranty covers manufacturer defects only.',
+        payeeUpi: 'sharma@okhdfcbank',
+        enableGst: true,
+        taxRate: '18',
+        items: [
+          { desc: 'Dell 24" FHD IPS Commercial Monitor (P2422H)', hsn: '8471', qty: 1, rate: 14500 },
+          { desc: 'Logitech Wireless Keyboard & Mouse Combo (MK270)', hsn: '8471', qty: 2, rate: 1350 }
+        ],
+        industryFields: {}
+      },
+      medical: {
+        docType: 'PHARMACY TAX INVOICE',
+        sellerName: 'Sanjeevani Medicos & Healthcare',
+        sellerTagline: 'Retail Chemist, Surgical & Healthcare Supplies',
+        sellerPhone: '+91 98234 56789',
+        sellerEmail: 'care@sanjeevanimedicos.in',
+        sellerAddress: 'Shop 4, Civil Lines, Near City Hospital, New Delhi - 110054',
+        sellerGstin: '07AAPCS9821K1Z3',
+        sellerPan: 'AAPCS9821K',
+        clientName: 'Amitabh Saxena (Age: 42 / M)',
+        clientPhone: '+91 98711 00223',
+        clientEmail: '',
+        clientAddress: 'House No 120, Model Town, Delhi - 110009',
+        clientGstin: '',
+        invoiceNotes: 'Schedule H & H1 drugs dispensed strictly against registered medical prescription.',
+        termsConditions: '1. Medicines once sold cannot be returned without original batch receipt.\n2. Cold storage items (2-8°C) are non-returnable.',
+        payeeUpi: 'sanjeevanimedicos@okaxis',
+        enableGst: true,
+        taxRate: '12',
+        items: [
+          { desc: 'Amoxicillin & Potassium Clavulanate 625mg (10 Tabs Strip)', hsn: '3004', qty: 3, rate: 145 },
+          { desc: 'Paracetamol 650mg Fast Relief (15 Tabs Strip)', hsn: '3004', qty: 2, rate: 42 },
+          { desc: 'Digital Flexible Fast-Read Clinical Thermometer', hsn: '9025', qty: 1, rate: 299 }
+        ],
+        industryFields: {
+          'tpl-dl-no': 'DL-20B/1452 & DL-21B/1453',
+          'tpl-doctor-name': 'Dr. K. K. Aggarwal (MBBS, MD - Reg: 48921)',
+          'tpl-patient-meta': 'Age: 42 Yrs / Male',
+          'tpl-rx-ref': 'OPD Prescription #7741'
+        }
+      },
+      restaurant: {
+        docType: 'RESTAURANT CASH MEMO',
+        sellerName: 'Royal Spice Kitchen & Cafe',
+        sellerTagline: 'Authentic North Indian, Tandoor & Chinese Delicacies',
+        sellerPhone: '+91 97112 34567',
+        sellerEmail: 'dine@royalspicecafe.in',
+        sellerAddress: 'Plot 14, Main Market, Connaught Place, New Delhi - 110001',
+        sellerGstin: '07AABCR5512M1Z9',
+        sellerPan: 'AABCR5512M',
+        clientName: 'Walk-in Guest (Table 04)',
+        clientPhone: '+91 98990 11223',
+        clientEmail: '',
+        clientAddress: 'Dining Hall - Table T-04',
+        clientGstin: '',
+        invoiceNotes: 'Thank you for dining with us! Service charge is purely voluntary. Visit again!',
+        termsConditions: '1. GST @ 5% applicable without input tax credit.\n2. FSSAI Central License compliant food preparation.',
+        payeeUpi: 'royalspice@icici',
+        enableGst: true,
+        taxRate: '5',
+        items: [
+          { desc: 'Paneer Butter Masala (Chef Special Handi)', hsn: '2106', qty: 1, rate: 360 },
+          { desc: 'Dal Makhani (Slow-Cooked Overnight)', hsn: '2106', qty: 1, rate: 290 },
+          { desc: 'Butter Naan (Fresh Clay Oven Tandoor)', hsn: '1905', qty: 4, rate: 45 },
+          { desc: 'Fresh Lime Soda (Sweet & Salt)', hsn: '2202', qty: 2, rate: 95 }
+        ],
+        industryFields: {
+          'tpl-table-no': 'Table T-04 (AC Hall)',
+          'tpl-kot-no': 'KOT-8821',
+          'tpl-server-name': 'Steward: Ramesh K.'
+        }
+      },
+      hotel: {
+        docType: 'HOTEL & STAY INVOICE',
+        sellerName: 'The Grand Heritage Resort & Lodge',
+        sellerTagline: 'Luxury Accommodations, Homestay & Dining Experience',
+        sellerPhone: '+91 98991 23456',
+        sellerEmail: 'reservations@grandheritageresort.in',
+        sellerAddress: 'Mall Road, Near Lake View, Nainital, Uttarakhand - 263001',
+        sellerGstin: '05AABCH4411Q1Z4',
+        sellerPan: 'AABCH4411Q',
+        clientName: 'Vikramaditya Rathore',
+        clientPhone: '+91 98221 44556',
+        clientEmail: 'vikram.rathore@outlook.com',
+        clientAddress: 'C-18, Malviya Nagar, Jaipur, Rajasthan - 302017',
+        clientGstin: '',
+        invoiceNotes: 'Check-in: 12:00 PM | Check-out: 11:00 AM. Thank you for staying with us!',
+        termsConditions: '1. All guests must provide valid government photo ID at check-in.\n2. Room tariff includes complimentary Wi-Fi and swimming pool access.',
+        payeeUpi: 'grandheritage@hdfcbank',
+        enableGst: true,
+        taxRate: '12',
+        items: [
+          { desc: 'Deluxe Lake-View Room Tariff (2 Nights Stay)', hsn: '9963', qty: 2, rate: 3500 },
+          { desc: 'Buffet Breakfast & High Tea (2 Guests - 2 Days)', hsn: '9963', qty: 2, rate: 450 },
+          { desc: 'Airport / Railway Station AC Cab Pick-up Service', hsn: '9964', qty: 1, rate: 1200 }
+        ],
+        industryFields: {
+          'tpl-room-no': 'Deluxe Suite Room 204 (Lake View)',
+          'tpl-guest-id': 'Govt ID Ref: Aadhar XXXX-8912',
+          'tpl-checkin': '14 Oct 2026, 12:00 PM',
+          'tpl-checkout': '16 Oct 2026, 11:00 AM'
+        }
+      },
+      rent: {
+        docType: 'HOUSE RENT RECEIPT (HRA)',
+        sellerName: 'Rajesh Kumar (Landlord)',
+        sellerTagline: 'House Rent Receipt (Income Tax Form 26C Exemption)',
+        sellerPhone: '+91 98100 12345',
+        sellerEmail: 'rajesh.landlord@gmail.com',
+        sellerAddress: 'Owner of Property: Flat 402, Green Valley Apartments, Sector 45, Gurgaon - 122003',
+        sellerGstin: '',
+        sellerPan: 'ABCDE1234F',
+        clientName: 'Rahul Verma (Tenant)',
+        clientPhone: '+91 98111 22233',
+        clientEmail: 'rahul.verma@example.com',
+        clientAddress: 'Tenant residing at Flat 402, Green Valley Apartments, Sector 45, Gurgaon, HR - 122003',
+        clientGstin: '',
+        invoiceNotes: 'Received with thanks from tenant towards monthly residential rent. Valid for Income Tax HRA Exemption under Sec 10(13A).',
+        termsConditions: '1. Rent received for residential occupancy per Registered Tenancy Agreement.\n2. Landlord PAN is declared valid for Income Tax HRA rebate.',
+        payeeUpi: 'rajeshkumar.landlord@okhdfcbank',
+        enableGst: false,
+        taxRate: '0',
+        items: [
+          { desc: 'Residential House Rent for October 2026 (01 Oct to 31 Oct)', hsn: '9972', qty: 1, rate: 22000 },
+          { desc: 'Society Monthly Maintenance & Common Area Charges', hsn: '9972', qty: 1, rate: 2500 }
+        ],
+        industryFields: {
+          'tpl-landlord-pan': 'ABCDE1234F',
+          'tpl-rent-period': 'October 2026 (01 Oct - 31 Oct)',
+          'tpl-rent-address': 'Flat 402, Green Valley Apartments, Sector 45, Gurgaon, HR - 122003'
+        }
+      },
+      tuition: {
+        docType: 'TUITION FEE RECEIPT',
+        sellerName: 'Apex Mathematics & Science Academy',
+        sellerTagline: 'IIT-JEE, NEET & CBSE Board Foundation Coaching',
+        sellerPhone: '+91 99887 76655',
+        sellerEmail: 'admissions@apexacademy.edu.in',
+        sellerAddress: 'B-12, Coaching Hub, Kalu Sarai, Near Hauz Khas, New Delhi - 110016',
+        sellerGstin: '',
+        sellerPan: 'APEXA9812L',
+        clientName: 'Aarav Sharma (Student)',
+        clientPhone: '+91 98765 11002',
+        clientEmail: 'parent.sharma@gmail.com',
+        clientAddress: 'D-88, South Extension Part 1, New Delhi - 110049',
+        clientGstin: '',
+        invoiceNotes: 'Monthly tuition fee received with thanks. Classes conducted 5 days a week. Fee once paid is non-refundable.',
+        termsConditions: '1. Receipt must be produced for obtaining monthly classroom access card.\n2. Study material issued on fee clearance.',
+        payeeUpi: 'apexacademy@okhdfcbank',
+        enableGst: false,
+        taxRate: '0',
+        items: [
+          { desc: 'Monthly Coaching Tuition Fee (October 2026 - Class 10 Batch)', hsn: '9992', qty: 1, rate: 3500 },
+          { desc: 'Comprehensive Study Material & Weekly Practice Test Series', hsn: '9992', qty: 1, rate: 500 }
+        ],
+        industryFields: {
+          'tpl-student-roll': 'APX-2026-104',
+          'tpl-course': 'Class 10 CBSE (Maths, Physics, Chemistry)',
+          'tpl-tuition-month': 'October 2026'
+        }
+      }
+    };
+
+    // 1-Click Professional Industry Template Switcher (Live updates form, items, QR and preview)
     function switchTemplate(type) {
       currentTemplate = type;
+      const preset = templatePresets[type] || templatePresets.shop;
       const isGstBox = document.getElementById('enable-gst');
       const taxRate = document.getElementById('tax-rate');
       const indFields = document.getElementById('industry-specific-fields');
       const docTypeBadge = document.getElementById('prev-doc-type');
-      const sellerNameInput = document.getElementById('seller-name');
-      const sellerTaglineInput = document.getElementById('seller-tagline');
-      const notesInput = document.getElementById('invoice-notes');
 
       // Update Tab Styles
+      const themeColors = {
+        shop: 'text-white bg-brand-600 border-brand-700 shadow-xs font-bold',
+        medical: 'text-white bg-teal-600 border-teal-700 shadow-xs font-bold',
+        restaurant: 'text-white bg-orange-600 border-orange-700 shadow-xs font-bold',
+        hotel: 'text-white bg-indigo-600 border-indigo-700 shadow-xs font-bold',
+        rent: 'text-white bg-emerald-600 border-emerald-700 shadow-xs font-bold',
+        tuition: 'text-white bg-blue-600 border-blue-700 shadow-xs font-bold'
+      };
+
       ['shop', 'medical', 'restaurant', 'hotel', 'rent', 'tuition'].forEach(t => {
         const btn = document.getElementById(`tab-tpl-${t}`);
         if (!btn) return;
         if (t === type) {
-          btn.className = 'tpl-btn px-2.5 py-2 rounded-lg font-bold border flex items-center justify-center gap-1.5 transition-all text-white bg-brand-600 border-brand-700 shadow-xs';
+          btn.className = `tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl border flex items-center justify-center gap-1.5 transition-all cursor-pointer ${themeColors[t] || themeColors.shop}`;
         } else {
-          btn.className = 'tpl-btn px-2.5 py-2 rounded-lg font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-400';
+          btn.className = 'tpl-btn px-2 sm:px-2.5 py-2.5 rounded-xl font-medium border flex items-center justify-center gap-1.5 transition-all bg-white text-slate-700 border-slate-200 hover:border-slate-400 cursor-pointer';
         }
       });
 
       // Show/Hide Field Groups
       if (type === 'shop') {
-        indFields.classList.add('hidden');
+        if (indFields) indFields.classList.add('hidden');
       } else {
-        indFields.classList.remove('hidden');
+        if (indFields) indFields.classList.remove('hidden');
       }
 
       ['medical', 'restaurant', 'hotel', 'rent', 'tuition'].forEach(t => {
@@ -2823,57 +3024,88 @@
         }
       });
 
-      if (type === 'medical') {
-        sellerNameInput.placeholder = 'e.g. Sanjeevani Medicos & Healthcare';
-        sellerTaglineInput.placeholder = 'e.g. Retail Chemist, Surgical & Healthcare';
-        notesInput.placeholder = 'e.g. Schedule H drugs dispensed against registered medical prescription.';
-        isGstBox.checked = true;
-        isGstBox.dispatchEvent(new Event('change'));
-        taxRate.value = '12';
-        docTypeBadge.innerText = 'PHARMACY TAX INVOICE';
-      } else if (type === 'restaurant') {
-        sellerNameInput.placeholder = 'e.g. Royal Spice Kitchen & Cafe';
-        sellerTaglineInput.placeholder = 'e.g. Fine Dining, Fast Food & Restaurant';
-        notesInput.placeholder = 'e.g. Thank you for dining with us! Please visit again.';
-        isGstBox.checked = true;
-        isGstBox.dispatchEvent(new Event('change'));
-        taxRate.value = '5';
-        docTypeBadge.innerText = 'RESTAURANT CASH MEMO';
-      } else if (type === 'hotel') {
-        sellerNameInput.placeholder = 'e.g. The Grand Heritage Resort & Lodge';
-        sellerTaglineInput.placeholder = 'e.g. Luxury Rooms, Homestay & Dining';
-        notesInput.placeholder = 'e.g. Check-in: 12 PM | Check-out: 11 AM. Thank you for staying with us!';
-        isGstBox.checked = true;
-        isGstBox.dispatchEvent(new Event('change'));
-        taxRate.value = '12';
-        docTypeBadge.innerText = 'HOTEL & STAY INVOICE';
-      } else if (type === 'rent') {
-        sellerNameInput.placeholder = 'e.g. Rajesh Kumar (Landlord)';
-        sellerTaglineInput.placeholder = 'e.g. House Rent Receipt (HRA Form 26C)';
-        notesInput.placeholder = 'e.g. Received with thanks. Valid for Income Tax HRA Exemption claim.';
-        isGstBox.checked = false;
-        isGstBox.dispatchEvent(new Event('change'));
-        taxRate.value = '0';
-        docTypeBadge.innerText = 'RENT RECEIPT (HRA)';
-      } else if (type === 'tuition') {
-        sellerNameInput.placeholder = 'e.g. Apex Learning Academy & Coaching';
-        sellerTaglineInput.placeholder = 'e.g. IIT-JEE, NEET & CBSE Coaching Centre';
-        notesInput.placeholder = 'e.g. Monthly tuition fee receipt. Classes conducted 5 days a week.';
-        isGstBox.checked = false;
-        isGstBox.dispatchEvent(new Event('change'));
-        taxRate.value = '0';
-        docTypeBadge.innerText = 'TUITION FEE RECEIPT';
-      } else {
-        // Standard Retail Shop
-        sellerNameInput.placeholder = 'e.g. Apex Tech Solutions';
-        sellerTaglineInput.placeholder = 'e.g. Laptop, Mobile & CCTV Sales & Repair';
-        notesInput.placeholder = 'e.g. Thank you for your business! 30 Days warranty on parts.';
-        isGstBox.checked = true;
-        isGstBox.dispatchEvent(new Event('change'));
-        taxRate.value = '18';
-        docTypeBadge.innerText = 'TAX INVOICE';
+      // Load Complete Preset Values into Form
+      if (docTypeBadge) docTypeBadge.innerText = preset.docType;
+      const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+
+      setVal('seller-name', preset.sellerName);
+      setVal('seller-tagline', preset.sellerTagline);
+      setVal('seller-phone', preset.sellerPhone);
+      setVal('seller-email', preset.sellerEmail);
+      setVal('seller-address', preset.sellerAddress);
+      setVal('seller-gstin', preset.sellerGstin);
+      setVal('seller-pan', preset.sellerPan);
+      setVal('seller-upi', preset.payeeUpi);
+      setVal('client-name', preset.clientName);
+      setVal('client-phone', preset.clientPhone);
+      setVal('client-email', preset.clientEmail);
+      setVal('client-address', preset.clientAddress);
+      setVal('buyer-gstin', preset.clientGstin);
+      setVal('invoice-notes', preset.invoiceNotes);
+      setVal('terms-conditions', preset.termsConditions);
+
+      if (isGstBox) {
+        isGstBox.checked = preset.enableGst;
+        const gstRateSection = document.getElementById('gst-rate-section');
+        if (gstRateSection) gstRateSection.style.display = preset.enableGst ? 'block' : 'none';
+      }
+      if (taxRate) taxRate.value = preset.taxRate;
+
+      // Populate Industry-Specific Input Fields
+      if (preset.industryFields) {
+        Object.entries(preset.industryFields).forEach(([id, val]) => {
+          setVal(id, val);
+        });
       }
 
+      // Populate Line Items with Responsive Mobile 2-Line Cards
+      const itemsContainer = document.getElementById('items-container');
+      if (itemsContainer && preset.items && preset.items.length > 0) {
+        itemsContainer.innerHTML = '';
+        preset.items.forEach(it => {
+          const div = document.createElement('div');
+          div.className = 'item-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-2 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-2 sm:items-center';
+          div.innerHTML = `
+            <div class="sm:col-span-5 flex items-center gap-1.5">
+              <div class="flex-1 min-w-0">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Item / Service Name</label>
+                <input type="text" class="item-desc w-full text-sm px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                       placeholder="Item / Service description" value="${it.desc.replace(/"/g, '&quot;')}">
+              </div>
+              <button type="button" class="btn-remove-item sm:hidden text-slate-400 hover:text-rose-600 p-2 mt-3.5 rounded-md hover:bg-rose-50" title="Delete Item">
+                <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
+              </button>
+            </div>
+            <div class="grid grid-cols-3 gap-2 sm:contents">
+              <div class="min-w-0 sm:col-span-2">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">HSN/SAC</label>
+                <input type="text" class="item-hsn w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-center font-mono bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                       placeholder="HSN" value="${it.hsn}">
+              </div>
+              <div class="min-w-0 sm:col-span-2">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Quantity</label>
+                <input type="number" min="1" class="item-qty w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-center bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                       placeholder="Qty" value="${it.qty}">
+              </div>
+              <div class="min-w-0 sm:col-span-2">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase sm:hidden mb-0.5">Price (₹)</label>
+                <input type="number" min="0" step="any" class="item-price w-full text-xs sm:text-sm px-1.5 sm:px-2 py-1.5 text-right font-mono bg-white rounded border border-slate-300 focus:ring-2 focus:ring-brand-500"
+                       placeholder="Price (₹)" value="${it.rate}">
+              </div>
+            </div>
+            <div class="hidden sm:block sm:col-span-1 text-center">
+              <button type="button" class="btn-remove-item text-slate-400 hover:text-rose-600 p-1" title="Delete Item">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          `;
+          itemsContainer.appendChild(div);
+          attachRowEvents(div);
+        });
+        if (window.lucide) lucide.createIcons();
+      }
+
+      // Immediately Update Live Preview
       updateInvoice();
     }
 
@@ -3099,65 +3331,10 @@
       });
     }
 
-    // 1-Click Sample Demo Populator (Optional testing for users who want to see a full sample)
+    // 1-Click Sample Demo Populator
     function loadSampleDemoData() {
-      if (currentTemplate === 'medical') {
-        document.getElementById('seller-name').value = 'Sanjeevani Medicos & Healthcare';
-        document.getElementById('seller-tagline').value = 'Retail Chemist, Surgical & Healthcare';
-        document.getElementById('seller-phone').value = '+91 98765 22334';
-        document.getElementById('seller-address').value = 'Opposite Civil Hospital Gate, Sector 12';
-        document.getElementById('seller-upi').value = 'sanjeevanimedicos@okhdfcbank';
-        document.getElementById('seller-gstin').value = '07AABCS9900P1ZM';
-        document.getElementById('signatory-name').value = 'Regd. Pharmacist';
-        document.getElementById('tpl-dl-no').value = 'DL-20B/1452 & 21B/1453';
-        document.getElementById('tpl-doctor-name').value = 'Dr. A. K. Sharma (MCI-18492)';
-        document.getElementById('tpl-patient-meta').value = 'Age: 32 Yrs / Male';
-        document.getElementById('tpl-rx-ref').value = 'OPD Consultation / Viral Fever';
-        document.getElementById('client-name').value = 'Suresh Chandel';
-        document.getElementById('client-phone').value = '+91 98111 22334';
-        const rows = document.querySelectorAll('.item-row');
-        if (rows[0]) {
-          rows[0].querySelector('.item-desc').value = 'Augmentin 625 Duo (B: B402 Exp: 12/28)';
-          rows[0].querySelector('.item-hsn').value = '3004';
-          rows[0].querySelector('.item-qty').value = '2';
-          rows[0].querySelector('.item-price').value = '195';
-        }
-      } else if (currentTemplate === 'restaurant') {
-        document.getElementById('seller-name').value = 'Royal Spice Kitchen & Cafe';
-        document.getElementById('seller-tagline').value = 'Fine Dining, Fast Food & Restaurant';
-        document.getElementById('seller-phone').value = '+91 98111 55667';
-        document.getElementById('seller-address').value = 'Main High Street, Civil Lines';
-        document.getElementById('seller-upi').value = 'royalspice@okhdfcbank';
-        document.getElementById('signatory-name').value = 'Cashier / Manager';
-        document.getElementById('tpl-table-no').value = 'Table T-04';
-        document.getElementById('tpl-kot-no').value = 'KOT-8821';
-        document.getElementById('tpl-server-name').value = 'Amit K.';
-        document.getElementById('client-name').value = 'Walk-in Guest';
-        const rows = document.querySelectorAll('.item-row');
-        if (rows[0]) {
-          rows[0].querySelector('.item-desc').value = 'Paneer Butter Masala (Full)';
-          rows[0].querySelector('.item-hsn').value = '9963';
-          rows[0].querySelector('.item-qty').value = '1';
-          rows[0].querySelector('.item-price').value = '280';
-        }
-      } else {
-        document.getElementById('seller-name').value = 'Sharma Electronics & Services';
-        document.getElementById('seller-tagline').value = 'Laptop, Mobile & CCTV Sales & Repair';
-        document.getElementById('seller-phone').value = '+91 98765 43210';
-        document.getElementById('seller-address').value = 'Shop 12, Commercial Complex, Sector 18';
-        document.getElementById('seller-upi').value = 'sharma@okhdfcbank';
-        document.getElementById('seller-gstin').value = '07AABCS1429B1Z8';
-        document.getElementById('client-name').value = 'Rahul Verma';
-        document.getElementById('client-phone').value = '+91 98111 22233';
-        const rows = document.querySelectorAll('.item-row');
-        if (rows[0]) {
-          rows[0].querySelector('.item-desc').value = 'Laptop Screen Replacement (15.6 FHD)';
-          rows[0].querySelector('.item-hsn').value = '8471';
-          rows[0].querySelector('.item-qty').value = '1';
-          rows[0].querySelector('.item-price').value = '2400';
-        }
-      }
-      updateInvoice();
+      switchTemplate(currentTemplate || 'shop');
+      showDownloadToast('Sample demo data loaded successfully!');
     }
 
     // Responsive Mobile Fit to Screen for Invoice Preview
