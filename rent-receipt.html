@@ -146,6 +146,78 @@
       .sec-hide-btn, #section-customizer-drawer {
         display: none !important;
       }
+    /* Authentic Rent Formats & Themes */
+    #rent-receipt-preview.format-hra {
+      max-width: 100%;
+    }
+    #rent-receipt-preview.format-residential {
+      max-width: 620px;
+      margin: 0 auto;
+      border-radius: 8px;
+    }
+    #rent-receipt-preview.format-commercial {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    #rent-receipt-preview.theme-emerald {
+      border-color: #047857 !important;
+    }
+    #rent-receipt-preview.theme-emerald .rent-badge {
+      background: #064e3b !important;
+      border-color: #047857 !important;
+      color: #ecfdf5 !important;
+    }
+    #rent-receipt-preview.theme-emerald .rent-heading {
+      color: #064e3b !important;
+    }
+    #rent-receipt-preview.theme-emerald .rent-accent-border {
+      border-color: #047857 !important;
+    }
+
+    #rent-receipt-preview.theme-stamp {
+      border-color: #991b1b !important;
+    }
+    #rent-receipt-preview.theme-stamp .rent-badge {
+      background: #7f1d1d !important;
+      border-color: #991b1b !important;
+      color: #fef2f2 !important;
+    }
+    #rent-receipt-preview.theme-stamp .rent-heading {
+      color: #7f1d1d !important;
+    }
+    #rent-receipt-preview.theme-stamp .rent-accent-border {
+      border-color: #991b1b !important;
+    }
+
+    #rent-receipt-preview.theme-slate {
+      border-color: #334155 !important;
+    }
+    #rent-receipt-preview.theme-slate .rent-badge {
+      background: #1e293b !important;
+      border-color: #334155 !important;
+      color: #f8fafc !important;
+    }
+    #rent-receipt-preview.theme-slate .rent-heading {
+      color: #1e293b !important;
+    }
+    #rent-receipt-preview.theme-slate .rent-accent-border {
+      border-color: #334155 !important;
+    }
+
+    #rent-receipt-preview.theme-mono {
+      border-color: #0f172a !important;
+    }
+    #rent-receipt-preview.theme-mono .rent-badge {
+      background: #0f172a !important;
+      border-color: #0f172a !important;
+      color: #ffffff !important;
+    }
+    #rent-receipt-preview.theme-mono .rent-heading {
+      color: #0f172a !important;
+    }
+    #rent-receipt-preview.theme-mono .rent-accent-border {
+      border-color: #0f172a !important;
     }
   </style>
 </head>
@@ -233,32 +305,8 @@
   </header>
 
   
-  <!-- Top Leaderboard Advertisement Slot -->
-  <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
-    <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-    <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <span class="text-xs text-slate-400 font-medium select-none">Responsive Ad Banner Slot</span>
-    </div>
-  </div>
-
-  <div class="w-full max-w-[1480px] mx-auto px-2 sm:px-4 flex justify-center items-start gap-4">
-    <!-- Left Side Rail Ad Slot (Desktop Skyscraper) -->
-    <aside class="hidden xl:block w-[160px] shrink-0 sticky top-20 no-print" aria-label="Advertisement">
-      <div class="w-[160px] h-[600px] bg-slate-100 rounded-xl border border-dashed border-slate-300 flex flex-col items-center justify-center p-3 text-center shadow-xs">
-        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-600 mb-2">Advertisement</span>
-        <div class="text-[11px] text-slate-600 font-medium leading-relaxed">
-          Google AdSense<br>160×600<br>Side Rail Unit
-        </div>
-      </div>
-    </aside>
-
-    <main class="w-full max-w-4xl shrink-0 space-y-6 sm:space-y-8 py-4 sm:py-8">
+  <!-- Main Tool Workspace -->
+  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
       <div id="col-preview" class="w-full space-y-4">
 
         <!-- Preview Header & Actions Bar -->
@@ -344,10 +392,50 @@
           </div>
         </div>
 
+        <!-- Format & Theme Customizer Bar -->
+        <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 no-print">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 flex-wrap">
+            <!-- Format Selector -->
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Receipt Format:</span>
+              <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 text-xs font-semibold">
+                <button type="button" onclick="setRentFormat('hra')" id="btn-fmt-hra" class="px-2.5 py-1 rounded-md transition-all bg-white text-slate-900 shadow-xs font-bold">
+                  Official HRA Exemption (Sec 10)
+                </button>
+                <button type="button" onclick="setRentFormat('residential')" id="btn-fmt-residential" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 font-semibold">
+                  Monthly Rent Voucher
+                </button>
+                <button type="button" onclick="setRentFormat('commercial')" id="btn-fmt-commercial" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 font-semibold">
+                  Commercial Lease Memo
+                </button>
+              </div>
+            </div>
+
+            <!-- Theme Selector -->
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Theme:</span>
+              <div class="inline-flex rounded-lg border border-slate-200 p-0.5 bg-slate-50 text-xs font-semibold">
+                <button type="button" onclick="setRentTheme('emerald')" id="btn-thm-emerald" class="px-2.5 py-1 rounded-md transition-all bg-white text-slate-900 shadow-xs font-bold flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-700 inline-block"></span> Official Emerald
+                </button>
+                <button type="button" onclick="setRentTheme('stamp')" id="btn-thm-stamp" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
+                  <span class="w-2.5 h-2.5 rounded-full bg-red-800 inline-block"></span> Stamp Rose
+                </button>
+                <button type="button" onclick="setRentTheme('slate')" id="btn-thm-slate" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
+                  <span class="w-2.5 h-2.5 rounded-full bg-slate-700 inline-block"></span> Executive Slate
+                </button>
+                <button type="button" onclick="setRentTheme('mono')" id="btn-thm-mono" class="px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 flex items-center gap-1.5 font-semibold">
+                  <span class="w-2.5 h-2.5 rounded-full bg-slate-900 inline-block"></span> Classic Legal (B&W)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Direct WYSIWYG Click-to-Edit Tip Banner -->
         <div class="w-full bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200/80 rounded-xl p-2.5 sm:p-3 text-xs text-emerald-950 flex items-center justify-between gap-2 shadow-xs no-print">
           <div class="flex items-center gap-2">
-            <span class="text-base sm:text-lg">✨</span>
+            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-700 shrink-0"></i>
             <div>
               <strong class="font-bold">Direct Click-to-Edit Enabled:</strong>
               <span class="text-emerald-900"> Receipt ke kisi bhi text (tenant, landlord, amount, address) par direct click karke edit karein. Kisi section ko hatane ke liye 'Customize Receipt' use karein ya [✕] dabayein.</span>
@@ -360,15 +448,15 @@
 
         <!-- Mobile Fit Viewport Wrapper -->
         <div id="rent-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
-          <div id="rent-receipt-preview" class="w-full bg-white p-3.5 sm:p-5 rounded-none border-2 border-emerald-800 shadow-md space-y-3 font-sans text-xs relative text-slate-900">
+          <div id="rent-receipt-preview" class="w-full bg-white p-3.5 sm:p-5 rounded-none border-2 border-emerald-800 shadow-md space-y-3 font-sans text-xs relative text-slate-900 format-hra theme-emerald">
           
           <!-- Centered Statutory Header -->
-          <div class="text-center pb-3 border-b-2 border-emerald-800">
-            <div class="inline-block px-3 py-0.5 border border-emerald-700 bg-emerald-900 text-[10px] font-bold uppercase tracking-widest text-emerald-100 rounded-sm">
-              HOUSE RENT RECEIPT (HRA EXEMPTION PROOF)
+          <div class="rent-accent-border text-center pb-3 border-b-2 border-emerald-800">
+            <div class="rent-badge inline-block px-3 py-0.5 border border-emerald-700 bg-emerald-900 text-[10px] font-bold uppercase tracking-widest text-emerald-100 rounded-sm">
+              <span id="prev-rent-badge-title">HOUSE RENT RECEIPT (HRA EXEMPTION PROOF)</span>
             </div>
-            <p class="text-[10px] text-slate-600 mt-1">(Under Section 10(13A) of Income Tax Act, 1961 • Rule 26C of Income Tax Rules, 1962)</p>
-            <h2 class="font-heading font-extrabold text-2xl text-emerald-950 mt-1">RECEIPT OF HOUSE RENT</h2>
+            <p id="prev-rent-statutory-sub" class="text-[10px] text-slate-600 mt-1">(Under Section 10(13A) of Income Tax Act, 1961 • Rule 26C of Income Tax Rules, 1962)</p>
+            <h2 id="prev-rent-heading" class="rent-heading font-heading font-extrabold text-2xl text-emerald-950 mt-1">RECEIPT OF HOUSE RENT</h2>
           </div>
 
           <!-- Receipt Meta & Payment Status Bar -->
@@ -501,20 +589,7 @@
         </div>
       </div>
 
-    
-    <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
-    <div class="w-full my-6 no-print text-center">
-      <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="0987654321"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <span class="text-xs text-slate-400 font-medium select-none">In-Content Ad Banner Slot</span>
-      </div>
-    </div>
+
 
 
     <div id="col-form" class="w-full bg-white p-3.5 sm:p-8 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm space-y-5 sm:space-y-6 no-print">
@@ -557,8 +632,9 @@
         <!-- 1-Click Quick Rent Presets Chips -->
         <div class="bg-emerald-50/60 border border-emerald-200/80 rounded-xl p-2.5 space-y-1.5 no-print">
           <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-emerald-950 flex items-center gap-1">
-              ⚡ 1-Click Quick Rent Presets:
+            <span class="text-[11px] font-bold text-emerald-950 flex items-center gap-1.5">
+              <i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-700"></i>
+              <span>Quick Rent Presets (1-Tap):</span>
             </span>
             <span class="text-[10px] text-slate-500">Tap chip to fill amount</span>
           </div>
@@ -686,17 +762,6 @@
     </div>
   </main>
 
-  <!-- Right Side Rail Ad Slot (Desktop Skyscraper) -->
-  <aside class="hidden xl:block w-[160px] shrink-0 sticky top-20 no-print" aria-label="Advertisement">
-    <div class="w-[160px] h-[600px] bg-slate-100 rounded-xl border border-dashed border-slate-300 flex flex-col items-center justify-center p-3 text-center shadow-xs">
-      <span class="text-[10px] uppercase font-bold tracking-wider text-slate-600 mb-2">Advertisement</span>
-      <div class="text-[11px] text-slate-600 font-medium leading-relaxed">
-        Google AdSense<br>160×600<br>Side Rail Unit
-      </div>
-    </div>
-  </aside>
-</div>
-
 
   <script>
     try {
@@ -713,7 +778,71 @@
       const rentDateInp = document.getElementById('rent-date');
       if (rentDateInp && !rentDateInp.value) rentDateInp.value = `${yr}-${mo}-${da}`;
     } catch(e) {}
-    
+
+    let currentRentFormat = 'hra';
+    let currentRentTheme = 'emerald';
+
+    function setRentFormat(fmt) {
+      currentRentFormat = fmt;
+      localStorage.setItem('upibill_rent_format', fmt);
+      const card = document.getElementById('rent-receipt-preview');
+      if (card) {
+        card.classList.remove('format-hra', 'format-residential', 'format-commercial');
+        card.classList.add('format-' + fmt);
+      }
+      ['hra', 'residential', 'commercial'].forEach(f => {
+        const btn = document.getElementById('btn-fmt-' + f);
+        if (btn) {
+          if (f === fmt) {
+            btn.className = 'px-2.5 py-1 rounded-md transition-all bg-white text-slate-900 shadow-xs font-bold';
+          } else {
+            btn.className = 'px-2.5 py-1 rounded-md transition-all text-slate-600 hover:text-slate-900 font-semibold';
+          }
+        }
+      });
+      const badgeTitle = document.getElementById('prev-rent-badge-title');
+      const statutorySub = document.getElementById('prev-rent-statutory-sub');
+      const heading = document.getElementById('prev-rent-heading');
+      if (badgeTitle) {
+        if (fmt === 'residential') {
+          badgeTitle.innerText = 'RESIDENTIAL RENT VOUCHER';
+          if (statutorySub) statutorySub.innerText = '(Monthly Apartment / Flat Rent Payment Acknowledgment)';
+          if (heading) heading.innerText = 'HOUSE RENT VOUCHER';
+        } else if (fmt === 'commercial') {
+          badgeTitle.innerText = 'COMMERCIAL LEASE RENT MEMO';
+          if (statutorySub) statutorySub.innerText = '(Commercial Property & Office Lease Payment Receipt)';
+          if (heading) heading.innerText = 'COMMERCIAL RENT RECEIPT';
+        } else {
+          badgeTitle.innerText = 'HOUSE RENT RECEIPT (HRA EXEMPTION PROOF)';
+          if (statutorySub) statutorySub.innerText = '(Under Section 10(13A) of Income Tax Act, 1961 • Rule 26C of Income Tax Rules, 1962)';
+          if (heading) heading.innerText = 'RECEIPT OF HOUSE RENT';
+        }
+      }
+      fitRentPreviewToScreen();
+    }
+
+    function setRentTheme(thm) {
+      currentRentTheme = thm;
+      localStorage.setItem('upibill_rent_theme', thm);
+      const card = document.getElementById('rent-receipt-preview');
+      if (card) {
+        card.classList.remove('theme-emerald', 'theme-stamp', 'theme-slate', 'theme-mono');
+        card.classList.add('theme-' + thm);
+      }
+      ['emerald', 'stamp', 'slate', 'mono'].forEach(t => {
+        const btn = document.getElementById('btn-thm-' + t);
+        if (btn) {
+          if (t === thm) {
+            btn.classList.add('bg-white', 'text-slate-900', 'shadow-xs', 'font-bold');
+            btn.classList.remove('text-slate-600');
+          } else {
+            btn.classList.remove('bg-white', 'text-slate-900', 'shadow-xs', 'font-bold');
+            btn.classList.add('text-slate-600');
+          }
+        }
+      });
+    }
+
     function switchMobileTab(tab) {
       const colForm = document.getElementById('col-form');
       const colPreview = document.getElementById('col-preview');
@@ -1103,8 +1232,9 @@
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              clonedCard.style.width = '794px';
-              clonedCard.style.maxWidth = '794px';
+              const targetW = currentRentFormat === 'residential' ? '620px' : (currentRentFormat === 'commercial' ? '680px' : '794px');
+              clonedCard.style.width = targetW;
+              clonedCard.style.maxWidth = targetW;
             }
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
@@ -1222,8 +1352,9 @@
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              clonedCard.style.width = '794px';
-              clonedCard.style.maxWidth = '794px';
+              const targetW = currentRentFormat === 'residential' ? '620px' : (currentRentFormat === 'commercial' ? '680px' : '794px');
+              clonedCard.style.width = targetW;
+              clonedCard.style.maxWidth = targetW;
             }
             const origQr = document.getElementById('rent-qr');
             const cloneQr = clonedDoc.getElementById('rent-qr');
@@ -1459,6 +1590,12 @@
         if (window.lucide && typeof lucide.createIcons === 'function') {
           lucide.createIcons();
         }
+      } catch(e) {}
+      try {
+        const savedFmt = localStorage.getItem('upibill_rent_format') || 'hra';
+        setRentFormat(savedFmt);
+        const savedThm = localStorage.getItem('upibill_rent_theme') || 'emerald';
+        setRentTheme(savedThm);
       } catch(e) {}
       try {
         const nameInput = document.getElementById('tenant-name');

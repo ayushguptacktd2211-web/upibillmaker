@@ -213,6 +213,77 @@
       color: #dc2626;
       border-color: #fca5a5;
     }
+
+    /* =========================================================================
+       Authentic Medical Bill Formats & Themes
+       ========================================================================= */
+    #medical-bill-preview.theme-cyan {
+      border-color: #0284c7 !important;
+    }
+    #medical-bill-preview.theme-cyan .med-header-box {
+      border-bottom-color: #0284c7 !important;
+      background-color: #f0f9ff !important;
+    }
+    #medical-bill-preview.theme-cyan .med-header-title {
+      color: #0369a1 !important;
+    }
+    #medical-bill-preview.theme-cyan thead tr {
+      background-color: #0284c7 !important;
+    }
+    #medical-bill-preview.theme-cyan .med-grand-total {
+      color: #0284c7 !important;
+    }
+
+    #medical-bill-preview.theme-emerald {
+      border-color: #059669 !important;
+    }
+    #medical-bill-preview.theme-emerald .med-header-box {
+      border-bottom-color: #059669 !important;
+      background-color: #ecfdf5 !important;
+    }
+    #medical-bill-preview.theme-emerald .med-header-title {
+      color: #047857 !important;
+    }
+    #medical-bill-preview.theme-emerald thead tr {
+      background-color: #059669 !important;
+    }
+    #medical-bill-preview.theme-emerald .med-grand-total {
+      color: #059669 !important;
+    }
+
+    #medical-bill-preview.theme-mono {
+      border-color: #1e293b !important;
+    }
+    #medical-bill-preview.theme-mono .med-header-box {
+      border-bottom-color: #1e293b !important;
+      background-color: #f8fafc !important;
+    }
+    #medical-bill-preview.theme-mono .med-header-title {
+      color: #0f172a !important;
+    }
+    #medical-bill-preview.theme-mono thead tr {
+      background-color: #1e293b !important;
+    }
+    #medical-bill-preview.theme-mono .med-grand-total {
+      color: #0f172a !important;
+    }
+
+    #medical-bill-preview.theme-burgundy {
+      border-color: #991b1b !important;
+    }
+    #medical-bill-preview.theme-burgundy .med-header-box {
+      border-bottom-color: #991b1b !important;
+      background-color: #fff1f2 !important;
+    }
+    #medical-bill-preview.theme-burgundy .med-header-title {
+      color: #9f1239 !important;
+    }
+    #medical-bill-preview.theme-burgundy thead tr {
+      background-color: #991b1b !important;
+    }
+    #medical-bill-preview.theme-burgundy .med-grand-total {
+      color: #991b1b !important;
+    }
   </style>
 
   <!-- FAQ Schema -->
@@ -333,37 +404,8 @@
   </header>
 
   
-  <!-- Top Leaderboard Advertisement Slot -->
-  <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
-    <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-    <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <span class="text-xs text-slate-400 font-medium select-none">Responsive Ad Banner Slot</span>
-    </div>
-  </div>
-
-  <!-- Desktop 3-Column Container with Dedicated Side Rail Ad Slots (Desktop >= 1280px) -->
-  <div class="w-full max-w-[1480px] mx-auto px-2 sm:px-4 flex justify-center items-start gap-4">
-
-    <!-- Left Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
-    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Left Advertisement Rail">
-      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:160px;height:600px"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="1122334455"></ins>
-        <span class="text-xs font-semibold mt-2">160x600</span>
-        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
-      </div>
-    </aside>
-
-  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
+  <!-- Main Tool Workspace -->
+  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
     <div id="col-preview" class="w-full space-y-4">
 
       <!-- Preview Header & Actions Bar -->
@@ -423,7 +465,7 @@
 
         <!-- Table Columns -->
         <div class="space-y-1.5 pt-1">
-          <span class="text-[10px] font-bold text-teal-700 uppercase tracking-wider block">📊 Medicines Table Columns:</span>
+          <span class="text-[10px] font-bold text-teal-700 uppercase tracking-wider block">Medicines Table Columns:</span>
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
             <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
               <input type="checkbox" id="chk-sec-col-sno" checked onchange="toggleBillSection('col-sno', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
@@ -450,7 +492,7 @@
 
         <!-- Bill Sections -->
         <div class="space-y-1.5 pt-1 border-t border-teal-100">
-          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">📄 Bill Cards & Badges:</span>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Bill Cards & Badges:</span>
           <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
             <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
               <input type="checkbox" id="chk-sec-pt-dr-bar" checked onchange="toggleBillSection('pt-dr-bar', this.checked)" class="rounded text-teal-600 focus:ring-teal-500 w-3.5 h-3.5">
@@ -476,6 +518,42 @@
         </div>
       </div>
 
+      <!-- Medical Format Style & Theme Variations Bar -->
+      <div class="w-full bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 shadow-xs space-y-2 no-print text-left">
+        <!-- Format Style Selection -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+          <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+            <i data-lucide="receipt" class="w-3.5 h-3.5 text-teal-600"></i>
+            <span>Medical Bill Format:</span>
+          </span>
+          <div class="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-xs" id="med-format-group">
+            <button type="button" onclick="setMedFormat('chemist')" id="btn-med-fmt-chemist" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-white text-teal-700 shadow-2xs transition-all cursor-pointer">
+              Retail Pharmacy (Chemist)
+            </button>
+            <button type="button" onclick="setMedFormat('hospital')" id="btn-med-fmt-hospital" class="px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer">
+              Hospital & OPD Bill
+            </button>
+            <button type="button" onclick="setMedFormat('diagnostic')" id="btn-med-fmt-diagnostic" class="px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer">
+              Diagnostic & Lab Slip
+            </button>
+          </div>
+        </div>
+
+        <!-- Color Theme Selection -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pt-1.5 border-t border-slate-100">
+          <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+            <i data-lucide="palette" class="w-3.5 h-3.5 text-teal-600"></i>
+            <span>Theme Variation:</span>
+          </span>
+          <div class="flex items-center gap-1 flex-wrap" id="med-theme-group">
+            <button type="button" onclick="setMedTheme('cyan')" id="btn-med-thm-cyan" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-bold border border-sky-400 bg-sky-50 text-sky-900 shadow-2xs transition-all cursor-pointer">Clinical Cyan</button>
+            <button type="button" onclick="setMedTheme('emerald')" id="btn-med-thm-emerald" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Chemist Emerald</button>
+            <button type="button" onclick="setMedTheme('mono')" id="btn-med-thm-mono" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Classic Rx (B&W)</button>
+            <button type="button" onclick="setMedTheme('burgundy')" id="btn-med-thm-burgundy" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Care Burgundy</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Direct WYSIWYG Edit Tip Banner -->
       <div class="bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-200/80 text-teal-900 px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-between gap-2 shadow-2xs no-print">
         <div class="flex items-center gap-2">
@@ -493,15 +571,15 @@
 
       <!-- Mobile Fit Viewport Wrapper -->
       <div id="medical-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen">
-        <div id="medical-bill-preview" class="bg-white p-3.5 sm:p-5 rounded-none border-2 border-teal-700 shadow-md relative text-slate-900 font-sans">
+        <div id="medical-bill-preview" class="bg-white p-3.5 sm:p-5 rounded-none border-2 border-teal-700 format-chemist theme-cyan shadow-md relative text-slate-900 font-sans transition-all">
         
         <!-- Centered Pharmacy Tax Invoice Legal Header with Clinical Emblem -->
-        <div class="text-center pb-2 mb-2 border-b-2 border-teal-700 bg-teal-50/60 p-2.5 -m-3.5 sm:-m-5 mb-2.5 relative">
+        <div class="text-center pb-2 mb-2 border-b-2 border-teal-700 bg-teal-50/60 p-2.5 -m-3.5 sm:-m-5 mb-2.5 relative med-header-box">
           <div class="absolute left-3 top-2.5 text-teal-700 font-serif font-black text-2xl tracking-tighter select-none hidden sm:block">℞</div>
-          <h2 class="font-heading font-black text-lg sm:text-xl text-teal-900 tracking-wider uppercase" id="prev-doc-title">
+          <h2 class="font-heading font-black text-lg sm:text-xl text-teal-900 tracking-wider uppercase med-header-title" id="prev-doc-title">
             PHARMACY TAX INVOICE / RETAIL CASH MEMO
           </h2>
-          <p class="text-[9px] font-semibold text-teal-700 tracking-wider uppercase mt-0.5">
+          <p id="prev-doc-subtitle" class="text-[9px] font-semibold text-teal-700 tracking-wider uppercase mt-0.5">
             (Drugs & Cosmetics Act, 1940 • Form 20/21 Retail Chemist & Druggist • Schedule H/H1)
           </p>
         </div>
@@ -661,7 +739,7 @@
               </div>
               <div class="border-t-2 border-teal-700 pt-1.5 flex justify-between items-center text-slate-900">
                 <span class="font-bold text-xs uppercase text-teal-900">Total Due:</span>
-                <span id="prev-total" class="font-heading font-black text-lg text-teal-800 font-mono">₹0.00</span>
+                <span id="prev-total" class="font-heading font-black text-lg text-teal-800 font-mono med-grand-total">₹0.00</span>
               </div>
             </div>
 
@@ -684,21 +762,6 @@
     </div>
 
     
-    <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
-    <div class="w-full my-6 no-print text-center">
-      <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="0987654321"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <span class="text-xs text-slate-400 font-medium select-none">In-Content Ad Banner Slot</span>
-      </div>
-    </div>
-
-
     <div id="col-form" class="w-full bg-white p-3.5 sm:p-8 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm space-y-5 sm:space-y-6 no-print">
       
       <div class="flex flex-wrap items-center justify-between gap-2.5 pb-3 border-b border-slate-100">
@@ -823,7 +886,7 @@
           <div class="flex items-center justify-between text-[11px]">
             <span class="flex items-center gap-1 font-bold text-teal-900">
               <i data-lucide="zap" class="w-3.5 h-3.5 text-teal-600"></i>
-              <span>⚡ Quick Add Popular Medicines (1-Tap):</span>
+              <span>Quick Add Popular Medicines (1-Tap):</span>
             </span>
             <span class="text-[10px] text-teal-700 font-medium">Click to add with batch & rates</span>
           </div>
@@ -923,21 +986,6 @@
 
     </div>
   </main>
-
-    <!-- Right Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
-    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Right Advertisement Rail">
-      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:160px;height:600px"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="6677889900"></ins>
-        <span class="text-xs font-semibold mt-2">160x600</span>
-        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
-      </div>
-    </aside>
-
-  </div> <!-- End Desktop 3-Column Container -->
   <script>
     try {
       if (window.lucide && typeof lucide.createIcons === 'function') {
@@ -1313,7 +1361,7 @@
       updateMedicalBill();
     });
 
-    // ⚡ Quick Add Popular Medicine Items (1-Tap)
+    // Quick Add Popular Medicine Items (1-Tap)
     function quickAddMedItem(desc, rate, batch, exp) {
       const c = document.getElementById('med-items-container');
       if (!c) return;
@@ -1875,11 +1923,83 @@
     window.addEventListener('resize', fitMedPreviewToScreen);
     window.addEventListener('scroll', updateMedFloatingBtnState, { passive: true });
 
+    // Format & Theme Switcher Logic for Medical Bill
+    let currentMedFormat = 'chemist';
+    let currentMedTheme = 'cyan';
+
+    function setMedFormat(fmt) {
+      currentMedFormat = fmt;
+      const el = document.getElementById('medical-bill-preview');
+      if (!el) return;
+      ['format-chemist', 'format-hospital', 'format-diagnostic'].forEach(c => el.classList.remove(c));
+      el.classList.add(`format-${fmt}`);
+
+      // Dynamic title and statutory subtitle based on chosen medical bill format
+      const titleEl = document.getElementById('prev-doc-title');
+      const subtitleEl = document.getElementById('prev-doc-subtitle');
+      if (fmt === 'chemist') {
+        if (titleEl) titleEl.innerText = 'PHARMACY TAX INVOICE / RETAIL CASH MEMO';
+        if (subtitleEl) subtitleEl.innerText = '(Drugs & Cosmetics Act, 1940 • Form 20/21 Retail Chemist & Druggist • Schedule H/H1)';
+      } else if (fmt === 'hospital') {
+        if (titleEl) titleEl.innerText = 'HOSPITAL OPD & CLINICAL INVOICE';
+        if (subtitleEl) subtitleEl.innerText = '(Inpatient / Outpatient Clinical Healthcare Services & Medication)';
+      } else if (fmt === 'diagnostic') {
+        if (titleEl) titleEl.innerText = 'DIAGNOSTIC & PATHOLOGY LAB RECEIPT';
+        if (subtitleEl) subtitleEl.innerText = '(Clinical Pathology, Diagnostic Investigations & Lab Report Voucher)';
+      }
+
+      // Update Format Buttons
+      ['chemist', 'hospital', 'diagnostic'].forEach(f => {
+        const btn = document.getElementById(`btn-med-fmt-${f}`);
+        if (!btn) return;
+        if (f === fmt) {
+          btn.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold bg-white text-teal-700 shadow-2xs transition-all cursor-pointer';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer';
+        }
+      });
+
+      try { localStorage.setItem('upibill_med_format', fmt); } catch(e){}
+    }
+
+    function setMedTheme(thm) {
+      currentMedTheme = thm;
+      const el = document.getElementById('medical-bill-preview');
+      if (!el) return;
+      ['theme-cyan', 'theme-emerald', 'theme-mono', 'theme-burgundy'].forEach(c => el.classList.remove(c));
+      el.classList.add(`theme-${thm}`);
+
+      // Update Theme Buttons
+      const themes = [
+        { id: 'cyan', activeClass: 'border-sky-400 bg-sky-50 text-sky-900 font-bold' },
+        { id: 'emerald', activeClass: 'border-teal-400 bg-teal-50 text-teal-900 font-bold' },
+        { id: 'mono', activeClass: 'border-slate-800 bg-slate-100 text-slate-900 font-bold' },
+        { id: 'burgundy', activeClass: 'border-rose-400 bg-rose-50 text-rose-900 font-bold' }
+      ];
+      themes.forEach(t => {
+        const btn = document.getElementById(`btn-med-thm-${t.id}`);
+        if (!btn) return;
+        if (t.id === thm) {
+          btn.className = `px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] border shadow-2xs transition-all cursor-pointer ${t.activeClass}`;
+        } else {
+          btn.className = 'px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer';
+        }
+      });
+
+      try { localStorage.setItem('upibill_med_theme', thm); } catch(e){}
+    }
+
     function initMedApp() {
       try {
         if (window.lucide && typeof lucide.createIcons === 'function') {
           lucide.createIcons();
         }
+      } catch(e) {}
+      try {
+        const savedFmt = localStorage.getItem('upibill_med_format') || 'chemist';
+        const savedThm = localStorage.getItem('upibill_med_theme') || 'cyan';
+        setMedFormat(savedFmt);
+        setMedTheme(savedThm);
       } catch(e) {}
       try {
         const nameInput = document.getElementById('pharmacy-name');

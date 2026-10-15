@@ -201,6 +201,95 @@
       color: #dc2626;
       border-color: #fca5a5;
     }
+
+    /* =========================================================================
+       Authentic Restaurant Bill Formats & Themes
+       ========================================================================= */
+    /* Format 1: Thermal POS Slip (80mm) */
+    #food-bill-preview.format-thermal {
+      max-width: 380px !important;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+      border: 2px dashed #d97706 !important;
+      border-radius: 0px !important;
+    }
+    #food-bill-preview.format-thermal .finedine-only { display: none !important; }
+    #food-bill-preview.format-thermal .fastfood-only { display: none !important; }
+    #food-bill-preview.format-thermal .thermal-only { display: block !important; }
+
+    /* Format 2: Fine-Dine Dining Guest Check */
+    #food-bill-preview.format-finedine {
+      max-width: 520px !important;
+      font-family: 'Inter', sans-serif !important;
+      border: 2px solid #881337 !important;
+      border-radius: 8px !important;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08) !important;
+    }
+    #food-bill-preview.format-finedine .thermal-only { display: none !important; }
+    #food-bill-preview.format-finedine .fastfood-only { display: none !important; }
+    #food-bill-preview.format-finedine .finedine-only { display: block !important; }
+
+    /* Format 3: Fast Food & Dhaba Cash Memo */
+    #food-bill-preview.format-fastfood {
+      max-width: 420px !important;
+      font-family: 'Inter', sans-serif !important;
+      border: 2px solid #0f172a !important;
+      border-radius: 6px !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08) !important;
+    }
+    #food-bill-preview.format-fastfood .thermal-only { display: none !important; }
+    #food-bill-preview.format-fastfood .finedine-only { display: none !important; }
+    #food-bill-preview.format-fastfood .fastfood-only { display: block !important; }
+
+    /* Theme 1: Bistro Amber (Warm Gourmet Cafe) */
+    #food-bill-preview.theme-amber {
+      border-color: #d97706 !important;
+    }
+    #food-bill-preview.theme-amber .header-band {
+      background: #fffbeb !important;
+      border-color: #fde68a !important;
+    }
+    #food-bill-preview.theme-amber .doc-highlight-total {
+      color: #b45309 !important;
+    }
+
+    /* Theme 2: Classic POS (Monochrome Black & White) */
+    #food-bill-preview.theme-mono {
+      border-color: #1e293b !important;
+    }
+    #food-bill-preview.theme-mono .header-band {
+      background: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+    }
+    #food-bill-preview.theme-mono .doc-highlight-total {
+      color: #0f172a !important;
+    }
+    #food-bill-preview.theme-mono thead tr {
+      border-bottom-color: #0f172a !important;
+    }
+
+    /* Theme 3: Royal Dining (Maroon & Gold) */
+    #food-bill-preview.theme-maroon {
+      border-color: #881337 !important;
+    }
+    #food-bill-preview.theme-maroon .header-band {
+      background: #fff1f2 !important;
+      border-color: #fecdd3 !important;
+    }
+    #food-bill-preview.theme-maroon .doc-highlight-total {
+      color: #881337 !important;
+    }
+
+    /* Theme 4: Fresh Mint (Modern Green Eatery) */
+    #food-bill-preview.theme-mint {
+      border-color: #059669 !important;
+    }
+    #food-bill-preview.theme-mint .header-band {
+      background: #ecfdf5 !important;
+      border-color: #a7f3d0 !important;
+    }
+    #food-bill-preview.theme-mint .doc-highlight-total {
+      color: #047857 !important;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-rose-500 selection:text-white pb-20 sm:pb-8">
@@ -287,37 +376,8 @@
   </header>
 
   
-  <!-- Top Leaderboard Advertisement Slot -->
-  <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
-    <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-    <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <span class="text-xs text-slate-400 font-medium select-none">Responsive Ad Banner Slot</span>
-    </div>
-  </div>
-
-  <!-- Desktop 3-Column Container with Dedicated Side Rail Ad Slots (Desktop >= 1280px) -->
-  <div class="w-full max-w-[1480px] mx-auto px-2 sm:px-4 flex justify-center items-start gap-4">
-
-    <!-- Left Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
-    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Left Advertisement Rail">
-      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:160px;height:600px"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="1122334455"></ins>
-        <span class="text-xs font-semibold mt-2">160x600</span>
-        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
-      </div>
-    </aside>
-
-  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-10 space-y-6 sm:space-y-8">
+  <!-- Main Tool Workspace -->
+  <main class="w-full max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
     <div id="col-preview" class="w-full space-y-4 flex flex-col items-center">
 
       <!-- Preview Header & Actions Bar -->
@@ -377,7 +437,7 @@
 
         <!-- Table Columns -->
         <div class="space-y-1.5 pt-1">
-          <span class="text-[10px] font-bold text-orange-700 uppercase tracking-wider block">📊 Food Table Columns:</span>
+          <span class="text-[10px] font-bold text-orange-700 uppercase tracking-wider block">Food Table Columns:</span>
           <div class="grid grid-cols-3 gap-2 text-xs">
             <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
               <input type="checkbox" id="chk-sec-col-sno" checked onchange="toggleBillSection('col-sno', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
@@ -396,7 +456,7 @@
 
         <!-- Bill Sections -->
         <div class="space-y-1.5 pt-1 border-t border-orange-100">
-          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">📄 Bill Sections & Badges:</span>
+          <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Bill Sections & Badges:</span>
           <div class="grid grid-cols-2 gap-2 text-xs">
             <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
               <input type="checkbox" id="chk-sec-table-kot" checked onchange="toggleBillSection('table-kot', this.checked)" class="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5">
@@ -422,6 +482,42 @@
         </div>
       </div>
 
+      <!-- Restaurant Format Style & Theme Variations Bar -->
+      <div class="w-full max-w-sm sm:max-w-md bg-white rounded-xl border border-slate-200 p-2.5 sm:p-3 shadow-xs space-y-2 no-print text-left">
+        <!-- Format Style Selection -->
+        <div class="flex items-center justify-between gap-1">
+          <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+            <i data-lucide="receipt" class="w-3.5 h-3.5 text-orange-600"></i>
+            <span>Bill Format:</span>
+          </span>
+          <div class="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-xs" id="restaurant-format-group">
+            <button type="button" onclick="setRestaurantFormat('thermal')" id="btn-fmt-thermal" class="px-2 py-1 rounded-md text-[11px] font-bold bg-white text-orange-700 shadow-2xs transition-all cursor-pointer">
+              Thermal POS (80mm)
+            </button>
+            <button type="button" onclick="setRestaurantFormat('finedine')" id="btn-fmt-finedine" class="px-2 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer">
+              Fine Dine Check
+            </button>
+            <button type="button" onclick="setRestaurantFormat('fastfood')" id="btn-fmt-fastfood" class="px-2 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer">
+              Fast Food Memo
+            </button>
+          </div>
+        </div>
+
+        <!-- Color Theme Selection -->
+        <div class="flex items-center justify-between gap-1 pt-1.5 border-t border-slate-100">
+          <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1">
+            <i data-lucide="palette" class="w-3.5 h-3.5 text-orange-600"></i>
+            <span>Theme:</span>
+          </span>
+          <div class="flex items-center gap-1 flex-wrap justify-end" id="restaurant-theme-group">
+            <button type="button" onclick="setRestaurantTheme('amber')" id="btn-thm-amber" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-bold border border-amber-400 bg-amber-50 text-amber-900 shadow-2xs transition-all cursor-pointer">Bistro Amber</button>
+            <button type="button" onclick="setRestaurantTheme('mono')" id="btn-thm-mono" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Classic POS (B&W)</button>
+            <button type="button" onclick="setRestaurantTheme('maroon')" id="btn-thm-maroon" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Royal Maroon</button>
+            <button type="button" onclick="setRestaurantTheme('mint')" id="btn-thm-mint" class="px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer">Fresh Mint</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Direct WYSIWYG Edit Tip Banner -->
       <div class="w-full max-w-sm bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/80 text-amber-900 px-3 py-2 rounded-xl text-xs font-medium flex items-center justify-between gap-2 shadow-2xs no-print">
         <div class="flex items-center gap-2">
@@ -439,22 +535,44 @@
 
       <!-- Mobile Fit Viewport Wrapper -->
       <div id="restaurant-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen flex justify-center">
-        <div id="food-bill-preview" class="w-full max-w-sm mx-auto bg-white p-5 rounded-none border-2 border-dashed border-amber-600/80 shadow-lg space-y-2.5 font-mono text-xs relative">
+        <div id="food-bill-preview" class="w-full max-w-sm mx-auto bg-white p-5 rounded-none format-thermal theme-amber shadow-lg space-y-2.5 font-mono text-xs relative transition-all">
         
         <!-- Header -->
-        <div class="text-center bg-amber-50/60 p-3 -m-5 mb-2.5 border-b-2 border-dashed border-amber-300">
+        <div class="text-center header-band p-3 -m-5 mb-2.5 border-b-2 border-dashed border-amber-300">
           <h2 class="editable-field font-heading font-extrabold text-lg text-slate-900 leading-snug" id="prev-c-name" contenteditable="true" spellcheck="false" data-bind="cafe-name" title="Click to edit restaurant name">Your Restaurant / Cafe</h2>
           <p class="editable-field text-[11px] text-slate-600 mt-0.5" id="prev-c-address" contenteditable="true" spellcheck="false" data-bind="cafe-address" title="Click to edit address">Location / Address</p>
           <p class="text-[10px] text-slate-700 mt-0.5" id="prev-c-gstin-row">GSTIN: <span id="prev-c-gstin" class="editable-field font-bold" contenteditable="true" spellcheck="false" data-bind="cafe-gstin"></span></p>
           <div class="mt-1.5 pt-1 border-t border-dotted border-amber-300">
             <div class="flex items-center justify-between text-[10px]">
-              <span class="font-bold text-amber-900 uppercase tracking-wider">RESTAURANT CASH MEMO</span>
+              <span class="font-bold uppercase tracking-wider text-slate-800">RESTAURANT CASH MEMO</span>
               <div role="button" tabindex="0" onclick="toggleCafeStatus()" title="Click to toggle status" class="cursor-pointer focus:outline-none">
                 <span id="prev-cafe-status-badge" class="font-mono font-bold text-xs uppercase tracking-wider text-amber-700 bg-white px-2 py-0.5 rounded border border-amber-300 shadow-2xs">
                   DUE (PENDING)
                 </span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Fine Dine Format Header Strip (finedine-only) -->
+        <div class="finedine-only hidden text-center border-b-2 border-double border-slate-300 pb-2 mb-2">
+          <div class="flex justify-between items-center text-[10px] text-slate-500 uppercase tracking-widest font-semibold pb-1">
+            <span>FINE DINING GUEST CHECK</span>
+            <span>ORIGINAL GUEST FOLIO</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] bg-slate-50/70 p-2 rounded border border-slate-200 text-left mt-1">
+            <div><span class="text-slate-500 block text-[9px] uppercase font-bold">Table No</span><strong id="prev-fd-table">Table #01</strong></div>
+            <div><span class="text-slate-500 block text-[9px] uppercase font-bold">Steward</span><strong id="prev-fd-steward">Capt. Rajesh</strong></div>
+            <div><span class="text-slate-500 block text-[9px] uppercase font-bold">Covers</span><strong>03 Pax</strong></div>
+            <div><span class="text-slate-500 block text-[9px] uppercase font-bold">Order #</span><strong id="prev-fd-check">CHK-101</strong></div>
+          </div>
+        </div>
+
+        <!-- Fast Food Format Banner (fastfood-only) -->
+        <div class="fastfood-only hidden mb-2">
+          <div class="bg-slate-900 text-white p-2 rounded flex items-center justify-between">
+            <span class="text-xs font-black tracking-wider uppercase">TOKEN #101</span>
+            <span class="text-[10px] uppercase font-bold text-amber-400">COUNTER ORDER • DINE-IN</span>
           </div>
         </div>
 
@@ -519,7 +637,7 @@
           </div>
           <div class="border-t-2 border-slate-800 pt-1.5 flex justify-between font-bold text-sm text-slate-900">
             <span>TOTAL PAYABLE:</span>
-            <span id="prev-f-total" class="font-black font-mono text-base text-amber-900">₹0.00</span>
+            <span id="prev-f-total" class="font-black font-mono text-base doc-highlight-total">₹0.00</span>
           </div>
         </div>
 
@@ -539,6 +657,16 @@
           <p class="text-[10px] text-slate-600 font-mono">UPI ID: <span id="prev-c-upi" class="font-bold text-slate-900">yourcafe@upi</span></p>
         </div>
 
+        <!-- Fine Dine Manager Signature Line (finedine-only) -->
+        <div class="finedine-only hidden pt-3 border-t border-slate-300 text-right">
+          <div class="inline-block text-center min-w-[130px]">
+            <p class="font-signature text-lg text-slate-800 leading-none">R. K. Sharma</p>
+            <p class="text-[8px] uppercase tracking-wider font-bold text-slate-500 border-t border-slate-400 pt-0.5 mt-1">
+              Authorized F&B Manager
+            </p>
+          </div>
+        </div>
+
         <!-- Footer Notice -->
         <div id="sec-footer-notice" class="group/sec relative text-center space-y-0.5 pt-1">
           <button type="button" onclick="hideBillSection('footer-notice')" class="sec-hide-btn no-print" title="Hide footer notice">✕ Hide</button>
@@ -551,21 +679,6 @@
     </div>
 
     
-    <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
-    <div class="w-full my-6 no-print text-center">
-      <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="0987654321"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <span class="text-xs text-slate-400 font-medium select-none">In-Content Ad Banner Slot</span>
-      </div>
-    </div>
-
-
     <div id="col-form" class="w-full bg-white p-3.5 sm:p-8 rounded-xl sm:rounded-2xl border border-slate-200 shadow-sm space-y-5 sm:space-y-6 no-print">
       
       <!-- Form Header -->
@@ -646,7 +759,7 @@
           <div class="flex items-center justify-between text-[11px]">
             <span class="flex items-center gap-1 font-bold text-amber-900">
               <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-600"></i>
-              <span>⚡ Quick Add Popular Food Items (1-Tap):</span>
+              <span>Quick Add Popular Food Items (1-Tap):</span>
             </span>
             <span class="text-[10px] text-amber-700 font-medium">Click to add with standard rates</span>
           </div>
@@ -763,21 +876,6 @@
         </div>
     </div>
   </main>
-
-    <!-- Right Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
-    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Right Advertisement Rail">
-      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:160px;height:600px"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="6677889900"></ins>
-        <span class="text-xs font-semibold mt-2">160x600</span>
-        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
-      </div>
-    </aside>
-
-  </div> <!-- End Desktop 3-Column Container -->
 
 
   <script>
@@ -1098,7 +1196,7 @@
       updateRestaurantBill();
     });
 
-    // ⚡ Quick Add Popular Food Items (1-Tap)
+    // Quick Add Popular Food Items (1-Tap)
     function quickAddCafeItem(desc, price) {
       const c = document.getElementById('food-items-container');
       if (!c) return;
@@ -1406,8 +1504,9 @@
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              clonedCard.style.width = '380px';
-              clonedCard.style.maxWidth = '380px';
+              const targetW = currentRestaurantFormat === 'finedine' ? '520px' : (currentRestaurantFormat === 'fastfood' ? '420px' : '380px');
+              clonedCard.style.width = targetW;
+              clonedCard.style.maxWidth = targetW;
             }
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
@@ -1508,12 +1607,12 @@
           onclone: (clonedDoc) => {
             const clonedCard = clonedDoc.getElementById('food-bill-preview');
             if (clonedCard) {
-              clonedCard.style.setProperty('border', 'none', 'important');
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
-              clonedCard.style.width = '380px';
-              clonedCard.style.maxWidth = '380px';
+              const targetW = currentRestaurantFormat === 'finedine' ? '520px' : (currentRestaurantFormat === 'fastfood' ? '420px' : '380px');
+              clonedCard.style.width = targetW;
+              clonedCard.style.maxWidth = targetW;
             }
             const origQr = document.getElementById('cafe-qr');
             const cloneQr = clonedDoc.getElementById('cafe-qr');
@@ -1691,11 +1790,70 @@
     window.addEventListener('resize', fitRestPreviewToScreen);
     window.addEventListener('scroll', updateRestFloatingBtnState, { passive: true });
 
+    // Format & Theme Switcher Logic for Restaurant Bill
+    let currentRestaurantFormat = 'thermal';
+    let currentRestaurantTheme = 'amber';
+
+    function setRestaurantFormat(fmt) {
+      currentRestaurantFormat = fmt;
+      const el = document.getElementById('food-bill-preview');
+      if (!el) return;
+      ['format-thermal', 'format-finedine', 'format-fastfood'].forEach(c => el.classList.remove(c));
+      el.classList.add(`format-${fmt}`);
+
+      // Update Format Buttons
+      ['thermal', 'finedine', 'fastfood'].forEach(f => {
+        const btn = document.getElementById(`btn-fmt-${f}`);
+        if (!btn) return;
+        if (f === fmt) {
+          btn.className = 'px-2 py-1 rounded-md text-[11px] font-bold bg-white text-orange-700 shadow-2xs transition-all cursor-pointer';
+        } else {
+          btn.className = 'px-2 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer';
+        }
+      });
+
+      try { localStorage.setItem('upibill_rest_format', fmt); } catch(e){}
+      fitRestPreviewToScreen();
+    }
+
+    function setRestaurantTheme(thm) {
+      currentRestaurantTheme = thm;
+      const el = document.getElementById('food-bill-preview');
+      if (!el) return;
+      ['theme-amber', 'theme-mono', 'theme-maroon', 'theme-mint'].forEach(c => el.classList.remove(c));
+      el.classList.add(`theme-${thm}`);
+
+      // Update Theme Buttons
+      const themes = [
+        { id: 'amber', activeClass: 'border-amber-400 bg-amber-50 text-amber-900 font-bold' },
+        { id: 'mono', activeClass: 'border-slate-800 bg-slate-100 text-slate-900 font-bold' },
+        { id: 'maroon', activeClass: 'border-rose-400 bg-rose-50 text-rose-900 font-bold' },
+        { id: 'mint', activeClass: 'border-emerald-400 bg-emerald-50 text-emerald-900 font-bold' }
+      ];
+      themes.forEach(t => {
+        const btn = document.getElementById(`btn-thm-${t.id}`);
+        if (!btn) return;
+        if (t.id === thm) {
+          btn.className = `px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] border shadow-2xs transition-all cursor-pointer ${t.activeClass}`;
+        } else {
+          btn.className = 'px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-medium border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition-all cursor-pointer';
+        }
+      });
+
+      try { localStorage.setItem('upibill_rest_theme', thm); } catch(e){}
+    }
+
     function initRestApp() {
       try {
         if (window.lucide && typeof lucide.createIcons === 'function') {
           lucide.createIcons();
         }
+      } catch(e) {}
+      try {
+        const savedFmt = localStorage.getItem('upibill_rest_format') || 'thermal';
+        const savedThm = localStorage.getItem('upibill_rest_theme') || 'amber';
+        setRestaurantFormat(savedFmt);
+        setRestaurantTheme(savedThm);
       } catch(e) {}
       try { initSectionVisibility(); } catch(e) {}
       try {

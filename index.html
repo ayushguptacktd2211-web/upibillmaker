@@ -422,6 +422,58 @@
       color: #4338ca !important;
     }
 
+    /* Theme: Commercial Trade Maroon */
+    #invoice-preview-container.theme-maroon {
+      border-color: #991b1b !important;
+    }
+    #invoice-preview-container.theme-maroon #prev-doc-type {
+      color: #991b1b !important;
+    }
+    #invoice-preview-container.theme-maroon .doc-title-bar {
+      background: #fef2f2 !important;
+      border-bottom-color: #991b1b !important;
+    }
+    #invoice-preview-container.theme-maroon thead tr {
+      background: #991b1b !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-maroon thead th {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-maroon #prev-industry-meta-strip {
+      background: #fef2f2 !important;
+      border-color: #991b1b !important;
+    }
+    #invoice-preview-container.theme-maroon #prev-grand-total {
+      color: #991b1b !important;
+    }
+
+    /* Theme: Laser Monochrome (Classic B&W) */
+    #invoice-preview-container.theme-mono {
+      border-color: #0f172a !important;
+    }
+    #invoice-preview-container.theme-mono #prev-doc-type {
+      color: #0f172a !important;
+    }
+    #invoice-preview-container.theme-mono .doc-title-bar {
+      background: #f8fafc !important;
+      border-bottom-color: #0f172a !important;
+    }
+    #invoice-preview-container.theme-mono thead tr {
+      background: #0f172a !important;
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-mono thead th {
+      color: #ffffff !important;
+    }
+    #invoice-preview-container.theme-mono #prev-industry-meta-strip {
+      background: #f8fafc !important;
+      border-color: #0f172a !important;
+    }
+    #invoice-preview-container.theme-mono #prev-grand-total {
+      color: #0f172a !important;
+    }
+
     /* Table Columns Visibility Customizer */
     #invoice-preview-container.hide-col-sno #th-sno,
     #invoice-preview-container.hide-col-sno .td-sno {
@@ -710,38 +762,8 @@
     </div>
   </section>
 
-  <!-- Top Leaderboard Advertisement Slot -->
-  <div class="max-w-4xl mx-auto px-4 my-4 no-print text-center">
-    <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-    <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <span class="text-xs text-slate-400 font-medium select-none">Responsive Ad Banner Slot</span>
-    </div>
-  </div>
-
-  <!-- Desktop 3-Column Layout: Left Rail Ad + Central Bill Workspace + Right Rail Ad -->
-  <div class="w-full max-w-[1480px] mx-auto px-2 sm:px-4 flex justify-center items-start gap-4">
-
-    <!-- Left Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
-    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Left Advertisement Rail">
-      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:160px;height:600px"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="1122334455"></ins>
-        <span class="text-xs font-semibold mt-2">160x600</span>
-        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
-      </div>
-    </aside>
-
-    <!-- Main Tool Workspace (Centered Form with Preview for SaaS & Ad Efficiency) -->
-    <main id="tool-section" class="google-anno-skip flex-1 max-w-4xl min-w-0 py-4 sm:py-8 space-y-6 sm:space-y-8">
+  <!-- Main Tool Workspace -->
+  <main id="tool-section" class="google-anno-skip max-w-4xl mx-auto px-2.5 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 sm:space-y-8">
       
       <!-- Sleek Horizontal Industry Template Pills (Compact, Zero Emojis) -->
       <div id="industry-template-bar" class="w-full no-print">
@@ -781,12 +803,22 @@
           <!-- Left Side: Format Theme & Customize Sections Button -->
           <div class="flex items-center gap-2 flex-wrap">
             <div class="flex items-center gap-1.5">
-              <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Theme:</span>
+              <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Format:</span>
               <select id="invoice-format-select" onchange="setInvoiceFormat(this.value)" class="text-xs font-semibold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer">
-                <option value="format-modern" selected>Modern SaaS</option>
-                <option value="format-classic">Classic Grid</option>
-                <option value="format-executive">Executive Navy</option>
-                <option value="format-minimal">Minimal Clean</option>
+                <option value="format-modern" selected>Standard B2B Tax Invoice</option>
+                <option value="format-classic">Retail Store Cash Memo</option>
+                <option value="format-executive">Corporate Trade Invoice</option>
+                <option value="format-minimal">Compact Counter Slip</option>
+              </select>
+            </div>
+
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Theme:</span>
+              <select id="invoice-theme-select" onchange="setInvoiceTheme(this.value)" class="text-xs font-semibold bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg px-2.5 py-1.5 text-slate-800 shadow-2xs focus:ring-2 focus:ring-brand-500 cursor-pointer">
+                <option value="theme-shop" selected>Merchant Slate</option>
+                <option value="theme-medical">Clinical Emerald</option>
+                <option value="theme-maroon">Trade Maroon</option>
+                <option value="theme-mono">Laser Monochrome (B&W)</option>
               </select>
             </div>
             
@@ -835,7 +867,7 @@
 
           <!-- Group A: Table Columns -->
           <div class="space-y-1.5 pt-1">
-            <span class="text-[10px] font-bold text-brand-700 uppercase tracking-wider block">📊 Items Table Columns (टेबल के कॉलम):</span>
+            <span class="text-[10px] font-bold text-brand-700 uppercase tracking-wider block">Items Table Columns (टेबल के कॉलम):</span>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
               <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/70 hover:bg-slate-50 cursor-pointer select-none">
                 <input type="checkbox" id="chk-sec-col-sno" checked onchange="toggleBillSection('col-sno', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
@@ -858,7 +890,7 @@
 
           <!-- Group B: Bill Sections & Cards -->
           <div class="space-y-1.5 pt-1 border-t border-slate-100">
-            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">📄 Bill Sections & Cards (बिल के हिस्से):</span>
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Bill Sections & Cards (बिल के हिस्से):</span>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-xs">
               <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 bg-slate-50/60 hover:bg-slate-50 cursor-pointer select-none">
                 <input type="checkbox" id="chk-sec-billed-to" checked onchange="toggleBillSection('billed-to', this.checked)" class="rounded text-brand-600 focus:ring-brand-500 w-4 h-4">
@@ -1139,16 +1171,15 @@
                   Authorized Signatory
                 </p>
               </div>
-          </div>
+            </div>
+          </div> <!-- Closes continuous 2-Column Ledger Grid (sm:grid-cols-12 border-b border-slate-800) -->
 
-          <!-- Bottom Statutory Notice -->
-          <div class="pt-1.5 text-center text-[9px] text-slate-500">
-            <span>This is a Computer Generated Tax Invoice • Compliant with Section 31 of CGST Act, 2017</span>
-          </div>
-
-          <!-- Subtle Watermark Branding (Can be toggled off) -->
-          <div id="prev-branding" class="mt-0.5 text-center text-[9px] text-slate-400 font-medium select-none">
-            Generated by UPIBillMaker.com
+          <!-- Bottom Statutory Notice & Branding (Full Width across invoice) -->
+          <div id="prev-legal-footer" class="w-full text-center text-[9px] text-slate-500 pt-2 pb-1 space-y-0.5 select-none block">
+            <p id="prev-computer-generated-notice">This is a Computer Generated Tax Invoice • Compliant with Section 31 of CGST Act, 2017</p>
+            <div id="prev-branding" class="text-[9px] text-slate-400 font-medium">
+              Generated by UPIBillMaker.com
+            </div>
           </div>
 
         </div>
@@ -1157,19 +1188,7 @@
 
       </div>
 
-    <!-- In-Content High-Earning Ad Slot Between Preview & Form -->
-    <div class="w-full my-6 no-print text-center">
-      <span class="text-[10px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-full min-h-[90px] bg-slate-100/60 border border-dashed border-slate-200 rounded-xl p-2 flex items-center justify-center overflow-hidden">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="0987654321"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <span class="text-xs text-slate-400 font-medium select-none">In-Content Ad Banner Slot</span>
-      </div>
-    </div>
+
 
     <!-- Top Form Controls (Centered) -->
     <div id="col-main-form" class="google-anno-skip w-full bg-white rounded-xl sm:rounded-2xl border border-slate-200 shadow-xs sm:shadow-sm p-3.5 sm:p-8 no-print space-y-5 sm:space-y-6">
@@ -1200,7 +1219,7 @@
             <div>
               <div class="text-xs font-bold text-slate-900 flex items-center gap-1.5">
                 <span>Bill Mode:</span>
-                <span id="current-mode-label" class="text-emerald-700 font-extrabold uppercase tracking-wide">⚡ Simple Quick Mode</span>
+                <span id="current-mode-label" class="text-emerald-700 font-extrabold uppercase tracking-wide">Simple Quick Mode</span>
               </div>
               <p class="text-[11px] text-slate-600">Basic 3-step billing for 30-second bills • Switch to Pro for detailed B2B GST</p>
             </div>
@@ -1208,11 +1227,11 @@
           <div class="flex items-center gap-1.5 bg-white p-1 rounded-lg border border-slate-200 shadow-2xs">
             <button type="button" id="btn-mode-simple" onclick="setBillCreationMode('simple')" class="px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-emerald-600 text-white shadow-xs cursor-pointer flex items-center gap-1">
               <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-              <span>⚡ Quick Bill</span>
+              <span>Quick Bill</span>
             </button>
             <button type="button" id="btn-mode-pro" onclick="setBillCreationMode('pro')" class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer flex items-center gap-1">
               <i data-lucide="settings-2" class="w-3.5 h-3.5"></i>
-              <span>⚙️ Pro GST</span>
+              <span>Pro GST</span>
             </button>
           </div>
         </div>
@@ -1586,7 +1605,7 @@
               <div class="flex items-center justify-between text-[11px]">
                 <span class="flex items-center gap-1 font-bold text-amber-900">
                   <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-600"></i>
-                  <span>⚡ Quick Add Popular Items (1-Tap):</span>
+                  <span>Quick Add Popular Items (1-Tap):</span>
                 </span>
                 <span class="text-[10px] text-amber-700 font-medium">Click to add with standard rates</span>
               </div>
@@ -1748,20 +1767,7 @@
       </div>
   </main>
 
-    <!-- Right Skyscraper Side Rail Ad Slot (Desktop >= 1280px) -->
-    <aside class="hidden xl:block w-[160px] flex-shrink-0 pt-4 no-print sticky top-20 text-center" aria-label="Right Advertisement Rail">
-      <span class="text-[9px] font-semibold uppercase tracking-widest text-slate-400 block mb-1">Advertisement</span>
-      <div class="w-[160px] h-[600px] bg-slate-100/70 border border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-2 text-slate-400">
-        <ins class="adsbygoogle"
-             style="display:inline-block;width:160px;height:600px"
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="6677889900"></ins>
-        <span class="text-xs font-semibold mt-2">160x600</span>
-        <span class="text-[10px] text-slate-400">Side Rail Ad</span>
-      </div>
-    </aside>
 
-  </div> <!-- End Desktop 3-Column Container -->
 
   <!-- Deep SEO & Content Section -->
   <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200 space-y-12 no-print">
@@ -2622,6 +2628,17 @@
       try { localStorage.setItem('upibill_invoice_format', formatName); } catch(e) {}
       const sel = document.getElementById('invoice-format-select');
       if (sel && sel.value !== formatName) sel.value = formatName;
+    }
+
+    // Invoice Bill Theme Switcher
+    function setInvoiceTheme(themeName) {
+      const container = document.getElementById('invoice-preview-container');
+      if (!container) return;
+      container.classList.remove('theme-shop', 'theme-medical', 'theme-restaurant', 'theme-hotel', 'theme-rent', 'theme-tuition', 'theme-maroon', 'theme-mono');
+      container.classList.add(themeName);
+      try { localStorage.setItem('upibill_invoice_theme', themeName); } catch(e) {}
+      const sel = document.getElementById('invoice-theme-select');
+      if (sel && sel.value !== themeName) sel.value = themeName;
     }
 
     // Quick Date & Time Picker Helpers
@@ -3696,7 +3713,7 @@
       updateInvoice();
     }
 
-    // ⚡ 1-Click Quick Add Popular Line Items (Make bill making ultra-fast)
+    // Quick Add Popular Line Items (Make bill making ultra-fast)
     const templateQuickItems = {
       shop: [
         { desc: 'Mobile Screen / Display Replacement', rate: 1800, hsn: '8471' },
@@ -3806,7 +3823,7 @@
       showDownloadToast(`Added "${desc}" (₹${rate}) to bill`);
     }
 
-    // Bill Creation Mode Toggle: ⚡ Simple Quick Bill vs ⚙️ Pro GST Invoice
+    // Bill Creation Mode Toggle: Simple Quick Bill vs Pro GST Invoice
     function setBillCreationMode(mode) {
       const isSimple = mode === 'simple';
       const btnSimple = document.getElementById('btn-mode-simple');
@@ -3818,14 +3835,14 @@
           btnSimple.className = 'px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-emerald-600 text-white shadow-xs cursor-pointer flex items-center gap-1';
           btnPro.className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer flex items-center gap-1';
           if (label) {
-            label.innerText = '⚡ Simple Quick Mode';
+            label.innerText = 'Simple Quick Mode';
             label.className = 'text-emerald-700 font-extrabold uppercase tracking-wide';
           }
         } else {
           btnSimple.className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer flex items-center gap-1';
           btnPro.className = 'px-3 py-1.5 rounded-md text-xs font-bold transition-all bg-brand-600 text-white shadow-xs cursor-pointer flex items-center gap-1';
           if (label) {
-            label.innerText = '⚙️ Pro GST Invoice Mode';
+            label.innerText = 'Pro GST Invoice Mode';
             label.className = 'text-brand-700 font-extrabold uppercase tracking-wide';
           }
         }
@@ -4262,6 +4279,13 @@
         setInvoiceFormat(savedFormat);
       } catch(e) {
         setInvoiceFormat('format-modern');
+      }
+
+      try {
+        const savedTheme = localStorage.getItem('upibill_invoice_theme') || 'theme-shop';
+        setInvoiceTheme(savedTheme);
+      } catch(e) {
+        setInvoiceTheme('theme-shop');
       }
 
       try { loadBusinessFromLocal(); } catch(e) {}
