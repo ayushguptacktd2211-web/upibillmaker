@@ -682,7 +682,7 @@
           <!-- Formal Legal Receipt Declaration Statement -->
           <div class="text-sm text-slate-800 leading-relaxed border border-emerald-200 p-4 bg-emerald-50/30 space-y-2 rounded">
             <p>
-              Received with thanks from <strong class="text-slate-900 font-bold underline editable-field" id="prev-tenant" contenteditable="true" spellcheck="false" data-bind="tenant-name" title="Click to edit tenant name">Amit K.</strong> 
+              Received with thanks from <strong class="text-slate-900 font-bold underline editable-field" id="prev-tenant" contenteditable="true" spellcheck="false" data-bind="tenant-name" title="Click to edit tenant name">Amit K.</strong> <span id="prev-tenant-aadhaar-wrap" class="hidden font-mono text-xs text-slate-700 font-semibold">(Aadhaar: <span id="prev-tenant-aadhaar"></span>)</span>
               the sum of <strong class="text-emerald-900 font-mono font-bold text-base editable-field" id="prev-amt-text" contenteditable="true" spellcheck="false" data-bind="rent-amount" title="Click to edit rent amount">₹18,000.00</strong> 
               <span id="prev-words-row" class="bill-section-wrapper relative group/sec inline">(<em class="font-serif font-semibold text-slate-900" id="prev-words-text">Rupees Eighteen Thousand Only</em>)<button type="button" onclick="hideBillSection('sec-words')" title="Hide Amount in Words" class="sec-hide-btn -top-1 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-3.5 h-3.5 inline-flex items-center justify-center text-[9px] shadow-sm ml-1">✕</button></span> 
               via <strong class="text-slate-900 font-bold" id="prev-rent-mode-text">UPI / NetBanking</strong> 
@@ -717,20 +717,27 @@
               </div>
 
               <!-- UPI QR Auto-Pay Box for Next Month -->
-              <div id="prev-rent-qr-block" class="bill-section-wrapper relative group/sec border border-slate-700 p-2.5 bg-slate-50 flex items-center justify-between gap-3">
+              <div id="prev-rent-qr-block" class="bill-section-wrapper relative group/sec border border-slate-700 p-2.5 bg-slate-50 space-y-2">
                 <button type="button" onclick="hideBillSection('sec-qr')" title="Hide UPI QR Code" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
-                <div class="flex items-center gap-3">
-                  <div id="rent-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
-                  <div>
-                    <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
-                    <p class="text-xs font-bold text-slate-900 mt-1">Scan to Pay Next Rent via UPI</p>
-                    <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-upi-id" class="font-bold">sureshverma@demobank</span></p>
+                <div class="flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3">
+                    <div id="rent-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
+                    <div>
+                      <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
+                      <p class="text-xs font-bold text-slate-900 mt-1">Scan to Pay Next Rent via UPI</p>
+                      <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-upi-id" class="font-bold">sureshverma@demobank</span></p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Monthly Rent</span>
+                    <span id="prev-rent-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹18,000.00</span>
                   </div>
                 </div>
-                <div class="text-right">
-                  <span class="text-[9px] font-bold text-slate-400 uppercase block">Monthly Rent</span>
-                  <span id="prev-rent-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹18,000.00</span>
-                </div>
+                <!-- Optional Landlord Bank Details Row in Preview -->
+                <div id="prev-rent-bank-row" class="hidden pt-1.5 border-t border-slate-300 text-[10px] font-mono text-slate-700 leading-tight">
+                  <span id="prev-r-b-name-wrap"><strong>Bank:</strong> <span id="prev-r-b-name"></span> &bull; </span>
+                  <span id="prev-r-b-acc-wrap"><strong>A/c:</strong> <span id="prev-r-b-acc"></span> &bull; </span>
+                  <span id="prev-r-b-ifsc-wrap"><strong>IFSC:</strong> <span id="prev-r-b-ifsc"></span></span>
               </div>
             </div>
 
@@ -811,9 +818,18 @@
       </div>
 
       <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">Tenant Name (You)</label>
-          <input type="text" id="tenant-name" value="Amit K." placeholder="e.g. Amit K." class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Tenant Name (You)</label>
+            <input type="text" id="tenant-name" value="Amit K." placeholder="e.g. Amit K." class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+          </div>
+          <div>
+            <div class="flex items-center justify-between min-h-[20px] mb-1">
+              <label for="tenant-aadhaar" class="block font-semibold text-slate-700">Tenant Aadhaar No.</label>
+              <span class="text-[10px] text-slate-400 font-normal">Optional</span>
+            </div>
+            <input type="text" id="tenant-aadhaar" placeholder="e.g. XXXX XXXX 1234" maxlength="16" class="w-full text-sm font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+          </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -873,6 +889,30 @@
             <label class="block font-semibold text-slate-700">Landlord's UPI ID (For Direct Rent Payment)</label>
             <input type="text" id="landlord-upi" value="sureshverma@demobank" placeholder="e.g. sureshverma@demobank" class="w-full text-sm font-mono px-3 py-2 bg-emerald-50 rounded-lg border border-emerald-300">
             <p class="text-[10px] text-slate-400">Untick box above if you want a clean receipt without QR code.</p>
+          </div>
+
+          <!-- Optional Landlord Bank Details for Direct Transfer -->
+          <div class="pt-2 border-t border-slate-200/80 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1">
+                <i data-lucide="landmark" class="w-3.5 h-3.5 text-emerald-600"></i> Landlord Bank Account Details
+              </span>
+              <span class="text-[10px] text-slate-400 font-medium">Optional</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Bank Name</label>
+                <input type="text" id="landlord-bank-name" placeholder="e.g. SBI / HDFC" class="w-full text-xs px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-emerald-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Account Number</label>
+                <input type="text" id="landlord-bank-acc" placeholder="e.g. 10002345678" class="w-full text-xs font-mono px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-emerald-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">IFSC Code</label>
+                <input type="text" id="landlord-bank-ifsc" placeholder="e.g. SBIN0001234" class="w-full text-xs font-mono uppercase px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-emerald-500">
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1194,6 +1234,45 @@
       const status = document.getElementById('rent-status').value;
 
       document.getElementById('prev-tenant').innerText = tenant;
+
+      // Optional Tenant Aadhaar
+      const tAadhaar = (document.getElementById('tenant-aadhaar')?.value || '').trim();
+      const tAadhaarWrap = document.getElementById('prev-tenant-aadhaar-wrap');
+      if (tAadhaarWrap) {
+        if (tAadhaar) {
+          tAadhaarWrap.classList.remove('hidden');
+          const elA = document.getElementById('prev-tenant-aadhaar');
+          if (elA) elA.innerText = tAadhaar;
+        } else {
+          tAadhaarWrap.classList.add('hidden');
+        }
+      }
+
+      // Optional Landlord Bank Details
+      const rBName = (document.getElementById('landlord-bank-name')?.value || '').trim();
+      const rBAcc = (document.getElementById('landlord-bank-acc')?.value || '').trim();
+      const rBIfsc = (document.getElementById('landlord-bank-ifsc')?.value || '').trim();
+      const rBankRow = document.getElementById('prev-rent-bank-row');
+      if (rBankRow) {
+        if (rBName || rBAcc || rBIfsc) {
+          rBankRow.classList.remove('hidden');
+          const wrapN = document.getElementById('prev-r-b-name-wrap');
+          const wrapA = document.getElementById('prev-r-b-acc-wrap');
+          const wrapI = document.getElementById('prev-r-b-ifsc-wrap');
+          if (wrapN) wrapN.style.display = rBName ? 'inline' : 'none';
+          if (wrapA) wrapA.style.display = rBAcc ? 'inline' : 'none';
+          if (wrapI) wrapI.style.display = rBIfsc ? 'inline' : 'none';
+          const elN = document.getElementById('prev-r-b-name');
+          const elA = document.getElementById('prev-r-b-acc');
+          const elI = document.getElementById('prev-r-b-ifsc');
+          if (elN) elN.innerText = rBName;
+          if (elA) elA.innerText = rBAcc;
+          if (elI) elI.innerText = rBIfsc;
+        } else {
+          rBankRow.classList.add('hidden');
+        }
+      }
+
       document.getElementById('prev-landlord').innerText = landlord;
 
       const panRow = document.getElementById('prev-pan-row');
@@ -1327,12 +1406,16 @@
       try {
         const draft = {
           tenant: document.getElementById('tenant-name')?.value || '',
+          tenantAadhaar: document.getElementById('tenant-aadhaar')?.value || '',
           landlord: document.getElementById('landlord-name')?.value || '',
           pan: document.getElementById('landlord-pan')?.value || '',
           amt: document.getElementById('rent-amount')?.value || '',
           month: document.getElementById('rent-month')?.value || '',
           address: document.getElementById('rent-address')?.value || '',
           upi: document.getElementById('landlord-upi')?.value || '',
+          bankName: document.getElementById('landlord-bank-name')?.value || '',
+          bankAcc: document.getElementById('landlord-bank-acc')?.value || '',
+          bankIfsc: document.getElementById('landlord-bank-ifsc')?.value || '',
           status: document.getElementById('rent-status')?.value || 'online'
         };
         localStorage.setItem('upibill_rent_draft_v1', JSON.stringify(draft));
@@ -1361,12 +1444,16 @@
           const d = JSON.parse(raw);
           if (d && (d.tenant || d.landlord || d.amt)) {
             if (d.tenant) document.getElementById('tenant-name').value = d.tenant;
+            if (d.tenantAadhaar && document.getElementById('tenant-aadhaar')) document.getElementById('tenant-aadhaar').value = d.tenantAadhaar;
             if (d.landlord) document.getElementById('landlord-name').value = d.landlord;
             if (d.pan) document.getElementById('landlord-pan').value = d.pan;
             if (d.amt) document.getElementById('rent-amount').value = d.amt;
             if (d.month) document.getElementById('rent-month').value = d.month;
             if (d.address) document.getElementById('rent-address').value = d.address;
             if (d.upi) document.getElementById('landlord-upi').value = d.upi;
+            if (d.bankName && document.getElementById('landlord-bank-name')) document.getElementById('landlord-bank-name').value = d.bankName;
+            if (d.bankAcc && document.getElementById('landlord-bank-acc')) document.getElementById('landlord-bank-acc').value = d.bankAcc;
+            if (d.bankIfsc && document.getElementById('landlord-bank-ifsc')) document.getElementById('landlord-bank-ifsc').value = d.bankIfsc;
             if (d.status) setRentStatus(d.status);
             updateRent();
             return true;
@@ -1394,12 +1481,16 @@
 
     function clearRentForm() {
       document.getElementById('tenant-name').value = '';
+      if (document.getElementById('tenant-aadhaar')) document.getElementById('tenant-aadhaar').value = '';
       document.getElementById('landlord-name').value = '';
       document.getElementById('landlord-pan').value = '';
       document.getElementById('rent-amount').value = '';
       document.getElementById('rent-month').value = '';
       document.getElementById('rent-address').value = '';
       document.getElementById('landlord-upi').value = '';
+      if (document.getElementById('landlord-bank-name')) document.getElementById('landlord-bank-name').value = '';
+      if (document.getElementById('landlord-bank-acc')) document.getElementById('landlord-bank-acc').value = '';
+      if (document.getElementById('landlord-bank-ifsc')) document.getElementById('landlord-bank-ifsc').value = '';
       try { localStorage.removeItem('upibill_rent_draft_v1'); } catch(e){}
       updateRent();
     }

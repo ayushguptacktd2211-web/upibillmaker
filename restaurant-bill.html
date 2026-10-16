@@ -779,6 +779,12 @@
           </div>
         </div>
 
+        <!-- Customer Info Strip (Optional) -->
+        <div id="sec-c-customer" class="hidden text-[10.5px] border-b border-dashed border-slate-400 pb-1.5 space-y-0.5">
+          <p id="prev-c-cust-name-row" class="hidden"><strong>Customer:</strong> <span id="prev-c-cust-name"></span></p>
+          <p id="prev-c-cust-aadhaar-row" class="hidden"><strong>Customer Aadhaar:</strong> <span id="prev-c-cust-aadhaar" class="font-mono"></span></p>
+        </div>
+
         <!-- Items Table (Accounting Grid) -->
         <div class="overflow-x-auto py-1">
           <table class="w-full text-left text-[11px] border-collapse">
@@ -845,6 +851,13 @@
           </div>
           <p class="text-[10px] font-bold text-slate-900 uppercase tracking-wide">Scan & Pay via any UPI App</p>
           <p class="text-[10px] text-slate-600 font-mono">UPI ID: <span id="prev-c-upi" class="font-bold text-slate-900">yourcafe@upi</span></p>
+          <div id="prev-c-bank-row" class="hidden pt-1 mt-1 border-t border-dashed border-slate-300 text-[10px] text-slate-700 space-y-0.5">
+            <div class="flex flex-wrap justify-center gap-x-2.5 gap-y-0.5 font-mono">
+              <span id="prev-c-b-name-wrap"><strong>Bank:</strong> <span id="prev-c-b-name"></span></span>
+              <span id="prev-c-b-acc-wrap"><strong>A/c:</strong> <span id="prev-c-b-acc" class="font-bold"></span></span>
+              <span id="prev-c-b-ifsc-wrap"><strong>IFSC:</strong> <span id="prev-c-b-ifsc" class="font-bold"></span></span>
+            </div>
+          </div>
         </div>
 
         <!-- Fine Dine Manager Signature Line (finedine-only) -->
@@ -915,6 +928,23 @@
           </div>
         </div>
 
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200">
+          <div>
+            <div class="flex items-center justify-between min-h-[20px] mb-1">
+              <label for="cust-name" class="block font-semibold text-slate-700">Customer / Guest Name</label>
+              <span class="text-[10px] text-slate-400 font-normal">Optional</span>
+            </div>
+            <input type="text" id="cust-name" placeholder="e.g. Rahul Sharma" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-rose-500">
+          </div>
+          <div>
+            <div class="flex items-center justify-between min-h-[20px] mb-1">
+              <label for="cust-aadhaar" class="block font-semibold text-slate-700">Customer Aadhaar No.</label>
+              <span class="text-[10px] text-slate-400 font-normal">Optional</span>
+            </div>
+            <input type="text" id="cust-aadhaar" placeholder="e.g. XXXX XXXX 1234" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-rose-500">
+          </div>
+        </div>
+
         <!-- UPI QR Payment Options & Toggle -->
         <div class="pt-3 border-t border-slate-200 space-y-2">
           <div class="flex items-center justify-between">
@@ -931,6 +961,30 @@
             <label class="block font-semibold text-slate-700">Receiver UPI ID (For Direct Table Payment)</label>
             <input type="text" id="cafe-upi" placeholder="e.g. royalspice@demobank" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-rose-500">
             <p class="text-[10px] text-slate-400">Untick box above if you want a clean bill without scanner or UPI details.</p>
+          </div>
+
+          <!-- Optional Bank Details for NEFT / RTGS -->
+          <div class="pt-2 border-t border-slate-200/80 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1">
+                <i data-lucide="landmark" class="w-3.5 h-3.5 text-rose-600"></i> Bank Account Details
+              </span>
+              <span class="text-[10px] text-slate-400 font-medium">Optional</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Bank Name</label>
+                <input type="text" id="cafe-bank-name" placeholder="e.g. HDFC / ICICI" class="w-full text-xs px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-rose-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Account Number</label>
+                <input type="text" id="cafe-bank-acc" placeholder="e.g. 50200012345678" class="w-full text-xs font-mono px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-rose-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">IFSC Code</label>
+                <input type="text" id="cafe-bank-ifsc" placeholder="e.g. HDFC0001234" class="w-full text-xs font-mono uppercase px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-rose-500">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1225,6 +1279,57 @@
         if (elTable && activeEl !== elTable) elTable.innerText = table;
       } else {
         tableRow.style.display = 'none';
+      }
+
+      // Customer Details (Optional)
+      const cName = (document.getElementById('cust-name')?.value || '').trim();
+      const cAadhaar = (document.getElementById('cust-aadhaar')?.value || '').trim();
+      const custSec = document.getElementById('sec-c-customer');
+      const custNameRow = document.getElementById('prev-c-cust-name-row');
+      const custAadhaarRow = document.getElementById('prev-c-cust-aadhaar-row');
+      if (custSec) {
+        if (cName || cAadhaar) {
+          custSec.classList.remove('hidden');
+          if (cName) {
+            custNameRow.classList.remove('hidden');
+            document.getElementById('prev-c-cust-name').innerText = cName;
+          } else {
+            custNameRow.classList.add('hidden');
+          }
+          if (cAadhaar) {
+            custAadhaarRow.classList.remove('hidden');
+            document.getElementById('prev-c-cust-aadhaar').innerText = cAadhaar;
+          } else {
+            custAadhaarRow.classList.add('hidden');
+          }
+        } else {
+          custSec.classList.add('hidden');
+        }
+      }
+
+      // Optional Cafe Bank Details
+      const cBName = (document.getElementById('cafe-bank-name')?.value || '').trim();
+      const cBAcc = (document.getElementById('cafe-bank-acc')?.value || '').trim();
+      const cBIfsc = (document.getElementById('cafe-bank-ifsc')?.value || '').trim();
+      const cBankRow = document.getElementById('prev-c-bank-row');
+      if (cBankRow) {
+        if (cBName || cBAcc || cBIfsc) {
+          cBankRow.classList.remove('hidden');
+          const wrapN = document.getElementById('prev-c-b-name-wrap');
+          const wrapA = document.getElementById('prev-c-b-acc-wrap');
+          const wrapI = document.getElementById('prev-c-b-ifsc-wrap');
+          if (wrapN) wrapN.style.display = cBName ? 'inline' : 'none';
+          if (wrapA) wrapA.style.display = cBAcc ? 'inline' : 'none';
+          if (wrapI) wrapI.style.display = cBIfsc ? 'inline' : 'none';
+          const elN = document.getElementById('prev-c-b-name');
+          const elA = document.getElementById('prev-c-b-acc');
+          const elI = document.getElementById('prev-c-b-ifsc');
+          if (elN && activeEl !== elN) elN.innerText = cBName;
+          if (elA && activeEl !== elA) elA.innerText = cBAcc;
+          if (elI && activeEl !== elI) elI.innerText = cBIfsc;
+        } else {
+          cBankRow.classList.add('hidden');
+        }
       }
 
       // GSTIN row
@@ -1784,9 +1889,14 @@
     function clearCafeForm() {
       document.getElementById('cafe-name').value = '';
       document.getElementById('table-no').value = '';
+      if (document.getElementById('cust-name')) document.getElementById('cust-name').value = '';
+      if (document.getElementById('cust-aadhaar')) document.getElementById('cust-aadhaar').value = '';
       document.getElementById('cafe-gstin').value = '';
       document.getElementById('cafe-address').value = '';
       document.getElementById('cafe-upi').value = '';
+      if (document.getElementById('cafe-bank-name')) document.getElementById('cafe-bank-name').value = '';
+      if (document.getElementById('cafe-bank-acc')) document.getElementById('cafe-bank-acc').value = '';
+      if (document.getElementById('cafe-bank-ifsc')) document.getElementById('cafe-bank-ifsc').value = '';
       document.getElementById('cafe-discount').value = '';
 
       const c = document.getElementById('food-items-container');
@@ -1825,9 +1935,14 @@
         const draft = {
           cafeName: document.getElementById('cafe-name')?.value || '',
           tableNo: document.getElementById('table-no')?.value || '',
+          custName: document.getElementById('cust-name')?.value || '',
+          custAadhaar: document.getElementById('cust-aadhaar')?.value || '',
           cafeGstin: document.getElementById('cafe-gstin')?.value || '',
           cafeAddress: document.getElementById('cafe-address')?.value || '',
           cafeUpi: document.getElementById('cafe-upi')?.value || '',
+          bankName: document.getElementById('cafe-bank-name')?.value || '',
+          bankAcc: document.getElementById('cafe-bank-acc')?.value || '',
+          bankIfsc: document.getElementById('cafe-bank-ifsc')?.value || '',
           discount: document.getElementById('cafe-discount')?.value || '',
           gst: document.getElementById('cafe-gst')?.value || '5',
           items: []
@@ -1867,9 +1982,14 @@
           if (d && (d.cafeName || d.items?.length || d.tableNo)) {
             if (d.cafeName) document.getElementById('cafe-name').value = d.cafeName;
             if (d.tableNo) document.getElementById('table-no').value = d.tableNo;
+            if (d.custName && document.getElementById('cust-name')) document.getElementById('cust-name').value = d.custName;
+            if (d.custAadhaar && document.getElementById('cust-aadhaar')) document.getElementById('cust-aadhaar').value = d.custAadhaar;
             if (d.cafeGstin) document.getElementById('cafe-gstin').value = d.cafeGstin;
             if (d.cafeAddress) document.getElementById('cafe-address').value = d.cafeAddress;
             if (d.cafeUpi) document.getElementById('cafe-upi').value = d.cafeUpi;
+            if (d.bankName && document.getElementById('cafe-bank-name')) document.getElementById('cafe-bank-name').value = d.bankName;
+            if (d.bankAcc && document.getElementById('cafe-bank-acc')) document.getElementById('cafe-bank-acc').value = d.bankAcc;
+            if (d.bankIfsc && document.getElementById('cafe-bank-ifsc')) document.getElementById('cafe-bank-ifsc').value = d.bankIfsc;
             if (d.discount) document.getElementById('cafe-discount').value = d.discount;
             if (d.gst) document.getElementById('cafe-gst').value = d.gst;
 

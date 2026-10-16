@@ -848,6 +848,7 @@
             <span class="text-teal-700 font-bold uppercase text-[9px] block">Patient Information:</span>
             <p class="font-bold text-slate-900 text-xs sm:text-sm" id="prev-pt-name"></p>
             <p class="text-slate-600 text-[11px]" id="prev-pt-age"></p>
+            <p class="text-slate-700 font-mono text-[10.5px] font-medium hidden" id="prev-pt-aadhaar-row">Patient Aadhaar: <span id="prev-pt-aadhaar" class="font-bold"></span></p>
           </div>
           <div id="prev-dr-box" class="space-y-0.5 sm:text-right">
             <span class="text-teal-700 font-bold uppercase text-[9px] block">Prescribed By Doctor:</span>
@@ -920,6 +921,13 @@
                   </div>
                   <p class="text-[10px] text-slate-500">Scan to pay exact <span id="prev-qr-amt" class="font-bold text-teal-800">₹0.00</span> via any UPI App.</p>
                   <p class="text-[10px] text-slate-500">GPay, PhonePe, Paytm, BHIM.</p>
+                </div>
+              </div>
+              <div id="prev-med-bank-row" class="hidden pt-1 mt-1 border-t border-dashed border-teal-200 text-[10px] text-slate-700 space-y-0.5">
+                <div class="flex flex-wrap gap-x-2.5 gap-y-0.5 font-mono">
+                  <span id="prev-med-b-name-wrap"><strong>Bank:</strong> <span id="prev-med-b-name"></span></span>
+                  <span id="prev-med-b-acc-wrap"><strong>A/c:</strong> <span id="prev-med-b-acc" class="font-bold"></span></span>
+                  <span id="prev-med-b-ifsc-wrap"><strong>IFSC:</strong> <span id="prev-med-b-ifsc" class="font-bold"></span></span>
                 </div>
               </div>
             </div>
@@ -1042,6 +1050,30 @@
             <input type="text" id="pharmacy-upi" placeholder="e.g. sanjeevanimedicos@demobank" class="w-full font-mono px-3 py-2 bg-teal-50 rounded-lg border border-teal-300">
             <p class="text-[10px] text-slate-400">Untick box above if you want a clean bill without scanner or UPI details.</p>
           </div>
+
+          <!-- Optional Bank Details for NEFT / RTGS -->
+          <div class="pt-2 border-t border-slate-200/80 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1">
+                <i data-lucide="landmark" class="w-3.5 h-3.5 text-teal-600"></i> Bank Account Details
+              </span>
+              <span class="text-[10px] text-slate-400 font-medium">Optional</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Bank Name</label>
+                <input type="text" id="pharmacy-bank-name" placeholder="e.g. SBI / HDFC" class="w-full text-xs px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-teal-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Account Number</label>
+                <input type="text" id="pharmacy-bank-acc" placeholder="e.g. 10002345678" class="w-full text-xs font-mono px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-teal-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">IFSC Code</label>
+                <input type="text" id="pharmacy-bank-ifsc" placeholder="e.g. SBIN0001234" class="w-full text-xs font-mono uppercase px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-teal-500">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1049,7 +1081,7 @@
       <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs">
         <span class="font-bold text-slate-700 uppercase tracking-wider block">2. Doctor & Patient Info (Optional)</span>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Patient Name</label>
             <input type="text" id="patient-name" placeholder="e.g. Suresh C." class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-sm min-h-[42px] h-[42px]">
@@ -1057,6 +1089,13 @@
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Age / Gender</label>
             <input type="text" id="patient-age" placeholder="e.g. 45 Yrs / Male" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+          </div>
+          <div>
+            <div class="flex items-center justify-between min-h-[20px] mb-1">
+              <label for="patient-aadhaar" class="block font-semibold text-slate-700">Patient Aadhaar No.</label>
+              <span class="text-[10px] text-slate-400 font-normal">Optional</span>
+            </div>
+            <input type="text" id="patient-aadhaar" placeholder="e.g. XXXX XXXX 1234" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 text-xs min-h-[42px] h-[42px]">
           </div>
         </div>
 
@@ -1342,6 +1381,7 @@
 
       const ptName = document.getElementById('patient-name').value.trim();
       const ptAge = document.getElementById('patient-age').value.trim();
+      const ptAadhaar = (document.getElementById('patient-aadhaar')?.value || '').trim();
       const drName = document.getElementById('doctor-name').value.trim();
       const drReg = document.getElementById('doctor-reg').value.trim();
       const invNo = document.getElementById('med-inv-no').value.trim();
@@ -1358,6 +1398,31 @@
       if (elPhUpi && activeEl !== elPhUpi) elPhUpi.innerText = upi || 'yourpharmacy@upi';
       if (elInvNo && activeEl !== elInvNo) elInvNo.innerText = invNo || 'MED-101';
       if (elDate) elDate.innerText = date || new Date().toISOString().split('T')[0];
+
+      // Optional Pharmacy Bank Details
+      const medBName = (document.getElementById('pharmacy-bank-name')?.value || '').trim();
+      const medBAcc = (document.getElementById('pharmacy-bank-acc')?.value || '').trim();
+      const medBIfsc = (document.getElementById('pharmacy-bank-ifsc')?.value || '').trim();
+      const medBankRow = document.getElementById('prev-med-bank-row');
+      if (medBankRow) {
+        if (medBName || medBAcc || medBIfsc) {
+          medBankRow.classList.remove('hidden');
+          const wrapN = document.getElementById('prev-med-b-name-wrap');
+          const wrapA = document.getElementById('prev-med-b-acc-wrap');
+          const wrapI = document.getElementById('prev-med-b-ifsc-wrap');
+          if (wrapN) wrapN.style.display = medBName ? 'inline' : 'none';
+          if (wrapA) wrapA.style.display = medBAcc ? 'inline' : 'none';
+          if (wrapI) wrapI.style.display = medBIfsc ? 'inline' : 'none';
+          const elN = document.getElementById('prev-med-b-name');
+          const elA = document.getElementById('prev-med-b-acc');
+          const elI = document.getElementById('prev-med-b-ifsc');
+          if (elN && activeEl !== elN) elN.innerText = medBName;
+          if (elA && activeEl !== elA) elA.innerText = medBAcc;
+          if (elI && activeEl !== elI) elI.innerText = medBIfsc;
+        } else {
+          medBankRow.classList.add('hidden');
+        }
+      }
 
       // DL No row
       const dlRow = document.getElementById('prev-dl-row');
@@ -1401,13 +1466,22 @@
       const drBox = document.getElementById('prev-dr-box');
       const ptDrBar = document.getElementById('prev-pt-dr-bar');
 
-      const hasPt = ptName || ptAge;
+      const hasPt = ptName || ptAge || ptAadhaar;
       const hasDr = drName || drReg;
 
       if (hasPt) {
         ptBox.style.display = 'block';
         document.getElementById('prev-pt-name').innerText = ptName || 'Patient Name';
         document.getElementById('prev-pt-age').innerText = ptAge ? `Age / Gender: ${ptAge}` : '';
+        const ptAadhaarRow = document.getElementById('prev-pt-aadhaar-row');
+        if (ptAadhaarRow) {
+          if (ptAadhaar) {
+            ptAadhaarRow.classList.remove('hidden');
+            document.getElementById('prev-pt-aadhaar').innerText = ptAadhaar;
+          } else {
+            ptAadhaarRow.classList.add('hidden');
+          }
+        }
       } else {
         ptBox.style.display = 'none';
       }
@@ -1942,8 +2016,12 @@
       document.getElementById('pharmacy-phone').value = '';
       document.getElementById('pharmacy-address').value = '';
       document.getElementById('pharmacy-upi').value = '';
+      if (document.getElementById('pharmacy-bank-name')) document.getElementById('pharmacy-bank-name').value = '';
+      if (document.getElementById('pharmacy-bank-acc')) document.getElementById('pharmacy-bank-acc').value = '';
+      if (document.getElementById('pharmacy-bank-ifsc')) document.getElementById('pharmacy-bank-ifsc').value = '';
       document.getElementById('patient-name').value = '';
       document.getElementById('patient-age').value = '';
+      if (document.getElementById('patient-aadhaar')) document.getElementById('patient-aadhaar').value = '';
       document.getElementById('doctor-name').value = '';
       document.getElementById('doctor-reg').value = '';
       document.getElementById('med-inv-no').value = '';
@@ -1979,8 +2057,12 @@
           phone: document.getElementById('pharmacy-phone')?.value || '',
           address: document.getElementById('pharmacy-address')?.value || '',
           upi: document.getElementById('pharmacy-upi')?.value || '',
+          bankName: document.getElementById('pharmacy-bank-name')?.value || '',
+          bankAcc: document.getElementById('pharmacy-bank-acc')?.value || '',
+          bankIfsc: document.getElementById('pharmacy-bank-ifsc')?.value || '',
           ptName: document.getElementById('patient-name')?.value || '',
           ptAge: document.getElementById('patient-age')?.value || '',
+          ptAadhaar: document.getElementById('patient-aadhaar')?.value || '',
           drName: document.getElementById('doctor-name')?.value || '',
           drReg: document.getElementById('doctor-reg')?.value || '',
           invNo: document.getElementById('med-inv-no')?.value || '',
@@ -2032,8 +2114,12 @@
             if (d.phone) document.getElementById('pharmacy-phone').value = d.phone;
             if (d.address) document.getElementById('pharmacy-address').value = d.address;
             if (d.upi) document.getElementById('pharmacy-upi').value = d.upi;
+            if (d.bankName && document.getElementById('pharmacy-bank-name')) document.getElementById('pharmacy-bank-name').value = d.bankName;
+            if (d.bankAcc && document.getElementById('pharmacy-bank-acc')) document.getElementById('pharmacy-bank-acc').value = d.bankAcc;
+            if (d.bankIfsc && document.getElementById('pharmacy-bank-ifsc')) document.getElementById('pharmacy-bank-ifsc').value = d.bankIfsc;
             if (d.ptName) document.getElementById('patient-name').value = d.ptName;
             if (d.ptAge) document.getElementById('patient-age').value = d.ptAge;
+            if (d.ptAadhaar && document.getElementById('patient-aadhaar')) document.getElementById('patient-aadhaar').value = d.ptAadhaar;
             if (d.drName) document.getElementById('doctor-name').value = d.drName;
             if (d.drReg) document.getElementById('doctor-reg').value = d.drReg;
             if (d.invNo) document.getElementById('med-inv-no').value = d.invNo;

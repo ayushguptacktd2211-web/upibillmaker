@@ -702,6 +702,7 @@
               <span class="text-indigo-900 font-bold uppercase text-[10px] block">STUDENT DETAILS</span>
               <p class="font-bold text-sm text-slate-900 mt-0.5 editable-field" id="prev-student" contenteditable="true" spellcheck="false" data-bind="student-name" title="Click to edit student name">Aarav S.</p>
               <p class="text-slate-700 mt-0.5 editable-field" id="prev-class" contenteditable="true" spellcheck="false" data-bind="student-class" title="Click to edit class">Class 10 (CBSE) - Evening Batch</p>
+              <p class="text-[11px] font-mono text-slate-700 font-medium hidden" id="prev-student-aadhaar-row"><strong>Aadhaar:</strong> <span id="prev-student-aadhaar"></span></p>
             </div>
             <div>
               <span class="text-indigo-900 font-bold uppercase text-[10px] block">TERM & COURSE INFO</span>
@@ -755,19 +756,27 @@
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-2 border-t border-indigo-800 items-end">
               <!-- Left: UPI Auto-Pay Box (7 cols) -->
               <div class="sm:col-span-7">
-                <div id="prev-tuition-qr-block" class="bill-section-wrapper relative group/sec border border-indigo-800 p-2 bg-slate-50 flex items-center justify-between gap-3">
+                <div id="prev-tuition-qr-block" class="bill-section-wrapper relative group/sec border border-indigo-800 p-2 bg-slate-50 space-y-1.5">
                   <button type="button" onclick="hideBillSection('sec-qr')" title="Hide UPI QR Code" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
-                  <div class="flex items-center gap-2.5">
-                    <div id="tuition-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
-                    <div>
-                      <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
-                      <p class="text-xs font-bold text-slate-900 mt-0.5">Scan to Pay Fee via Any UPI App</p>
-                      <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-tutor-upi" class="font-bold">apexacademy@demobank</span></p>
+                  <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5">
+                      <div id="tuition-qr" class="w-16 h-16 bg-white p-1 border border-slate-300 flex-shrink-0"></div>
+                      <div>
+                        <span class="text-[9px] font-mono uppercase tracking-wider text-slate-500 font-semibold">Scan to Pay</span>
+                        <p class="text-xs font-bold text-slate-900 mt-0.5">Scan to Pay Fee via Any UPI App</p>
+                        <p class="text-[11px] font-mono text-slate-700">UPI ID: <span id="prev-tutor-upi" class="font-bold">apexacademy@demobank</span></p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-[9px] font-bold text-slate-500 uppercase block">Total Fee</span>
+                      <span id="prev-tuition-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹3,000.00</span>
                     </div>
                   </div>
-                  <div class="text-right">
-                    <span class="text-[9px] font-bold text-slate-500 uppercase block">Total Fee</span>
-                    <span id="prev-tuition-qr-amt" class="font-mono font-bold text-xs text-slate-900">₹3,000.00</span>
+                  <!-- Optional Academy Bank Details Row in Preview -->
+                  <div id="prev-tuition-bank-row" class="hidden pt-1.5 border-t border-slate-300 text-[10px] font-mono text-slate-700 leading-tight">
+                    <span id="prev-t-b-name-wrap"><strong>Bank:</strong> <span id="prev-t-b-name"></span> &bull; </span>
+                    <span id="prev-t-b-acc-wrap"><strong>A/c:</strong> <span id="prev-t-b-acc"></span> &bull; </span>
+                    <span id="prev-t-b-ifsc-wrap"><strong>IFSC:</strong> <span id="prev-t-b-ifsc"></span></span>
                   </div>
                 </div>
               </div>
@@ -823,7 +832,7 @@
           <input type="text" id="tutor-name" value="Apex Mathematics & Science Academy" placeholder="e.g. Apex Mathematics & Science Academy" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Student Name</label>
             <input type="text" id="student-name" value="Aarav S." placeholder="e.g. Aarav S." class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
@@ -831,6 +840,13 @@
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Class / Grade / Batch</label>
             <input type="text" id="student-class" value="Class 10 (CBSE) - Evening" placeholder="e.g. Class 10 (CBSE) - Evening" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+          </div>
+          <div>
+            <div class="flex items-center justify-between min-h-[20px] mb-1">
+              <label for="student-aadhaar" class="block font-semibold text-slate-700">Student Aadhaar No.</label>
+              <span class="text-[10px] text-slate-400 font-normal">Optional</span>
+            </div>
+            <input type="text" id="student-aadhaar" placeholder="e.g. XXXX XXXX 1234" maxlength="16" class="w-full text-sm font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
           </div>
         </div>
 
@@ -880,6 +896,30 @@
             <label class="block font-semibold text-slate-700">Tutor / Academy UPI ID</label>
             <input type="text" id="tutor-upi" value="apexacademy@demobank" placeholder="e.g. apexacademy@demobank" class="w-full text-sm font-mono px-3 py-2 bg-indigo-50 rounded-lg border border-indigo-300">
             <p class="text-[10px] text-slate-400">Untick box above if you want a clean receipt without QR code.</p>
+          </div>
+
+          <!-- Optional Academy Bank Details for Direct Transfer -->
+          <div class="pt-2 border-t border-slate-200/80 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700 flex items-center gap-1">
+                <i data-lucide="landmark" class="w-3.5 h-3.5 text-indigo-600"></i> Academy Bank Account Details
+              </span>
+              <span class="text-[10px] text-slate-400 font-medium">Optional</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Bank Name</label>
+                <input type="text" id="tutor-bank-name" placeholder="e.g. SBI / HDFC" class="w-full text-xs px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Account Number</label>
+                <input type="text" id="tutor-bank-acc" placeholder="e.g. 10002345678" class="w-full text-xs font-mono px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">IFSC Code</label>
+                <input type="text" id="tutor-bank-ifsc" placeholder="e.g. SBIN0001234" class="w-full text-xs font-mono uppercase px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1103,6 +1143,44 @@
       document.getElementById('prev-tutor-name').innerText = tutor || 'Apex Mathematics & Science Academy';
       document.getElementById('prev-tutor-sig').innerText = tutor || 'Apex Academy';
       document.getElementById('prev-student').innerText = student || 'Aarav Sharma';
+
+      // Optional Student Aadhaar
+      const sAadhaar = (document.getElementById('student-aadhaar')?.value || '').trim();
+      const sAadhaarRow = document.getElementById('prev-student-aadhaar-row');
+      if (sAadhaarRow) {
+        if (sAadhaar) {
+          sAadhaarRow.classList.remove('hidden');
+          const elA = document.getElementById('prev-student-aadhaar');
+          if (elA) elA.innerText = sAadhaar;
+        } else {
+          sAadhaarRow.classList.add('hidden');
+        }
+      }
+
+      // Optional Academy Bank Details
+      const tBName = (document.getElementById('tutor-bank-name')?.value || '').trim();
+      const tBAcc = (document.getElementById('tutor-bank-acc')?.value || '').trim();
+      const tBIfsc = (document.getElementById('tutor-bank-ifsc')?.value || '').trim();
+      const tBankRow = document.getElementById('prev-tuition-bank-row');
+      if (tBankRow) {
+        if (tBName || tBAcc || tBIfsc) {
+          tBankRow.classList.remove('hidden');
+          const wrapN = document.getElementById('prev-t-b-name-wrap');
+          const wrapA = document.getElementById('prev-t-b-acc-wrap');
+          const wrapI = document.getElementById('prev-t-b-ifsc-wrap');
+          if (wrapN) wrapN.style.display = tBName ? 'inline' : 'none';
+          if (wrapA) wrapA.style.display = tBAcc ? 'inline' : 'none';
+          if (wrapI) wrapI.style.display = tBIfsc ? 'inline' : 'none';
+          const elN = document.getElementById('prev-t-b-name');
+          const elA = document.getElementById('prev-t-b-acc');
+          const elI = document.getElementById('prev-t-b-ifsc');
+          if (elN) elN.innerText = tBName;
+          if (elA) elA.innerText = tBAcc;
+          if (elI) elI.innerText = tBIfsc;
+        } else {
+          tBankRow.classList.add('hidden');
+        }
+      }
       
       const classElem = document.getElementById('prev-class');
       if (sClass) {
@@ -1205,10 +1283,14 @@
           tutor: document.getElementById('tutor-name')?.value || '',
           student: document.getElementById('student-name')?.value || '',
           sClass: document.getElementById('student-class')?.value || '',
+          studentAadhaar: document.getElementById('student-aadhaar')?.value || '',
           amt: document.getElementById('fee-amount')?.value || '',
           month: document.getElementById('fee-month')?.value || '',
           subjects: document.getElementById('fee-subjects')?.value || '',
           upi: document.getElementById('tutor-upi')?.value || '',
+          bankName: document.getElementById('tutor-bank-name')?.value || '',
+          bankAcc: document.getElementById('tutor-bank-acc')?.value || '',
+          bankIfsc: document.getElementById('tutor-bank-ifsc')?.value || '',
           status: document.getElementById('tuition-status')?.value || 'cash'
         };
         localStorage.setItem('upibill_tuition_draft_v1', JSON.stringify(draft));
@@ -1238,10 +1320,14 @@
             if (d.tutor) document.getElementById('tutor-name').value = d.tutor;
             if (d.student) document.getElementById('student-name').value = d.student;
             if (d.sClass) document.getElementById('student-class').value = d.sClass;
+            if (d.studentAadhaar && document.getElementById('student-aadhaar')) document.getElementById('student-aadhaar').value = d.studentAadhaar;
             if (d.amt) document.getElementById('fee-amount').value = d.amt;
             if (d.month) document.getElementById('fee-month').value = d.month;
             if (d.subjects) document.getElementById('fee-subjects').value = d.subjects;
             if (d.upi) document.getElementById('tutor-upi').value = d.upi;
+            if (d.bankName && document.getElementById('tutor-bank-name')) document.getElementById('tutor-bank-name').value = d.bankName;
+            if (d.bankAcc && document.getElementById('tutor-bank-acc')) document.getElementById('tutor-bank-acc').value = d.bankAcc;
+            if (d.bankIfsc && document.getElementById('tutor-bank-ifsc')) document.getElementById('tutor-bank-ifsc').value = d.bankIfsc;
             if (d.status) setTuitionStatus(d.status);
             updateTuition();
             return true;
@@ -1321,10 +1407,14 @@
       document.getElementById('tutor-name').value = '';
       document.getElementById('student-name').value = '';
       document.getElementById('student-class').value = '';
+      if (document.getElementById('student-aadhaar')) document.getElementById('student-aadhaar').value = '';
       document.getElementById('fee-amount').value = '';
       document.getElementById('fee-month').value = '';
       document.getElementById('fee-subjects').value = '';
       document.getElementById('tutor-upi').value = '';
+      if (document.getElementById('tutor-bank-name')) document.getElementById('tutor-bank-name').value = '';
+      if (document.getElementById('tutor-bank-acc')) document.getElementById('tutor-bank-acc').value = '';
+      if (document.getElementById('tutor-bank-ifsc')) document.getElementById('tutor-bank-ifsc').value = '';
       try { localStorage.removeItem('upibill_tuition_draft_v1'); } catch(e){}
       updateTuition();
     }

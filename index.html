@@ -1568,8 +1568,11 @@
                 <h4 id="prev-client-name" contenteditable="true" spellcheck="false" class="editable-field font-bold text-xs sm:text-sm text-slate-900" data-bind="client-name" title="Click to edit Customer Name">Rahul Verma</h4>
                 <span id="prev-client-phone" contenteditable="true" spellcheck="false" class="editable-field text-slate-600 font-mono text-[11px]" data-bind="client-phone" title="Click to edit Customer Phone">+91 98111 *****</span>
               </div>
+              <p id="prev-client-aadhaar-row" class="font-mono text-slate-700 text-[11px] mt-0.5 hidden">
+                <span>Customer Aadhaar:</span> <span id="prev-client-aadhaar" class="font-bold text-slate-900"></span>
+              </p>
               <p id="prev-buyer-gstin-row" class="font-mono text-slate-800 font-bold text-[11px] mt-0.5 hidden">
-                Buyer GSTIN: <span id="prev-buyer-gstin"></span>
+                <span id="prev-buyer-id-lbl">Buyer GSTIN:</span> <span id="prev-buyer-gstin"></span>
               </p>
             </div>
             <div class="sm:col-span-5 text-left sm:text-right text-slate-600 text-[11px] flex flex-col justify-center">
@@ -1660,6 +1663,13 @@
                         Tap to pay on mobile <i data-lucide="external-link" class="w-3 h-3"></i>
                       </a>
                     </div>
+                  </div>
+                </div>
+                <div id="prev-bank-details-row" class="hidden pt-1.5 mt-1 border-t border-dashed border-slate-300 text-[10.5px] text-slate-700 space-y-0.5">
+                  <div class="flex flex-wrap gap-x-3 gap-y-0.5 font-mono">
+                    <span id="prev-b-name-wrap"><strong>Bank:</strong> <span id="prev-b-name"></span></span>
+                    <span id="prev-b-acc-wrap"><strong>A/c:</strong> <span id="prev-b-acc" class="font-bold"></span></span>
+                    <span id="prev-b-ifsc-wrap"><strong>IFSC:</strong> <span id="prev-b-ifsc" class="font-bold"></span></span>
                   </div>
                 </div>
               </div>
@@ -1928,6 +1938,30 @@
                 </div>
                 <p class="text-[10px] text-slate-500">Untick box above if you want a clean bill without scanner or UPI details.</p>
               </div>
+
+              <!-- Optional Bank Details for NEFT / RTGS / IMPS -->
+              <div class="pt-2.5 border-t border-slate-200/80 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                    <i data-lucide="landmark" class="w-3.5 h-3.5 text-emerald-600"></i> Bank Account Details (NEFT/RTGS)
+                  </span>
+                  <span class="text-[10px] text-slate-400 font-medium">Optional</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Bank Name</label>
+                    <input type="text" id="seller-bank-name" placeholder="e.g. HDFC Bank / SBI" class="w-full text-xs px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-emerald-500">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">Account Number</label>
+                    <input type="text" id="seller-bank-acc" placeholder="e.g. 50200012345678" class="w-full text-xs font-mono px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-emerald-500">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">IFSC Code</label>
+                    <input type="text" id="seller-bank-ifsc" placeholder="e.g. HDFC0001234" class="w-full text-xs font-mono uppercase px-2.5 py-1.5 bg-white rounded border border-slate-300 focus:ring-2 focus:ring-emerald-500">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1974,7 +2008,10 @@
 
               <div class="pro-only-field grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-xs font-semibold text-slate-700 mb-1">Buyer / Client GSTIN (For B2B)</label>
+                  <div class="flex items-center justify-between min-h-[20px] mb-1">
+                    <label for="buyer-gstin" class="block text-xs font-semibold text-slate-700">Buyer / Client GSTIN (For B2B)</label>
+                    <span class="text-[10px] text-slate-400 font-normal">Optional</span>
+                  </div>
                   <input type="text" id="buyer-gstin" maxlength="15" placeholder="e.g. 07AAAPL****C1ZV" value=""
                          class="w-full text-sm font-mono uppercase px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500">
                   <p class="text-[10px] text-slate-400 mt-0.5">Leave blank for consumer (B2C) sales</p>
@@ -2016,7 +2053,7 @@
               <input type="hidden" id="bill-status" value="pending">
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Customer / Client Name</label>
                 <input type="text" id="client-name" placeholder="e.g. Rahul Verma / Client Name" value="Rahul Verma"
@@ -2026,6 +2063,14 @@
                 <label class="block text-xs font-semibold text-slate-700 mb-1">Customer Phone</label>
                 <input type="text" id="client-phone" placeholder="e.g. +91 98111 *****" value="+91 98111 *****"
                        class="w-full text-sm font-medium px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 min-h-[42px] h-[42px] shadow-2xs">
+              </div>
+              <div>
+                <div class="flex items-center justify-between min-h-[20px] mb-1">
+                  <label for="client-aadhaar" class="block text-xs font-semibold text-slate-700">Aadhaar Card No.</label>
+                  <span class="text-[10px] text-slate-400 font-medium">Optional</span>
+                </div>
+                <input type="text" id="client-aadhaar" placeholder="e.g. XXXX XXXX 1234" value="" maxlength="16"
+                       class="w-full text-sm font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 min-h-[42px] h-[42px] shadow-2xs">
               </div>
             </div>
 
@@ -3760,6 +3805,9 @@
             phone: document.getElementById('seller-phone')?.value || '',
             address: document.getElementById('seller-address')?.value || '',
             upi: document.getElementById('seller-upi')?.value || '',
+            bankName: document.getElementById('seller-bank-name')?.value || '',
+            bankAcc: document.getElementById('seller-bank-acc')?.value || '',
+            bankIfsc: document.getElementById('seller-bank-ifsc')?.value || '',
             gstin: document.getElementById('seller-gstin')?.value || '',
             state: document.getElementById('seller-state')?.value || 'Delhi',
             signatory: document.getElementById('signatory-name')?.value || '',
@@ -3782,6 +3830,7 @@
           client: {
             name: document.getElementById('client-name')?.value || '',
             phone: document.getElementById('client-phone')?.value || '',
+            aadhaar: document.getElementById('client-aadhaar')?.value || '',
             gstin: document.getElementById('buyer-gstin')?.value || ''
           },
           industryFields: {},
@@ -3909,6 +3958,9 @@
           setVal('seller-phone', draft.seller.phone);
           setVal('seller-address', draft.seller.address);
           setVal('seller-upi', draft.seller.upi);
+          setVal('seller-bank-name', draft.seller.bankName);
+          setVal('seller-bank-acc', draft.seller.bankAcc);
+          setVal('seller-bank-ifsc', draft.seller.bankIfsc);
           setVal('seller-gstin', draft.seller.gstin);
           setVal('seller-state', draft.seller.state);
           setVal('signatory-name', draft.seller.signatory);
@@ -3948,6 +4000,7 @@
         if (draft.client) {
           setVal('client-name', draft.client.name);
           setVal('client-phone', draft.client.phone);
+          setVal('client-aadhaar', draft.client.aadhaar);
           setVal('buyer-gstin', draft.client.gstin);
         }
 
@@ -4000,7 +4053,7 @@
     function startNewBill(keepShop = true) {
       if (keepShop) {
         // Clear customer fields
-        ['client-name', 'client-phone', 'buyer-gstin'].forEach(id => {
+        ['client-name', 'client-phone', 'client-aadhaar', 'buyer-gstin'].forEach(id => {
           const el = document.getElementById(id); if (el) el.value = '';
         });
         // Clear industry fields
@@ -4378,12 +4431,52 @@
         prevDateEl.innerText = fullDateStr;
       }
 
+      const clientAadhaar = (document.getElementById('client-aadhaar')?.value || '').trim();
+      const clientAadhaarRow = document.getElementById('prev-client-aadhaar-row');
+      const prevAadhaarEl = document.getElementById('prev-client-aadhaar');
+      if (clientAadhaarRow) {
+        if (clientAadhaar) {
+          clientAadhaarRow.classList.remove('hidden');
+          if (prevAadhaarEl && activeEl !== prevAadhaarEl) prevAadhaarEl.innerText = clientAadhaar;
+        } else {
+          clientAadhaarRow.classList.add('hidden');
+        }
+      }
+
       const buyerGstinRow = document.getElementById('prev-buyer-gstin-row');
-      if (isGstEnabled && buyerGSTIN) {
-        buyerGstinRow.classList.remove('hidden');
-        document.getElementById('prev-buyer-gstin').innerText = buyerGSTIN;
-      } else {
-        buyerGstinRow.classList.add('hidden');
+      const prevGstinEl = document.getElementById('prev-buyer-gstin');
+      if (buyerGstinRow) {
+        if (buyerGSTIN) {
+          buyerGstinRow.classList.remove('hidden');
+          if (prevGstinEl && activeEl !== prevGstinEl) prevGstinEl.innerText = buyerGSTIN;
+        } else {
+          buyerGstinRow.classList.add('hidden');
+        }
+      }
+
+      // Optional Bank Account Details
+      const bName = (document.getElementById('seller-bank-name')?.value || '').trim();
+      const bAcc = (document.getElementById('seller-bank-acc')?.value || '').trim();
+      const bIfsc = (document.getElementById('seller-bank-ifsc')?.value || '').trim();
+      const bankRow = document.getElementById('prev-bank-details-row');
+      if (bankRow) {
+        if (bName || bAcc || bIfsc) {
+          bankRow.classList.remove('hidden');
+          const elBName = document.getElementById('prev-b-name');
+          const elBAcc = document.getElementById('prev-b-acc');
+          const elBIfsc = document.getElementById('prev-b-ifsc');
+          const wrapBName = document.getElementById('prev-b-name-wrap');
+          const wrapBAcc = document.getElementById('prev-b-acc-wrap');
+          const wrapBIfsc = document.getElementById('prev-b-ifsc-wrap');
+          if (wrapBName) wrapBName.style.display = bName ? 'inline' : 'none';
+          if (wrapBAcc) wrapBAcc.style.display = bAcc ? 'inline' : 'none';
+          if (wrapBIfsc) wrapBIfsc.style.display = bIfsc ? 'inline' : 'none';
+          if (elBName && activeEl !== elBName) elBName.innerText = bName;
+          if (elBAcc && activeEl !== elBAcc) elBAcc.innerText = bAcc;
+          if (elBIfsc && activeEl !== elBIfsc) elBIfsc.innerText = bIfsc;
+        } else {
+          bankRow.classList.add('hidden');
+        }
       }
 
       const supplyRow = document.getElementById('prev-supply-row');
@@ -5344,6 +5437,7 @@
         if (confirm('Clear customer and item details? Business & GST settings will remain saved.')) {
           if (document.getElementById('client-name')) document.getElementById('client-name').value = '';
           if (document.getElementById('client-phone')) document.getElementById('client-phone').value = '';
+          if (document.getElementById('client-aadhaar')) document.getElementById('client-aadhaar').value = '';
           if (document.getElementById('buyer-gstin')) document.getElementById('buyer-gstin').value = '';
           if (document.getElementById('discount-amt')) document.getElementById('discount-amt').value = 0;
           setDiscountType('flat', false);
