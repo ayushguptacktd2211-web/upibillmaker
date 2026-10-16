@@ -98,10 +98,13 @@
         size: A4 portrait;
         margin: 8mm;
       }
-      * {
+      *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         color-adjust: exact !important;
+        transition: none !important;
+        -webkit-transition: none !important;
+        animation: none !important;
       }
       html, body {
         background: #ffffff !important;
@@ -109,28 +112,18 @@
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
         height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
         overflow: visible !important;
       }
-      /* Hide all non-printable UI elements completely so they take 0 height and no flow space */
+      /* Hide all non-printable UI elements cleanly with display:none */
       header, footer, nav, section, .no-print, #col-form,
       .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden,
       #logo-maker-modal, #quick-items-modal, #custom-template-modal,
-      #download-toast, button, input, select, textarea, datalist {
+      #website-share-modal, #download-toast, #mobile-nav-drawer,
+      button, input, select, textarea, datalist {
         display: none !important;
-        height: 0 !important;
-        width: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
-        border: none !important;
-        outline: none !important;
-        position: absolute !important;
-        overflow: hidden !important;
-        clip: rect(0,0,0,0) !important;
       }
       main, #col-preview {
         display: block !important;
@@ -174,7 +167,7 @@
         display: block !important;
         position: static !important;
         margin: 0 auto !important;
-        padding: 14px 18px !important;
+        padding: 10px 14px !important;
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
@@ -1942,11 +1935,15 @@
     // Responsive Mobile Fit to Screen for Hotel Bill Preview
     let isHotelFitToScreen = true;
 
+    let isHotelPrintingActive = false;
+
     // Clean Reset Preview Scale Before Printing
     function resetHotelPreviewScaleForPrint() {
       const container = document.getElementById('hotel-bill-preview');
       const viewport = document.getElementById('hotel-preview-viewport');
       if (container) {
+        container.style.setProperty('transition', 'none', 'important');
+        container.style.setProperty('-webkit-transition', 'none', 'important');
         container.style.removeProperty('transform');
         container.style.removeProperty('-webkit-transform');
         container.style.removeProperty('transform-origin');
@@ -1969,16 +1966,23 @@
     }
 
     function restoreHotelScaleAfterPrint() {
-      window.removeEventListener('focus', restoreHotelScaleAfterPrint);
-      window.removeEventListener('touchstart', restoreHotelScaleAfterPrint);
-      setTimeout(() => {
-        fitHotelPreviewToScreen();
-      }, 150);
+      isHotelPrintingActive = false;
+      const container = document.getElementById('hotel-bill-preview');
+      if (container) {
+        container.style.removeProperty('transition');
+        container.style.removeProperty('-webkit-transition');
+      }
+      fitHotelPreviewToScreen();
     }
 
-    window.addEventListener('beforeprint', resetHotelPreviewScaleForPrint);
+    window.addEventListener('beforeprint', () => {
+      isHotelPrintingActive = true;
+      resetHotelPreviewScaleForPrint();
+    });
     window.addEventListener('afterprint', () => {
-      restoreHotelScaleAfterPrint();
+      setTimeout(() => {
+        restoreHotelScaleAfterPrint();
+      }, 300);
     });
 
     // High Reliability Hotel Bill Print Invocation
@@ -1988,18 +1992,32 @@
       }
       const colPreview = document.getElementById('col-preview');
       if (colPreview) colPreview.classList.remove('hidden');
+
+      isHotelPrintingActive = true;
+      window.scrollTo(0, 0);
       resetHotelPreviewScaleForPrint();
 
-      // Listen for window re-focus or touch after user dismisses print sheet
-      window.addEventListener('focus', restoreHotelScaleAfterPrint, { once: true });
-      window.addEventListener('touchstart', restoreHotelScaleAfterPrint, { once: true });
+      const restoreHandler = () => {
+        window.removeEventListener('focus', restoreHandler);
+        window.removeEventListener('touchstart', restoreHandler);
+        window.removeEventListener('pointerdown', restoreHandler);
+        setTimeout(() => {
+          restoreHotelScaleAfterPrint();
+        }, 800);
+      };
+
+      // Listen for window re-focus or touch after user dismisses print sheet (delayed to prevent premature firing)
+      setTimeout(() => {
+        window.addEventListener('focus', restoreHandler, { once: true });
+        window.addEventListener('touchstart', restoreHandler, { once: true });
+        window.addEventListener('pointerdown', restoreHandler, { once: true });
+      }, 1500);
 
       window.print();
-      // NOTE: Never call setTimeout(fitHotelPreviewToScreen) here!
     }
 
     function fitHotelPreviewToScreen() {
-      if (window.matchMedia && window.matchMedia('print').matches) {
+      if (isHotelPrintingActive || (window.matchMedia && window.matchMedia('print').matches)) {
         return;
       }
       const container = document.getElementById('hotel-bill-preview');

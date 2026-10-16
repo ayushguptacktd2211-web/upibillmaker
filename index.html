@@ -819,10 +819,13 @@
         size: A4 portrait;
         margin: 8mm;
       }
-      * {
+      *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         color-adjust: exact !important;
+        transition: none !important;
+        -webkit-transition: none !important;
+        animation: none !important;
       }
       html, body {
         margin: 0 !important;
@@ -830,47 +833,31 @@
         background: #ffffff !important;
         color: #000000 !important;
         width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
         height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
         overflow: visible !important;
       }
-      /* Hide all non-printable UI elements completely so they take 0 height and no flow space */
+      /* Hide all non-printable UI elements cleanly with display:none */
       header, footer, nav, section, .no-print, #col-main-form,
       .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden,
       #logo-maker-modal, #quick-items-modal, #custom-template-modal,
-      #download-toast, button, input, select, textarea, datalist {
+      #website-share-modal, #download-toast, #mobile-nav-drawer,
+      button, input, select, textarea, datalist {
         display: none !important;
-        height: 0 !important;
-        width: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
-        border: none !important;
-        outline: none !important;
-        position: absolute !important;
-        overflow: hidden !important;
-        clip: rect(0,0,0,0) !important;
       }
       main, #tool-section, #col-main-preview {
         display: block !important;
-        position: static !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
-        min-width: 0 !important;
         max-width: 100% !important;
         height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
         overflow: visible !important;
-        float: none !important;
       }
-      /* Strip paper mat container: eliminate outer grey background, border, inner shadow, and padding */
+      /* Strip paper mat container */
       #invoice-preview-viewport {
         background: transparent !important;
-        background-color: transparent !important;
         border: none !important;
         border-radius: 0 !important;
         padding: 0 !important;
@@ -880,11 +867,8 @@
         max-width: 100% !important;
         min-width: 0 !important;
         height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
         overflow: visible !important;
         display: block !important;
-        position: static !important;
         contain: none !important;
         transform: none !important;
         -webkit-transform: none !important;
@@ -894,15 +878,12 @@
       #invoice-preview-container[class*="format-"],
       div#invoice-preview-container {
         display: block !important;
-        position: static !important;
         margin: 0 auto !important;
-        padding: 14px 18px !important;
+        padding: 10px 14px !important;
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
         height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
         box-sizing: border-box !important;
         transform: none !important;
         -webkit-transform: none !important;
@@ -923,7 +904,7 @@
         max-width: 380px !important;
         width: 380px !important;
         border: 1.5px dashed #0f172a !important;
-        padding: 12px !important;
+        padding: 10px !important;
         margin: 0 auto !important;
       }
       #invoice-preview-container table,
@@ -1167,7 +1148,7 @@
     </div>
 
     <!-- Mobile Navigation Drawer / Slide-Down Menu -->
-    <div id="mobile-nav-drawer" class="hidden md:hidden bg-white border-t border-slate-200 shadow-xl transition-all">
+    <div id="mobile-nav-drawer" class="hidden md:hidden bg-white border-t border-slate-200 shadow-xl transition-all no-print">
       <div class="max-w-7xl mx-auto px-4 py-4 space-y-3.5">
         <!-- Share Website Action Banner in Mobile Menu -->
         <button type="button" onclick="shareWebsite(); toggleMobileMenu();" class="w-full flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 font-bold text-xs cursor-pointer hover:bg-emerald-100/70 transition-colors">
@@ -4908,12 +4889,16 @@
       }
     }
 
+    let isPrintingActive = false;
+
     // Clean Reset Preview Scale Before Printing so A4 Page Spans 100% Full Width
     function resetPreviewScaleForPrint() {
       const container = document.getElementById('invoice-preview-container');
       const viewport = document.getElementById('invoice-preview-viewport');
       if (container) {
         const isThermal = container.classList.contains('format-rest-thermal');
+        container.style.setProperty('transition', 'none', 'important');
+        container.style.setProperty('-webkit-transition', 'none', 'important');
         container.style.removeProperty('transform');
         container.style.removeProperty('-webkit-transform');
         container.style.removeProperty('transform-origin');
@@ -4936,16 +4921,23 @@
     }
 
     function restoreScaleAfterPrint() {
-      window.removeEventListener('focus', restoreScaleAfterPrint);
-      window.removeEventListener('touchstart', restoreScaleAfterPrint);
-      setTimeout(() => {
-        fitPreviewToScreen();
-      }, 150);
+      isPrintingActive = false;
+      const container = document.getElementById('invoice-preview-container');
+      if (container) {
+        container.style.removeProperty('transition');
+        container.style.removeProperty('-webkit-transition');
+      }
+      fitPreviewToScreen();
     }
 
-    window.addEventListener('beforeprint', resetPreviewScaleForPrint);
+    window.addEventListener('beforeprint', () => {
+      isPrintingActive = true;
+      resetPreviewScaleForPrint();
+    });
     window.addEventListener('afterprint', () => {
-      restoreScaleAfterPrint();
+      setTimeout(() => {
+        restoreScaleAfterPrint();
+      }, 300);
     });
 
     // High Reliability Print Invocation
@@ -4955,15 +4947,28 @@
       }
       const colPreview = document.getElementById('col-main-preview');
       if (colPreview) colPreview.classList.remove('hidden');
+
+      isPrintingActive = true;
+      window.scrollTo(0, 0);
       resetPreviewScaleForPrint();
 
-      // Listen for window re-focus or touch after user dismisses print sheet
-      window.addEventListener('focus', restoreScaleAfterPrint, { once: true });
-      window.addEventListener('touchstart', restoreScaleAfterPrint, { once: true });
+      const restoreHandler = () => {
+        window.removeEventListener('focus', restoreHandler);
+        window.removeEventListener('touchstart', restoreHandler);
+        window.removeEventListener('pointerdown', restoreHandler);
+        setTimeout(() => {
+          restoreScaleAfterPrint();
+        }, 800);
+      };
+
+      // Listen for window re-focus or touch after user dismisses print sheet (delayed to prevent premature firing)
+      setTimeout(() => {
+        window.addEventListener('focus', restoreHandler, { once: true });
+        window.addEventListener('touchstart', restoreHandler, { once: true });
+        window.addEventListener('pointerdown', restoreHandler, { once: true });
+      }, 1500);
 
       window.print();
-      // NOTE: Never call setTimeout(fitPreviewToScreen) here!
-      // On iOS Safari & mobile Chrome, window.print() is asynchronous.
     }
 
     // Download 100% Guaranteed High-Resolution A4 PDF via jsPDF & html2canvas
@@ -6833,7 +6838,7 @@
 
     // Automatic Responsive Mobile Scaling for Invoice Preview (Centered, never forced 100%)
     function fitPreviewToScreen() {
-      if (window.matchMedia && window.matchMedia('print').matches) {
+      if (isPrintingActive || (window.matchMedia && window.matchMedia('print').matches)) {
         return;
       }
       const container = document.getElementById('invoice-preview-container');

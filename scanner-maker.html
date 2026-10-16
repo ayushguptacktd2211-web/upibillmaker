@@ -97,9 +97,13 @@
         size: A4 portrait;
         margin: 10mm;
       }
-      * {
+      *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        transition: none !important;
+        -webkit-transition: none !important;
+        animation: none !important;
       }
       html, body {
         background: #ffffff !important;
@@ -107,23 +111,17 @@
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
-        min-width: 0 !important;
-        max-width: 100% !important;
         height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
         overflow: visible !important;
       }
-      header, footer, nav, section, .no-print, #col-form, .ad-banner-slot, .adsbygoogle, button, #floating-view-btn, input, select {
+      /* Hide all non-printable UI elements cleanly with display:none */
+      header, footer, nav, section, .no-print, #col-form,
+      .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden,
+      #website-share-modal, #download-toast, #mobile-nav-drawer,
+      button, input, select, textarea, datalist {
         display: none !important;
-        height: 0 !important;
-        width: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
-        border: none !important;
-        position: absolute !important;
-        overflow: hidden !important;
-        clip: rect(0,0,0,0) !important;
       }
       main {
         display: block !important;
@@ -415,7 +413,7 @@
           <button type="button" onclick="downloadStandeePNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
             <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
           </button>
-          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg shadow-sm shadow-purple-600/20 transition-all cursor-pointer">
+          <button type="button" onclick="printStandee()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg shadow-sm shadow-purple-600/20 transition-all cursor-pointer">
             <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print Standee / PDF
           </button>
         </div>
@@ -721,7 +719,7 @@
       <!-- Action Buttons -->
       <div class="space-y-3 pt-3 border-t border-slate-200">
         <div class="grid grid-cols-2 gap-2.5">
-          <button type="button" onclick="window.print()" class="py-2.5 px-3 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer">
+          <button type="button" onclick="printStandee()" class="py-2.5 px-3 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer">
             <i data-lucide="printer" class="w-4 h-4"></i>
             <span>Print Standee / PDF</span>
           </button>
@@ -1199,7 +1197,7 @@
         setTimeout(() => { document.body.removeChild(a); }, 1000);
       } catch (err) {
         console.error('Download error:', err);
-        window.print();
+        printStandee();
       } finally {
         if (btn) {
           btn.disabled = false;
@@ -1207,6 +1205,14 @@
           if (window.lucide) lucide.createIcons();
         }
       }
+    }
+
+    function printStandee() {
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
+      }
+      window.scrollTo(0, 0);
+      window.print();
     }
 
     // Attach listeners
