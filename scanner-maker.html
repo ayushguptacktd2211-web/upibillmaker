@@ -71,6 +71,8 @@
   
   <!-- html2canvas -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <!-- Google Fonts: Inter & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,7 +112,7 @@
         color: #0f172a !important;
         margin: 0 !important;
         padding: 0 !important;
-        width: 210mm !important;
+        width: 100% !important;
         height: auto !important;
         overflow: visible !important;
       }
@@ -146,8 +148,8 @@
       #standee-print-card {
         box-shadow: none !important;
         width: 100% !important;
-        max-width: 420px !important;
-        margin: 15mm auto !important;
+        max-width: 165mm !important;
+        margin: 10mm auto !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
         page-break-after: avoid !important;
@@ -410,11 +412,14 @@
           <span>Official NPCI Bharat QR • 0% Merchant Fee</span>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto">
+          <button type="button" onclick="downloadStandeePDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg shadow-sm shadow-purple-600/20 transition-all cursor-pointer">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Download PDF
+          </button>
           <button type="button" onclick="downloadStandeePNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
             <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
           </button>
-          <button type="button" onclick="printStandee()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-4 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg shadow-sm shadow-purple-600/20 transition-all cursor-pointer">
-            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print Standee / PDF
+          <button type="button" onclick="printStandee()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg transition-all cursor-pointer">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
           </button>
         </div>
       </div>
@@ -740,14 +745,18 @@
 
       <!-- Action Buttons -->
       <div class="space-y-3 pt-3 border-t border-slate-200">
-        <div class="grid grid-cols-2 gap-2.5">
-          <button type="button" onclick="printStandee()" class="py-2.5 px-3 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer">
-            <i data-lucide="printer" class="w-4 h-4"></i>
-            <span>Print Standee / PDF</span>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <button type="button" onclick="downloadStandeePDF()" class="py-2.5 px-3 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-colors cursor-pointer">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>Download PDF</span>
           </button>
           <button type="button" onclick="downloadStandeePNG()" class="py-2.5 px-3 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
             <i data-lucide="image" class="w-4 h-4"></i>
             <span>Save Sticker PNG</span>
+          </button>
+          <button type="button" onclick="printStandee()" class="py-2.5 px-3 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+            <i data-lucide="printer" class="w-4 h-4"></i>
+            <span>Print Standee</span>
           </button>
         </div>
         <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
@@ -1245,6 +1254,100 @@
       }
     }
 
+    // Download Standee PDF (High-Resolution A4 Centered)
+    async function downloadStandeePDF() {
+      const card = document.getElementById('standee-print-card');
+      if (!card) return;
+
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        printStandee();
+        return;
+      }
+
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating PDF...</span>`;
+      }
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          try { await document.fonts.ready; } catch(e) {}
+        }
+
+        const canvas = await html2canvas(card, {
+          scale: 3,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          logging: false,
+          onclone: (clonedDoc) => {
+            const origQr = document.getElementById('standee-qrcode');
+            const cloneQr = clonedDoc.getElementById('standee-qrcode');
+            if (origQr && cloneQr) {
+              const origCanvas = origQr.querySelector('canvas');
+              const origImg = origQr.querySelector('img');
+              if (origCanvas) {
+                cloneQr.innerHTML = '';
+                const newCvs = clonedDoc.createElement('canvas');
+                newCvs.width = origCanvas.width;
+                newCvs.height = origCanvas.height;
+                const ctx = newCvs.getContext('2d');
+                ctx.drawImage(origCanvas, 0, 0);
+                newCvs.style.display = 'block';
+                newCvs.style.margin = '0 auto';
+                cloneQr.appendChild(newCvs);
+              } else if (origImg) {
+                cloneQr.innerHTML = '';
+                const newImg = clonedDoc.createElement('img');
+                newImg.src = origImg.src;
+                newImg.style.width = '208px';
+                newImg.style.height = '208px';
+                newImg.style.display = 'block';
+                newImg.style.margin = '0 auto';
+                cloneQr.appendChild(newImg);
+              }
+            }
+          }
+        });
+
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();   // 210mm
+        const pdfHeight = pdf.internal.pageSize.getHeight(); // 297mm
+
+        const targetW = 150; // 150mm width centered on A4
+        const targetH = (canvas.height * targetW) / canvas.width;
+        const maxH = pdfHeight - 24;
+
+        let finalW = targetW;
+        let finalH = targetH;
+        if (finalH > maxH) {
+          const scale = maxH / finalH;
+          finalW *= scale;
+          finalH = maxH;
+        }
+
+        const xOffset = (pdfWidth - finalW) / 2;
+        const yOffset = Math.max(12, (pdfHeight - finalH) / 2);
+
+        pdf.addImage(imgData, 'PNG', xOffset, yOffset, finalW, finalH, undefined, 'FAST');
+        const filename = getStandeeCombinedFilename('pdf');
+        pdf.save(filename);
+      } catch (err) {
+        console.error('Standee PDF error:', err);
+        printStandee();
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          if (window.lucide) lucide.createIcons();
+        }
+      }
+    }
+
     function printStandee() {
       if (document.activeElement && document.activeElement.blur) {
         document.activeElement.blur();
@@ -1271,7 +1374,9 @@
         window.addEventListener('pointerdown', restoreTitle, { once: true });
       }, 1500);
 
-      window.print();
+      setTimeout(() => {
+        window.print();
+      }, 80);
     }
 
     // Attach listeners

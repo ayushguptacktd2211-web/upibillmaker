@@ -2266,14 +2266,15 @@
         }, 800);
       };
 
-      // Listen for window re-focus or touch after user dismisses print sheet (delayed to prevent premature firing)
       setTimeout(() => {
         window.addEventListener('focus', restoreHandler, { once: true });
         window.addEventListener('touchstart', restoreHandler, { once: true });
         window.addEventListener('pointerdown', restoreHandler, { once: true });
       }, 1500);
 
-      window.print();
+      setTimeout(() => {
+        window.print();
+      }, 80);
     }
 
     function fitRestPreviewToScreen() {

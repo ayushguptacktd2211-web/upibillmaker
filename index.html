@@ -95,7 +95,7 @@
     }
     #tool-section {
       width: 100%;
-      max-width: 768px !important;
+      max-width: 64rem !important;
       margin-left: auto !important;
       margin-right: auto !important;
       box-sizing: border-box;
@@ -836,7 +836,7 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
-        width: 210mm !important;
+        width: 100% !important;
         height: auto !important;
         overflow: visible !important;
       }
@@ -883,11 +883,10 @@
       div#invoice-preview-container {
         display: flex !important;
         flex-direction: column !important;
-        margin: 7mm auto !important;
+        margin: 6mm auto !important;
         padding: 6mm 8mm !important;
-        width: 196mm !important;
-        max-width: 196mm !important;
-        min-height: 283mm !important;
+        width: 190mm !important;
+        max-width: 190mm !important;
         box-sizing: border-box !important;
         transform: none !important;
         -webkit-transform: none !important;
@@ -1251,14 +1250,14 @@
 
   <!-- Hero Section -->
   <section class="relative pt-10 pb-12 overflow-hidden bg-gradient-to-b from-slate-100 via-white to-slate-50 border-b border-slate-200 no-print">
-    <div class="max-w-4xl mx-auto px-4 text-center">
+    <div class="max-w-5xl mx-auto px-4 text-center">
       <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold mb-4">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         GST & Non-GST Compliant • CGST/SGST/IGST • HSN Codes • Auto-Pay QR
       </div>
       
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight sm:leading-tight mb-4">
-        Free GST Tax Invoice & Cash Memo Maker with <br class="hidden sm:inline">
+        Free GST Tax Invoice & Cash Memo Maker with 
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-emerald-600">Logo & Auto-Pay UPI QR Code</span>
       </h1>
       
@@ -5000,7 +4999,9 @@
         window.addEventListener('pointerdown', restoreHandler, { once: true });
       }, 1500);
 
-      window.print();
+      setTimeout(() => {
+        window.print();
+      }, 80);
     }
 
     // Download 100% Guaranteed High-Resolution A4 PDF via jsPDF & html2canvas

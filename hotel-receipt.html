@@ -115,7 +115,7 @@
         color: #000000 !important;
         margin: 0 !important;
         padding: 0 !important;
-        width: 210mm !important;
+        width: 100% !important;
         height: auto !important;
         overflow: visible !important;
       }
@@ -171,11 +171,10 @@
         display: flex !important;
         flex-direction: column !important;
         position: static !important;
-        margin: 7mm auto !important;
+        margin: 6mm auto !important;
         padding: 6mm 8mm !important;
-        width: 196mm !important;
-        max-width: 196mm !important;
-        min-height: 283mm !important;
+        width: 190mm !important;
+        max-width: 190mm !important;
         box-sizing: border-box !important;
         transform: none !important;
         -webkit-transform: none !important;
@@ -2043,7 +2042,9 @@
         window.addEventListener('pointerdown', restoreHandler, { once: true });
       }, 1500);
 
-      window.print();
+      setTimeout(() => {
+        window.print();
+      }, 80);
     }
 
     function fitHotelPreviewToScreen() {
