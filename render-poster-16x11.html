@@ -2,11 +2,10 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <title>UPIBillMaker 16:11 Premium Commercial Poster</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>UPIBillMaker Hindi 16:11 Poster - 1:1 Exact Twin to English Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@600;700;800;900&family=Outfit:wght@800;900&family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Noto+Sans+Devanagari:wght@600;700;800;900&family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -14,266 +13,669 @@
       height: 1100px;
       overflow: hidden;
       font-family: 'Noto Sans Devanagari', 'Poppins', sans-serif;
+      background: #041226;
+      color: #ffffff;
+      position: relative;
+    }
+
+    /* Background Gradient matching reference */
+    .poster-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 12% 40%, #057a55 0%, #035239 30%, #07263b 62%, #031224 88%, #010a14 100%);
+      z-index: 0;
+    }
+
+    /* Constellation Network Overlay */
+    .constellation-svg {
+      position: absolute;
+      inset: 0;
+      width: 1600px;
+      height: 1100px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Top Brand Typography */
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 82px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -1.5px;
+      line-height: 1.05;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .brand-subtitle {
+      font-family: 'Noto Sans Devanagari', 'Poppins', sans-serif;
+      font-size: 42px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-top: 10px;
+      text-shadow: 0 3px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 3D Tactile Glassmorphic Pill Badges on Left */
+    .pill-badge {
+      width: 380px;
+      padding: 24px 30px;
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(23, 85, 74, 0.92) 0%, rgba(10, 48, 41, 0.96) 100%);
+      border: 2.5px solid rgba(85, 225, 175, 0.5);
+      box-shadow: 
+        0 22px 45px rgba(0, 0, 0, 0.6),
+        inset 0 2px 3px rgba(255, 255, 255, 0.45),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.6),
+        0 0 30px rgba(16, 185, 129, 0.25);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .pill-badge h3 {
+      font-size: 34px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+    .pill-badge p {
+      font-size: 21px;
+      font-weight: 700;
+      color: #e2fbf0;
+      line-height: 1.35;
+      margin-top: 5px;
+      opacity: 0.95;
+    }
+
+    /* Phone Mockup Styling */
+    .phone-container {
+      width: 330px;
+      background: #090e17;
+      border-radius: 50px;
+      padding: 13px;
+      box-shadow: 
+        -25px 35px 75px rgba(0, 0, 0, 0.9),
+        0 0 0 2.5px rgba(255, 255, 255, 0.18),
+        inset 0 0 4px rgba(255, 255, 255, 0.2);
+      transform: rotate(-1.5deg);
+      z-index: 10;
+      position: relative;
+    }
+    .phone-screen {
       background: #ffffff;
+      border-radius: 40px;
+      overflow: hidden;
       color: #0f172a;
     }
-    .font-brand { font-family: 'Space Grotesk', sans-serif; }
-    .font-heading { font-family: 'Noto Sans Devanagari', 'Outfit', sans-serif; }
+    .phone-notch {
+      width: 100px;
+      height: 20px;
+      background: #090e17;
+      border-radius: 20px;
+      margin: 6px auto 4px auto;
+    }
+
+    /* A4 Tilted Paper Bill Styling */
+    .bill-sheet {
+      width: 385px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 
+        18px 35px 75px rgba(0, 0, 0, 0.8),
+        0 0 2px rgba(0, 0, 0, 0.2);
+      transform: rotate(9deg);
+      position: absolute;
+      right: -55px;
+      top: -15px;
+      z-index: 5;
+      padding: 24px 22px;
+      color: #1e293b;
+    }
+
+    /* Right Side 4 Vector Feature Blocks */
+    .right-feature {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 150px;
+    }
+    .right-feature svg {
+      width: 64px;
+      height: 64px;
+      fill: #ffffff;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+    }
+    .right-feature .label {
+      margin-top: 10px;
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Bottom Payment Bar */
+    .payment-pill {
+      background: #ffffff;
+      border-radius: 26px;
+      padding: 13px 32px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Bottom Right 6 Vector Icons */
+    .bottom-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+    }
+    .bottom-icon-item svg {
+      width: 36px;
+      height: 36px;
+      fill: #ffffff;
+      filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
+    }
+    .bottom-icon-item span {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Hand-drawn Annotation & Arrow */
+    .hand-annotation {
+      position: absolute;
+      top: 340px;
+      right: -250px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .hand-text {
+      font-family: 'Noto Sans Devanagari', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.35;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+      white-space: nowrap;
+    }
   </style>
 </head>
-<body class="relative flex flex-col justify-between p-14 select-none bg-white">
+<body>
 
-  <!-- Subtle Clean Decorative Backdrop Glows -->
-  <div class="absolute top-0 right-0 w-[650px] h-[650px] bg-gradient-to-bl from-emerald-100/50 via-teal-50/30 to-transparent rounded-full blur-3xl pointer-events-none"></div>
-  <div class="absolute bottom-0 left-0 w-[550px] h-[550px] bg-gradient-to-tr from-emerald-100/40 to-transparent rounded-full blur-3xl pointer-events-none"></div>
-  
-  <!-- Outer Modern Framing Border -->
-  <div class="absolute inset-5 rounded-[40px] border-[3px] border-slate-200 pointer-events-none"></div>
+  <!-- Background Gradient -->
+  <div class="poster-bg"></div>
 
-  <!-- 1. Header Bar: Official Vector Logo & Badges -->
-  <header class="relative z-10 flex items-center justify-between pb-4 border-b-2 border-slate-100">
-    <!-- Official Logo -->
-    <div class="flex items-center gap-4">
-      <div class="w-16 h-16 rounded-2xl shadow-xl shadow-emerald-600/20 overflow-hidden shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-          <defs>
-            <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#059669"/>
-              <stop offset="100%" stop-color="#047857"/>
-            </linearGradient>
-            <linearGradient id="paperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#ffffff"/>
-              <stop offset="100%" stop-color="#f8fafc"/>
-            </linearGradient>
-          </defs>
-          <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
-          <rect x="8" y="8" width="496" height="496" rx="104" fill="none" stroke="#34d399" stroke-width="6" stroke-opacity="0.4"/>
-          <path d="M124 84 H324 L388 148 V420 C388 428.8 380.8 436 372 436 H140 C131.2 436 124 428.8 124 420 Z" fill="url(#paperGrad)"/>
-          <path d="M324 84 V140 C324 144.4 327.6 148 332 148 H388 Z" fill="#a7f3d0"/>
-          <text x="256" y="260" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="130" font-weight="900" fill="#047857" text-anchor="middle">₹</text>
-          <rect x="160" y="295" width="170" height="14" rx="7" fill="#10b981"/>
-          <rect x="160" y="325" width="115" height="12" rx="6" fill="#6ee7b7"/>
-          <rect x="160" y="352" width="135" height="12" rx="6" fill="#6ee7b7"/>
-          <rect x="290" y="315" width="85" height="85" rx="16" fill="#0f172a"/>
-          <rect x="302" y="327" width="26" height="26" rx="5" fill="#ffffff"/>
-          <rect x="308" y="333" width="14" height="14" rx="2" fill="#0f172a"/>
-          <rect x="337" y="327" width="26" height="26" rx="5" fill="#ffffff"/>
-          <rect x="343" y="333" width="14" height="14" rx="2" fill="#0f172a"/>
-          <rect x="302" y="362" width="26" height="26" rx="5" fill="#ffffff"/>
-          <rect x="308" y="368" width="14" height="14" rx="2" fill="#0f172a"/>
-        </svg>
-      </div>
-      <div>
-        <div class="font-brand font-black text-4xl text-slate-900 tracking-tight flex items-center">
-          <span>UPI</span><span class="text-emerald-600">BillMaker</span><span class="text-xl text-slate-400 font-sans font-bold ml-1">.com</span>
-        </div>
-        <p class="text-base text-emerald-800 font-bold">दुकान व व्यापार का 100% फ्री डिजिटल बिल मेकर</p>
-      </div>
+  <!-- Constellation Network (Connected lines & glowing nodes) -->
+  <svg class="constellation-svg" viewBox="0 0 1600 1100" fill="none">
+    <!-- Faint Lines on Right (Navy Side) -->
+    <g stroke="rgba(56, 189, 248, 0.18)" stroke-width="1.2">
+      <line x1="1250" y1="120" x2="1420" y2="200" />
+      <line x1="1420" y1="200" x2="1520" y2="150" />
+      <line x1="1420" y1="200" x2="1360" y2="340" />
+      <line x1="1360" y1="340" x2="1500" y2="420" />
+      <line x1="1500" y1="420" x2="1560" y2="320" />
+      <line x1="1360" y1="340" x2="1280" y2="480" />
+      <line x1="1280" y1="480" x2="1440" y2="580" />
+      <line x1="1440" y1="580" x2="1540" y2="510" />
+      <line x1="1440" y1="580" x2="1380" y2="720" />
+      <line x1="1380" y1="720" x2="1520" y2="820" />
+      <line x1="1180" y1="260" x2="1250" y2="120" />
+      <line x1="1180" y1="260" x2="1360" y2="340" />
+      <line x1="1100" y1="420" x2="1180" y2="260" />
+      <line x1="1100" y1="420" x2="1280" y2="480" />
+      <!-- Dots / Glowing Nodes -->
+      <circle cx="1250" cy="120" r="3.5" fill="#38bdf8" opacity="0.6"/>
+      <circle cx="1420" cy="200" r="4.5" fill="#38bdf8" opacity="0.8"/>
+      <circle cx="1520" cy="150" r="3" fill="#38bdf8" opacity="0.5"/>
+      <circle cx="1360" cy="340" r="4" fill="#38bdf8" opacity="0.7"/>
+      <circle cx="1500" cy="420" r="4" fill="#38bdf8" opacity="0.6"/>
+      <circle cx="1560" cy="320" r="3" fill="#38bdf8" opacity="0.5"/>
+      <circle cx="1280" cy="480" r="3.5" fill="#38bdf8" opacity="0.6"/>
+      <circle cx="1440" cy="580" r="4.5" fill="#38bdf8" opacity="0.7"/>
+      <circle cx="1540" cy="510" r="3" fill="#38bdf8" opacity="0.5"/>
+      <circle cx="1380" cy="720" r="4" fill="#38bdf8" opacity="0.6"/>
+      <circle cx="1520" cy="820" r="3.5" fill="#38bdf8" opacity="0.5"/>
+      <circle cx="1180" cy="260" r="3.5" fill="#38bdf8" opacity="0.6"/>
+      <circle cx="1100" cy="420" r="3" fill="#38bdf8" opacity="0.5"/>
+    </g>
+
+    <!-- Faint Lines on Left (Emerald Side) -->
+    <g stroke="rgba(52, 211, 153, 0.15)" stroke-width="1.2">
+      <line x1="80" y1="220" x2="200" y2="140" />
+      <line x1="200" y1="140" x2="280" y2="240" />
+      <line x1="80" y1="220" x2="120" y2="400" />
+      <line x1="120" y1="400" x2="40" y2="520" />
+      <line x1="40" y1="520" x2="140" y2="680" />
+      <line x1="140" y1="680" x2="80" y2="820" />
+      <line x1="80" y1="820" x2="220" y2="900" />
+      <circle cx="80" cy="220" r="3.5" fill="#34d399" opacity="0.6"/>
+      <circle cx="200" cy="140" r="4" fill="#34d399" opacity="0.7"/>
+      <circle cx="280" cy="240" r="3.5" fill="#34d399" opacity="0.5"/>
+      <circle cx="120" cy="400" r="4" fill="#34d399" opacity="0.6"/>
+      <circle cx="40" cy="520" r="3" fill="#34d399" opacity="0.5"/>
+      <circle cx="140" cy="680" r="4" fill="#34d399" opacity="0.7"/>
+      <circle cx="80" cy="820" r="3.5" fill="#34d399" opacity="0.6"/>
+      <circle cx="220" cy="900" r="4" fill="#34d399" opacity="0.6"/>
+    </g>
+  </svg>
+
+  <!-- Main Poster Container -->
+  <div style="position: relative; z-index: 10; width: 1600px; height: 1100px; display: flex; flex-direction: column; justify-content: space-between; padding: 48px 65px 44px 65px;">
+
+    <!-- TOP: Exact Brand & Two-Line Subtitle -->
+    <div style="text-align: center; margin-top: 6px;">
+      <h1 class="brand-title">UPIBillMaker.com</h1>
+      <h2 class="brand-subtitle">
+        फ्री GST व कच्चा बिल (Non-GST) इनवॉइस बनाएं<br>
+        ऑटो-पे UPI QR कोड के साथ!
+      </h2>
     </div>
 
-    <!-- Trust Badges -->
-    <div class="flex items-center gap-4">
-      <div class="px-6 py-2.5 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-emerald-800 text-xl font-black shadow-sm flex items-center gap-2.5">
-        <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span>100% मुफ़्त हमेशा</span>
-      </div>
-      <div class="px-6 py-2.5 rounded-2xl bg-slate-100 border-2 border-slate-300 text-slate-800 text-xl font-bold">
-        <span>नो लॉगिन • नो ऐप</span>
-      </div>
-    </div>
-  </header>
+    <!-- MIDDLE: Left 3D Badges + Center Phone & A4 Bill + Right 4 Vector Icons -->
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 15px; margin-bottom: 25px;">
 
-  <!-- 2. Main Hero Showcase -->
-  <main class="relative z-10 grid grid-cols-12 gap-10 items-center my-auto py-2">
-    <!-- Left Column: Big Catchy Hook (7 cols) -->
-    <div class="col-span-7 space-y-6">
-      
-      <!-- Catchy Top Question Pill -->
-      <div class="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-2xl bg-amber-100 text-amber-950 border-2 border-amber-300 text-2xl font-black shadow-xs">
-        <span>दुकान या व्यापार का बिल बनाना है?</span>
-      </div>
-
-      <!-- Main Unmissable Punchline in Clean Flow -->
-      <div class="space-y-1.5">
-        <div class="font-heading font-black text-4xl text-slate-600">
-          कहाँ बनाएं?
+      <!-- Left Column: 3 Floating 3D Emerald Glassmorphic Badges -->
+      <div style="display: flex; flex-direction: column; gap: 26px;">
+        <!-- Badge 1 -->
+        <div class="pill-badge">
+          <h3>100% मुफ़्त • कोई</h3>
+          <h3>लॉगिन ज़रूरी नहीं</h3>
         </div>
-        <h1 class="font-heading font-black text-[54px] leading-tight text-slate-900 tracking-tight whitespace-nowrap">
-          सीधे <span class="text-emerald-600 underline decoration-amber-400 decoration-8 underline-offset-8">upibillmaker.com</span> पर आएं!
-        </h1>
-        <div class="font-heading font-black text-5xl text-emerald-700 pt-1 flex items-center gap-3">
-          <span>वो भी बिल्कुल मुफ़्त!</span>
-          <span class="text-xl text-slate-500 font-bold tracking-normal">(Zero Software Cost)</span>
+
+        <!-- Badge 2 -->
+        <div class="pill-badge">
+          <h3>6 रेडी टेम्पलेट्स</h3>
+          <p>(दुकान, मेडिकल, रेस्टोरेंट,<br>होटल, किराया, ट्यूशन)</p>
+        </div>
+
+        <!-- Badge 3 -->
+        <div class="pill-badge">
+          <h3>तुरंत PDF व</h3>
+          <h3>WhatsApp शेयर</h3>
         </div>
       </div>
 
-      <!-- 3 Clean Feature Rows with Vibrant Badges -->
-      <div class="space-y-3 pt-2">
-        <div class="flex items-center gap-4 p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-200 shadow-sm">
-          <div class="w-12 h-12 rounded-xl bg-emerald-600 text-white font-black text-2xl flex items-center justify-center shrink-0 shadow-md">
-            ⚡
-          </div>
-          <div class="text-2xl font-black text-slate-900">
-            30 सेकंड में बनाएं GST व कच्चा बिल
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4 p-4 rounded-2xl bg-teal-50 border-2 border-teal-200 shadow-sm">
-          <div class="w-12 h-12 rounded-xl bg-teal-600 text-white font-black text-2xl flex items-center justify-center shrink-0 shadow-md">
-            📲
-          </div>
-          <div class="text-2xl font-black text-slate-900">
-            Auto-Pay UPI QR कोड से 5 सेकंड में पेमेंट पाएं
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4 p-4 rounded-2xl bg-blue-50 border-2 border-blue-200 shadow-sm">
-          <div class="w-12 h-12 rounded-xl bg-blue-600 text-white font-black text-2xl flex items-center justify-center shrink-0 shadow-md">
-            📄
-          </div>
-          <div class="text-2xl font-black text-slate-900">
-            A4 PDF बिल डाउनलोड करें या 1-क्लिक में WhatsApp पर भेजें
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Right Column: Visual Bill Preview & QR Mockup Card (5 cols) -->
-    <div class="col-span-5 relative">
-      <!-- Soft Shadow -->
-      <div class="absolute -inset-2 bg-slate-900/5 rounded-[36px] blur-xl"></div>
-
-      <!-- A4 Bill Mockup Card (Realistic Clean Design) -->
-      <div class="relative bg-white text-slate-900 rounded-[30px] p-7 shadow-2xl border-2 border-slate-200 space-y-4">
-        <!-- Bill Top Banner -->
-        <div class="flex items-center justify-between border-b-2 border-slate-100 pb-3">
-          <div>
-            <span class="px-3 py-1 rounded-md bg-emerald-600 text-white text-[11px] font-black tracking-widest uppercase">
-              GST TAX INVOICE • पक्का बिल
-            </span>
-            <div class="text-2xl font-black text-slate-900 mt-1">शर्मा किराना &amp; जनरल स्टोर</div>
-            <div class="text-xs font-bold text-slate-500 mt-0.5">नई दिल्ली • GSTIN दर्ज • बिल #2026-089</div>
-          </div>
-          <span class="px-3.5 py-1.5 rounded-xl bg-emerald-100 text-emerald-800 text-sm font-black tracking-wider border border-emerald-300">
-            PAID ✔
-          </span>
-        </div>
-
-        <!-- Bill Amount Box -->
-        <div class="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200">
-          <div>
-            <div class="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">कुल बिल राशि (Total Due)</div>
-            <div class="text-3xl font-black text-slate-900 mt-0.5">₹1,500.00</div>
-          </div>
-          <div class="px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-extrabold flex items-center gap-1 border border-emerald-200">
-            <span>✔</span> पेमेंट सफल
-          </div>
-        </div>
-
-        <!-- Auto-Pay UPI QR Code Box -->
-        <div class="rounded-2xl p-4 bg-emerald-50/80 border-2 border-emerald-200 flex items-center gap-4">
-          <!-- Vector QR Code Graphic -->
-          <div class="w-24 h-24 bg-white p-2 rounded-xl shadow-md border border-slate-200 shrink-0 flex items-center justify-center">
-            <svg class="w-full h-full" viewBox="0 0 25 25" fill="#0f172a">
-              <rect x="1" y="1" width="7" height="7" rx="1.5" fill="none" stroke="#0f172a" stroke-width="2"/>
-              <rect x="3" y="3" width="3" height="3" fill="#047857"/>
-              <rect x="17" y="1" width="7" height="7" rx="1.5" fill="none" stroke="#0f172a" stroke-width="2"/>
-              <rect x="19" y="3" width="3" height="3" fill="#047857"/>
-              <rect x="1" y="17" width="7" height="7" rx="1.5" fill="none" stroke="#0f172a" stroke-width="2"/>
-              <rect x="3" y="19" width="3" height="3" fill="#047857"/>
-              <rect x="10" y="2" width="2" height="2"/>
-              <rect x="13" y="4" width="2" height="2"/>
-              <rect x="10" y="6" width="2" height="2"/>
-              <rect x="2" y="10" width="2" height="2"/>
-              <rect x="5" y="12" width="2" height="2"/>
-              <rect x="10" y="10" width="4" height="4" fill="#047857"/>
-              <rect x="16" y="10" width="2" height="2"/>
-              <rect x="19" y="12" width="2" height="2"/>
-              <rect x="22" y="10" width="2" height="2"/>
-              <rect x="11" y="17" width="2" height="2"/>
-              <rect x="14" y="19" width="2" height="2"/>
-              <rect x="11" y="21" width="2" height="2"/>
-              <rect x="18" y="17" width="2" height="2"/>
-              <rect x="21" y="19" width="2" height="2"/>
-              <rect x="18" y="21" width="4" height="2"/>
-            </svg>
-          </div>
-          <div class="space-y-1">
-            <div class="text-xs font-black text-emerald-800 uppercase tracking-wider">
-              Auto-Pay UPI QR Code
+      <!-- Center Column: Smartphone & Tilted A4 Bill Sheet Mockup -->
+      <div style="position: relative; width: 560px; height: 500px; display: flex; align-items: center; justify-content: center; margin-left: 20px;">
+        
+        <!-- A4 Paper Bill Mockup (Tilted Behind Phone) -->
+        <div class="bill-sheet">
+          <!-- Bill Header -->
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #059669; padding-bottom: 10px;">
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <!-- Green Doc Icon -->
+              <div style="width: 30px; height: 36px; background: #059669; border-radius: 4px; display: flex; flex-direction: column; justify-content: center; padding: 4px; gap: 3px;">
+                <div style="height: 2px; background: #fff; width: 14px; border-radius: 1px;"></div>
+                <div style="height: 2px; background: #fff; width: 18px; border-radius: 1px;"></div>
+                <div style="height: 2px; background: #fff; width: 12px; border-radius: 1px;"></div>
+              </div>
+              <div>
+                <div style="font-size: 13px; font-weight: 800; color: #0f172a; line-height: 1.1;">शर्मा किराना स्टोर</div>
+                <div style="font-size: 8px; color: #64748b;">GSTIN: 07AAAAA0000A1Z5</div>
+              </div>
             </div>
-            <div class="text-lg font-black text-slate-900 leading-tight">GPay, PhonePe, Paytm से स्कैन करें</div>
-            <div class="text-xs font-extrabold text-emerald-700">राशि ₹1,500 अपने आप भरी हुई आएगी!</div>
+            <div style="text-align: right;">
+              <div style="font-size: 14px; font-weight: 900; color: #059669; letter-spacing: 0.5px;">GST INVOICE</div>
+              <div style="font-size: 8px; color: #64748b;">बिल सं: INV-2026-089</div>
+            </div>
+          </div>
+
+          <!-- Customer Meta -->
+          <div style="display: flex; justify-content: space-between; font-size: 8.5px; color: #475569; padding: 8px 0; border-bottom: 1px solid #e2e8f0;">
+            <div><strong>ग्राहक:</strong> राहुल वर्मा (दिल्ली)</div>
+            <div><strong>दिनांक:</strong> 16/10/2026</div>
+          </div>
+
+          <!-- Table Items -->
+          <table style="width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 8.5px;">
+            <thead>
+              <tr style="background: #059669; color: #ffffff;">
+                <th style="padding: 4px 6px; text-align: left; border-radius: 3px 0 0 3px;">क्र.</th>
+                <th style="padding: 4px 6px; text-align: left;">विवरण</th>
+                <th style="padding: 4px 6px; text-align: center;">मात्रा</th>
+                <th style="padding: 4px 6px; text-align: right;">दर (₹)</th>
+                <th style="padding: 4px 6px; text-align: right; border-radius: 0 3px 3px 0;">कुल (₹)</th>
+              </tr>
+            </thead>
+            <tbody style="color: #334155;">
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 4px 6px;">1</td>
+                <td style="padding: 4px 6px; font-weight: 700;">बासमती चावल (5 KG)</td>
+                <td style="padding: 4px 6px; text-align: center;">1 बैग</td>
+                <td style="padding: 4px 6px; text-align: right;">550.00</td>
+                <td style="padding: 4px 6px; text-align: right; font-weight: 700;">550.00</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 4px 6px;">2</td>
+                <td style="padding: 4px 6px; font-weight: 700;">फॉर्च्यून रिफाइंड तेल</td>
+                <td style="padding: 4px 6px; text-align: center;">2 पैकेट</td>
+                <td style="padding: 4px 6px; text-align: right;">140.00</td>
+                <td style="padding: 4px 6px; text-align: right; font-weight: 700;">280.00</td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 4px 6px;">3</td>
+                <td style="padding: 4px 6px; font-weight: 700;">टाटा नमक + मसाले</td>
+                <td style="padding: 4px 6px; text-align: center;">1 कॉम्बो</td>
+                <td style="padding: 4px 6px; text-align: right;">120.00</td>
+                <td style="padding: 4px 6px; text-align: right; font-weight: 700;">120.00</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Bill Total -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 6px; border-top: 1.5px solid #cbd5e1;">
+            <span style="font-size: 10px; font-weight: 800; color: #475569;">कुल देय राशि (Grand Total)</span>
+            <span style="font-size: 15px; font-weight: 900; color: #059669;">₹950.00</span>
+          </div>
+
+          <!-- Bottom QR Code & UPI Badge -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px dashed #cbd5e1;">
+            <div>
+              <!-- Official UPI Vector -->
+              <svg width="70" height="24" viewBox="0 0 100 32" fill="none">
+                <path d="M12 4L4 28H14L19 12H27L22 28H32L40 4H12Z" fill="#000000"/>
+                <path d="M45 4L37 28H47L52 12H60L55 28H65L73 4H45Z" fill="#000000"/>
+                <path d="M78 4L70 28H80L88 4H78Z" fill="#059669"/>
+                <path d="M92 4L84 28H94L102 4H92Z" fill="#f97316"/>
+              </svg>
+              <div style="font-size: 8px; font-weight: 800; color: #059669; margin-top: 2px;">ऑटो-पे UPI QR कोड</div>
+              <div style="font-size: 7.5px; color: #64748b;">GPay, PhonePe, Paytm</div>
+            </div>
+            <!-- High Definition QR Code SVG -->
+            <div style="width: 76px; height: 76px; background: #ffffff; border: 1.5px solid #0f172a; border-radius: 8px; padding: 3px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+              <svg viewBox="0 0 29 29" width="100%" height="100%" fill="#0f172a">
+                <!-- Top-Left Finder -->
+                <rect x="0" y="0" width="7" height="7"/>
+                <rect x="1" y="1" width="5" height="5" fill="#ffffff"/>
+                <rect x="2" y="2" width="3" height="3"/>
+                <!-- Top-Right Finder -->
+                <rect x="22" y="0" width="7" height="7"/>
+                <rect x="23" y="1" width="5" height="5" fill="#ffffff"/>
+                <rect x="24" y="2" width="3" height="3"/>
+                <!-- Bottom-Left Finder -->
+                <rect x="0" y="22" width="7" height="7"/>
+                <rect x="1" y="23" width="5" height="5" fill="#ffffff"/>
+                <rect x="2" y="24" width="3" height="3"/>
+                <!-- Timing & Data Modules -->
+                <rect x="8" y="2" width="1" height="1"/><rect x="10" y="2" width="2" height="1"/><rect x="14" y="2" width="1" height="1"/><rect x="18" y="2" width="2" height="1"/>
+                <rect x="2" y="8" width="1" height="1"/><rect x="2" y="10" width="1" height="2"/><rect x="2" y="14" width="1" height="1"/><rect x="2" y="18" width="1" height="2"/>
+                <rect x="9" y="9" width="11" height="11" fill="#059669"/>
+                <rect x="11" y="11" width="7" height="7" fill="#ffffff"/>
+                <rect x="13" y="13" width="3" height="3" fill="#059669"/>
+                <rect x="22" y="10" width="2" height="3"/><rect x="25" y="14" width="3" height="2"/>
+                <rect x="10" y="23" width="3" height="2"/><rect x="15" y="25" width="2" height="3"/>
+                <rect x="19" y="22" width="2" height="2"/><rect x="24" y="24" width="3" height="3"/>
+              </svg>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </main>
 
-  <!-- 3. Clean Template Pills Bar -->
-  <section class="relative z-10 pt-2 pb-2">
-    <div class="flex items-center justify-between mb-2 px-1">
-      <div class="text-sm font-black uppercase tracking-wider text-slate-600 flex items-center gap-2">
-        <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
-        <span>सभी व्यापारियों के लिए तैयार 6 आसान टेम्पलेट्स:</span>
+        <!-- Smartphone Mockup (Foreground) -->
+        <div class="phone-container">
+          <div class="phone-screen">
+            <!-- iOS Status Bar & Dynamic Island -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 14px 2px 14px; font-size: 10px; font-weight: 700;">
+              <span>9:41</span>
+              <div class="phone-notch"></div>
+              <span>5G 🔋</span>
+            </div>
+
+            <!-- Safari Address Bar -->
+            <div style="background: #f1f5f9; margin: 4px 10px; padding: 4px 8px; border-radius: 8px; font-size: 8.5px; text-align: center; color: #475569; font-weight: 600;">
+              🔒 upibillmaker.com
+            </div>
+
+            <!-- App Header -->
+            <div style="background: #0f172a; color: #ffffff; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 800; letter-spacing: -0.3px;">UPIBillMaker<span style="color: #34d399;">.com</span></span>
+              <span style="background: #059669; color: #ffffff; font-size: 8px; font-weight: 800; padding: 2px 6px; border-radius: 10px;">मुफ़्त (FREE)</span>
+            </div>
+
+            <!-- Form Content -->
+            <div style="padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div>
+                <div style="font-size: 9px; font-weight: 800; color: #334155; margin-bottom: 2px;">दुकान / व्यापारी का नाम</div>
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 8px; font-size: 9.5px; font-weight: 700; color: #0f172a;">
+                  शर्मा किराना &amp; जनरल स्टोर
+                </div>
+              </div>
+
+              <div>
+                <div style="font-size: 9px; font-weight: 800; color: #334155; margin-bottom: 2px;">ग्राहक का नाम व मोबाइल</div>
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 8px; font-size: 9.5px; font-weight: 700; color: #0f172a;">
+                  राहुल वर्मा • 9876543210
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 6px;">
+                <div style="flex: 1;">
+                  <div style="font-size: 9px; font-weight: 800; color: #334155; margin-bottom: 2px;">बिल टेम्पलेट</div>
+                  <div style="background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 6px; padding: 6px; font-size: 9px; font-weight: 800; color: #065f46;">
+                    GST Tax Invoice
+                  </div>
+                </div>
+                <div style="flex: 1;">
+                  <div style="font-size: 9px; font-weight: 800; color: #334155; margin-bottom: 2px;">कुल राशि (₹)</div>
+                  <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px; font-size: 9.5px; font-weight: 900; color: #059669;">
+                    ₹950.00
+                  </div>
+                </div>
+              </div>
+
+              <!-- Instant Pay UPI QR on Phone Screen -->
+              <div style="background: #f0fdf4; border: 1px dashed #22c55e; border-radius: 8px; padding: 6px 8px; display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+                <div style="font-size: 8px; font-weight: 800; color: #166534;">ऑटो UPI QR कोड लिंक</div>
+                <span style="font-size: 8px; font-weight: 800; color: #ffffff; background: #16a34a; padding: 2px 6px; border-radius: 4px;">सक्रिय ✔</span>
+              </div>
+
+              <!-- Submit / Download Button -->
+              <div style="background: #059669; color: #ffffff; border-radius: 10px; padding: 10px; text-align: center; font-size: 11px; font-weight: 900; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4); margin-top: 4px;">
+                तुरंत A4 PDF व बिल बनाएं
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- (End of center column phone & bill) -->
       </div>
-      <div class="text-sm font-bold text-slate-500">
-        GST टैक्स इनवॉइस व कच्चा बिल दोनों उपलब्ध
+
+      <!-- Right Column: 2x2 Feature Grid + QR Code Arrow Annotation (Exact 1:1 match) -->
+      <div style="display: flex; flex-direction: column; gap: 36px; margin-right: 25px; width: 330px;">
+        
+        <!-- 2x2 Feature Icons Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px 18px; justify-items: center;">
+          
+          <!-- 1. Retail (दुकान) -->
+          <div class="right-feature">
+            <svg viewBox="0 0 24 24">
+              <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+            <div class="label">दुकान</div>
+          </div>
+
+          <!-- 2. Medical (मेडिकल) -->
+          <div class="right-feature">
+            <svg viewBox="0 0 40 40" width="64" height="64">
+              <rect x="8" y="4" width="16" height="4" rx="1.5" fill="#ffffff"/>
+              <rect x="6" y="8" width="20" height="20" rx="3" fill="#ffffff"/>
+              <text x="10" y="23" font-family="'Poppins', sans-serif" font-weight="900" font-size="12" fill="#041226">Rx</text>
+              <rect x="18" y="29" width="18" height="8" rx="4" fill="#ffffff"/>
+              <line x1="27" y1="29" x2="27" y2="37" stroke="#041226" stroke-width="1.5"/>
+            </svg>
+            <div class="label">मेडिकल</div>
+          </div>
+
+          <!-- 3. Restaurant (रेस्टोरेंट) -->
+          <div class="right-feature">
+            <svg viewBox="0 0 24 24">
+              <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>
+            </svg>
+            <div class="label">रेस्टोरेंट</div>
+          </div>
+
+          <!-- 4. Hotel (होटल) -->
+          <div class="right-feature">
+            <svg viewBox="0 0 24 24">
+              <polygon points="6,2 6.8,3.6 8.5,3.8 7.3,5 7.6,6.7 6,5.8 4.4,6.7 4.7,5 3.5,3.8 5.2,3.6" />
+              <polygon points="12,2 12.8,3.6 14.5,3.8 13.3,5 13.6,6.7 12,5.8 10.4,6.7 10.7,5 9.5,3.8 11.2,3.6" />
+              <polygon points="18,2 18.8,3.6 20.5,3.8 19.3,5 19.6,6.7 18,5.8 16.4,6.7 16.7,5 15.5,3.8 17.2,3.6" />
+              <path d="M4 8v14h16V8H4zm4 11H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V9h2v2zm5 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm5 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2z"/>
+            </svg>
+            <div class="label">होटल</div>
+          </div>
+
+        </div>
+
+        <!-- QR Code Arrow & Annotation (Underneath the 2x2 grid, pointing left directly to QR Code) -->
+        <div style="display: flex; align-items: center; gap: 14px; margin-left: -50px; margin-top: 5px;">
+          <!-- Hand-drawn curved arrow SVG -->
+          <svg width="85" height="50" viewBox="0 0 85 50" fill="none">
+            <path d="M80 34 C50 34, 25 24, 10 10" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M8 22 L10 10 L22 12" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div style="font-family: 'Noto Sans Devanagari', sans-serif; font-size: 18px; font-weight: 800; color: #ffffff; line-height: 1.35; text-shadow: 0 2px 8px rgba(0,0,0,0.85); white-space: nowrap;">
+            तुरंत पेमेंट के लिए<br>
+            ऑटो-जनरेटेड<br>
+            UPI QR कोड
+          </div>
+        </div>
+
       </div>
+
     </div>
 
-    <div class="grid grid-cols-6 gap-3.5">
-      <div class="px-4 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-center text-lg font-black text-slate-900">
-        दुकान व किराना
-      </div>
-      <div class="px-4 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-center text-lg font-black text-slate-900">
-        मेडिकल स्टोर
-      </div>
-      <div class="px-4 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-center text-lg font-black text-slate-900">
-        रेस्टोरेंट व कैफे
-      </div>
-      <div class="px-4 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-center text-lg font-black text-slate-900">
-        होटल व स्टे
-      </div>
-      <div class="px-4 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-center text-lg font-black text-slate-900">
-        किराया रसीद
-      </div>
-      <div class="px-4 py-2.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-center text-lg font-black text-slate-900">
-        कोचिंग फीस
-      </div>
-    </div>
-  </section>
+    <!-- BOTTOM: Exact White Payment Logos Pill (Left) + 6 Vector Icons with Hindi Labels (Right) -->
+    <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 15px; border-top: 1.5px solid rgba(255, 255, 255, 0.2);">
+      
+      <!-- Left: White Payment Logos Pill Card (Exact twin to English reference) -->
+      <div class="payment-pill">
+        
+        <!-- Google Pay Official Logo -->
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <!-- G Multi-color Icon -->
+          <svg width="28" height="28" viewBox="0 0 24 24">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+          </svg>
+          <span style="font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 700; color: #5f6368; letter-spacing: -0.5px;">Pay</span>
+        </div>
 
-  <!-- 4. Footer CTA Bar -->
-  <footer class="relative z-10 pt-4 border-t-2 border-slate-200 flex items-center justify-between">
-    <!-- CTA Button -->
-    <div class="flex items-center gap-5">
-      <div class="px-8 py-3.5 rounded-2xl bg-emerald-600 text-white font-black text-3xl font-brand shadow-xl shadow-emerald-600/30 flex items-center gap-3">
-        <span>🌐</span>
-        <span>upibillmaker.com</span>
+        <div style="width: 1.5px; height: 26px; background: #e2e8f0;"></div>
+
+        <!-- PhonePe Official Logo -->
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <div style="width: 28px; height: 28px; background: #5f259f; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ffffff; font-family: 'Noto Sans Devanagari', sans-serif; font-size: 16px; font-weight: 900;">
+            पे
+          </div>
+          <span style="font-family: 'Poppins', sans-serif; font-size: 19px; font-weight: 800; color: #5f259f;">PhonePe</span>
+        </div>
+
+        <div style="width: 1.5px; height: 26px; background: #e2e8f0;"></div>
+
+        <!-- Paytm Official Logo -->
+        <div style="display: flex; align-items: center;">
+          <span style="font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 900; color: #002e6e;">Pay</span>
+          <span style="font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 900; color: #00b9f5;">tm</span>
+        </div>
+
+        <div style="width: 1.5px; height: 26px; background: #e2e8f0;"></div>
+
+        <!-- BHIM UPI Official Logo -->
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <span style="font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 900; color: #1e293b;">BHIM</span>
+          <svg width="24" height="20" viewBox="0 0 32 24" fill="none">
+            <path d="M4 22L16 2L20 9L12 22H4Z" fill="#059669"/>
+            <path d="M16 22L28 2L24 9L18 22H16Z" fill="#ea580c"/>
+          </svg>
+          <span style="font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 900; color: #059669;">UPI</span>
+        </div>
+
       </div>
-      <span class="text-2xl font-black text-slate-800">
-        👉 आज ही आज़माएं — बिल्कुल फ्री!
-      </span>
+
+      <!-- Right: 6 Pure White Vector Template Badges (Exact twin to English reference) -->
+      <div style="display: flex; align-items: center; gap: 36px;">
+        
+        <!-- 1. Retail (दुकान) -->
+        <div class="bottom-icon-item">
+          <svg viewBox="0 0 24 24">
+            <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+          </svg>
+          <span>दुकान</span>
+        </div>
+
+        <!-- 2. Medical (मेडिकल) -->
+        <div class="bottom-icon-item">
+          <!-- Pure White Vector Medicine Bottle with Rx & Capsule (Exact match) -->
+          <svg viewBox="0 0 40 40" width="36" height="36">
+            <rect x="8" y="4" width="16" height="4" rx="1.5" fill="#ffffff"/>
+            <rect x="6" y="8" width="20" height="20" rx="3" fill="#ffffff"/>
+            <text x="10" y="23" font-family="'Poppins', sans-serif" font-weight="900" font-size="12" fill="#041226">Rx</text>
+            <rect x="18" y="29" width="18" height="8" rx="4" fill="#ffffff"/>
+            <line x1="27" y1="29" x2="27" y2="37" stroke="#041226" stroke-width="1.5"/>
+          </svg>
+          <span>मेडिकल</span>
+        </div>
+
+        <!-- 3. Restaurant (रेस्टोरेंट) -->
+        <div class="bottom-icon-item">
+          <svg viewBox="0 0 24 24">
+            <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>
+          </svg>
+          <span>रेस्टोरेंट</span>
+        </div>
+
+        <!-- 4. Hotel (होटल) -->
+        <div class="bottom-icon-item">
+          <svg viewBox="0 0 24 24">
+            <polygon points="6,2 6.8,3.6 8.5,3.8 7.3,5 7.6,6.7 6,5.8 4.4,6.7 4.7,5 3.5,3.8 5.2,3.6" />
+            <polygon points="12,2 12.8,3.6 14.5,3.8 13.3,5 13.6,6.7 12,5.8 10.4,6.7 10.7,5 9.5,3.8 11.2,3.6" />
+            <polygon points="18,2 18.8,3.6 20.5,3.8 19.3,5 19.6,6.7 18,5.8 16.4,6.7 16.7,5 15.5,3.8 17.2,3.6" />
+            <path d="M4 8v14h16V8H4zm4 11H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V9h2v2zm5 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm5 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2z"/>
+          </svg>
+          <span>होटल</span>
+        </div>
+
+        <!-- 5. Tuition (ट्यूशन) -->
+        <div class="bottom-icon-item">
+          <!-- Pure White Vector Graduation Cap -->
+          <svg viewBox="0 0 24 24">
+            <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+          </svg>
+          <span>ट्यूशन</span>
+        </div>
+
+        <!-- 6. Rent (किराया) -->
+        <div class="bottom-icon-item">
+          <!-- Pure White Vector Key & House (Exact match) -->
+          <svg viewBox="0 0 36 36" width="36" height="36" fill="#ffffff">
+            <path d="M12 24 L22 14 L20 12 L17 15 L16 14 L14 16 L12 14 L9 17 Z"/>
+            <circle cx="8" cy="28" r="5" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+            <circle cx="8" cy="28" r="2" fill="#ffffff"/>
+            <path d="M22 20 L29 14 L36 20 V30 H22 V20 Z"/>
+            <rect x="27" y="24" width="4" height="6" fill="#041226"/>
+          </svg>
+          <span>किराया</span>
+        </div>
+
+      </div>
+
     </div>
 
-    <!-- Supported UPI Badges with Brand Names -->
-    <div class="flex items-center gap-3">
-      <div class="px-4 py-2 rounded-xl bg-slate-50 border-2 border-slate-300 text-base font-black text-slate-800 font-sans shadow-sm flex items-center gap-1.5">
-        <span class="text-blue-600">G</span><span class="text-red-500">P</span><span class="text-amber-500">a</span><span class="text-emerald-600">y</span>
-      </div>
-      <div class="px-4 py-2 rounded-xl bg-purple-50 border-2 border-purple-300 text-base font-black text-purple-900 font-sans shadow-sm">
-        PhonePe
-      </div>
-      <div class="px-4 py-2 rounded-xl bg-sky-50 border-2 border-sky-300 text-base font-black text-sky-900 font-sans shadow-sm">
-        Paytm
-      </div>
-      <div class="px-4 py-2 rounded-xl bg-emerald-50 border-2 border-emerald-400 text-base font-black text-emerald-800 font-sans shadow-sm">
-        BHIM UPI
-      </div>
-    </div>
-  </footer>
+  </div>
 
 </body>
 </html>
