@@ -90,7 +90,11 @@
 
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
-    .font-signature { font-family: 'Dancing Script', cursive; }
+    .font-signature {
+      font-family: 'Dancing Script', cursive;
+      font-variant-ligatures: none;
+      -webkit-font-variant-ligatures: none;
+    }
 
     /* Direct WYSIWYG Editable Fields in Preview */
     .editable-field {
@@ -133,7 +137,7 @@
     @media print {
       @page {
         size: A4 portrait;
-        margin: 8mm;
+        margin: 0;
       }
       *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
@@ -148,7 +152,7 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
-        width: 100% !important;
+        width: 210mm !important;
         height: auto !important;
         overflow: visible !important;
       }
@@ -201,16 +205,14 @@
       /* Real Indian Medical / Pharmacy Rx bill sheet: spans full printable A4 page with crisp authentic teal border */
       #medical-bill-preview,
       div#medical-bill-preview {
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
         position: static !important;
-        margin: 0 auto !important;
-        padding: 10px 14px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
+        margin: 7mm auto !important;
+        padding: 6mm 8mm !important;
+        width: 196mm !important;
+        max-width: 196mm !important;
+        min-height: 283mm !important;
         box-sizing: border-box !important;
         transform: none !important;
         -webkit-transform: none !important;
@@ -226,10 +228,15 @@
         break-after: avoid !important;
         overflow: visible !important;
       }
+      #medical-bill-preview #sec-bottom-ledger {
+        margin-top: auto !important;
+      }
       #medical-bill-preview table,
       #medical-bill-preview tr,
       #medical-bill-preview td,
-      #medical-bill-preview th {
+      #medical-bill-preview th,
+      #medical-bill-preview #sec-bottom-ledger,
+      #medical-bill-preview #sec-signatory-block {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
@@ -887,7 +894,7 @@
         </div>
 
         <!-- Bottom Section: Continuous 2-Column Ledger Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-12 border-b border-teal-700">
+        <div id="sec-bottom-ledger" class="grid grid-cols-1 sm:grid-cols-12 border-b border-teal-700">
           <!-- Left 7 Cols: Bank & UPI Payment Details Box -->
           <div class="sm:col-span-7 sm:border-r border-teal-700 p-2.5 flex flex-col justify-between space-y-2">
             <div id="prev-med-qr-block" class="group/sec relative border border-slate-300 bg-white p-2 text-xs space-y-1.5">

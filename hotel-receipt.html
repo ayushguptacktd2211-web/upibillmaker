@@ -87,7 +87,11 @@
 
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
-    .font-signature { font-family: 'Dancing Script', cursive; }
+    .font-signature {
+      font-family: 'Dancing Script', cursive;
+      font-variant-ligatures: none;
+      -webkit-font-variant-ligatures: none;
+    }
     .editable-field:hover {
       outline: 1.5px dashed #4f46e5;
       outline-offset: 2px;
@@ -96,7 +100,7 @@
     @media print {
       @page {
         size: A4 portrait;
-        margin: 8mm;
+        margin: 0;
       }
       *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
@@ -111,7 +115,7 @@
         color: #000000 !important;
         margin: 0 !important;
         padding: 0 !important;
-        width: 100% !important;
+        width: 210mm !important;
         height: auto !important;
         overflow: visible !important;
       }
@@ -164,16 +168,14 @@
       /* Authentic Hotel Bill sheet: spans full printable A4 page with crisp authentic dark border */
       #hotel-bill-preview,
       div#hotel-bill-preview {
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
         position: static !important;
-        margin: 0 auto !important;
-        padding: 10px 14px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
+        margin: 7mm auto !important;
+        padding: 6mm 8mm !important;
+        width: 196mm !important;
+        max-width: 196mm !important;
+        min-height: 283mm !important;
         box-sizing: border-box !important;
         transform: none !important;
         -webkit-transform: none !important;
@@ -189,10 +191,15 @@
         break-after: avoid !important;
         overflow: visible !important;
       }
+      #hotel-bill-preview #sec-bottom-ledger {
+        margin-top: auto !important;
+      }
       #hotel-bill-preview table,
       #hotel-bill-preview tr,
       #hotel-bill-preview td,
-      #hotel-bill-preview th {
+      #hotel-bill-preview th,
+      #hotel-bill-preview #sec-bottom-ledger,
+      #hotel-bill-preview #sec-hotel-signatures {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
@@ -748,7 +755,7 @@
           </div>
 
           <!-- Totals & Payment Section -->
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-2 border-t border-slate-300">
+          <div id="sec-bottom-ledger" class="grid grid-cols-1 sm:grid-cols-12 gap-4 pt-2 border-t border-slate-300">
             <!-- Left: Amount in Words, Bank & UPI, Signatures -->
             <div class="sm:col-span-7 space-y-3">
               <div id="sec-amount-in-words" class="bill-section-wrapper relative group/sec">

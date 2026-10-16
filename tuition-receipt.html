@@ -86,7 +86,11 @@
 
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
-    .font-signature { font-family: 'Dancing Script', cursive; }
+    .font-signature {
+      font-family: 'Dancing Script', cursive;
+      font-variant-ligatures: none;
+      -webkit-font-variant-ligatures: none;
+    }
     .editable-field:hover {
       outline: 1.5px dashed #2563eb;
       outline-offset: 2px;
@@ -95,7 +99,7 @@
     @media print {
       @page {
         size: A4 portrait;
-        margin: 8mm;
+        margin: 0;
       }
       *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
@@ -110,7 +114,7 @@
         color: #000000 !important;
         margin: 0 !important;
         padding: 0 !important;
-        width: 100% !important;
+        width: 210mm !important;
         height: auto !important;
         overflow: visible !important;
       }
@@ -163,16 +167,14 @@
       /* Authentic Tuition / Coaching Fee Receipt sheet: spans full printable A4 page with crisp authentic indigo border */
       #tuition-receipt-preview,
       div#tuition-receipt-preview {
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
         position: static !important;
-        margin: 0 auto !important;
-        padding: 12px 16px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
+        margin: 7mm auto !important;
+        padding: 6mm 8mm !important;
+        width: 196mm !important;
+        max-width: 196mm !important;
+        min-height: 283mm !important;
         box-sizing: border-box !important;
         transform: none !important;
         -webkit-transform: none !important;
@@ -188,10 +190,15 @@
         break-after: avoid !important;
         overflow: visible !important;
       }
+      #tuition-receipt-preview #sec-bottom-ledger {
+        margin-top: auto !important;
+      }
       #tuition-receipt-preview table,
       #tuition-receipt-preview tr,
       #tuition-receipt-preview td,
-      #tuition-receipt-preview th {
+      #tuition-receipt-preview th,
+      #tuition-receipt-preview #sec-bottom-ledger,
+      #tuition-receipt-preview #sec-tuition-signature {
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
@@ -731,7 +738,7 @@
           </div>
 
           <!-- Amount in Words & Lower Section -->
-          <div class="space-y-2.5 pt-1">
+          <div id="sec-bottom-ledger" class="space-y-2.5 pt-1">
             <div id="sec-amount-in-words" class="bill-section-wrapper relative group/sec">
               <button type="button" onclick="hideBillSection('sec-words')" title="Hide Amount in Words" class="sec-hide-btn absolute -top-1 -right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm z-10">✕</button>
               <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">AMOUNT IN WORDS</p>

@@ -90,7 +90,11 @@
 
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, .font-heading { font-family: 'Outfit', sans-serif; }
-    .font-signature { font-family: 'Dancing Script', cursive; }
+    .font-signature {
+      font-family: 'Dancing Script', cursive;
+      font-variant-ligatures: none;
+      -webkit-font-variant-ligatures: none;
+    }
 
     /* Direct WYSIWYG Editable Fields in Preview */
     .editable-field {
@@ -111,7 +115,7 @@
     @media print {
       @page {
         size: auto;
-        margin: 5mm;
+        margin: 0;
       }
       *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
@@ -181,7 +185,7 @@
       div#food-bill-preview {
         display: block !important;
         position: static !important;
-        margin: 0 auto !important;
+        margin: 6mm auto !important;
         padding: 16px 20px !important;
         width: 100% !important;
         max-width: 440px !important;

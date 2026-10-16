@@ -145,7 +145,11 @@
 
     body { font-family: 'Inter', sans-serif; }
     h1, h2, h3, h4, .font-heading { font-family: 'Outfit', sans-serif; }
-    .font-signature { font-family: 'Dancing Script', cursive; }
+    .font-signature {
+      font-family: 'Dancing Script', cursive;
+      font-variant-ligatures: none;
+      -webkit-font-variant-ligatures: none;
+    }
 
     /* Google AdSense Auto-Ads Layout Protection */
     .google-anno-skip {
@@ -817,7 +821,7 @@
     @media print {
       @page {
         size: A4 portrait;
-        margin: 8mm;
+        margin: 0;
       }
       *, *::before, *::after {
         -webkit-print-color-adjust: exact !important;
@@ -832,7 +836,7 @@
         padding: 0 !important;
         background: #ffffff !important;
         color: #000000 !important;
-        width: 100% !important;
+        width: 210mm !important;
         height: auto !important;
         overflow: visible !important;
       }
@@ -877,13 +881,13 @@
       #invoice-preview-container,
       #invoice-preview-container[class*="format-"],
       div#invoice-preview-container {
-        display: block !important;
-        margin: 0 auto !important;
-        padding: 10px 14px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        margin: 7mm auto !important;
+        padding: 6mm 8mm !important;
+        width: 196mm !important;
+        max-width: 196mm !important;
+        min-height: 283mm !important;
         box-sizing: border-box !important;
         transform: none !important;
         -webkit-transform: none !important;
@@ -899,13 +903,18 @@
         break-after: avoid !important;
         overflow: visible !important;
       }
+      #invoice-preview-container #sec-bottom-ledger {
+        margin-top: auto !important;
+      }
       /* Thermal POS slip format override */
       #invoice-preview-container.format-rest-thermal {
         max-width: 380px !important;
         width: 380px !important;
+        min-height: auto !important;
         border: 1.5px dashed #0f172a !important;
-        padding: 10px !important;
+        padding: 8px !important;
         margin: 0 auto !important;
+        display: block !important;
       }
       #invoice-preview-container table,
       #invoice-preview-container tr,
