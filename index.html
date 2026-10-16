@@ -4279,7 +4279,7 @@
     }
 
     // Update Invoice Calculations
-    function updateInvoice(isInitial = false) {
+    function updateInvoice(isInitial = false, forceRender = false) {
       saveBusinessToLocal();
       if (!isInitial) {
         triggerAutoSave();
@@ -4397,7 +4397,7 @@
       const rows = document.querySelectorAll('.item-row');
       let subtotal = 0;
       const itemsBody = document.getElementById('prev-items-body');
-      const isEditingItems = activeEl && itemsBody && itemsBody.contains(activeEl);
+      const isEditingItems = !forceRender && activeEl && activeEl.isContentEditable && itemsBody && itemsBody.contains(activeEl);
 
       if (!isEditingItems && itemsBody) {
         itemsBody.innerHTML = '';
@@ -4614,17 +4614,20 @@
       });
       row.querySelectorAll('.btn-remove-item').forEach(btn => {
         btn.addEventListener('click', () => {
+          if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+          }
           const totalRows = document.querySelectorAll('.item-row').length;
           if (totalRows > 1) {
             row.remove();
-            updateInvoice();
+            updateInvoice(false, true);
           } else {
             row.querySelectorAll('input').forEach(inp => {
               if (inp.classList.contains('item-qty')) inp.value = '1';
               else if (inp.classList.contains('item-price')) inp.value = '0';
               else inp.value = '';
             });
-            updateInvoice();
+            updateInvoice(false, true);
           }
         });
       });
@@ -4773,19 +4776,21 @@
     }
 
     function deleteItemRowByIndex(index) {
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
+      }
       const rows = document.querySelectorAll('.item-row');
       if (rows && rows[index]) {
         if (rows.length > 1) {
           rows[index].remove();
-          updateInvoice();
         } else {
           rows[0].querySelectorAll('input').forEach(inp => {
             if (inp.classList.contains('item-qty')) inp.value = '1';
             else if (inp.classList.contains('item-price')) inp.value = '0';
             else inp.value = '';
           });
-          updateInvoice();
         }
+        updateInvoice(false, true);
       }
     }
 
