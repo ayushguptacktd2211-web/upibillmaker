@@ -1218,6 +1218,31 @@
           <i data-lucide="share-2" class="w-4 h-4 text-teal-600"></i> 1-Click WhatsApp Share
         </span>
       </div>
+
+      <!-- 🔒 100% Client-Side Private & Top Security Guarantee Banner -->
+      <div class="mt-7 text-left max-w-2xl mx-auto">
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-950 via-slate-900 to-teal-950 border border-emerald-500/40 p-4 sm:p-5 text-white shadow-lg">
+          <div class="flex items-start sm:items-center gap-3.5">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-400 flex items-center justify-center shrink-0 shadow-inner">
+              <i data-lucide="shield-check" class="w-7 h-7"></i>
+            </div>
+            <div class="space-y-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="font-heading font-extrabold text-sm sm:text-base text-white flex items-center gap-1.5">
+                  <span>100% Private &amp; Zero Server Storage</span>
+                  <span class="text-xs text-emerald-400 font-bold">(डेटा सुरक्षा की गारंटी)</span>
+                </h2>
+                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-500/25 text-emerald-300 border border-emerald-400/40 tracking-wider">
+                  Top Security
+                </span>
+              </div>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                <strong class="text-white">आपका डेटा कोई नहीं चुरा सकता:</strong> आपका बिलिंग डेटा (ग्राहक का नाम, मोबाइल नंबर, बिल राशि, बैंक/UPI डीटेल्स व GSTIN) किसी भी सर्वर या डेटाबेस पर <strong class="text-emerald-300">कभी सेव नहीं होता</strong>। आपका पूरा डेटा केवल और केवल आपके अपने डिवाइस के ब्राउज़र (<code class="bg-emerald-900/60 text-emerald-200 px-1 py-0.5 rounded text-[11px]">Local Storage</code>) में ही सुरक्षित रहता है। <span class="text-emerald-400 font-semibold">Zero Cloud Upload • Zero Tracking • 100% Client-Side Safe.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1595,7 +1620,7 @@
                   <span id="prev-subtotal" class="font-medium text-slate-900 font-mono">₹0.00</span>
                 </div>
                 <div id="prev-discount-row" class="flex justify-between text-emerald-700 text-[11px] hidden">
-                  <span>Discount:</span>
+                  <span id="prev-discount-label">Discount:</span>
                   <span id="prev-discount" class="font-medium font-mono">-₹0.00</span>
                 </div>
                 <div id="sec-tax-breakdown-box" class="space-y-1">
@@ -2228,9 +2253,23 @@
           <!-- 5. Discounts & GST Rate -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
             <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">Discount (₹ Flat Amount)</label>
-              <input type="number" id="discount-amt" min="0" placeholder="0"
-                     class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+              <div class="flex items-center justify-between mb-1">
+                <label id="discount-label" class="block text-xs font-semibold text-slate-700">Discount (छूट)</label>
+                <!-- Switch Button for ₹ Flat vs % Percent -->
+                <div class="inline-flex items-center p-0.5 rounded-lg bg-slate-100 border border-slate-200 text-[11px] shadow-2xs">
+                  <button type="button" id="btn-disc-flat" onclick="setDiscountType('flat')" class="px-2 py-0.5 rounded font-bold transition-all bg-brand-600 text-white shadow-2xs cursor-pointer">
+                    ₹ Flat
+                  </button>
+                  <button type="button" id="btn-disc-percent" onclick="setDiscountType('percent')" class="px-2 py-0.5 rounded font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer">
+                    % Percent
+                  </button>
+                </div>
+              </div>
+              <div class="relative">
+                <input type="number" id="discount-amt" min="0" step="any" placeholder="0"
+                       class="w-full text-sm px-3 py-2 pr-9 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500">
+                <span id="discount-symbol" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-black text-slate-400 pointer-events-none">₹</span>
+              </div>
             </div>
             <div>
               <label class="block text-xs font-semibold text-slate-700 mb-1">Applicable GST Rate</label>
@@ -2291,6 +2330,12 @@
                   Clear
                 </button>
               </div>
+            </div>
+
+            <!-- Privacy Assurance Chip -->
+            <div class="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200/80 text-emerald-950 text-xs flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+              <span><strong>100% LocalStorage Privacy:</strong> आपका डेटा किसी सर्वर पर कभी नहीं जाता। सब कुछ केवल आपके फ़ोन या कंप्यूटर के ब्राउज़र में सुरक्षित रहता है।</span>
             </div>
           </div>
 
@@ -2516,6 +2561,72 @@
       </div>
     </div>
 
+    <!-- Dedicated Security & Data Privacy Section: Zero Server Storage -->
+    <div id="data-security" class="space-y-6">
+      <div class="text-center space-y-2">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+          <span>100% Client-Side Architecture</span>
+        </span>
+        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+          Top Security: आपका डेटा 100% सुरक्षित है (Zero Server Storage)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto">
+          हमारा वादा: आपका व्यापारिक डेटा, ग्राहक संपर्क और बैंक डीटेल्स सिर्फ़ और सिर्फ़ आपके अपने डिवाइस में रहते हैं। इसे कोई भी नहीं चुरा सकता।
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+        <!-- Pillar 1 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center mb-3">
+              <i data-lucide="server-off" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-heading font-bold text-sm text-slate-900 mb-1.5">सर्वर पर शून्य अपलोड (Zero Server Storage)</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              जब आप बिल बनाते हैं, तो कोई भी डेटा (Customer Name, Phone, Items, Bill Amount) किसी क्लाउड सर्वर पर नहीं भेजा जाता। सब कुछ 100% आपके डिवाइस में प्रोसेस होता है।
+            </p>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-100 text-[11px] font-semibold text-emerald-700">
+            ✔ No Cloud Database
+          </div>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-teal-100 text-teal-800 flex items-center justify-center mb-3">
+              <i data-lucide="hard-drive" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-heading font-bold text-sm text-slate-900 mb-1.5">सिर्फ़ आपके ब्राउज़र की लोकल स्टोरेज (Local Storage Only)</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              दुकान का नाम, लोगो और ड्राफ्ट आपके फ़ोन या कंप्यूटर के ब्राउज़र की सुरक्षित LocalStorage में ही सेव होते हैं। जब तक आप खुद डिलीट न करें, यह आपके डिवाइस में ही रहेगा।
+            </p>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-100 text-[11px] font-semibold text-teal-700">
+            ✔ Stored in LocalStorage
+          </div>
+        </div>
+
+        <!-- Pillar 3 -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center mb-3">
+              <i data-lucide="lock" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-heading font-bold text-sm text-slate-900 mb-1.5">डेटा चोरी का 0% ख़तरा (Anti-Theft Protection)</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              बिना किसी लॉगिन या पासवर्ड के होने से डेटा लीक, पासवर्ड हैक या स्पैम कॉल्स का कोई ख़तरा नहीं है। आपके ग्राहकों का नंबर और बिल राशि 100% सुरक्षित और गोपनीय रहती है।
+            </p>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-100 text-[11px] font-semibold text-blue-700">
+            ✔ Complete Confidentiality
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Section 3: How to Create Bill Online in 3 Simple Steps -->
     <div id="how-it-works" class="space-y-6">
       <div class="text-center space-y-2">
@@ -2712,10 +2823,10 @@
         <div class="pt-4">
           <h3 class="font-bold text-slate-900 text-sm mb-1.5 flex items-start gap-2">
             <span class="text-brand-600 font-extrabold">Q7.</span>
-            <span>Is my business and customer data safe? (क्या मेरा डेटा सुरक्षित है?)</span>
+            <span>Is my business and customer data safe? क्या मेरा डेटा कोई चुरा सकता है? (Top Security)</span>
           </h3>
           <p class="text-slate-600 leading-relaxed pl-6">
-            100% confidential. UPIBillMaker operates entirely on client-side JavaScript. No billing data, customer contacts, or financial figures are ever transmitted to or stored on our servers. When you close or refresh your browser, your session is private.
+            <strong>बिल्कुल नहीं! आपका डेटा कोई नहीं चुरा सकता।</strong> UPIBillMaker एक 100% क्लाइंट-साइड (Client-side) टूल है। आपका बिलिंग डेटा (ग्राहक का नाम, मोबाइल नंबर, बैंक/UPI डीटेल्स व GSTIN) हमारे या किसी भी सर्वर पर <strong>कभी अपलोड या सेव नहीं होता (Zero Server Storage)</strong>। आपका पूरा डेटा सिर्फ़ और सिर्फ़ आपके अपने फ़ोन या कंप्यूटर के ब्राउज़र की <code class="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded text-xs font-mono">Local Storage</code> में ही सुरक्षित रहता है। No Cloud Upload • Zero Tracking • 100% Safe.
           </p>
         </div>
 
@@ -3299,6 +3410,7 @@
             status: document.getElementById('bill-status')?.value || 'online',
             notes: document.getElementById('invoice-notes')?.value || '',
             discount: document.getElementById('discount-amt')?.value || '0',
+            discountType: (typeof currentDiscountType !== 'undefined' ? currentDiscountType : 'flat'),
             supplyState: document.getElementById('supply-state')?.value || 'intra'
           },
           client: {
@@ -3459,6 +3571,9 @@
           setVal('invoice-time', draft.invoice.time);
           if (draft.invoice.status) setBillStatus(draft.invoice.status);
           setVal('invoice-notes', draft.invoice.notes);
+          if (draft.invoice.discountType) {
+            setDiscountType(draft.invoice.discountType, false);
+          }
           setVal('discount-amt', draft.invoice.discount);
           setVal('supply-state', draft.invoice.supplyState);
         }
@@ -3690,6 +3805,47 @@
         setBillStatus('online');
       } else {
         setBillStatus('pending');
+      }
+    }
+
+    // Discount Switch Mode: ₹ Flat vs % Percent
+    let currentDiscountType = 'flat'; // 'flat' | 'percent'
+
+    function setDiscountType(type, triggerUpdate = true) {
+      currentDiscountType = type;
+      const btnFlat = document.getElementById('btn-disc-flat');
+      const btnPercent = document.getElementById('btn-disc-percent');
+      const discSymbol = document.getElementById('discount-symbol');
+      const discInput = document.getElementById('discount-amt');
+      const discLabel = document.getElementById('discount-label');
+
+      if (type === 'percent') {
+        if (btnFlat) {
+          btnFlat.className = 'px-2 py-0.5 rounded font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer';
+        }
+        if (btnPercent) {
+          btnPercent.className = 'px-2 py-0.5 rounded font-bold transition-all bg-emerald-600 text-white shadow-2xs cursor-pointer';
+        }
+        if (discSymbol) discSymbol.textContent = '%';
+        if (discInput) discInput.placeholder = 'e.g. 10';
+        if (discLabel) discLabel.textContent = 'Discount (% छूट)';
+      } else {
+        if (btnFlat) {
+          btnFlat.className = 'px-2 py-0.5 rounded font-bold transition-all bg-brand-600 text-white shadow-2xs cursor-pointer';
+        }
+        if (btnPercent) {
+          btnPercent.className = 'px-2 py-0.5 rounded font-bold transition-all text-slate-600 hover:text-slate-900 cursor-pointer';
+        }
+        if (discSymbol) discSymbol.textContent = '₹';
+        if (discInput) discInput.placeholder = '0';
+        if (discLabel) discLabel.textContent = 'Discount (₹ छूट)';
+      }
+
+      if (triggerUpdate && typeof updateInvoice === 'function') {
+        updateInvoice();
+      }
+      if (typeof triggerAutoSave === 'function') {
+        triggerAutoSave();
       }
     }
 
@@ -3934,11 +4090,19 @@
         });
       }
 
-      // Discount & Taxes
-      const discount = parseFloat(document.getElementById('discount-amt').value) || 0;
-      const taxRate = isGstEnabled ? (parseFloat(document.getElementById('tax-rate').value) || 0) : 0;
+      // Discount & Taxes (Supports ₹ Flat Amount & % Percentage Switch)
+      const discountType = (typeof currentDiscountType !== 'undefined' ? currentDiscountType : 'flat');
+      const discountInput = parseFloat(document.getElementById('discount-amt').value) || 0;
+      let discountAmount = 0;
+      if (discountType === 'percent') {
+        discountAmount = Math.round(((subtotal * discountInput) / 100) * 100) / 100;
+      } else {
+        discountAmount = discountInput;
+      }
+      discountAmount = Math.max(0, Math.min(discountAmount, subtotal));
 
-      const taxableAmount = Math.max(0, subtotal - discount);
+      const taxRate = isGstEnabled ? (parseFloat(document.getElementById('tax-rate').value) || 0) : 0;
+      const taxableAmount = Math.max(0, subtotal - discountAmount);
       const totalTax = (taxableAmount * taxRate) / 100;
       const grandTotal = Math.round((taxableAmount + totalTax) * 100) / 100;
 
@@ -3950,11 +4114,15 @@
       }
 
       const discountRow = document.getElementById('prev-discount-row');
-      if (discount > 0) {
+      const prevDiscountLabel = document.getElementById('prev-discount-label');
+      if (discountAmount > 0) {
         discountRow.classList.remove('hidden');
+        if (prevDiscountLabel) {
+          prevDiscountLabel.textContent = (discountType === 'percent') ? `Discount (${discountInput}%):` : 'Discount:';
+        }
         const prevDiscountEl = document.getElementById('prev-discount');
         if (prevDiscountEl) {
-          const discountFormatted = '-₹' + discount.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+          const discountFormatted = '-₹' + discountAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 });
           prevDiscountEl.textContent = discountFormatted;
           prevDiscountEl.innerText = discountFormatted;
         }
@@ -4222,6 +4390,8 @@
       document.getElementById('client-name').value = '';
       document.getElementById('client-phone').value = '';
       document.getElementById('buyer-gstin').value = '';
+      if (document.getElementById('discount-amt')) document.getElementById('discount-amt').value = '0';
+      setDiscountType('flat', false);
       clearInvoiceTime();
       setCurrentDate();
       generateAutoInvoiceNo();
@@ -4341,9 +4511,13 @@
       });
 
       const isGstEnabled = document.getElementById('enable-gst').checked;
-      const discount = parseFloat(document.getElementById('discount-amt').value) || 0;
+      const discountType = (typeof currentDiscountType !== 'undefined' ? currentDiscountType : 'flat');
+      const discountInput = parseFloat(document.getElementById('discount-amt').value) || 0;
+      let discountAmount = (discountType === 'percent') ? Math.round(((subtotal * discountInput) / 100) * 100) / 100 : discountInput;
+      discountAmount = Math.max(0, Math.min(discountAmount, subtotal));
+
       const taxRate = isGstEnabled ? (parseFloat(document.getElementById('tax-rate').value) || 0) : 0;
-      const taxableAmount = Math.max(0, subtotal - discount);
+      const taxableAmount = Math.max(0, subtotal - discountAmount);
       const totalTax = (taxableAmount * taxRate) / 100;
       const grandTotal = Math.round((taxableAmount + totalTax) * 100) / 100;
 
@@ -4703,7 +4877,8 @@
           if (document.getElementById('client-name')) document.getElementById('client-name').value = '';
           if (document.getElementById('client-phone')) document.getElementById('client-phone').value = '';
           if (document.getElementById('buyer-gstin')) document.getElementById('buyer-gstin').value = '';
-          document.getElementById('discount-amt').value = 0;
+          if (document.getElementById('discount-amt')) document.getElementById('discount-amt').value = 0;
+          setDiscountType('flat', false);
           document.getElementById('invoice-no').value = 'GST-' + Math.floor(1000 + Math.random() * 9000);
           updateInvoice();
         }
