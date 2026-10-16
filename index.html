@@ -4949,6 +4949,25 @@
       }, 300);
     });
 
+    // Helper to generate combined filename: Shopkeeper_Customer_InvNo_UPIBillMaker
+    function getInvoiceCombinedFilename(ext = 'pdf') {
+      const cleanPart = (str, fallback = '') => {
+        if (!str) return fallback;
+        const cleaned = str.trim()
+          .replace(/[^\w\d\s-]/gi, '')
+          .replace(/[\s-]+/g, '_')
+          .replace(/^_+|_+$/g, '');
+        return cleaned || fallback;
+      };
+
+      const shop = cleanPart(document.getElementById('business-name')?.value || document.getElementById('prev-biz-name')?.innerText, 'Store');
+      const customer = cleanPart(document.getElementById('customer-name')?.value || document.getElementById('prev-cust-name')?.innerText, 'Customer');
+      const invNo = cleanPart(document.getElementById('invoice-no')?.value || document.getElementById('prev-inv-no')?.innerText, 'Bill');
+
+      const base = `${shop}_${customer}_${invNo}_UPIBillMaker`;
+      return ext ? `${base}.${ext.replace(/^\./, '')}` : base;
+    }
+
     // High Reliability Print Invocation
     function printInvoice() {
       if (document.activeElement && document.activeElement.blur) {
@@ -4961,10 +4980,15 @@
       window.scrollTo(0, 0);
       resetPreviewScaleForPrint();
 
+      // Temporarily set document.title to combined filename so browser "Save as PDF" defaults to it
+      const originalTitle = document.title;
+      document.title = getInvoiceCombinedFilename('');
+
       const restoreHandler = () => {
         window.removeEventListener('focus', restoreHandler);
         window.removeEventListener('touchstart', restoreHandler);
         window.removeEventListener('pointerdown', restoreHandler);
+        document.title = originalTitle;
         setTimeout(() => {
           restoreScaleAfterPrint();
         }, 800);
@@ -5087,8 +5111,8 @@
           }
         }
 
-        const invNo = (document.getElementById('invoice-no')?.value?.trim() || 'Invoice').replace(/[^a-zA-Z0-9_-]/g, '_');
-        pdf.save(`${invNo}_UPIBill.pdf`);
+        const filename = getInvoiceCombinedFilename('pdf');
+        pdf.save(filename);
         showIndexDownloadToast('Invoice PDF downloaded successfully!');
       } catch (err) {
         console.error('PDF error:', err);
@@ -5183,8 +5207,7 @@
           }
         });
 
-        const invNo = (document.getElementById('invoice-no').value.trim() || 'Bill').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const filename = `${invNo}_UPIBill.png`;
+        const filename = getInvoiceCombinedFilename('png');
 
         if (canvas.toBlob) {
           canvas.toBlob(blob => {

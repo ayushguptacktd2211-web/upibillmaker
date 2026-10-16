@@ -1322,6 +1322,25 @@
       updateTuition();
     }
 
+    // Helper to generate combined filename: Shopkeeper_Customer_InvNo_UPIBillMaker
+    function getTuitionCombinedFilename(ext = 'pdf') {
+      const cleanPart = (str, fallback = '') => {
+        if (!str) return fallback;
+        const cleaned = str.trim()
+          .replace(/[^\w\d\s-]/gi, '')
+          .replace(/[\s-]+/g, '_')
+          .replace(/^_+|_+$/g, '');
+        return cleaned || fallback;
+      };
+
+      const shop = cleanPart(document.getElementById('tutor-name')?.value || document.getElementById('prev-tutor-name')?.innerText, 'Academy');
+      const customer = cleanPart(document.getElementById('student-name')?.value || document.getElementById('prev-student')?.innerText, 'Student');
+      const month = cleanPart(document.getElementById('fee-month')?.value || document.getElementById('prev-fee-month')?.innerText, 'Fee');
+
+      const base = `${shop}_${customer}_${month}_UPIBillMaker`;
+      return ext ? `${base}.${ext.replace(/^\./, '')}` : base;
+    }
+
     async function downloadAsPDF() {
       const card = document.getElementById('tuition-receipt-preview');
       if (!card) return;
@@ -1420,8 +1439,8 @@
           }
         }
 
-        const student = (document.getElementById('student-name')?.value?.trim() || 'Tuition_Fee').replace(/[^a-zA-Z0-9_-]/g, '_');
-        pdf.save(`${student}_Fee_Receipt.pdf`);
+        const filename = getTuitionCombinedFilename('pdf');
+        pdf.save(filename);
         showDownloadToast('Tuition Fee Receipt PDF downloaded successfully!');
       } catch (err) {
         console.error('PDF error:', err);
@@ -1501,8 +1520,7 @@
           }
         });
 
-        const student = (document.getElementById('student-name').value.trim() || 'Tuition_Receipt').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const filename = `${student}_FeeReceipt.png`;
+        const filename = getTuitionCombinedFilename('png');
 
         if (canvas.toBlob) {
           canvas.toBlob(blob => {
@@ -1636,10 +1654,15 @@
       window.scrollTo(0, 0);
       resetTuitionPreviewScaleForPrint();
 
+      // Set document.title to combined filename so browser "Save as PDF" defaults to it
+      const originalTitle = document.title;
+      document.title = getTuitionCombinedFilename('');
+
       const restoreHandler = () => {
         window.removeEventListener('focus', restoreHandler);
         window.removeEventListener('touchstart', restoreHandler);
         window.removeEventListener('pointerdown', restoreHandler);
+        document.title = originalTitle;
         setTimeout(() => {
           restoreTuitionScaleAfterPrint();
         }, 800);

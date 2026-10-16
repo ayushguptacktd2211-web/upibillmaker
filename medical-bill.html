@@ -2084,6 +2084,25 @@
       return false;
     }
 
+    // Helper to generate combined filename: Shopkeeper_Customer_InvNo_UPIBillMaker
+    function getMedicalCombinedFilename(ext = 'pdf') {
+      const cleanPart = (str, fallback = '') => {
+        if (!str) return fallback;
+        const cleaned = str.trim()
+          .replace(/[^\w\d\s-]/gi, '')
+          .replace(/[\s-]+/g, '_')
+          .replace(/^_+|_+$/g, '');
+        return cleaned || fallback;
+      };
+
+      const shop = cleanPart(document.getElementById('pharmacy-name')?.value || document.getElementById('prev-ph-name')?.innerText, 'Pharmacy');
+      const customer = cleanPart(document.getElementById('patient-name')?.value || document.getElementById('prev-pt-name')?.innerText, 'Patient');
+      const invNo = cleanPart(document.getElementById('bill-no')?.value || document.getElementById('prev-bill-no')?.innerText, 'RxBill');
+
+      const base = `${shop}_${customer}_${invNo}_UPIBillMaker`;
+      return ext ? `${base}.${ext.replace(/^\./, '')}` : base;
+    }
+
     async function downloadAsPDF() {
       const card = document.getElementById('medical-bill-preview');
       if (!card) return;
@@ -2181,8 +2200,8 @@
           }
         }
 
-        const store = (document.getElementById('pharmacy-name')?.value?.trim() || 'Medical_Bill').replace(/[^a-zA-Z0-9_-]/g, '_');
-        pdf.save(`${store}_Bill.pdf`);
+        const filename = getMedicalCombinedFilename('pdf');
+        pdf.save(filename);
         showDownloadToast('Medical Rx Bill PDF downloaded successfully!');
       } catch (err) {
         console.error('PDF error:', err);
@@ -2261,8 +2280,7 @@
           }
         });
 
-        const store = (document.getElementById('pharmacy-name').value.trim() || 'Medical_Bill').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const filename = `${store}_Bill.png`;
+        const filename = getMedicalCombinedFilename('png');
 
         if (canvas.toBlob) {
           canvas.toBlob(blob => {
@@ -2411,10 +2429,15 @@
       window.scrollTo(0, 0);
       resetMedPreviewScaleForPrint();
 
+      // Set document.title to combined filename so browser "Save as PDF" defaults to it
+      const originalTitle = document.title;
+      document.title = getMedicalCombinedFilename('');
+
       const restoreHandler = () => {
         window.removeEventListener('focus', restoreHandler);
         window.removeEventListener('touchstart', restoreHandler);
         window.removeEventListener('pointerdown', restoreHandler);
+        document.title = originalTitle;
         setTimeout(() => {
           restoreMedScaleAfterPrint();
         }, 800);

@@ -1454,6 +1454,25 @@
     }
 
 
+    // Helper to generate combined filename: Shopkeeper_Customer_InvNo_UPIBillMaker
+    function getRentCombinedFilename(ext = 'pdf') {
+      const cleanPart = (str, fallback = '') => {
+        if (!str) return fallback;
+        const cleaned = str.trim()
+          .replace(/[^\w\d\s-]/gi, '')
+          .replace(/[\s-]+/g, '_')
+          .replace(/^_+|_+$/g, '');
+        return cleaned || fallback;
+      };
+
+      const shop = cleanPart(document.getElementById('landlord-name')?.value || document.getElementById('prev-landlord')?.innerText, 'Landlord');
+      const customer = cleanPart(document.getElementById('tenant-name')?.value || document.getElementById('prev-tenant')?.innerText, 'Tenant');
+      const month = cleanPart(document.getElementById('rent-month')?.value || document.getElementById('prev-month')?.innerText, 'Rent');
+
+      const base = `${shop}_${customer}_${month}_UPIBillMaker`;
+      return ext ? `${base}.${ext.replace(/^\./, '')}` : base;
+    }
+
     async function downloadAsPDF() {
       const card = document.getElementById('rent-receipt-preview');
       if (!card) return;
@@ -1552,8 +1571,8 @@
           }
         }
 
-        const tenant = (document.getElementById('tenant-name')?.value?.trim() || 'Rent_Receipt').replace(/[^a-zA-Z0-9_-]/g, '_');
-        pdf.save(`${tenant}_Rent_Receipt.pdf`);
+        const filename = getRentCombinedFilename('pdf');
+        pdf.save(filename);
         showDownloadToast('HRA Rent Receipt PDF downloaded successfully!');
       } catch (err) {
         console.error('PDF error:', err);
@@ -1633,8 +1652,7 @@
           }
         });
 
-        const tenant = (document.getElementById('tenant-name').value.trim() || 'Rent_Receipt').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const filename = `${tenant}_RentReceipt.png`;
+        const filename = getRentCombinedFilename('png');
 
         if (canvas.toBlob) {
           canvas.toBlob(blob => {
@@ -1767,10 +1785,15 @@
       window.scrollTo(0, 0);
       resetRentPreviewScaleForPrint();
 
+      // Set document.title to combined filename so browser "Save as PDF" defaults to it
+      const originalTitle = document.title;
+      document.title = getRentCombinedFilename('');
+
       const restoreHandler = () => {
         window.removeEventListener('focus', restoreHandler);
         window.removeEventListener('touchstart', restoreHandler);
         window.removeEventListener('pointerdown', restoreHandler);
+        document.title = originalTitle;
         setTimeout(() => {
           restoreRentScaleAfterPrint();
         }, 800);

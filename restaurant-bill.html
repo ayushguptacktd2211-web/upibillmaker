@@ -1923,6 +1923,24 @@
       return false;
     }
 
+    // Combined filename generator: [Shopkeeper]_[Customer]_[BillNo]_[UPIBillMaker].[ext]
+    function getRestaurantCombinedFilename(ext = 'pdf') {
+      const cleanPart = (str, fallback = '') => {
+        if (!str) return fallback;
+        const cleaned = str.trim()
+          .replace(/[^\w\d\s-]/gi, '')
+          .replace(/[\s-]+/g, '_')
+          .replace(/^_+|_+$/g, '');
+        return cleaned || fallback;
+      };
+
+      const shop = cleanPart(document.getElementById('cafe-name')?.value || document.getElementById('prev-c-name')?.innerText, 'Restaurant');
+      const customer = cleanPart(document.getElementById('table-no')?.value || document.getElementById('prev-c-table')?.innerText || document.getElementById('prev-fd-table')?.innerText, 'DineIn');
+      const bill = cleanPart(document.getElementById('prev-fd-check')?.innerText || document.getElementById('prev-c-kot')?.innerText, 'Bill');
+      const base = `${shop}_${customer}_${bill}_UPIBillMaker`;
+      return ext ? `${base}.${ext.replace(/^\./, '')}` : base;
+    }
+
     async function downloadAsPDF() {
       const card = document.getElementById('food-bill-preview');
       if (!card) return;
@@ -2008,8 +2026,8 @@
           pdf.addImage(imgData, 'PNG', (pdfWidth - (slipWidthMm * scaleFactor)) / 2, 10, slipWidthMm * scaleFactor, slipHeightMm * scaleFactor, undefined, 'FAST');
         }
 
-        const cafe = (document.getElementById('cafe-name')?.value?.trim() || 'Restaurant_Bill').replace(/[^a-zA-Z0-9_-]/g, '_');
-        pdf.save(`${cafe}_Bill.pdf`);
+        const filename = getRestaurantCombinedFilename('pdf');
+        pdf.save(filename);
         showDownloadToast('Restaurant Slip PDF downloaded successfully!');
       } catch (err) {
         console.error('PDF error:', err);
@@ -2087,8 +2105,7 @@
           }
         });
 
-        const cafe = (document.getElementById('cafe-name').value.trim() || 'Restaurant_Bill').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const filename = `${cafe}_Slip.png`;
+        const filename = getRestaurantCombinedFilename('png');
 
         if (canvas.toBlob) {
           canvas.toBlob(blob => {
@@ -2230,6 +2247,11 @@
       const colPreview = document.getElementById('col-preview');
       if (colPreview) colPreview.classList.remove('hidden');
 
+      const origTitle = document.title;
+      try {
+        document.title = getRestaurantCombinedFilename('');
+      } catch (e) {}
+
       isRestPrintingActive = true;
       window.scrollTo(0, 0);
       resetRestPreviewScaleForPrint();
@@ -2239,6 +2261,7 @@
         window.removeEventListener('touchstart', restoreHandler);
         window.removeEventListener('pointerdown', restoreHandler);
         setTimeout(() => {
+          document.title = origTitle;
           restoreRestScaleAfterPrint();
         }, 800);
       };

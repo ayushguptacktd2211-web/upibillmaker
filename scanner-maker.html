@@ -1157,6 +1157,22 @@
       updateStandee();
     }
 
+    // Combined filename generator: [Shopkeeper]_Standee_UPIBillMaker.[ext]
+    function getStandeeCombinedFilename(ext = 'png') {
+      const cleanPart = (str, fallback = '') => {
+        if (!str) return fallback;
+        const cleaned = str.trim()
+          .replace(/[^\w\d\s-]/gi, '')
+          .replace(/[\s-]+/g, '_')
+          .replace(/^_+|_+$/g, '');
+        return cleaned || fallback;
+      };
+
+      const shop = cleanPart(document.getElementById('shop-name')?.value || document.getElementById('prev-shop-name')?.innerText, 'Store');
+      const base = `${shop}_Standee_UPIBillMaker`;
+      return ext ? `${base}.${ext.replace(/^\./, '')}` : base;
+    }
+
     // Download Standee PNG
     async function downloadStandeePNG() {
       const card = document.getElementById('standee-print-card');
@@ -1210,7 +1226,7 @@
           }
         });
 
-        const filename = `UPI_Standee_${(document.getElementById('shop-name').value.trim() || 'Store').replace(/[^a-zA-Z0-9]/g, '_')}.png`;
+        const filename = getStandeeCombinedFilename('png');
         const a = document.createElement('a');
         a.download = filename;
         a.href = canvas.toDataURL('image/png');
@@ -1233,7 +1249,28 @@
       if (document.activeElement && document.activeElement.blur) {
         document.activeElement.blur();
       }
+      const origTitle = document.title;
+      try {
+        document.title = getStandeeCombinedFilename('');
+      } catch (e) {}
+
       window.scrollTo(0, 0);
+
+      const restoreTitle = () => {
+        window.removeEventListener('focus', restoreTitle);
+        window.removeEventListener('touchstart', restoreTitle);
+        window.removeEventListener('pointerdown', restoreTitle);
+        setTimeout(() => {
+          document.title = origTitle;
+        }, 800);
+      };
+
+      setTimeout(() => {
+        window.addEventListener('focus', restoreTitle, { once: true });
+        window.addEventListener('touchstart', restoreTitle, { once: true });
+        window.addEventListener('pointerdown', restoreTitle, { once: true });
+      }, 1500);
+
       window.print();
     }
 

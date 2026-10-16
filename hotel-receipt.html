@@ -1692,6 +1692,25 @@
       return false;
     }
 
+    // Helper to generate combined filename: Shopkeeper_Customer_InvNo_UPIBillMaker
+    function getHotelCombinedFilename(ext = 'pdf') {
+      const cleanPart = (str, fallback = '') => {
+        if (!str) return fallback;
+        const cleaned = str.trim()
+          .replace(/[^\w\d\s-]/gi, '')
+          .replace(/[\s-]+/g, '_')
+          .replace(/^_+|_+$/g, '');
+        return cleaned || fallback;
+      };
+
+      const shop = cleanPart(document.getElementById('hotel-name')?.value || document.getElementById('prev-hotel-name')?.innerText, 'Hotel');
+      const customer = cleanPart(document.getElementById('guest-name')?.value || document.getElementById('prev-guest-name')?.innerText, 'Guest');
+      const invNo = cleanPart(document.getElementById('folio-no')?.value || document.getElementById('prev-folio-no')?.innerText, 'Folio');
+
+      const base = `${shop}_${customer}_${invNo}_UPIBillMaker`;
+      return ext ? `${base}.${ext.replace(/^\./, '')}` : base;
+    }
+
     async function downloadAsPDF() {
       const card = document.getElementById('hotel-bill-preview');
       if (!card) return;
@@ -1790,8 +1809,8 @@
           }
         }
 
-        const hotel = (document.getElementById('hotel-name')?.value?.trim() || 'Hotel_Folio').replace(/[^a-zA-Z0-9_-]/g, '_');
-        pdf.save(`${hotel}_Bill.pdf`);
+        const filename = getHotelCombinedFilename('pdf');
+        pdf.save(filename);
         showDownloadToast('Hotel Folio PDF downloaded successfully!');
       } catch (err) {
         console.error('PDF error:', err);
@@ -1871,8 +1890,7 @@
           }
         });
 
-        const guest = (document.getElementById('guest-name').value.trim() || 'Hotel_Bill').replace(/[^a-zA-Z0-9_-]/g, '_');
-        const filename = `${guest}_Receipt.png`;
+        const filename = getHotelCombinedFilename('png');
 
         if (canvas.toBlob) {
           canvas.toBlob(blob => {
@@ -2004,10 +2022,15 @@
       window.scrollTo(0, 0);
       resetHotelPreviewScaleForPrint();
 
+      // Set document.title to combined filename so browser "Save as PDF" defaults to it
+      const originalTitle = document.title;
+      document.title = getHotelCombinedFilename('');
+
       const restoreHandler = () => {
         window.removeEventListener('focus', restoreHandler);
         window.removeEventListener('touchstart', restoreHandler);
         window.removeEventListener('pointerdown', restoreHandler);
+        document.title = originalTitle;
         setTimeout(() => {
           restoreHotelScaleAfterPrint();
         }, 800);
