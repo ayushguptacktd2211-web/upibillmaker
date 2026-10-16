@@ -330,17 +330,18 @@
   <main class="w-full max-w-5xl mx-auto px-2.5 sm:px-6 lg:px-8 py-5 sm:py-10 space-y-8">
     <div id="col-preview" class="w-full space-y-4 flex flex-col items-center">
 
-      <!-- Preview Header & Actions Bar -->
-      <div class="w-full flex items-center justify-between px-1 no-print">
-        <div>
-          <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
-            <i data-lucide="scan-line" class="w-5 h-5 text-purple-600"></i>
-            <span>Live UPI Standee & Counter QR Preview</span>
-          </h3>
-          <p class="text-xs text-slate-500">Real-time live rendering • Ready for Acrylic Standee & Sticker Print</p>
+      <!-- Clean Preview Header -->
+      <div class="w-full flex items-center justify-between gap-2.5 px-1 no-print">
+        <div class="min-w-0">
+          <h1 class="font-heading font-extrabold text-base sm:text-xl text-slate-900 flex items-center gap-2 tracking-tight">
+            <i data-lucide="scan-line" class="w-5 h-5 text-purple-600 shrink-0"></i>
+            <span class="truncate">UPI Standee &amp; QR Maker</span>
+          </h1>
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium truncate">Live WYSIWYG • Ready for Acrylic Standee &amp; Sticker Print</p>
         </div>
-        <a href="#col-form" class="text-xs font-semibold text-purple-600 hover:text-purple-800 flex items-center gap-1 transition-colors">
-          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Customize Details ↓
+        <a href="#col-form" class="shrink-0 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg transition-all shadow-2xs">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+          <span>Customize Details ↓</span>
         </a>
       </div>
 

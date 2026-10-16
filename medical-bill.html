@@ -557,41 +557,48 @@
   <main class="w-full max-w-3xl mx-auto px-2.5 sm:px-4 py-4 sm:py-8 space-y-5 sm:space-y-6">
     <div id="col-preview" class="w-full space-y-4">
 
-      <!-- Preview Header & Actions Bar -->
-      <div class="flex items-center justify-between px-1 no-print">
-        <div>
-          <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
-            <i data-lucide="file-text" class="w-5 h-5 text-teal-600"></i>
-            <span>Live Pharmacy Bill Preview</span>
-          </h3>
-          <p class="text-xs text-slate-500">Real-time live rendering • Ready to Print & Download</p>
+      <!-- Clean Preview Header -->
+      <div class="flex items-center justify-between gap-2.5 px-1 no-print">
+        <div class="min-w-0">
+          <h1 class="font-heading font-extrabold text-base sm:text-xl text-slate-900 flex items-center gap-2 tracking-tight">
+            <i data-lucide="activity" class="w-5 h-5 text-teal-600 shrink-0"></i>
+            <span class="truncate">Pharmacy &amp; Medical Bill</span>
+          </h1>
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium truncate">Live WYSIWYG • Ready to Print &amp; PDF</p>
         </div>
-        <a href="#col-form" class="text-xs font-semibold text-teal-600 hover:text-teal-800 flex items-center gap-1 transition-colors">
-          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
+        <a href="#col-form" class="shrink-0 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200 rounded-lg transition-all shadow-2xs">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+          <span>Edit Details ↓</span>
         </a>
       </div>
 
-      <!-- Action Buttons Bar -->
-      <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
-        <div class="flex items-center gap-2">
-          <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+      <!-- Action Buttons Bar (Responsive 3-Column Layout: Never Overflows on Mobile) -->
+      <div class="bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-2.5 sm:p-3.5 shadow-xs space-y-2.5 no-print">
+        <!-- Top Status Row -->
+        <div class="flex items-center justify-between gap-2">
+          <div class="text-xs text-slate-700 font-bold flex items-center gap-1.5">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
-            <span>Pharmacy Invoice</span>
+            <span>Pharmacy Cash Memo</span>
           </div>
-        </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <button type="button" onclick="toggleSectionCustomizer()" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Customize bill sections and table columns">
+          <button type="button" onclick="toggleSectionCustomizer()" class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:text-teal-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Customize bill sections and table columns">
             <i data-lucide="sliders" class="w-3.5 h-3.5 text-teal-600"></i>
-            <span>Customize Bill</span>
+            <span>Customize</span>
           </button>
-          <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm shadow-teal-600/20 transition-all cursor-pointer">
-            <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
+        </div>
+
+        <!-- 3-Column Touch Buttons: 100% Guaranteed to Never Overflow on Any Mobile Screen -->
+        <div class="grid grid-cols-3 gap-2 w-full">
+          <button type="button" onclick="downloadAsPDF()" class="inline-flex items-center justify-center gap-1.5 px-2.5 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm shadow-teal-600/20 transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-4 h-4 shrink-0"></i>
+            <span>PDF</span>
           </button>
-          <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
-            <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+          <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Save PNG Image">
+            <i data-lucide="image" class="w-4 h-4 text-slate-500 shrink-0"></i>
+            <span>PNG</span>
           </button>
-          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
-            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+          <button type="button" onclick="window.print()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Print Invoice">
+            <i data-lucide="printer" class="w-4 h-4 text-slate-500 shrink-0"></i>
+            <span>Print</span>
           </button>
         </div>
       </div>
@@ -675,15 +682,15 @@
             <i data-lucide="receipt" class="w-3.5 h-3.5 text-teal-600"></i>
             <span>Medical Bill Format:</span>
           </span>
-          <div class="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-xs" id="med-format-group">
-            <button type="button" onclick="setMedFormat('chemist')" id="btn-med-fmt-chemist" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-white text-teal-700 shadow-2xs transition-all cursor-pointer">
-              Retail Pharmacy (Chemist)
+          <div class="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-lg text-xs w-full sm:w-auto" id="med-format-group">
+            <button type="button" onclick="setMedFormat('chemist')" id="btn-med-fmt-chemist" class="py-1.5 px-1 rounded-md text-[10px] sm:text-xs font-bold bg-white text-teal-700 shadow-2xs transition-all cursor-pointer text-center truncate">
+              Retail Chemist
             </button>
-            <button type="button" onclick="setMedFormat('hospital')" id="btn-med-fmt-hospital" class="px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer">
-              Hospital & OPD Bill
+            <button type="button" onclick="setMedFormat('hospital')" id="btn-med-fmt-hospital" class="py-1.5 px-1 rounded-md text-[10px] sm:text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer text-center truncate">
+              Hospital &amp; OPD
             </button>
-            <button type="button" onclick="setMedFormat('diagnostic')" id="btn-med-fmt-diagnostic" class="px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer">
-              Diagnostic & Lab Slip
+            <button type="button" onclick="setMedFormat('diagnostic')" id="btn-med-fmt-diagnostic" class="py-1.5 px-1 rounded-md text-[10px] sm:text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer text-center truncate">
+              Lab &amp; Pathology
             </button>
           </div>
         </div>
@@ -713,11 +720,11 @@
         <!-- Centered Pharmacy Tax Invoice Legal Header with Clinical Emblem -->
         <div class="text-center pb-2 mb-2 border-b-2 border-teal-700 bg-teal-50/60 p-2.5 -m-3.5 sm:-m-5 mb-2.5 relative med-header-box">
           <div class="absolute left-3 top-2.5 text-teal-700 font-serif font-black text-2xl tracking-tighter select-none hidden sm:block">℞</div>
-          <h2 class="font-heading font-black text-lg sm:text-xl text-teal-900 tracking-wider uppercase med-header-title" id="prev-doc-title">
+          <h2 class="font-heading font-extrabold text-sm sm:text-lg text-teal-950 tracking-normal sm:tracking-wider uppercase med-header-title leading-snug" id="prev-doc-title">
             PHARMACY TAX INVOICE / RETAIL CASH MEMO
           </h2>
-          <p id="prev-doc-subtitle" class="text-[9px] font-semibold text-teal-700 tracking-wider uppercase mt-0.5">
-            (Drugs & Cosmetics Act, 1940 • Form 20/21 Retail Chemist & Druggist • Schedule H/H1)
+          <p id="prev-doc-subtitle" class="text-[8px] sm:text-[9.5px] font-semibold text-teal-800 tracking-wider uppercase mt-0.5 leading-tight">
+            (Drugs &amp; Cosmetics Act, 1940 • Form 20/21 Retail Chemist &amp; Druggist • Schedule H/H1)
           </p>
         </div>
 
@@ -2019,7 +2026,8 @@
         if (rawBiz) {
           const biz = JSON.parse(rawBiz);
           let loadedAny = false;
-          if (biz.name && document.getElementById('pharmacy-name')) { document.getElementById('pharmacy-name').value = biz.name; loadedAny = true; }
+          const isNonMed = biz.name && /cafe|kitchen|restaurant|hotel|dhaba|stay|coaching|tuition|resort/i.test(biz.name);
+          if (biz.name && !isNonMed && document.getElementById('pharmacy-name')) { document.getElementById('pharmacy-name').value = biz.name; loadedAny = true; }
           if (biz.phone && document.getElementById('pharmacy-phone')) { document.getElementById('pharmacy-phone').value = biz.phone; loadedAny = true; }
           if (biz.upi && document.getElementById('pharmacy-upi')) { document.getElementById('pharmacy-upi').value = biz.upi; loadedAny = true; }
           if (biz.address && document.getElementById('pharmacy-address')) { document.getElementById('pharmacy-address').value = biz.address; loadedAny = true; }
@@ -2398,9 +2406,9 @@
         const btn = document.getElementById(`btn-med-fmt-${f}`);
         if (!btn) return;
         if (f === fmt) {
-          btn.className = 'px-2.5 py-1 rounded-md text-[11px] font-bold bg-white text-teal-700 shadow-2xs transition-all cursor-pointer';
+          btn.className = 'py-1.5 px-1 rounded-md text-[10px] sm:text-xs font-bold bg-white text-teal-700 shadow-2xs transition-all cursor-pointer text-center truncate';
         } else {
-          btn.className = 'px-2.5 py-1 rounded-md text-[11px] font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer';
+          btn.className = 'py-1.5 px-1 rounded-md text-[10px] sm:text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all cursor-pointer text-center truncate';
         }
       });
 

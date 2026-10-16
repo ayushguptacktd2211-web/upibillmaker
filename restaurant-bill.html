@@ -507,41 +507,48 @@
   <main class="w-full max-w-3xl mx-auto px-2.5 sm:px-4 py-4 sm:py-8 space-y-5 sm:space-y-6">
     <div id="col-preview" class="w-full space-y-4 flex flex-col items-center">
 
-      <!-- Preview Header & Actions Bar -->
-      <div class="w-full flex items-center justify-between px-1 no-print">
-        <div>
-          <h3 class="font-heading font-extrabold text-xl text-slate-900 flex items-center gap-2">
-            <i data-lucide="utensils" class="w-5 h-5 text-orange-600"></i>
-            <span>Live Restaurant Bill / Thermal Slip</span>
-          </h3>
-          <p class="text-xs text-slate-500">Real-time live rendering • Ready for 58mm/80mm Thermal & A4 Print</p>
+      <!-- Clean Preview Header -->
+      <div class="w-full flex items-center justify-between gap-2.5 px-1 no-print">
+        <div class="min-w-0">
+          <h1 class="font-heading font-extrabold text-base sm:text-xl text-slate-900 flex items-center gap-2 tracking-tight">
+            <i data-lucide="utensils" class="w-5 h-5 text-orange-600 shrink-0"></i>
+            <span class="truncate">Restaurant Bill &amp; Thermal Slip</span>
+          </h1>
+          <p class="text-[11px] sm:text-xs text-slate-500 font-medium truncate">Live WYSIWYG • Ready for 58mm/80mm &amp; A4 PDF</p>
         </div>
-        <a href="#col-form" class="text-xs font-semibold text-orange-600 hover:text-orange-800 flex items-center gap-1 transition-colors">
-          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit Bill Details ↓
+        <a href="#col-form" class="shrink-0 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold text-orange-700 bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-lg transition-all shadow-2xs">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+          <span>Edit Details ↓</span>
         </a>
       </div>
 
-      <!-- Action Buttons Bar -->
-      <div class="w-full bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-3 sm:p-4 shadow-sm flex flex-wrap items-center justify-between gap-3 no-print">
-        <div class="flex items-center gap-2">
-          <div class="text-xs text-slate-600 font-semibold flex items-center gap-1.5">
+      <!-- Action Buttons Bar (Responsive 3-Column Layout: Never Overflows on Mobile) -->
+      <div class="w-full bg-white rounded-xl sm:rounded-2xl border border-slate-200 p-2.5 sm:p-3.5 shadow-xs space-y-2.5 no-print">
+        <!-- Top Status Row -->
+        <div class="flex items-center justify-between gap-2">
+          <div class="text-xs text-slate-700 font-bold flex items-center gap-1.5">
             <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600"></i>
-            <span>Thermal Slip & 5% GST</span>
+            <span>Thermal Slip &amp; 5% GST</span>
           </div>
-        </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-          <button type="button" onclick="toggleSectionCustomizer()" class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Customize bill sections and table columns">
+          <button type="button" onclick="toggleSectionCustomizer()" class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-700 hover:text-orange-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer" title="Customize bill sections and table columns">
             <i data-lucide="sliders" class="w-3.5 h-3.5 text-orange-600"></i>
-            <span>Customize Bill</span>
+            <span>Customize</span>
           </button>
-          <button type="button" onclick="downloadAsPDF()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-sm shadow-orange-600/20 transition-all cursor-pointer">
-            <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
+        </div>
+
+        <!-- 3-Column Touch Buttons: 100% Guaranteed to Never Overflow on Any Mobile Screen -->
+        <div class="grid grid-cols-3 gap-2 w-full">
+          <button type="button" onclick="downloadAsPDF()" class="inline-flex items-center justify-center gap-1.5 px-2.5 py-2 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-sm shadow-orange-600/20 transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-4 h-4 shrink-0"></i>
+            <span>PDF</span>
           </button>
-          <button type="button" onclick="downloadAsPNG()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
-            <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
+          <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Save PNG Image">
+            <i data-lucide="image" class="w-4 h-4 text-slate-500 shrink-0"></i>
+            <span>PNG</span>
           </button>
-          <button type="button" onclick="window.print()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer">
-            <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
+          <button type="button" onclick="window.print()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Print Bill">
+            <i data-lucide="printer" class="w-4 h-4 text-slate-500 shrink-0"></i>
+            <span>Print</span>
           </button>
         </div>
       </div>
