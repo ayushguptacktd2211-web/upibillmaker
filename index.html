@@ -834,7 +834,7 @@
         overflow: visible !important;
       }
       /* Hide all non-printable UI elements completely so they take 0 height */
-      header, footer, nav, section, .no-print, #col-main-form, .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden, #logo-maker-modal {
+      header, footer, nav, section, .no-print, #col-main-form, .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden, #logo-maker-modal, button {
         display: none !important;
         height: 0 !important;
         margin: 0 !important;
@@ -852,17 +852,50 @@
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
+        max-width: 100% !important;
       }
+      /* Strip paper mat container: eliminate outer grey background, border, inner shadow, and padding */
+      #invoice-preview-viewport {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        display: block !important;
+        contain: none !important;
+        transform: none !important;
+      }
+      /* Real Indian Tax Invoice sheet: spans full printable A4 page with crisp authentic dark border */
       #invoice-preview-container {
         display: block !important;
         position: relative !important;
         margin: 0 auto !important;
-        padding: 0 !important;
+        padding: 16px 20px !important;
         width: 100% !important;
         max-width: 100% !important;
+        min-width: 0 !important;
+        transform: none !important;
         box-shadow: none !important;
-        border: none !important;
+        border: 1.5px solid #0f172a !important;
+        border-radius: 0 !important;
+        background: #ffffff !important;
         page-break-inside: avoid;
+      }
+      /* Thermal POS slip format override */
+      #invoice-preview-container.format-rest-thermal {
+        max-width: 380px !important;
+        border: 1.5px dashed #0f172a !important;
+        padding: 12px !important;
+        margin: 0 auto !important;
       }
       .editable-field, .editable-field:hover, .editable-field:focus {
         background: transparent !important;
@@ -4750,6 +4783,27 @@
       }
     }
 
+    // Clean Reset Preview Scale Before Printing so A4 Page Spans 100% Full Width
+    function resetPreviewScaleForPrint() {
+      const container = document.getElementById('invoice-preview-container');
+      const viewport = document.getElementById('invoice-preview-viewport');
+      if (container) {
+        const isThermal = container.classList.contains('format-rest-thermal');
+        container.style.transform = 'none';
+        container.style.minWidth = '0';
+        container.style.width = isThermal ? '380px' : '100%';
+        container.style.maxWidth = isThermal ? '380px' : '100%';
+      }
+      if (viewport) {
+        viewport.style.height = 'auto';
+      }
+    }
+
+    window.addEventListener('beforeprint', resetPreviewScaleForPrint);
+    window.addEventListener('afterprint', () => {
+      fitPreviewToScreen();
+    });
+
     // High Reliability Print Invocation
     function printInvoice() {
       if (document.activeElement && document.activeElement.blur) {
@@ -4757,7 +4811,9 @@
       }
       const colPreview = document.getElementById('col-main-preview');
       if (colPreview) colPreview.classList.remove('hidden');
+      resetPreviewScaleForPrint();
       window.print();
+      setTimeout(fitPreviewToScreen, 500);
     }
 
     // Download 100% Guaranteed High-Resolution A4 PDF via jsPDF & html2canvas

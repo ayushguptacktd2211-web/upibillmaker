@@ -149,7 +149,7 @@
         height: auto !important;
         overflow: visible !important;
       }
-      header, footer, nav, section, .no-print, #col-form, .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden {
+      header, footer, nav, section, .no-print, #col-form, .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden, button {
         display: none !important;
         height: 0 !important;
         margin: 0 !important;
@@ -167,16 +167,42 @@
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
+        max-width: 100% !important;
       }
+      /* Strip paper mat container: eliminate outer grey background, border, inner shadow, and padding */
+      #medical-preview-viewport {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        display: block !important;
+        contain: none !important;
+        transform: none !important;
+      }
+      /* Real Indian Medical / Pharmacy Rx bill sheet: spans full printable A4 page with crisp authentic teal border */
       #medical-bill-preview {
         display: block !important;
         position: relative !important;
         margin: 0 auto !important;
-        padding: 0 !important;
+        padding: 16px 20px !important;
         width: 100% !important;
         max-width: 100% !important;
+        min-width: 0 !important;
+        transform: none !important;
         box-shadow: none !important;
-        border: none !important;
+        border: 1.5px solid #0f766e !important;
+        border-radius: 0 !important;
+        background: #ffffff !important;
         page-break-inside: avoid;
       }
       .editable-field, .editable-field:hover, .editable-field:focus {
@@ -596,7 +622,7 @@
             <i data-lucide="image" class="w-4 h-4 text-slate-500 shrink-0"></i>
             <span>PNG</span>
           </button>
-          <button type="button" onclick="window.print()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Print Invoice">
+          <button type="button" onclick="printMedicalBill()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Print Invoice">
             <i data-lucide="printer" class="w-4 h-4 text-slate-500 shrink-0"></i>
             <span>Print</span>
           </button>
@@ -1080,7 +1106,7 @@
         <button type="button" onclick="downloadAsPNG()" class="flex-1 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
           <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
         </button>
-        <button type="button" onclick="window.print()" class="flex-1 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
+        <button type="button" onclick="printMedicalBill()" class="flex-1 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
           <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
         </button>
       </div>
@@ -2286,6 +2312,38 @@
 
     // Responsive Mobile Fit to Screen for Medical Bill Preview
     let isMedFitToScreen = true;
+
+    // Clean Reset Preview Scale Before Printing so Medical Bill A4 Page Spans 100% Full Width
+    function resetMedPreviewScaleForPrint() {
+      const container = document.getElementById('medical-bill-preview');
+      const viewport = document.getElementById('medical-preview-viewport');
+      if (container) {
+        container.style.transform = 'none';
+        container.style.minWidth = '0';
+        container.style.width = '100%';
+        container.style.maxWidth = '100%';
+      }
+      if (viewport) {
+        viewport.style.height = 'auto';
+      }
+    }
+
+    window.addEventListener('beforeprint', resetMedPreviewScaleForPrint);
+    window.addEventListener('afterprint', () => {
+      fitMedPreviewToScreen();
+    });
+
+    // High Reliability Medical Bill Print Invocation
+    function printMedicalBill() {
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
+      }
+      const colPreview = document.getElementById('col-preview');
+      if (colPreview) colPreview.classList.remove('hidden');
+      resetMedPreviewScaleForPrint();
+      window.print();
+      setTimeout(fitMedPreviewToScreen, 500);
+    }
 
     function fitMedPreviewToScreen() {
       const container = document.getElementById('medical-bill-preview');
