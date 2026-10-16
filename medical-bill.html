@@ -167,7 +167,7 @@
       header, footer, nav, section, .no-print, #col-form,
       .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden,
       #logo-maker-modal, #quick-items-modal, #custom-template-modal,
-      #website-share-modal, #download-toast, #mobile-nav-drawer,
+      #website-share-modal, #bill-share-modal, #download-toast, #mobile-nav-drawer,
       button, input, select, textarea, datalist {
         display: none !important;
         margin: 0 !important;
@@ -653,18 +653,22 @@
           </button>
         </div>
 
-        <!-- 3-Column Touch Buttons: 100% Guaranteed to Never Overflow on Any Mobile Screen -->
-        <div class="grid grid-cols-3 gap-2 w-full">
-          <button type="button" onclick="downloadAsPDF()" class="inline-flex items-center justify-center gap-1.5 px-2.5 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm shadow-teal-600/20 transition-all cursor-pointer">
-            <i data-lucide="file-down" class="w-4 h-4 shrink-0"></i>
+        <!-- 4-Column Touch Buttons: 100% Guaranteed to Never Overflow on Any Mobile Screen -->
+        <div class="grid grid-cols-4 gap-1.5 sm:gap-2 w-full">
+          <button type="button" onclick="downloadAsPDF()" class="inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg shadow-sm shadow-teal-600/20 transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-3.5 h-3.5 shrink-0"></i>
             <span>PDF</span>
           </button>
-          <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Save PNG Image">
-            <i data-lucide="image" class="w-4 h-4 text-slate-500 shrink-0"></i>
+          <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Save PNG Image">
+            <i data-lucide="image" class="w-3.5 h-3.5 text-slate-500 shrink-0"></i>
             <span>PNG</span>
           </button>
-          <button type="button" onclick="printMedicalBill()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Print Invoice">
-            <i data-lucide="printer" class="w-4 h-4 text-slate-500 shrink-0"></i>
+          <button type="button" onclick="openMedicalShareModal()" class="inline-flex items-center justify-center gap-1 px-2 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-lg transition-colors cursor-pointer" title="Share Bill (Text, PNG, PDF)">
+            <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+            <span>Share</span>
+          </button>
+          <button type="button" onclick="printMedicalBill()" class="inline-flex items-center justify-center gap-1 px-2 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Print Invoice">
+            <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-500 shrink-0"></i>
             <span>Print</span>
           </button>
         </div>
@@ -1179,14 +1183,17 @@
       </div>
 
       <!-- Action Buttons -->
-      <div class="pt-2 flex gap-2">
-        <button type="button" onclick="downloadAsPDF()" class="flex-1 py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+      <div class="pt-2 grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <button type="button" onclick="downloadAsPDF()" class="py-2 text-xs font-bold text-white bg-teal-600 hover:bg-teal-700 rounded-lg flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
           <i data-lucide="file-down" class="w-3.5 h-3.5"></i> Download PDF
         </button>
-        <button type="button" onclick="downloadAsPNG()" class="flex-1 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
+        <button type="button" onclick="downloadAsPNG()" class="py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
           <i data-lucide="image" class="w-3.5 h-3.5"></i> Save PNG
         </button>
-        <button type="button" onclick="printMedicalBill()" class="flex-1 py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
+        <button type="button" onclick="openMedicalShareModal()" class="py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
+          <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-600"></i> Share Bill
+        </button>
+        <button type="button" onclick="printMedicalBill()" class="py-2 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg flex items-center justify-center gap-1.5 cursor-pointer">
           <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print
         </button>
       </div>
@@ -2195,15 +2202,12 @@
       return ext ? `${base}.${ext.replace(/^\./, '')}` : base;
     }
 
-    async function downloadAsPDF() {
+    async function renderMedicalCanvas() {
       const card = document.getElementById('medical-bill-preview');
-      if (!card) return;
+      if (!card) throw new Error('Medical preview container not found');
 
-      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
-      const originalText = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating PDF...</span>`;
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
       }
 
       const colPreview = document.getElementById('col-preview');
@@ -2261,49 +2265,98 @@
             }
           }
         });
+        return canvas;
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
+        }
+      }
+    }
 
-        const imgData = canvas.toDataURL('image/png');
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        
-        const margin = 8;
-        const maxPrintWidth = pdfWidth - (margin * 2);
-        const maxSinglePageHeight = pdfHeight - (margin * 2);
-        const contentHeight = (canvas.height * maxPrintWidth) / canvas.width;
-        
-        if (contentHeight <= maxSinglePageHeight * 1.25) {
-          const scale = Math.min(1, maxSinglePageHeight / contentHeight);
-          const finalW = maxPrintWidth * scale;
-          const finalH = contentHeight * scale;
-          const xOffset = margin + (maxPrintWidth - finalW) / 2;
-          pdf.addImage(imgData, 'PNG', xOffset, margin, finalW, finalH, undefined, 'FAST');
+    async function getMedicalPNGBlob() {
+      const canvas = await renderMedicalCanvas();
+      return new Promise((resolve, reject) => {
+        if (canvas.toBlob) {
+          canvas.toBlob(blob => {
+            if (blob) resolve(blob);
+            else reject(new Error('Canvas toBlob failed'));
+          }, 'image/png');
         } else {
-          let heightLeft = contentHeight;
-          let position = margin;
+          try {
+            const dataUrl = canvas.toDataURL('image/png');
+            const binStr = atob(dataUrl.split(',')[1]);
+            const len = binStr.length;
+            const arr = new Uint8Array(len);
+            for (let i = 0; i < len; i++) arr[i] = binStr.charCodeAt(i);
+            resolve(new Blob([arr], { type: 'image/png' }));
+          } catch(e) { reject(e); }
+        }
+      });
+    }
+
+    async function getMedicalPDFBlob() {
+      const canvas = await renderMedicalCanvas();
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      const margin = 8;
+      const maxPrintWidth = pdfWidth - (margin * 2);
+      const maxSinglePageHeight = pdfHeight - (margin * 2);
+      const contentHeight = (canvas.height * maxPrintWidth) / canvas.width;
+      
+      if (contentHeight <= maxSinglePageHeight * 1.25) {
+        const scale = Math.min(1, maxSinglePageHeight / contentHeight);
+        const finalW = maxPrintWidth * scale;
+        const finalH = contentHeight * scale;
+        const xOffset = margin + (maxPrintWidth - finalW) / 2;
+        pdf.addImage(imgData, 'PNG', xOffset, margin, finalW, finalH, undefined, 'FAST');
+      } else {
+        let heightLeft = contentHeight;
+        let position = margin;
+        pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
+        heightLeft -= maxSinglePageHeight;
+        while (heightLeft > 0) {
+          position = position - maxSinglePageHeight;
+          pdf.addPage();
           pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
           heightLeft -= maxSinglePageHeight;
-          while (heightLeft > 0) {
-            position = position - maxSinglePageHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
-            heightLeft -= maxSinglePageHeight;
-          }
         }
+      }
+      return pdf.output('blob');
+    }
 
+    async function downloadAsPDF() {
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating PDF...</span>`;
+      }
+
+      try {
+        const blob = await getMedicalPDFBlob();
         const filename = getMedicalCombinedFilename('pdf');
-        pdf.save(filename);
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = url;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }, 1500);
+
         showDownloadToast('Medical Rx Bill PDF downloaded successfully!');
       } catch (err) {
         console.error('PDF error:', err);
         showDownloadToast('Notice: Opening Print view for PDF...');
         setTimeout(() => { window.print(); }, 400);
       } finally {
-        if (wasHidden && colPreview) {
-          colPreview.classList.add('hidden');
-          colPreview.style.display = '';
-        }
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = originalText;
@@ -2313,9 +2366,6 @@
     }
 
     async function downloadAsPNG() {
-      const card = document.getElementById('medical-bill-preview');
-      if (!card) return;
-
       const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
       const originalText = btn ? btn.innerHTML : '';
       if (btn) {
@@ -2323,77 +2373,19 @@
         btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating...</span>`;
       }
 
-      // Mobile Visibility Fix: if parent col-preview is hidden under edit tab, temporarily unhide it
-      const colPreview = document.getElementById('col-preview');
-      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
-      if (wasHidden) {
-        colPreview.classList.remove('hidden');
-        colPreview.style.display = 'block';
-        void colPreview.offsetHeight;
-      }
-
       try {
-        if (document.fonts && document.fonts.ready) {
-          try { await document.fonts.ready; } catch(e) {}
-        }
-
-        const canvas = await html2canvas(card, {
-          scale: 3,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          logging: false,
-          windowWidth: 1024,
-          onclone: (clonedDoc) => {
-            const clonedCard = clonedDoc.getElementById('medical-bill-preview');
-            if (clonedCard) {
-              clonedCard.style.setProperty('border', 'none', 'important');
-              clonedCard.style.setProperty('box-shadow', 'none', 'important');
-              clonedCard.style.setProperty('outline', 'none', 'important');
-              clonedCard.style.transform = 'none';
-              clonedCard.style.width = '794px';
-              clonedCard.style.maxWidth = '794px';
-            }
-            const origQr = document.getElementById('med-qr');
-            const cloneQr = clonedDoc.getElementById('med-qr');
-            if (origQr && cloneQr) {
-              const origCanvas = origQr.querySelector('canvas');
-              if (origCanvas) {
-                cloneQr.innerHTML = '';
-                const newCvs = clonedDoc.createElement('canvas');
-                newCvs.width = origCanvas.width;
-                newCvs.height = origCanvas.height;
-                const ctx = newCvs.getContext('2d');
-                ctx.drawImage(origCanvas, 0, 0);
-                newCvs.style.display = 'block';
-                cloneQr.appendChild(newCvs);
-              }
-            }
-          }
-        });
-
+        const blob = await getMedicalPNGBlob();
         const filename = getMedicalCombinedFilename('png');
-
-        if (canvas.toBlob) {
-          canvas.toBlob(blob => {
-            if (blob) {
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.download = filename;
-              a.href = url;
-              document.body.appendChild(a);
-              a.click();
-              setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-              }, 1500);
-            } else {
-              fallbackDataURL(canvas, filename);
-            }
-          }, 'image/png');
-        } else {
-          fallbackDataURL(canvas, filename);
-        }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.download = filename;
+        a.href = url;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 1500);
 
         showDownloadToast('Medical Rx Bill PNG downloaded successfully!');
       } catch (err) {
@@ -2401,10 +2393,6 @@
         showDownloadToast('Notice: Opening Print/PDF view...');
         setTimeout(() => { window.print(); }, 400);
       } finally {
-        if (wasHidden && colPreview) {
-          colPreview.classList.add('hidden');
-          colPreview.style.display = '';
-        }
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = originalText;
@@ -2412,6 +2400,55 @@
         }
       }
     }
+
+    function openMedicalShareModal() {
+      const shop = document.getElementById('pharmacy-name')?.value || document.getElementById('prev-ph-name')?.innerText || 'Pharmacy';
+      const patient = document.getElementById('patient-name')?.value || document.getElementById('prev-pt-name')?.innerText || 'Patient';
+      const phone = document.getElementById('patient-phone')?.value || '';
+      const billNo = document.getElementById('med-inv-no')?.value || document.getElementById('prev-inv-no')?.innerText || 'RxBill';
+      const total = document.getElementById('prev-total')?.innerText || '₹0.00';
+      const upi = document.getElementById('pharmacy-upi')?.value || document.getElementById('prev-ph-upi')?.innerText || '';
+      const status = document.getElementById('med-status')?.value || 'pending';
+      const gstin = document.getElementById('pharmacy-gstin')?.value || '';
+      const dl = document.getElementById('dl-number')?.value || '';
+
+      let message = `*PHARMACY / MEDICAL BILL (Rx)*\n` +
+        `*Pharmacy:* ${shop}\n` +
+        (gstin ? `*GSTIN:* ${gstin}\n` : '') +
+        (dl ? `*Drug Lic (DL):* ${dl}\n` : '') +
+        `*Patient:* ${patient}\n` +
+        `*Bill No:* ${billNo}\n` +
+        `*Total Amount:* ${total}\n` +
+        `*Status:* ${status === 'paid' ? 'PAID / SETTLED' : 'PAYMENT PENDING'}\n\n`;
+
+      if (status !== 'paid' && upi) {
+        const amtClean = total.replace(/[^0-9.]/g, '');
+        const upiLink = `upi://pay?pa=${encodeURIComponent(upi)}&pn=${encodeURIComponent(shop)}&am=${encodeURIComponent(amtClean)}&cu=INR&tn=${encodeURIComponent('Medical Bill ' + billNo)}`;
+        message += `*Pay Online via UPI (Pre-filled):*\n` +
+          `${upiLink}\n\n` +
+          `Or scan the QR code on your invoice. Payee UPI ID: *${upi}*\n`;
+      } else if (status === 'paid') {
+        message += `Thank you for your payment! Wishing you a speedy recovery.\n`;
+      } else {
+        message += `Thank you for choosing us. Wishing you good health!\n`;
+      }
+
+      message += `_Generated via upibillmaker.com_`;
+
+      if (window.openBillShareModal) {
+        window.openBillShareModal({
+          title: `Medical Bill (${billNo})`,
+          filename: getMedicalCombinedFilename('pdf').replace(/\.pdf$/i, ''),
+          customerPhone: phone,
+          text: message,
+          onGetPNGBlob: getMedicalPNGBlob,
+          onGetPDFBlob: getMedicalPDFBlob,
+          onDownloadPNG: downloadAsPNG,
+          onDownloadPDF: downloadAsPDF
+        });
+      }
+    }
+    window.openMedicalShareModal = openMedicalShareModal;
 
     function fallbackDataURL(canvas, filename) {
       const a = document.createElement('a');

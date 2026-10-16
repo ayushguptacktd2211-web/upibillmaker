@@ -145,7 +145,7 @@
       header, footer, nav, section, .no-print, #col-form,
       .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden,
       #logo-maker-modal, #quick-items-modal, #custom-template-modal,
-      #website-share-modal, #download-toast, #mobile-nav-drawer,
+      #website-share-modal, #bill-share-modal, #download-toast, #mobile-nav-drawer,
       button, input, select, textarea, datalist {
         display: none !important;
         margin: 0 !important;
@@ -606,18 +606,22 @@
           </button>
         </div>
 
-        <!-- 3-Column Touch Buttons: 100% Guaranteed to Never Overflow on Any Mobile Screen -->
-        <div class="grid grid-cols-3 gap-2 w-full">
-          <button type="button" onclick="downloadAsPDF()" class="inline-flex items-center justify-center gap-1.5 px-2.5 py-2 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-sm shadow-orange-600/20 transition-all cursor-pointer">
-            <i data-lucide="file-down" class="w-4 h-4 shrink-0"></i>
+        <!-- 4-Column Touch Buttons: 100% Guaranteed to Never Overflow on Any Mobile Screen -->
+        <div class="grid grid-cols-4 gap-1.5 sm:gap-2 w-full">
+          <button type="button" onclick="downloadAsPDF()" class="inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 py-2 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-lg shadow-sm shadow-orange-600/20 transition-all cursor-pointer">
+            <i data-lucide="file-down" class="w-3.5 h-3.5 shrink-0"></i>
             <span>PDF</span>
           </button>
-          <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Save PNG Image">
-            <i data-lucide="image" class="w-4 h-4 text-slate-500 shrink-0"></i>
+          <button type="button" onclick="downloadAsPNG()" class="inline-flex items-center justify-center gap-1 px-2 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Save PNG Image">
+            <i data-lucide="image" class="w-3.5 h-3.5 text-slate-500 shrink-0"></i>
             <span>PNG</span>
           </button>
-          <button type="button" onclick="printRestaurantBill()" class="inline-flex items-center justify-center gap-1 px-2.5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Print Bill">
-            <i data-lucide="printer" class="w-4 h-4 text-slate-500 shrink-0"></i>
+          <button type="button" onclick="openRestaurantShareModal()" class="inline-flex items-center justify-center gap-1 px-2 py-2 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-lg transition-colors cursor-pointer" title="Share Bill (Text, PNG, PDF)">
+            <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+            <span>Share</span>
+          </button>
+          <button type="button" onclick="printRestaurantBill()" class="inline-flex items-center justify-center gap-1 px-2 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg transition-colors cursor-pointer" title="Print Bill">
+            <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-500 shrink-0"></i>
             <span>Print</span>
           </button>
         </div>
@@ -1065,13 +1069,16 @@
 
       <!-- Unified, Perfectly Aligned Actions Section -->
       <div class="pt-4 border-t border-slate-200 space-y-3">
-        <!-- Main Print & Save Buttons (3-Button Grid) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <!-- Main Print & Save Buttons (4-Button Grid) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           <button type="button" onclick="downloadAsPDF()" class="w-full py-2.5 text-xs font-bold text-white bg-orange-600 hover:bg-orange-700 rounded-xl flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer">
             <i data-lucide="file-down" class="w-4 h-4"></i> Download PDF
           </button>
           <button type="button" onclick="downloadAsPNG()" class="w-full py-2.5 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer">
             <i data-lucide="image" class="w-4 h-4"></i> Save PNG
+          </button>
+          <button type="button" onclick="openRestaurantShareModal()" class="w-full py-2.5 text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer">
+            <i data-lucide="share-2" class="w-4 h-4 text-emerald-600"></i> Share Bill
           </button>
           <button type="button" onclick="printRestaurantBill()" class="w-full py-2.5 text-xs font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer">
             <i data-lucide="printer" class="w-4 h-4"></i> Print
@@ -2068,15 +2075,12 @@
       return ext ? `${base}.${ext.replace(/^\./, '')}` : base;
     }
 
-    async function downloadAsPDF() {
+    async function renderRestaurantCanvas() {
       const card = document.getElementById('food-bill-preview');
-      if (!card) return;
+      if (!card) throw new Error('Restaurant preview container not found');
 
-      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
-      const originalText = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating PDF...</span>`;
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
       }
 
       const colPreview = document.getElementById('col-preview');
@@ -2134,37 +2138,86 @@
             }
           }
         });
-
-        const imgData = canvas.toDataURL('image/png');
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        
-        // Print 80mm thermal slip width centered on A4
-        const slipWidthMm = 90;
-        const slipHeightMm = (canvas.height * slipWidthMm) / canvas.width;
-        const xOffset = (pdfWidth - slipWidthMm) / 2;
-        
-        if (slipHeightMm <= pdfHeight - 20) {
-          pdf.addImage(imgData, 'PNG', xOffset, 12, slipWidthMm, slipHeightMm, undefined, 'FAST');
-        } else {
-          const scaleFactor = (pdfHeight - 20) / slipHeightMm;
-          pdf.addImage(imgData, 'PNG', (pdfWidth - (slipWidthMm * scaleFactor)) / 2, 10, slipWidthMm * scaleFactor, slipHeightMm * scaleFactor, undefined, 'FAST');
+        return canvas;
+      } finally {
+        if (wasHidden && colPreview) {
+          colPreview.classList.add('hidden');
+          colPreview.style.display = '';
         }
+      }
+    }
 
+    async function getRestaurantPNGBlob() {
+      const canvas = await renderRestaurantCanvas();
+      return new Promise((resolve, reject) => {
+        if (canvas.toBlob) {
+          canvas.toBlob(blob => {
+            if (blob) resolve(blob);
+            else reject(new Error('Canvas toBlob failed'));
+          }, 'image/png');
+        } else {
+          try {
+            const dataUrl = canvas.toDataURL('image/png');
+            const binStr = atob(dataUrl.split(',')[1]);
+            const len = binStr.length;
+            const arr = new Uint8Array(len);
+            for (let i = 0; i < len; i++) arr[i] = binStr.charCodeAt(i);
+            resolve(new Blob([arr], { type: 'image/png' }));
+          } catch(e) { reject(e); }
+        }
+      });
+    }
+
+    async function getRestaurantPDFBlob() {
+      const canvas = await renderRestaurantCanvas();
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      const slipWidthMm = 90;
+      const slipHeightMm = (canvas.height * slipWidthMm) / canvas.width;
+      const xOffset = (pdfWidth - slipWidthMm) / 2;
+      
+      if (slipHeightMm <= pdfHeight - 20) {
+        pdf.addImage(imgData, 'PNG', xOffset, 12, slipWidthMm, slipHeightMm, undefined, 'FAST');
+      } else {
+        const scaleFactor = (pdfHeight - 20) / slipHeightMm;
+        pdf.addImage(imgData, 'PNG', (pdfWidth - (slipWidthMm * scaleFactor)) / 2, 10, slipWidthMm * scaleFactor, slipHeightMm * scaleFactor, undefined, 'FAST');
+      }
+
+      return pdf.output('blob');
+    }
+
+    async function downloadAsPDF() {
+      const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
+      const originalText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating PDF...</span>`;
+      }
+
+      try {
+        const blob = await getRestaurantPDFBlob();
         const filename = getRestaurantCombinedFilename('pdf');
-        pdf.save(filename);
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = url;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }, 1500);
+
         showDownloadToast('Restaurant Slip PDF downloaded successfully!');
       } catch (err) {
         console.error('PDF error:', err);
         showDownloadToast('Notice: Opening Print view for PDF...');
         setTimeout(() => { window.print(); }, 400);
       } finally {
-        if (wasHidden && colPreview) {
-          colPreview.classList.add('hidden');
-          colPreview.style.display = '';
-        }
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = originalText;
@@ -2174,9 +2227,6 @@
     }
 
     async function downloadAsPNG() {
-      const card = document.getElementById('food-bill-preview');
-      if (!card) return;
-
       const btn = (typeof event !== 'undefined' && event) ? (event.currentTarget || event.target) : null;
       const originalText = btn ? btn.innerHTML : '';
       if (btn) {
@@ -2184,76 +2234,19 @@
         btn.innerHTML = `<span class="inline-flex items-center gap-1.5"><svg class="animate-spin h-3.5 w-3.5 text-current inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> Generating...</span>`;
       }
 
-      // Mobile Visibility Fix: if parent col-preview is hidden under edit tab, temporarily unhide it
-      const colPreview = document.getElementById('col-preview');
-      const wasHidden = colPreview && (colPreview.classList.contains('hidden') || window.getComputedStyle(colPreview).display === 'none');
-      if (wasHidden) {
-        colPreview.classList.remove('hidden');
-        colPreview.style.display = 'flex';
-        void colPreview.offsetHeight;
-      }
-
       try {
-        if (document.fonts && document.fonts.ready) {
-          try { await document.fonts.ready; } catch(e) {}
-        }
-
-        const canvas = await html2canvas(card, {
-          scale: 3,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          logging: false,
-          onclone: (clonedDoc) => {
-            const clonedCard = clonedDoc.getElementById('food-bill-preview');
-            if (clonedCard) {
-              clonedCard.style.setProperty('box-shadow', 'none', 'important');
-              clonedCard.style.setProperty('outline', 'none', 'important');
-              clonedCard.style.transform = 'none';
-              const targetW = currentRestaurantFormat === 'finedine' ? '560px' : (currentRestaurantFormat === 'fastfood' ? '460px' : '400px');
-              clonedCard.style.width = targetW;
-              clonedCard.style.maxWidth = targetW;
-            }
-            const origQr = document.getElementById('cafe-qr');
-            const cloneQr = clonedDoc.getElementById('cafe-qr');
-            if (origQr && cloneQr) {
-              const origCanvas = origQr.querySelector('canvas');
-              if (origCanvas) {
-                cloneQr.innerHTML = '';
-                const newCvs = clonedDoc.createElement('canvas');
-                newCvs.width = origCanvas.width;
-                newCvs.height = origCanvas.height;
-                const ctx = newCvs.getContext('2d');
-                ctx.drawImage(origCanvas, 0, 0);
-                newCvs.style.display = 'block';
-                cloneQr.appendChild(newCvs);
-              }
-            }
-          }
-        });
-
+        const blob = await getRestaurantPNGBlob();
         const filename = getRestaurantCombinedFilename('png');
-
-        if (canvas.toBlob) {
-          canvas.toBlob(blob => {
-            if (blob) {
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.download = filename;
-              a.href = url;
-              document.body.appendChild(a);
-              a.click();
-              setTimeout(() => {
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-              }, 1500);
-            } else {
-              fallbackDataURL(canvas, filename);
-            }
-          }, 'image/png');
-        } else {
-          fallbackDataURL(canvas, filename);
-        }
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.download = filename;
+        a.href = url;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 1500);
 
         showDownloadToast('Restaurant Food Slip PNG downloaded successfully!');
       } catch (err) {
@@ -2261,10 +2254,6 @@
         showDownloadToast('Notice: Opening Print/PDF view...');
         setTimeout(() => { window.print(); }, 400);
       } finally {
-        if (wasHidden && colPreview) {
-          colPreview.classList.add('hidden');
-          colPreview.style.display = '';
-        }
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = originalText;
@@ -2272,6 +2261,54 @@
         }
       }
     }
+
+    function openRestaurantShareModal() {
+      const shop = document.getElementById('cafe-name')?.value || document.getElementById('prev-c-name')?.innerText || 'Restaurant';
+      const table = document.getElementById('table-no')?.value || document.getElementById('prev-c-table')?.innerText || '';
+      const cust = document.getElementById('cust-name')?.value || document.getElementById('prev-c-cust-name')?.innerText || '';
+      const bill = document.getElementById('prev-c-kot')?.innerText || document.getElementById('prev-fd-check')?.innerText || 'Order';
+      const total = document.getElementById('prev-f-total')?.innerText || '₹0.00';
+      const upi = document.getElementById('cafe-upi')?.value || document.getElementById('prev-c-upi')?.innerText || '';
+      const gstin = document.getElementById('cafe-gstin')?.value || '';
+      const status = document.getElementById('cafe-status')?.value || 'pending';
+
+      let message = `*RESTAURANT / CAFE BILL (SLIP)*\n` +
+        `*Place:* ${shop}\n` +
+        (gstin ? `*GSTIN:* ${gstin}\n` : '') +
+        (table ? `*Table/Order:* ${table}\n` : '') +
+        (cust ? `*Customer:* ${cust}\n` : '') +
+        `*Bill Ref:* ${bill}\n` +
+        `*Total Amount:* ${total}\n` +
+        `*Status:* ${status === 'paid' ? 'PAID / SETTLED' : 'PAYMENT PENDING'}\n\n`;
+
+      if (status !== 'paid' && upi) {
+        const amtClean = total.replace(/[^0-9.]/g, '');
+        const upiLink = `upi://pay?pa=${encodeURIComponent(upi)}&pn=${encodeURIComponent(shop)}&am=${encodeURIComponent(amtClean)}&cu=INR&tn=${encodeURIComponent('Bill ' + bill)}`;
+        message += `*Pay Online via UPI (Pre-filled):*\n` +
+          `${upiLink}\n\n` +
+          `Or scan the QR code on your bill slip. Payee UPI ID: *${upi}*\n`;
+      } else if (status === 'paid') {
+        message += `Thank you for dining with us! Visit again soon.\n`;
+      } else {
+        message += `Thank you for your visit! Have a wonderful day.\n`;
+      }
+
+      message += `_Generated via upibillmaker.com_`;
+
+      if (window.openBillShareModal) {
+        window.openBillShareModal({
+          title: `Restaurant Bill (${bill})`,
+          filename: getRestaurantCombinedFilename('pdf').replace(/\.pdf$/i, ''),
+          customerPhone: '',
+          text: message,
+          onGetPNGBlob: getRestaurantPNGBlob,
+          onGetPDFBlob: getRestaurantPDFBlob,
+          onDownloadPNG: downloadAsPNG,
+          onDownloadPDF: downloadAsPDF
+        });
+      }
+    }
+    window.openRestaurantShareModal = openRestaurantShareModal;
 
     function fallbackDataURL(canvas, filename) {
       const a = document.createElement('a');
