@@ -1292,30 +1292,13 @@
             <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-blue-600 flex-shrink-0"></i>
             <span class="truncate">Tuition Fee</span>
           </button>
-          <button type="button" id="tab-tpl-custom" onclick="openCustomTemplateBuilder()" class="tpl-btn col-span-3 sm:col-span-1 py-2 px-1 sm:px-2 rounded-xl border transition-all bg-gradient-to-r from-purple-50 to-indigo-50 text-purple-700 border-purple-300 hover:border-purple-400 hover:from-purple-100 hover:to-indigo-100 cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 text-center text-[11px] sm:text-xs font-bold shadow-2xs">
-            <i data-lucide="palette" class="w-3.5 h-3.5 text-purple-600 flex-shrink-0"></i>
-            <span class="truncate">✨ Custom Template</span>
-          </button>
         </div>
 
-        <!-- ✨ Create Your Own Custom Template Strip -->
-        <div class="mt-2.5 p-2.5 sm:p-3 rounded-2xl bg-gradient-to-r from-purple-50 via-indigo-50 to-emerald-50 border border-purple-200/90 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-8 h-8 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-600/20">
-              <i data-lucide="palette" class="w-4 h-4"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="flex items-center gap-1.5 flex-wrap">
-                <span class="font-heading font-bold text-xs sm:text-sm text-slate-900">अपना खुद का टेम्पलेट बनाएं (Create Own Template)</span>
-                <span class="text-[9.5px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-purple-600 text-white tracking-wider">
-                  New
-                </span>
-              </div>
-              <p class="text-[11px] text-slate-600 truncate">दुकान के अनुसार मनपसंद कॉलम (IMEI/Batch/Size), रंग, शीर्षक और लेआउट कस्टमाइज़ करें</p>
-            </div>
-          </div>
-          <button type="button" onclick="openCustomTemplateBuilder()" class="w-full sm:w-auto px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer">
-            <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+        <!-- Compact Sub-bar with Custom Template Trigger -->
+        <div class="mt-2 flex items-center justify-between px-1 text-xs text-slate-500">
+          <span class="text-[11px] sm:text-xs">6 रेडीमेड टेम्पलेट्स या मनपसंद डिज़ाइन करें:</span>
+          <button type="button" onclick="openCustomTemplateBuilder()" class="inline-flex items-center gap-1.5 text-purple-700 hover:text-purple-900 font-bold cursor-pointer text-[11px] sm:text-xs bg-purple-50 hover:bg-purple-100 px-2.5 py-1 rounded-lg border border-purple-200 shadow-2xs transition-all">
+            <i data-lucide="palette" class="w-3.5 h-3.5 text-purple-600"></i>
             <span>कस्टम टेम्पलेट बनाएं</span>
           </button>
         </div>
@@ -2370,6 +2353,28 @@
               <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600 shrink-0"></i>
               <span><strong>100% LocalStorage Privacy:</strong> आपका डेटा किसी सर्वर पर कभी नहीं जाता। सब कुछ केवल आपके फ़ोन या कंप्यूटर के ब्राउज़र में सुरक्षित रहता है।</span>
             </div>
+
+            <!-- ✨ अपना खुद का टेम्पलेट बनाएं (Create Own Template) Banner at Bottom -->
+            <div id="card-custom-template-banner" class="mt-2 p-3.5 sm:p-5 rounded-2xl bg-gradient-to-r from-purple-50 via-indigo-50 to-emerald-50 border border-purple-200/90 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-600/20">
+                  <i data-lucide="palette" class="w-5 h-5"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="font-heading font-bold text-sm sm:text-base text-slate-900">अपना खुद का टेम्पलेट बनाएं (Create Own Template)</span>
+                    <span class="text-[9.5px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-purple-600 text-white tracking-wider">
+                      NEW
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-600 mt-0.5">दुकान के अनुसार मनपसंद फॉर्मेट (A4/Cash Memo/Thermal), कॉलम (IMEI/Batch/Size), रंग, शीर्षक और लेआउट कस्टमाइज़ करें</p>
+                </div>
+              </div>
+              <button type="button" onclick="openCustomTemplateBuilder()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs shadow-md shadow-purple-600/20 transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer">
+                <i data-lucide="sliders" class="w-4 h-4"></i>
+                <span>कस्टम टेम्पलेट बनाएं</span>
+              </button>
+            </div>
           </div>
 
         </form>
@@ -3161,9 +3166,48 @@
       <!-- Modal Body (Scrollable) -->
       <div class="overflow-y-auto space-y-4 pr-1 flex-1 text-xs text-slate-700">
         
-        <!-- 1. Bill Title & Subtitle -->
+        <!-- 1. Bill Layout & Format -->
+        <div class="space-y-2.5 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200">
+          <div class="flex items-center justify-between">
+            <label class="block font-bold text-slate-900 text-xs">1. बिल का लेआउट व फॉर्मेट (Invoice Layout &amp; Format)</label>
+            <span class="text-[10px] text-purple-700 bg-purple-50 px-2 py-0.5 rounded font-bold border border-purple-200">Select Style</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button type="button" onclick="setCustFormat('format-shop-a4')" id="btn-cust-fmt-a4" class="cust-fmt-card p-2.5 rounded-xl border-2 border-purple-600 bg-purple-50/50 text-left cursor-pointer transition-all">
+              <div class="flex items-center gap-1.5 font-bold text-xs text-slate-900 mb-0.5">
+                <i data-lucide="file-text" class="w-3.5 h-3.5 text-purple-600 shrink-0"></i>
+                <span class="truncate">A4 Tax Invoice</span>
+              </div>
+              <p class="text-[10px] text-slate-500 leading-tight">स्टैंडर्ड GST बिल (Full B2B/B2C)</p>
+            </button>
+            <button type="button" onclick="setCustFormat('format-shop-counter')" id="btn-cust-fmt-counter" class="cust-fmt-card p-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-left cursor-pointer transition-all">
+              <div class="flex items-center gap-1.5 font-bold text-xs text-slate-900 mb-0.5">
+                <i data-lucide="receipt" class="w-3.5 h-3.5 text-slate-600 shrink-0"></i>
+                <span class="truncate">Retail Cash Memo</span>
+              </div>
+              <p class="text-[10px] text-slate-500 leading-tight">काउंटर कच्चा व पक्का बिल</p>
+            </button>
+            <button type="button" onclick="setCustFormat('format-shop-corporate')" id="btn-cust-fmt-corporate" class="cust-fmt-card p-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-left cursor-pointer transition-all">
+              <div class="flex items-center gap-1.5 font-bold text-xs text-slate-900 mb-0.5">
+                <i data-lucide="building" class="w-3.5 h-3.5 text-slate-600 shrink-0"></i>
+                <span class="truncate">Corporate Trade</span>
+              </div>
+              <p class="text-[10px] text-slate-500 leading-tight">सप्लाई व ट्रांसपोर्ट इनवॉइस</p>
+            </button>
+            <button type="button" onclick="setCustFormat('format-rest-thermal')" id="btn-cust-fmt-thermal" class="cust-fmt-card p-2.5 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-left cursor-pointer transition-all">
+              <div class="flex items-center gap-1.5 font-bold text-xs text-slate-900 mb-0.5">
+                <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-600 shrink-0"></i>
+                <span class="truncate">Thermal Slip</span>
+              </div>
+              <p class="text-[10px] text-slate-500 leading-tight">POS 58mm / 80mm रसीद</p>
+            </button>
+          </div>
+          <input type="hidden" id="cust-tpl-format-val" value="format-shop-a4">
+        </div>
+
+        <!-- 2. Bill Title & Subtitle -->
         <div class="space-y-2 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200">
-          <label class="block font-bold text-slate-900 text-xs">1. बिल का शीर्षक (Document Title)</label>
+          <label class="block font-bold text-slate-900 text-xs">2. बिल का शीर्षक (Document Title)</label>
           <div class="flex items-center gap-2">
             <input type="text" id="cust-tpl-title" placeholder="e.g. TAX INVOICE, ESTIMATE, CASH MEMO" value="TAX INVOICE"
                    class="flex-1 text-sm font-bold uppercase tracking-wider px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500">
@@ -3174,6 +3218,7 @@
             <button type="button" onclick="setCustTplTitle('TAX INVOICE', '(Issued under Section 31 of CGST Act, 2017 • Original for Recipient)')" class="px-2 py-0.5 rounded-md bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 font-semibold transition-colors cursor-pointer">Tax Invoice</button>
             <button type="button" onclick="setCustTplTitle('CASH MEMO', '(Retail Counter Cash Sales Memo)')" class="px-2 py-0.5 rounded-md bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 font-semibold transition-colors cursor-pointer">Cash Memo</button>
             <button type="button" onclick="setCustTplTitle('ESTIMATE / QUOTATION', '(Non-GST Commercial Estimation Memo • For Review)')" class="px-2 py-0.5 rounded-md bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 font-semibold transition-colors cursor-pointer">Estimate</button>
+            <button type="button" onclick="setCustTplTitle('BILL OF SUPPLY', '(Composition Taxable Person • Not Eligible to Collect Tax)')" class="px-2 py-0.5 rounded-md bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 font-semibold transition-colors cursor-pointer">Bill of Supply</button>
             <button type="button" onclick="setCustTplTitle('DELIVERY CHALLAN', '(Goods Supply & Dispatch Delivery Challan)')" class="px-2 py-0.5 rounded-md bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 font-semibold transition-colors cursor-pointer">Challan</button>
             <button type="button" onclick="setCustTplTitle('PROFORMA INVOICE', '(Preliminary Bill of Sale In Advance of Delivery)')" class="px-2 py-0.5 rounded-md bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 font-semibold transition-colors cursor-pointer">Proforma</button>
           </div>
@@ -3184,9 +3229,9 @@
           </div>
         </div>
 
-        <!-- 2. Accent Color Theme -->
+        <!-- 3. Accent Color Theme -->
         <div class="space-y-2 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200">
-          <label class="block font-bold text-slate-900 text-xs">2. कलर थीम (Brand Accent Color)</label>
+          <label class="block font-bold text-slate-900 text-xs">3. कलर थीम (Brand Accent Color)</label>
           <div class="grid grid-cols-4 sm:grid-cols-7 gap-2 text-[11px]">
             <button type="button" onclick="setCustThemeColor('#7c3aed', 'Royal Purple')" class="cust-color-btn p-2 rounded-xl border-2 border-purple-600 bg-white flex flex-col items-center gap-1 cursor-pointer transition-all">
               <span class="w-6 h-6 rounded-full bg-purple-600 shadow-2xs"></span>
@@ -3220,10 +3265,10 @@
           <input type="hidden" id="cust-tpl-color-val" value="#7c3aed">
         </div>
 
-        <!-- 3. Table Column Headers & Custom Naming -->
+        <!-- 4. Table Column Headers & Custom Naming -->
         <div class="space-y-2 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200">
-          <label class="block font-bold text-slate-900 text-xs">3. टेबल कॉलम और नाम (Table Columns &amp; Custom Header)</label>
-          <p class="text-[11px] text-slate-500">कॉलम चालू या बंद करें और HSN की जगह अपने बिज़नेस का नाम (Batch, IMEI, Size) लिखें:</p>
+          <label class="block font-bold text-slate-900 text-xs">4. टेबल कॉलम और नाम (Table Columns &amp; Custom Header)</label>
+          <p class="text-[11px] text-slate-500">कॉलम चालू या बंद करें और अपने बिज़नेस अनुसार कॉलम का नाम लिखें:</p>
           
           <div class="space-y-2 pt-1">
             <div class="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-200">
@@ -3232,6 +3277,29 @@
                 <span>Column 1: क्रम संख्या (S.No)</span>
               </label>
               <span class="text-[10px] text-slate-400">#</span>
+            </div>
+
+            <!-- Custom Column 2: Item Description Name -->
+            <div class="p-2.5 rounded-lg bg-white border border-slate-200 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label class="font-bold text-xs text-slate-800">
+                  Column 2: मुख्य आइटम का नाम (Item Description Header)
+                </label>
+                <span class="text-[10px] text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded font-bold border border-purple-200">Customizable</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="text" id="cust-col-desc-name" value="Description of Goods / Services" placeholder="e.g. Description of Goods, Medicine Name, Course Name, Particulars"
+                       class="flex-1 text-xs font-bold px-2.5 py-1.5 bg-slate-50 rounded-lg border border-slate-300 focus:bg-white focus:ring-2 focus:ring-purple-500">
+              </div>
+              <!-- Quick Chips -->
+              <div class="flex flex-wrap items-center gap-1 text-[10px]">
+                <span class="text-slate-400">1-क्लिक नाम:</span>
+                <button type="button" onclick="document.getElementById('cust-col-desc-name').value='Description of Goods / Services'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Goods/Services</button>
+                <button type="button" onclick="document.getElementById('cust-col-desc-name').value='Item Description / Particulars'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Particulars</button>
+                <button type="button" onclick="document.getElementById('cust-col-desc-name').value='Medicine Name & Composition'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Medicine Name</button>
+                <button type="button" onclick="document.getElementById('cust-col-desc-name').value='Course / Subject Name'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Course/Subject</button>
+                <button type="button" onclick="document.getElementById('cust-col-desc-name').value='Room / Accommodation Details'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Room Details</button>
+              </div>
             </div>
 
             <!-- Custom 3rd Column: Rename HSN/SAC -->
@@ -3255,7 +3323,8 @@
                 <button type="button" onclick="document.getElementById('cust-col-hsn-name').value='Batch No'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Batch No</button>
                 <button type="button" onclick="document.getElementById('cust-col-hsn-name').value='IMEI No'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">IMEI No</button>
                 <button type="button" onclick="document.getElementById('cust-col-hsn-name').value='Size / Color'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Size/Color</button>
-                <button type="button" onclick="document.getElementById('cust-col-hsn-name').value='Item Code'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Item Code</button>
+                <button type="button" onclick="document.getElementById('cust-col-hsn-name').value='Item Code / SKU'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Item Code</button>
+                <button type="button" onclick="document.getElementById('cust-col-hsn-name').value='Vehicle / Model No'" class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 cursor-pointer">Model/Vehicle</button>
               </div>
             </div>
 
@@ -3277,9 +3346,9 @@
           </div>
         </div>
 
-        <!-- 4. Section Visibility Toggles -->
+        <!-- 5. Section Visibility Toggles -->
         <div class="space-y-2 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200">
-          <label class="block font-bold text-slate-900 text-xs">4. बिल सेक्शन्स (Sections ON/OFF)</label>
+          <label class="block font-bold text-slate-900 text-xs">5. बिल सेक्शन्स (Sections ON/OFF)</label>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <label class="flex items-center gap-2 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer font-semibold text-xs">
               <input type="checkbox" id="cust-sec-qr" checked class="w-4 h-4 rounded text-purple-600">
@@ -3297,6 +3366,22 @@
               <input type="checkbox" id="cust-sec-tax" checked class="w-4 h-4 rounded text-purple-600">
               <span>Tax Breakdown (CGST/SGST)</span>
             </label>
+          </div>
+        </div>
+
+        <!-- 6. Terms & Conditions Customizer -->
+        <div class="space-y-2 bg-slate-50 p-3 sm:p-3.5 rounded-xl border border-slate-200">
+          <label class="block font-bold text-slate-900 text-xs">6. नियम व शर्तें (Terms &amp; Conditions / Return Policy)</label>
+          <textarea id="cust-tpl-terms" rows="2" placeholder="e.g. 1. Goods once sold will not be returned. 2. Interest @18% p.a. charged after 15 days."
+                    class="w-full text-xs px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-purple-500">1. Goods once sold will not be taken back or exchanged.
+2. Interest @18% p.a. will be charged if payment is not cleared within 15 days.</textarea>
+          <!-- Terms Quick Presets -->
+          <div class="flex flex-wrap items-center gap-1.5 text-[10px]">
+            <span class="text-slate-400">Preset Terms:</span>
+            <button type="button" onclick="setCustTermsPreset('retail')" class="px-2 py-0.5 rounded bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 cursor-pointer">Retail/Shop</button>
+            <button type="button" onclick="setCustTermsPreset('pharma')" class="px-2 py-0.5 rounded bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 cursor-pointer">Pharma/Medical</button>
+            <button type="button" onclick="setCustTermsPreset('service')" class="px-2 py-0.5 rounded bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 cursor-pointer">Service/IT</button>
+            <button type="button" onclick="setCustTermsPreset('warranty')" class="px-2 py-0.5 rounded bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 cursor-pointer">Electronics Warranty</button>
           </div>
         </div>
 
@@ -6095,6 +6180,56 @@
       if (modal) modal.classList.add('hidden');
     }
 
+    function setCustFormat(fmt) {
+      const input = document.getElementById('cust-tpl-format-val');
+      if (input) input.value = fmt;
+
+      document.querySelectorAll('.cust-fmt-card').forEach(c => {
+        c.classList.remove('border-2', 'border-purple-600', 'bg-purple-50/50');
+        c.classList.add('border-slate-200', 'bg-white');
+      });
+      const activeBtnId = {
+        'format-shop-a4': 'btn-cust-fmt-a4',
+        'format-shop-counter': 'btn-cust-fmt-counter',
+        'format-shop-corporate': 'btn-cust-fmt-corporate',
+        'format-rest-thermal': 'btn-cust-fmt-thermal'
+      }[fmt] || 'btn-cust-fmt-a4';
+
+      const activeBtn = document.getElementById(activeBtnId);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-slate-200', 'bg-white');
+        activeBtn.classList.add('border-2', 'border-purple-600', 'bg-purple-50/50');
+      }
+
+      // Auto-suggest contextual title if title matches one of the standard defaults
+      const titleInput = document.getElementById('cust-tpl-title');
+      if (titleInput && (!titleInput.value || ['TAX INVOICE', 'RETAIL CASH MEMO', 'COMMERCIAL TRADE INVOICE', 'CASH RECEIPT'].includes(titleInput.value.trim()))) {
+        if (fmt === 'format-shop-counter') {
+          setCustTplTitle('RETAIL CASH MEMO', '(Retail Counter Cash Sales Memo)');
+        } else if (fmt === 'format-shop-corporate') {
+          setCustTplTitle('COMMERCIAL TRADE INVOICE', '(Corporate B2B Trade & Goods Supply Invoice • Triplicate Copy)');
+        } else if (fmt === 'format-rest-thermal') {
+          setCustTplTitle('CASH RECEIPT', '(Express Thermal Counter Slip)');
+        } else {
+          setCustTplTitle('TAX INVOICE', '(Issued under Section 31 of CGST Act, 2017 • Original for Recipient)');
+        }
+      }
+    }
+
+    function setCustTermsPreset(type) {
+      const t = document.getElementById('cust-tpl-terms');
+      if (!t) return;
+      if (type === 'retail') {
+        t.value = "1. Goods once sold will not be taken back or exchanged.\n2. Payment strictly upon bill presentation.\n3. All disputes subject to local jurisdiction.";
+      } else if (type === 'pharma') {
+        t.value = "1. Medicines once sold cannot be returned without original batch verification.\n2. Schedule H/H1 drugs supplied only against valid registered practitioner's prescription.\n3. Retain bill for manufacturer warranty.";
+      } else if (type === 'service') {
+        t.value = "1. Payment terms: 50% advance, balance on milestone completion.\n2. Intellectual property passes upon full payment settlement.\n3. Late payment interest @18% p.a.";
+      } else if (type === 'warranty') {
+        t.value = "1. Warranty covers manufacturing defects as per brand policy only.\n2. Physical damage or water ingress voids warranty.\n3. Please keep this invoice and original box safe for warranty claims.";
+      }
+    }
+
     function setCustTplTitle(title, sub) {
       const t = document.getElementById('cust-tpl-title');
       const s = document.getElementById('cust-tpl-subtitle');
@@ -6123,13 +6258,16 @@
         const saved = localStorage.getItem('upibill_custom_template');
         if (saved) {
           const config = JSON.parse(saved);
+          if (config.format) setCustFormat(config.format);
           if (config.title && document.getElementById('cust-tpl-title')) document.getElementById('cust-tpl-title').value = config.title;
           if (config.subtitle !== undefined && document.getElementById('cust-tpl-subtitle')) document.getElementById('cust-tpl-subtitle').value = config.subtitle;
           if (config.color && document.getElementById('cust-tpl-color-val')) {
             document.getElementById('cust-tpl-color-val').value = config.color;
             if (document.getElementById('cust-custom-color')) document.getElementById('cust-custom-color').value = config.color;
           }
+          if (config.descName && document.getElementById('cust-col-desc-name')) document.getElementById('cust-col-desc-name').value = config.descName;
           if (config.hsnName && document.getElementById('cust-col-hsn-name')) document.getElementById('cust-col-hsn-name').value = config.hsnName;
+          if (config.terms !== undefined && document.getElementById('cust-tpl-terms')) document.getElementById('cust-tpl-terms').value = config.terms;
           if (config.showSno !== undefined && document.getElementById('cust-col-sno')) document.getElementById('cust-col-sno').checked = config.showSno;
           if (config.showHsn !== undefined && document.getElementById('cust-col-hsn')) document.getElementById('cust-col-hsn').checked = config.showHsn;
           if (config.showQty !== undefined && document.getElementById('cust-col-qty')) document.getElementById('cust-col-qty').checked = config.showQty;
@@ -6144,10 +6282,13 @@
 
     function saveAndApplyCustomTemplate() {
       const config = {
+        format: document.getElementById('cust-tpl-format-val')?.value || 'format-shop-a4',
         title: document.getElementById('cust-tpl-title')?.value.trim() || 'TAX INVOICE',
         subtitle: document.getElementById('cust-tpl-subtitle')?.value.trim() || '',
         color: document.getElementById('cust-tpl-color-val')?.value || '#7c3aed',
+        descName: document.getElementById('cust-col-desc-name')?.value.trim() || 'Description of Goods / Services',
         hsnName: document.getElementById('cust-col-hsn-name')?.value.trim() || 'HSN/SAC',
+        terms: document.getElementById('cust-tpl-terms')?.value.trim() || '',
         showSno: document.getElementById('cust-col-sno')?.checked !== false,
         showHsn: document.getElementById('cust-col-hsn')?.checked !== false,
         showQty: document.getElementById('cust-col-qty')?.checked !== false,
@@ -6174,7 +6315,12 @@
     function applyCustomTemplateToInvoice(config) {
       currentTemplate = 'custom';
 
-      // 1. Title & Subtitle
+      // 1. Format / Layout
+      if (config.format && typeof setInvoiceFormat === 'function') {
+        setInvoiceFormat(config.format);
+      }
+
+      // 2. Title & Subtitle
       const docTypeBadge = document.getElementById('prev-doc-type');
       if (docTypeBadge) {
         docTypeBadge.innerText = config.title;
@@ -6185,50 +6331,61 @@
         subtitleEl.innerText = config.subtitle;
       }
 
-      // 2. Accent Color for Table Headers
+      // 3. Accent Color for Table Headers & Borders
       const thead = document.querySelector('#invoice-preview-container thead tr');
       if (thead) {
         thead.style.background = config.color;
         thead.style.color = '#ffffff';
       }
 
-      // 3. Custom 3rd Column Name
+      // 4. Custom Column Names
       const thHsnSpan = document.querySelector('#th-hsn span');
       if (thHsnSpan) {
         thHsnSpan.innerText = config.hsnName || 'HSN/SAC';
       }
+      const thDesc = document.getElementById('th-desc');
+      if (thDesc && config.descName) {
+        thDesc.innerText = config.descName;
+      }
 
-      // 4. Columns Visibility
+      // 5. Terms & Conditions
+      if (config.terms !== undefined && config.terms !== '') {
+        const termsInput = document.getElementById('invoice-terms');
+        if (termsInput) termsInput.value = config.terms;
+        const prevTerms = document.getElementById('prev-terms');
+        if (prevTerms) prevTerms.innerText = config.terms;
+      }
+
+      // 6. Columns Visibility
       if (typeof toggleBillSection === 'function') {
         toggleBillSection('col-sno', config.showSno);
         toggleBillSection('col-hsn', config.showHsn);
         toggleBillSection('col-qty', config.showQty);
         toggleBillSection('col-rate', config.showRate);
 
-        // 5. Sections Visibility
+        // Sections Visibility
         toggleBillSection('upi-qr', config.showQr);
         toggleBillSection('terms-block', config.showTerms);
         toggleBillSection('signatory-block', config.showSign);
         toggleBillSection('tax-breakdown', config.showTax);
       }
 
-      // 6. Highlight Custom Tab in Template Bar
+      // 7. Update tab bar styling
       ['shop', 'medical', 'restaurant', 'hotel', 'rent', 'tuition'].forEach(t => {
         const btn = document.getElementById(`tab-tpl-${t}`);
         if (btn) btn.className = 'tpl-btn w-full py-2 px-1 sm:px-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 text-center text-[11px] sm:text-xs bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50 font-semibold';
       });
-      const custBtn = document.getElementById('tab-tpl-custom');
-      if (custBtn) {
-        custBtn.className = 'tpl-btn col-span-3 sm:col-span-1 py-2 px-1 sm:px-2 rounded-xl border transition-all cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 text-center text-[11px] sm:text-xs text-white bg-purple-600 border-purple-700 shadow-md font-bold';
-      }
 
       if (typeof updateInvoice === 'function') updateInvoice();
     }
 
     function resetCustomTemplate() {
+      setCustFormat('format-shop-a4');
       setCustTplTitle('TAX INVOICE', '(Issued under Section 31 of CGST Act, 2017 • Original for Recipient)');
       setCustThemeColor('#7c3aed', 'Royal Purple');
+      if (document.getElementById('cust-col-desc-name')) document.getElementById('cust-col-desc-name').value = 'Description of Goods / Services';
       if (document.getElementById('cust-col-hsn-name')) document.getElementById('cust-col-hsn-name').value = 'HSN/SAC';
+      if (document.getElementById('cust-tpl-terms')) document.getElementById('cust-tpl-terms').value = '1. Goods once sold will not be taken back or exchanged.\n2. Interest @18% p.a. will be charged if payment is not cleared within 15 days.';
       if (document.getElementById('cust-col-sno')) document.getElementById('cust-col-sno').checked = true;
       if (document.getElementById('cust-col-hsn')) document.getElementById('cust-col-hsn').checked = true;
       if (document.getElementById('cust-col-qty')) document.getElementById('cust-col-qty').checked = true;

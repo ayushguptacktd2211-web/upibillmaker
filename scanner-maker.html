@@ -134,6 +134,44 @@
         page-break-inside: avoid !important;
       }
     }
+
+    /* Standee Custom Formats */
+    #standee-print-card.standee-fmt-sticker {
+      max-width: 340px !important;
+      border-radius: 1.5rem !important;
+    }
+    #standee-print-card.standee-fmt-sticker #standee-header-bg {
+      padding: 1.25rem 1rem 1rem !important;
+    }
+    #standee-print-card.standee-fmt-sticker #card-logo-wrapper {
+      width: 3.25rem !important;
+      height: 3.25rem !important;
+      margin-bottom: 0.5rem !important;
+    }
+    #standee-print-card.standee-fmt-sticker #prev-shop-name {
+      font-size: 1.15rem !important;
+    }
+    #standee-print-card.standee-fmt-sticker .standee-body-box {
+      padding: 1.25rem 1rem !important;
+    }
+
+    #standee-print-card.standee-fmt-minimal {
+      border-width: 3px !important;
+    }
+    #standee-print-card.standee-fmt-minimal #standee-header-bg {
+      background: #ffffff !important;
+      color: #0f172a !important;
+      border-bottom: 2px solid #e2e8f0 !important;
+    }
+    #standee-print-card.standee-fmt-minimal #prev-shop-tagline {
+      color: #64748b !important;
+    }
+    #standee-print-card.standee-fmt-minimal .standee-badge-box {
+      background: #f1f5f9 !important;
+      color: #334155 !important;
+      border: 1px solid #cbd5e1 !important;
+    }
+
     body.input-is-focused #floating-view-btn {
       opacity: 0 !important;
       pointer-events: none !important;
@@ -362,8 +400,28 @@
       </div>
 
       
+      <!-- ✨ Custom Standee Template Quick Trigger -->
+      <div class="w-full bg-gradient-to-r from-purple-50 via-indigo-50 to-pink-50 rounded-2xl border border-purple-200 p-3 sm:p-3.5 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 no-print">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-xl bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-600/20">
+            <i data-lucide="palette" class="w-4 h-4"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="font-heading font-bold text-xs sm:text-sm text-slate-900">कस्टम स्टैंडी टेम्पलेट (Custom Standee Template)</span>
+              <span class="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-purple-600 text-white">NEW</span>
+            </div>
+            <p class="text-[11px] text-slate-600 truncate">3 लेआउट (काउंटर स्टैंडी, टेबल टेंट, स्टीकर), मनपसंद रंग व बैज कस्टमाइज़ करें</p>
+          </div>
+        </div>
+        <a href="#col-form" class="w-full sm:w-auto px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer">
+          <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+          <span>कस्टमाइज़ करें ↓</span>
+        </a>
+      </div>
+
       <!-- THE PRINTABLE STANDEE CARD (Exact Standee Dimensions & Layout) -->
-      <div id="standee-print-card" class="w-full max-w-md bg-white rounded-3xl border-4 border-purple-700 shadow-2xl overflow-hidden transition-all text-center relative">
+      <div id="standee-print-card" class="w-full max-w-md bg-white rounded-3xl border-4 border-purple-700 shadow-2xl overflow-hidden transition-all text-center relative standee-fmt-counter">
         
         <!-- Top Standee Header Banner -->
         <div id="standee-header-bg" class="bg-gradient-to-r from-purple-800 via-purple-700 to-indigo-800 text-white p-6 pb-7 relative">
@@ -381,17 +439,17 @@
           </p>
 
           <!-- NPCI Official Accepted Badge -->
-          <div class="mt-3 inline-flex items-center gap-2 bg-white/10 backdrop-blur-xs px-3.5 py-1 rounded-full border border-white/20 text-[11px] font-bold tracking-wider uppercase">
+          <div id="prev-standee-badge-wrap" class="standee-badge-box mt-3 inline-flex items-center gap-2 bg-white/10 backdrop-blur-xs px-3.5 py-1 rounded-full border border-white/20 text-[11px] font-bold tracking-wider uppercase">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            ALL UPI APPS ACCEPTED HERE
+            <span id="prev-standee-badge">ALL UPI APPS ACCEPTED HERE</span>
           </div>
         </div>
 
         <!-- Middle Card: The High-Resolution QR Block -->
-        <div class="p-6 sm:p-8 space-y-4 -mt-4 bg-white rounded-t-3xl relative z-10">
+        <div class="standee-body-box p-6 sm:p-8 space-y-4 -mt-4 bg-white rounded-t-3xl relative z-10">
           
           <!-- UPI App Logos Bar -->
-          <div class="flex items-center justify-center gap-2.5 pt-1">
+          <div id="prev-app-logos-bar" class="flex items-center justify-center gap-2.5 pt-1">
             <span class="text-[11px] font-bold bg-slate-100 border border-slate-200 text-slate-800 px-2.5 py-1 rounded-md shadow-2xs">GPay</span>
             <span class="text-[11px] font-bold bg-purple-50 border border-purple-200 text-purple-800 px-2.5 py-1 rounded-md shadow-2xs">PhonePe</span>
             <span class="text-[11px] font-bold bg-sky-50 border border-sky-200 text-sky-800 px-2.5 py-1 rounded-md shadow-2xs">Paytm</span>
@@ -410,7 +468,7 @@
           </div>
 
           <!-- Payee UPI Details -->
-          <div class="space-y-1">
+          <div id="prev-shop-upi-box" class="space-y-1">
             <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Direct Bank Settlement to:</span>
             <p id="prev-shop-upi" class="font-mono text-sm font-bold text-slate-900 bg-slate-50 border border-slate-200 py-1.5 px-3 rounded-lg inline-block">
               sharma@demobank
@@ -420,7 +478,7 @@
         </div>
 
         <!-- Bottom Standee Footer -->
-        <div class="bg-slate-50 p-4 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+        <div id="prev-standee-footer" class="bg-slate-50 p-4 border-t border-slate-200 flex items-center justify-between text-[11px] text-slate-500 font-medium">
           <div class="flex items-center gap-1">
             <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
             <span>Verified NPCI UPI Bharat QR</span>
@@ -443,18 +501,53 @@
     <div id="col-form" class="w-full bg-white p-3.5 sm:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6 no-print">
       
       <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-        <h2 class="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
-          <i data-lucide="sliders" class="w-4 h-4 text-purple-600"></i> Standee Customizer
-        </h2>
+        <div>
+          <h2 class="font-heading font-bold text-lg text-slate-900 flex items-center gap-2">
+            <i data-lucide="palette" class="w-5 h-5 text-purple-600"></i>
+            <span>Custom Standee Designer</span>
+          </h2>
+          <p class="text-xs text-slate-500">स्टैंडी का फॉर्मेट, रंग और टेक्स्ट अपनी पसंद से कस्टमाइज़ करें</p>
+        </div>
         <div class="flex items-center gap-2">
-          <button type="button" onclick="loadStandeeSampleData()" class="text-[11px] font-semibold text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 px-2 py-0.5 rounded border border-purple-200">Sample</button>
-          <button type="button" onclick="clearStandeeForm()" class="text-[11px] font-semibold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded border border-slate-300">Clear</button>
+          <button type="button" onclick="loadStandeeSampleData()" class="text-[11px] font-semibold text-purple-700 hover:text-purple-900 bg-purple-50 hover:bg-purple-100 px-2 py-0.5 rounded border border-purple-200 cursor-pointer">Sample</button>
+          <button type="button" onclick="clearStandeeForm()" class="text-[11px] font-semibold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-2 py-0.5 rounded border border-slate-300 cursor-pointer">Clear</button>
         </div>
       </div>
 
-      <!-- 1. Logo & Name -->
+      <!-- 1. Standee Layout / Format -->
       <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">1. Business Profile</span>
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">1. Standee Layout &amp; Format (टेम्पलेट फॉर्मेट)</span>
+          <span class="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">3 Formats</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          <button type="button" onclick="setStandeeFormat('standee-fmt-counter')" id="btn-standee-fmt-counter" class="standee-fmt-btn p-3 rounded-xl border-2 border-purple-600 bg-purple-50/50 text-left transition-all cursor-pointer">
+            <div class="flex items-center gap-2 font-bold text-xs text-slate-900 mb-1">
+              <i data-lucide="store" class="w-4 h-4 text-purple-600"></i>
+              <span>Classic Standee</span>
+            </div>
+            <p class="text-[11px] text-slate-500 leading-tight">काउंटर पर रखने हेतु स्टैंडर्ड ऐक्रेलिक स्टैंडी</p>
+          </button>
+          <button type="button" onclick="setStandeeFormat('standee-fmt-sticker')" id="btn-standee-fmt-sticker" class="standee-fmt-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-left transition-all cursor-pointer">
+            <div class="flex items-center gap-2 font-bold text-xs text-slate-900 mb-1">
+              <i data-lucide="tag" class="w-4 h-4 text-slate-600"></i>
+              <span>Table Tent / Sticker</span>
+            </div>
+            <p class="text-[11px] text-slate-500 leading-tight">टेबल, ग्लास डोर या ऑटो/टैक्सी कॉम्पैक्ट स्टीकर</p>
+          </button>
+          <button type="button" onclick="setStandeeFormat('standee-fmt-minimal')" id="btn-standee-fmt-minimal" class="standee-fmt-btn p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 text-left transition-all cursor-pointer">
+            <div class="flex items-center gap-2 font-bold text-xs text-slate-900 mb-1">
+              <i data-lucide="sparkles" class="w-4 h-4 text-slate-600"></i>
+              <span>Minimalist Modern</span>
+            </div>
+            <p class="text-[11px] text-slate-500 leading-tight">सफेद प्रीमियम बैकग्राउंड व क्लीन लुक</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. Logo & Name -->
+      <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">2. Business Profile</span>
         
         <!-- Logo Row -->
         <div class="flex items-center gap-3 bg-white p-2.5 rounded-lg border border-slate-200">
@@ -490,9 +583,9 @@
         </div>
       </div>
 
-      <!-- 2. Amount Options (THE USER REQUESTED STAR FEATURE) -->
+      <!-- 3. Amount Options -->
       <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">2. Scanner Amount Mode</span>
+        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">3. Scanner Amount Mode</span>
         
         <div class="grid grid-cols-2 gap-2">
           <label class="flex items-center gap-2 p-2.5 rounded-lg border cursor-pointer transition-all bg-white" id="lbl-mode-open">
@@ -524,23 +617,82 @@
         </div>
       </div>
 
-      <!-- 3. Standee Theme & Style -->
+      <!-- 4. Standee Theme & Custom Color Picker -->
       <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
-        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">3. Standee Color Theme</span>
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">4. Standee Color &amp; Custom Picker (कलर थीम)</span>
+          <span class="text-[10px] text-slate-400">Presets + Custom Hex</span>
+        </div>
         
-        <div class="grid grid-cols-2 gap-2">
-          <button type="button" onclick="setStandeeTheme('theme-purple')" class="p-2 text-xs font-bold rounded-lg border border-purple-300 bg-purple-50 text-purple-800 flex items-center gap-2">
-            <span class="w-3.5 h-3.5 rounded-full bg-purple-700"></span> PhonePe Royal
+        <div class="grid grid-cols-3 sm:grid-cols-7 gap-2">
+          <button type="button" onclick="setStandeeCustomColor('#7c3aed', 'PhonePe Purple')" class="standee-color-btn p-2 rounded-xl border-2 border-purple-600 bg-white flex flex-col items-center gap-1 cursor-pointer transition-all">
+            <span class="w-6 h-6 rounded-full bg-purple-600 shadow-2xs"></span>
+            <span class="font-bold text-[10px] text-slate-700">Purple</span>
           </button>
-          <button type="button" onclick="setStandeeTheme('theme-blue')" class="p-2 text-xs font-bold rounded-lg border border-blue-300 bg-blue-50 text-blue-800 flex items-center gap-2">
-            <span class="w-3.5 h-3.5 rounded-full bg-blue-600"></span> GPay Ocean
+          <button type="button" onclick="setStandeeCustomColor('#2563eb', 'GPay Ocean')" class="standee-color-btn p-2 rounded-xl border border-slate-200 hover:border-blue-500 bg-white flex flex-col items-center gap-1 cursor-pointer transition-all">
+            <span class="w-6 h-6 rounded-full bg-blue-600 shadow-2xs"></span>
+            <span class="font-bold text-[10px] text-slate-700">Blue</span>
           </button>
-          <button type="button" onclick="setStandeeTheme('theme-green')" class="p-2 text-xs font-bold rounded-lg border border-emerald-300 bg-emerald-50 text-emerald-800 flex items-center gap-2">
-            <span class="w-3.5 h-3.5 rounded-full bg-emerald-600"></span> Merchant Green
+          <button type="button" onclick="setStandeeCustomColor('#059669', 'Merchant Green')" class="standee-color-btn p-2 rounded-xl border border-slate-200 hover:border-emerald-500 bg-white flex flex-col items-center gap-1 cursor-pointer transition-all">
+            <span class="w-6 h-6 rounded-full bg-emerald-600 shadow-2xs"></span>
+            <span class="font-bold text-[10px] text-slate-700">Green</span>
           </button>
-          <button type="button" onclick="setStandeeTheme('theme-dark')" class="p-2 text-xs font-bold rounded-lg border border-slate-400 bg-slate-100 text-slate-800 flex items-center gap-2">
-            <span class="w-3.5 h-3.5 rounded-full bg-slate-900"></span> Luxury Black
+          <button type="button" onclick="setStandeeCustomColor('#0f172a', 'Luxury Black')" class="standee-color-btn p-2 rounded-xl border border-slate-200 hover:border-slate-800 bg-white flex flex-col items-center gap-1 cursor-pointer transition-all">
+            <span class="w-6 h-6 rounded-full bg-slate-900 shadow-2xs"></span>
+            <span class="font-bold text-[10px] text-slate-700">Black</span>
           </button>
+          <button type="button" onclick="setStandeeCustomColor('#d97706', 'Amber Gold')" class="standee-color-btn p-2 rounded-xl border border-slate-200 hover:border-amber-500 bg-white flex flex-col items-center gap-1 cursor-pointer transition-all">
+            <span class="w-6 h-6 rounded-full bg-amber-600 shadow-2xs"></span>
+            <span class="font-bold text-[10px] text-slate-700">Amber</span>
+          </button>
+          <button type="button" onclick="setStandeeCustomColor('#9E2A2B', 'Maroon Rose')" class="standee-color-btn p-2 rounded-xl border border-slate-200 hover:border-rose-800 bg-white flex flex-col items-center gap-1 cursor-pointer transition-all">
+            <span class="w-6 h-6 rounded-full bg-[#9E2A2B] shadow-2xs"></span>
+            <span class="font-bold text-[10px] text-slate-700">Maroon</span>
+          </button>
+          <div class="p-2 rounded-xl border border-slate-200 bg-white flex flex-col items-center gap-1 cursor-pointer">
+            <input type="color" id="standee-custom-color-picker" value="#7c3aed" onchange="setStandeeCustomColor(this.value, 'Custom')" class="w-6 h-6 rounded-full border-0 p-0 cursor-pointer">
+            <span class="font-bold text-[10px] text-slate-700">Custom</span>
+          </div>
+        </div>
+        <input type="hidden" id="standee-color-val" value="#7c3aed">
+      </div>
+
+      <!-- 5. Header Acceptance Badge Customizer -->
+      <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">5. Header Acceptance Badge (बैज टेक्स्ट)</label>
+        <div>
+          <input type="text" id="standee-badge-text" value="ALL UPI APPS ACCEPTED HERE" placeholder="e.g. ALL UPI APPS ACCEPTED HERE" class="w-full text-xs font-bold uppercase tracking-wider px-3 py-2 bg-white rounded-lg border border-slate-300">
+        </div>
+        <!-- Quick Picks -->
+        <div class="flex flex-wrap items-center gap-1.5 text-[10px]">
+          <span class="text-slate-400">1-क्लिक टेक्स्ट:</span>
+          <button type="button" onclick="document.getElementById('standee-badge-text').value='ALL UPI APPS ACCEPTED HERE'; updateStandee();" class="px-2 py-0.5 rounded bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 cursor-pointer font-semibold">ALL UPI APPS</button>
+          <button type="button" onclick="document.getElementById('standee-badge-text').value='यहाँ GOOGLE PAY / PHONEPE से पेमेंट करें'; updateStandee();" class="px-2 py-0.5 rounded bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 cursor-pointer font-semibold">यहाँ Google Pay / PhonePe</button>
+          <button type="button" onclick="document.getElementById('standee-badge-text').value='SCAN & PAY ANY AMOUNT • 0% EXTRA FEE'; updateStandee();" class="px-2 py-0.5 rounded bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 cursor-pointer font-semibold">0% Extra Fee</button>
+          <button type="button" onclick="document.getElementById('standee-badge-text').value='NO CASH? SCAN & PAY ONLINE'; updateStandee();" class="px-2 py-0.5 rounded bg-white hover:bg-purple-50 border border-slate-200 text-slate-700 hover:text-purple-700 cursor-pointer font-semibold">No Cash? Pay Online</button>
+        </div>
+      </div>
+
+      <!-- 6. Display Elements Visibility -->
+      <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider block">6. Elements ON/OFF (तत्व चालू / बंद करें)</span>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <label class="flex items-center gap-2 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer font-semibold">
+            <input type="checkbox" id="toggle-standee-tagline" checked class="w-4 h-4 rounded text-purple-600">
+            <span>Shop Tagline / Subtitle</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer font-semibold">
+            <input type="checkbox" id="toggle-standee-logos" checked class="w-4 h-4 rounded text-purple-600">
+            <span>Payment Apps Bar (GPay, PhonePe...)</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer font-semibold">
+            <input type="checkbox" id="toggle-standee-upi" checked class="w-4 h-4 rounded text-purple-600">
+            <span>UPI ID Text Box</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg bg-white border border-slate-200 cursor-pointer font-semibold">
+            <input type="checkbox" id="toggle-standee-footer" checked class="w-4 h-4 rounded text-purple-600">
+            <span>Verified NPCI Bottom Strip</span>
+          </label>
         </div>
       </div>
 
@@ -690,26 +842,116 @@
       }
     };
 
-    let currentTheme = 'theme-purple';
+    let currentStandeeFormat = 'standee-fmt-counter';
+    let currentStandeeColor = '#7c3aed';
     let uploadedLogoData = null;
 
     function initStandee() {
       if (window.lucide) lucide.createIcons();
+      loadStandeeConfig();
       updateStandee();
     }
 
+    function setStandeeFormat(format) {
+      currentStandeeFormat = format;
+      const card = document.getElementById('standee-print-card');
+      if (!card) return;
+
+      ['standee-fmt-counter', 'standee-fmt-sticker', 'standee-fmt-minimal'].forEach(f => card.classList.remove(f));
+      card.classList.add(format);
+
+      document.querySelectorAll('.standee-fmt-btn').forEach(btn => {
+        btn.classList.remove('border-2', 'border-purple-600', 'bg-purple-50/50');
+        btn.classList.add('border-slate-200', 'bg-white');
+      });
+      const activeBtnId = {
+        'standee-fmt-counter': 'btn-standee-fmt-counter',
+        'standee-fmt-sticker': 'btn-standee-fmt-sticker',
+        'standee-fmt-minimal': 'btn-standee-fmt-minimal'
+      }[format] || 'btn-standee-fmt-counter';
+
+      const activeBtn = document.getElementById(activeBtnId);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-slate-200', 'bg-white');
+        activeBtn.classList.add('border-2', 'border-purple-600', 'bg-purple-50/50');
+      }
+
+      applyStandeeStyles();
+      updateStandee();
+      saveStandeeConfig();
+    }
+
+    function setStandeeCustomColor(color, label) {
+      currentStandeeColor = color;
+      const colorVal = document.getElementById('standee-color-val');
+      if (colorVal) colorVal.value = color;
+      const picker = document.getElementById('standee-custom-color-picker');
+      if (picker) picker.value = color;
+
+      document.querySelectorAll('.standee-color-btn').forEach(btn => {
+        btn.classList.remove('border-2', 'border-purple-600');
+        btn.classList.add('border-slate-200');
+      });
+      if (window.event && window.event.currentTarget && window.event.currentTarget.classList.contains('standee-color-btn')) {
+        window.event.currentTarget.classList.add('border-2', 'border-purple-600');
+        window.event.currentTarget.classList.remove('border-slate-200');
+      }
+
+      applyStandeeStyles();
+      saveStandeeConfig();
+    }
+
+    function applyStandeeStyles() {
+      const card = document.getElementById('standee-print-card');
+      const header = document.getElementById('standee-header-bg');
+      const prevShopName = document.getElementById('prev-shop-name');
+      if (!card || !header) return;
+
+      if (currentStandeeFormat === 'standee-fmt-minimal') {
+        card.style.borderColor = currentStandeeColor;
+        header.style.background = '#ffffff';
+        header.style.color = '#0f172a';
+        if (prevShopName) prevShopName.style.color = currentStandeeColor;
+      } else {
+        card.style.borderColor = currentStandeeColor;
+        header.style.background = `linear-gradient(135deg, ${currentStandeeColor}, #0f172a)`;
+        header.style.color = '#ffffff';
+        if (prevShopName) prevShopName.style.color = '#ffffff';
+      }
+    }
+
     function updateStandee() {
-      const shopName = document.getElementById('shop-name').value.trim() || 'Sharma Sweets & Dairy';
-      const tagline = document.getElementById('shop-tagline').value.trim() || 'Pure Desi Ghee Sweets & Fresh Bakery';
-      const upiId = document.getElementById('shop-upi').value.trim() || 'sharma@demobank';
+      const shopName = document.getElementById('shop-name')?.value.trim() || 'Sharma Sweets & Dairy';
+      const tagline = document.getElementById('shop-tagline')?.value.trim() || 'Pure Desi Ghee Sweets & Fresh Bakery';
+      const upiId = document.getElementById('shop-upi')?.value.trim() || 'sharma@demobank';
+      const badgeText = document.getElementById('standee-badge-text')?.value.trim() || 'ALL UPI APPS ACCEPTED HERE';
       const modeRadio = document.querySelector('input[name="amt-mode"]:checked');
       const mode = modeRadio ? modeRadio.value : 'open';
-      const fixedAmt = parseFloat(document.getElementById('fixed-amount-val').value) || 0;
+      const fixedAmt = parseFloat(document.getElementById('fixed-amount-val')?.value) || 0;
 
       // Update text in standee preview
-      document.getElementById('prev-shop-name').innerText = shopName;
-      document.getElementById('prev-shop-tagline').innerText = tagline;
-      document.getElementById('prev-shop-upi').innerText = upiId;
+      const elShopName = document.getElementById('prev-shop-name');
+      if (elShopName) elShopName.innerText = shopName;
+      const elTagline = document.getElementById('prev-shop-tagline');
+      if (elTagline) elTagline.innerText = tagline;
+      const elUpi = document.getElementById('prev-shop-upi');
+      if (elUpi) elUpi.innerText = upiId;
+      const elBadge = document.getElementById('prev-standee-badge');
+      if (elBadge) elBadge.innerText = badgeText;
+
+      // Element visibility toggles
+      const showTagline = document.getElementById('toggle-standee-tagline')?.checked !== false;
+      const showLogos = document.getElementById('toggle-standee-logos')?.checked !== false;
+      const showUpi = document.getElementById('toggle-standee-upi')?.checked !== false;
+      const showFooter = document.getElementById('toggle-standee-footer')?.checked !== false;
+
+      if (elTagline) elTagline.style.display = showTagline ? 'block' : 'none';
+      const elLogos = document.getElementById('prev-app-logos-bar');
+      if (elLogos) elLogos.style.display = showLogos ? 'flex' : 'none';
+      const elUpiBox = document.getElementById('prev-shop-upi-box');
+      if (elUpiBox) elUpiBox.style.display = showUpi ? 'block' : 'none';
+      const elFooter = document.getElementById('prev-standee-footer');
+      if (elFooter) elFooter.style.display = showFooter ? 'flex' : 'none';
 
       // Update Amount Badge & UPI URL
       const amtBadge = document.getElementById('standee-amount-badge');
@@ -718,39 +960,44 @@
 
       if (mode === 'fixed' && fixedAmt > 0) {
         if (fixedAmtBox) fixedAmtBox.classList.remove('hidden');
-        amtBadge.innerHTML = `<span class="text-[11px] uppercase tracking-wider block text-slate-500 font-sans font-semibold">Fixed Amount</span><span class="text-2xl text-purple-700 font-black">₹${fixedAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>`;
+        if (amtBadge) amtBadge.innerHTML = `<span class="text-[11px] uppercase tracking-wider block text-slate-500 font-sans font-semibold">Fixed Amount</span><span class="text-2xl text-purple-700 font-black">₹${fixedAmt.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>`;
         upiUrl += `&am=${fixedAmt}&tn=${encodeURIComponent('Payment to ' + shopName.substring(0, 15))}`;
       } else {
         if (fixedAmtBox) fixedAmtBox.classList.add('hidden');
-        amtBadge.innerHTML = `<span>Scan to Pay Any Amount</span>`;
+        if (amtBadge) amtBadge.innerHTML = `<span>Scan to Pay Any Amount</span>`;
       }
 
       // Generate High-Res QR Code
       const qrContainer = document.getElementById('standee-qrcode');
-      qrContainer.innerHTML = '';
-      let qrRendered = false;
-      if (typeof QRCode !== 'undefined') {
-        try {
-          new QRCode(qrContainer, {
-            text: upiUrl,
-            width: 208,
-            height: 208,
-            colorDark: '#0f172a',
-            colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.H
-          });
-          qrRendered = true;
-        } catch (e) {
-          console.warn('QRCode JS error:', e);
+      if (qrContainer) {
+        qrContainer.innerHTML = '';
+        const qrSize = currentStandeeFormat === 'standee-fmt-sticker' ? 176 : 208;
+        qrContainer.style.width = qrSize + 'px';
+        qrContainer.style.height = qrSize + 'px';
+        let qrRendered = false;
+        if (typeof QRCode !== 'undefined') {
+          try {
+            new QRCode(qrContainer, {
+              text: upiUrl,
+              width: qrSize,
+              height: qrSize,
+              colorDark: '#0f172a',
+              colorLight: '#ffffff',
+              correctLevel: QRCode.CorrectLevel.H
+            });
+            qrRendered = true;
+          } catch (e) {
+            console.warn('QRCode JS error:', e);
+          }
         }
-      }
 
-      if (!qrRendered || !qrContainer.hasChildNodes()) {
-        const fallbackImg = document.createElement('img');
-        fallbackImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=208x208&data=' + encodeURIComponent(upiUrl);
-        fallbackImg.alt = 'UPI QR Code';
-        fallbackImg.className = 'w-52 h-52 object-contain mx-auto';
-        qrContainer.appendChild(fallbackImg);
+        if (!qrRendered || !qrContainer.hasChildNodes()) {
+          const fallbackImg = document.createElement('img');
+          fallbackImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=' + qrSize + 'x' + qrSize + '&data=' + encodeURIComponent(upiUrl);
+          fallbackImg.alt = 'UPI QR Code';
+          fallbackImg.className = 'w-full h-full object-contain mx-auto';
+          qrContainer.appendChild(fallbackImg);
+        }
       }
 
       // Update Branding (Always Visible)
@@ -759,37 +1006,50 @@
         prevBranding.style.display = 'block';
       }
 
+      applyStandeeStyles();
+      saveStandeeConfig();
       if (window.lucide) lucide.createIcons();
     }
 
-    // Theme switching
-    function setStandeeTheme(theme) {
-      currentTheme = theme;
-      const card = document.getElementById('standee-print-card');
-      const header = document.getElementById('standee-header-bg');
-      if (!card || !header) return;
+    function saveStandeeConfig() {
+      try {
+        const config = {
+          format: currentStandeeFormat,
+          color: currentStandeeColor,
+          badgeText: document.getElementById('standee-badge-text')?.value || 'ALL UPI APPS ACCEPTED HERE',
+          showTagline: document.getElementById('toggle-standee-tagline')?.checked !== false,
+          showLogos: document.getElementById('toggle-standee-logos')?.checked !== false,
+          showUpi: document.getElementById('toggle-standee-upi')?.checked !== false,
+          showFooter: document.getElementById('toggle-standee-footer')?.checked !== false
+        };
+        localStorage.setItem('upibill_standee_config', JSON.stringify(config));
+      } catch(e) {}
+    }
 
-      card.classList.remove('border-purple-700', 'border-blue-700', 'border-emerald-700', 'border-slate-900');
-      header.classList.remove(
-        'from-purple-800', 'via-purple-700', 'to-indigo-800',
-        'from-blue-800', 'via-sky-700', 'to-indigo-800',
-        'from-emerald-800', 'via-green-700', 'to-teal-800',
-        'from-slate-900', 'via-slate-800', 'to-zinc-900'
-      );
-
-      if (theme === 'theme-blue') {
-        card.classList.add('border-blue-700');
-        header.classList.add('from-blue-800', 'via-sky-700', 'to-indigo-800');
-      } else if (theme === 'theme-green') {
-        card.classList.add('border-emerald-700');
-        header.classList.add('from-emerald-800', 'via-green-700', 'to-teal-800');
-      } else if (theme === 'theme-dark') {
-        card.classList.add('border-slate-900');
-        header.classList.add('from-slate-900', 'via-slate-800', 'to-zinc-900');
-      } else {
-        card.classList.add('border-purple-700');
-        header.classList.add('from-purple-800', 'via-purple-700', 'to-indigo-800');
-      }
+    function loadStandeeConfig() {
+      try {
+        const saved = localStorage.getItem('upibill_standee_config');
+        if (saved) {
+          const config = JSON.parse(saved);
+          if (config.format) setStandeeFormat(config.format);
+          if (config.color) setStandeeCustomColor(config.color, 'Custom');
+          if (config.badgeText && document.getElementById('standee-badge-text')) {
+            document.getElementById('standee-badge-text').value = config.badgeText;
+          }
+          if (config.showTagline !== undefined && document.getElementById('toggle-standee-tagline')) {
+            document.getElementById('toggle-standee-tagline').checked = config.showTagline;
+          }
+          if (config.showLogos !== undefined && document.getElementById('toggle-standee-logos')) {
+            document.getElementById('toggle-standee-logos').checked = config.showLogos;
+          }
+          if (config.showUpi !== undefined && document.getElementById('toggle-standee-upi')) {
+            document.getElementById('toggle-standee-upi').checked = config.showUpi;
+          }
+          if (config.showFooter !== undefined && document.getElementById('toggle-standee-footer')) {
+            document.getElementById('toggle-standee-footer').checked = config.showFooter;
+          }
+        }
+      } catch(e) {}
     }
 
     // Logo Upload Handling
@@ -824,20 +1084,34 @@
 
     // Sample & Clear functions
     function loadStandeeSampleData() {
-      document.getElementById('shop-name').value = 'Sharma Sweets & Dairy';
-      document.getElementById('shop-tagline').value = 'Pure Desi Ghee Sweets & Fresh Bakery';
-      document.getElementById('shop-upi').value = 'sharma@demobank';
-      document.getElementById('mode-open').checked = true;
-      document.getElementById('fixed-amount-val').value = '150';
-      setStandeeTheme('theme-purple');
+      if (document.getElementById('shop-name')) document.getElementById('shop-name').value = 'Sharma Sweets & Dairy';
+      if (document.getElementById('shop-tagline')) document.getElementById('shop-tagline').value = 'Pure Desi Ghee Sweets & Fresh Bakery';
+      if (document.getElementById('shop-upi')) document.getElementById('shop-upi').value = 'sharma@demobank';
+      if (document.getElementById('mode-open')) document.getElementById('mode-open').checked = true;
+      if (document.getElementById('fixed-amount-val')) document.getElementById('fixed-amount-val').value = '150';
+      if (document.getElementById('standee-badge-text')) {
+        document.getElementById('standee-badge-text').value = 'ALL UPI APPS ACCEPTED HERE';
+      }
+      if (document.getElementById('toggle-standee-tagline')) document.getElementById('toggle-standee-tagline').checked = true;
+      if (document.getElementById('toggle-standee-logos')) document.getElementById('toggle-standee-logos').checked = true;
+      if (document.getElementById('toggle-standee-upi')) document.getElementById('toggle-standee-upi').checked = true;
+      if (document.getElementById('toggle-standee-footer')) document.getElementById('toggle-standee-footer').checked = true;
+      setStandeeFormat('standee-fmt-counter');
+      setStandeeCustomColor('#7c3aed', 'PhonePe Purple');
       updateStandee();
     }
 
     function clearStandeeForm() {
-      document.getElementById('shop-name').value = '';
-      document.getElementById('shop-tagline').value = '';
-      document.getElementById('shop-upi').value = '';
-      document.getElementById('fixed-amount-val').value = '';
+      if (document.getElementById('shop-name')) document.getElementById('shop-name').value = '';
+      if (document.getElementById('shop-tagline')) document.getElementById('shop-tagline').value = '';
+      if (document.getElementById('shop-upi')) document.getElementById('shop-upi').value = '';
+      if (document.getElementById('fixed-amount-val')) document.getElementById('fixed-amount-val').value = '';
+      if (document.getElementById('standee-badge-text')) {
+        document.getElementById('standee-badge-text').value = 'ALL UPI APPS ACCEPTED HERE';
+      }
+      try {
+        localStorage.removeItem('upibill_standee_config');
+      } catch(e) {}
       updateStandee();
     }
 
@@ -914,7 +1188,10 @@
     }
 
     // Attach listeners
-    document.querySelectorAll('#col-form input').forEach(i => i.addEventListener('input', updateStandee));
+    document.querySelectorAll('#col-form input').forEach(i => {
+      i.addEventListener('input', updateStandee);
+      i.addEventListener('change', updateStandee);
+    });
     document.querySelectorAll('input[name="amt-mode"]').forEach(r => r.addEventListener('change', updateStandee));
 
     // Dynamic Direction for Floating Button (View Standee vs Edit Form)
