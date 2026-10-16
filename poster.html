@@ -29,14 +29,15 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&family=Outfit:wght@600;700;800;900&family=Poppins:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    body { font-family: 'Poppins', 'Inter', sans-serif; }
     .font-heading { font-family: 'Outfit', sans-serif; }
     .font-brand { font-family: 'Space Grotesk', sans-serif; }
+    .font-hindi { font-family: 'Noto Sans Devanagari', 'Poppins', sans-serif; }
     
     /* Exact 16:11 Aspect Ratio Container (1600 x 1100 px base) */
     .aspect-16-11 {
@@ -55,22 +56,32 @@
   <!-- Top Action Toolbar -->
   <header class="w-full max-w-4xl flex flex-wrap items-center justify-between gap-3 mb-6 no-print">
     <div class="flex items-center gap-2.5">
-      <a href="index.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors" title="Back to Homepage">
+      <a href="index.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition-colors" title="होमपेज पर जाएं">
         <i data-lucide="arrow-left" class="w-5 h-5"></i>
       </a>
       <div>
-        <h1 class="text-lg sm:text-xl font-bold font-heading text-white flex items-center gap-2">
-          <span>Official 16:11 Promotional Poster</span>
+        <h1 class="text-lg sm:text-xl font-bold font-hindi text-white flex items-center gap-2">
+          <span>आधिकारिक 16:11 प्रमोशनल पोस्टर</span>
           <span class="text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30">16:11 HD</span>
         </h1>
-        <p class="text-xs text-slate-400">Perfect for WhatsApp, Telegram, Instagram &amp; LinkedIn Marketing</p>
+        <p class="text-xs text-slate-400">WhatsApp, Telegram, Instagram और Facebook पर शेयर करने के लिए तैयार</p>
       </div>
     </div>
 
     <div class="flex items-center gap-2">
-      <button type="button" onclick="downloadPosterImage()" id="btn-download-poster" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-emerald-500/20 transition-all active:scale-95 cursor-pointer">
+      <!-- Language Switcher -->
+      <div class="inline-flex rounded-xl bg-slate-800 p-1 border border-slate-700 text-xs font-bold">
+        <button type="button" onclick="setPosterLang('hi')" id="lang-btn-hi" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white transition-all cursor-pointer">
+          🇮🇳 हिंदी
+        </button>
+        <button type="button" onclick="setPosterLang('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-lg text-slate-300 hover:text-white transition-all cursor-pointer">
+          English
+        </button>
+      </div>
+
+      <button type="button" onclick="downloadPosterImage()" id="btn-download-poster" class="inline-flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-emerald-500/20 transition-all active:scale-95 cursor-pointer">
         <i data-lucide="download" class="w-4 h-4"></i>
-        <span>Download 16:11 Poster (PNG)</span>
+        <span>डाउनलोड 16:11 पोस्टर (PNG)</span>
       </button>
       <button type="button" onclick="sharePosterWhatsApp()" class="inline-flex items-center gap-2 px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer">
         <i data-lucide="share-2" class="w-4 h-4"></i>
@@ -89,38 +100,38 @@
       <div class="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:20px_20px] opacity-25 pointer-events-none"></div>
 
       <!-- Poster Header -->
-      <div class="relative z-10 flex items-center justify-between pb-4 border-b border-slate-800">
+      <div class="relative z-10 flex items-center justify-between pb-3 sm:pb-4 border-b border-slate-800">
         <!-- Logo & Branding -->
         <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 border border-white/20">
-            <i data-lucide="qr-code" class="w-7 h-7"></i>
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 border border-white/20">
+            <i data-lucide="qr-code" class="w-6 h-6 sm:w-7 sm:h-7"></i>
           </div>
           <div>
             <div class="font-brand font-black text-2xl sm:text-3xl text-white tracking-tight flex items-center gap-1">
               <span>UPI</span><span class="text-emerald-400">BillMaker</span><span class="text-xs text-slate-400 font-sans font-normal ml-1">.com</span>
             </div>
-            <p class="text-[11px] sm:text-xs text-slate-400 font-semibold">Free GST &amp; Non-GST Invoice Maker with Auto-Pay QR</p>
+            <p id="canvas-tagline" class="text-[11px] sm:text-xs text-slate-400 font-semibold font-hindi">दुकान व व्यापार का फ्री GST व कच्चा बिल मेकर • ऑटो-पे UPI QR</p>
           </div>
         </div>
 
         <!-- 100% Free Pill -->
-        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs sm:text-sm font-bold shadow-xs">
+        <div id="canvas-pill-free" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-xs sm:text-sm font-bold font-hindi shadow-xs">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span>100% Free Forever • No Login</span>
+          <span>100% मुफ्त हमेशा • नो लॉगिन</span>
         </div>
       </div>
 
       <!-- Poster Main Hero Headline & Grid -->
-      <div class="relative z-10 my-auto py-4 space-y-4">
+      <div class="relative z-10 my-auto py-3 space-y-3.5">
         <!-- Punchy Headline -->
-        <div class="space-y-1.5">
-          <span class="text-xs sm:text-sm font-extrabold tracking-widest text-emerald-400 uppercase">
-            ⚡ Instant 30-Second Professional Invoicing
+        <div class="space-y-1">
+          <span id="canvas-badge-speed" class="text-xs sm:text-sm font-extrabold tracking-widest text-emerald-400 uppercase font-hindi">
+            ⚡ मात्र 30 सेकंड में प्रोफेशनल बिल व रसीद बनाएं
           </span>
-          <h2 class="font-heading font-black text-2xl sm:text-4xl text-white leading-tight">
-            Create GST &amp; Non-GST Bills with <br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
-              Auto-Pay UPI QR Code &amp; Instant PDF
+          <h2 id="canvas-main-heading" class="font-hindi font-black text-2xl sm:text-4xl text-white leading-tight">
+            दुकान व व्यापार का GST और कच्चा बिल बनाएं <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">
+              ऑटो-पे UPI QR कोड और तुरंत PDF के साथ
             </span>
           </h2>
         </div>
@@ -133,8 +144,8 @@
               <i data-lucide="shopping-bag" class="w-4 h-4"></i>
             </div>
             <div class="min-w-0">
-              <span class="text-xs font-bold text-white block truncate">Retail &amp; Kirana Shop</span>
-              <span class="text-[10px] text-slate-400 block truncate">A4 B2B/B2C GST Tax Invoice</span>
+              <span id="tpl-title-1" class="text-xs font-bold text-white block truncate font-hindi">दुकान व किराना स्टोर</span>
+              <span id="tpl-desc-1" class="text-[10px] text-slate-400 block truncate font-hindi">A4 GST टैक्स इनवॉइस व बिल</span>
             </div>
           </div>
 
@@ -144,8 +155,8 @@
               <i data-lucide="activity" class="w-4 h-4"></i>
             </div>
             <div class="min-w-0">
-              <span class="text-xs font-bold text-white block truncate">Pharmacy &amp; Medical</span>
-              <span class="text-[10px] text-slate-400 block truncate">Form 20/21 Chemist &amp; Rx Slip</span>
+              <span id="tpl-title-2" class="text-xs font-bold text-white block truncate font-hindi">मेडिकल व फार्मेसी</span>
+              <span id="tpl-desc-2" class="text-[10px] text-slate-400 block truncate font-hindi">डॉक्टर Rx व फॉर्म 20/21 दवा पर्ची</span>
             </div>
           </div>
 
@@ -155,8 +166,8 @@
               <i data-lucide="utensils" class="w-4 h-4"></i>
             </div>
             <div class="min-w-0">
-              <span class="text-xs font-bold text-white block truncate">Restaurant &amp; Cafe</span>
-              <span class="text-[10px] text-slate-400 block truncate">80mm Thermal Food Slip &amp; 5% GST</span>
+              <span id="tpl-title-3" class="text-xs font-bold text-white block truncate font-hindi">रेस्टोरेंट व कैफे</span>
+              <span id="tpl-desc-3" class="text-[10px] text-slate-400 block truncate font-hindi">80mm थर्मल फूड पर्ची व GST</span>
             </div>
           </div>
 
@@ -166,8 +177,8 @@
               <i data-lucide="hotel" class="w-4 h-4"></i>
             </div>
             <div class="min-w-0">
-              <span class="text-xs font-bold text-white block truncate">Hotel &amp; Homestay</span>
-              <span class="text-[10px] text-slate-400 block truncate">Guest Folio &amp; Room Lodging Bill</span>
+              <span id="tpl-title-4" class="text-xs font-bold text-white block truncate font-hindi">होटल व गेस्ट हाउस</span>
+              <span id="tpl-desc-4" class="text-[10px] text-slate-400 block truncate font-hindi">रूम स्टे व गेस्ट फोलियो रसीद</span>
             </div>
           </div>
 
@@ -177,8 +188,8 @@
               <i data-lucide="home" class="w-4 h-4"></i>
             </div>
             <div class="min-w-0">
-              <span class="text-xs font-bold text-white block truncate">House Rent Receipt</span>
-              <span class="text-[10px] text-slate-400 block truncate">Sec 10(13A) IT HRA Proof</span>
+              <span id="tpl-title-5" class="text-xs font-bold text-white block truncate font-hindi">मकान किराया रसीद</span>
+              <span id="tpl-desc-5" class="text-[10px] text-slate-400 block truncate font-hindi">HRA टैक्स छूट रसीद (Sec 10(13A))</span>
             </div>
           </div>
 
@@ -188,54 +199,54 @@
               <i data-lucide="graduation-cap" class="w-4 h-4"></i>
             </div>
             <div class="min-w-0">
-              <span class="text-xs font-bold text-white block truncate">Tuition &amp; Coaching</span>
-              <span class="text-[10px] text-slate-400 block truncate">Sec 80C Fee Receipt &amp; Tutor Slip</span>
+              <span id="tpl-title-6" class="text-xs font-bold text-white block truncate font-hindi">कोचिंग व ट्यूशन फीस</span>
+              <span id="tpl-desc-6" class="text-[10px] text-slate-400 block truncate font-hindi">छात्र फीस रसीद व फीस बैलेंस</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Poster Footer Bar: Call To Action & Payment Apps -->
-      <div class="relative z-10 pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+      <div class="relative z-10 pt-3 sm:pt-4 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
         <!-- Website URL Banner -->
         <div class="flex items-center gap-2.5">
           <div class="px-3.5 py-1.5 rounded-xl bg-emerald-500 text-slate-950 font-black text-sm sm:text-base font-brand flex items-center gap-1.5 shadow-md shadow-emerald-500/30">
             <i data-lucide="globe" class="w-4 h-4"></i>
             <span>upibillmaker.com</span>
           </div>
-          <span class="text-xs text-slate-400 font-medium hidden sm:inline">100% Free • Works in Any Mobile &amp; PC Browser</span>
+          <span id="canvas-footer-note" class="text-xs text-slate-400 font-medium font-hindi hidden sm:inline">100% फ्री • किसी भी मोबाइल या कंप्यूटर में तुरंत काम करे</span>
         </div>
 
         <!-- Supported UPI Apps Badges -->
-        <div class="flex items-center gap-1.5 text-xs text-slate-300 font-semibold">
-          <span class="text-[10px] text-slate-500 uppercase font-bold mr-1">Accepted via:</span>
-          <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-bold text-white">GPay</span>
-          <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-bold text-white">PhonePe</span>
-          <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-bold text-white">Paytm</span>
-          <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-bold text-emerald-400">BHIM UPI</span>
+        <div class="flex items-center gap-1.5 text-xs text-slate-300 font-semibold font-hindi">
+          <span id="canvas-pay-label" class="text-[10px] text-slate-500 uppercase font-bold mr-1">पेमेंट स्वीकारें:</span>
+          <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-bold text-white font-sans">GPay</span>
+          <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-bold text-white font-sans">PhonePe</span>
+          <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-bold text-white font-sans">Paytm</span>
+          <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-bold text-emerald-400 font-sans">BHIM UPI</span>
         </div>
       </div>
 
     </div>
   </main>
 
-  <!-- 3D Commercial Poster Card -->
+  <!-- 3D Commercial Poster Card (Hindi Edition) -->
   <section class="w-full max-w-4xl mt-8 p-6 rounded-2xl bg-slate-800/90 border border-slate-700 shadow-xl space-y-4 no-print">
     <div class="flex flex-wrap items-center justify-between gap-3">
       <div>
         <div class="flex items-center gap-2">
-          <span class="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30">3D Photorealistic</span>
-          <h2 class="font-heading font-bold text-lg text-white">3D Commercial Graphic Poster (16:11 Ratio)</h2>
+          <span class="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider bg-amber-500/20 text-amber-300 rounded-full border border-amber-500/30 font-hindi">3D कमर्शियल पोस्टर</span>
+          <h2 class="font-hindi font-bold text-lg text-white">3D ग्राफिक हिंदी पोस्टर (16:11 HD)</h2>
         </div>
-        <p class="text-xs text-slate-400 mt-0.5">High-impact 3D advertising artwork featuring real A4 invoice, 3D payment badges &amp; mobile scan preview.</p>
+        <p class="text-xs text-slate-400 mt-0.5 font-hindi">असली A4 इनवॉइस, 3D पेमेंट बैज और मोबाइल UPI स्कैन स्क्रीन के साथ बना प्रीमियम पोस्टर।</p>
       </div>
 
       <div class="flex items-center gap-2">
-        <a href="poster-16x11.jpg" download="UPIBillMaker-Commercial-16x11.jpg" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-amber-500/20 transition-all active:scale-95 cursor-pointer">
+        <a href="poster-hindi.jpg" download="UPIBillMaker-Hindi-Poster.jpg" class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg shadow-amber-500/20 transition-all active:scale-95 cursor-pointer font-hindi">
           <i data-lucide="download" class="w-4 h-4"></i>
-          <span>Download 3D Poster (JPG)</span>
+          <span>डाउनलोड हिंदी पोस्टर (JPG)</span>
         </a>
-        <a href="poster-16x11.jpg" target="_blank" class="p-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl border border-slate-600 transition-colors" title="View Fullscreen">
+        <a href="poster-hindi.jpg" target="_blank" class="p-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl border border-slate-600 transition-colors" title="बड़ा करके देखें">
           <i data-lucide="external-link" class="w-4 h-4"></i>
         </a>
       </div>
@@ -243,26 +254,50 @@
 
     <!-- Preview Image -->
     <div class="rounded-xl overflow-hidden border border-slate-700/80 shadow-md aspect-16-11 bg-slate-950 flex items-center justify-center">
-      <img src="poster-16x11.jpg" alt="UPIBillMaker 16:11 Commercial Poster" class="w-full h-full object-cover">
+      <img src="poster-hindi.jpg" alt="UPIBillMaker 16:11 Hindi Promotional Poster" class="w-full h-full object-cover">
     </div>
   </section>
 
   <!-- Share & Copy Promo Copy Section -->
   <section class="w-full max-w-4xl mt-6 p-5 rounded-2xl bg-slate-800/80 border border-slate-700 text-xs text-slate-300 space-y-4 no-print">
     <div class="flex items-center justify-between">
-      <span class="font-bold text-white text-sm flex items-center gap-2">
+      <span class="font-bold text-white text-sm flex items-center gap-2 font-hindi">
         <i data-lucide="share-2" class="w-4 h-4 text-emerald-400"></i>
-        <span>Ready-to-Share Promotional Captions</span>
+        <span>शेयर करने के लिए तैयार हिंदी व इंग्लिश मैसेज</span>
       </span>
-      <span class="text-[11px] text-slate-400">Tap below to copy instant captions for social channels</span>
+      <span class="text-[11px] text-slate-400 font-hindi">नीचे कॉपी बटन दबाकर सीधे व्हाट्सएप या सोशल मीडिया पर भेजें</span>
     </div>
 
-    <!-- Tab 1: WhatsApp / Telegram -->
+    <!-- Tab 1: WhatsApp / Telegram (Hindi) -->
     <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-700/80 space-y-2">
       <div class="flex items-center justify-between">
-        <span class="font-bold text-emerald-400 flex items-center gap-1.5">
+        <span class="font-bold text-emerald-400 flex items-center gap-1.5 font-hindi">
           <i data-lucide="message-circle" class="w-3.5 h-3.5"></i>
-          <span>WhatsApp &amp; Telegram Broadcast Copy (Hinglish)</span>
+          <span>व्हाट्सएप और टेलीग्राम ब्रॉडकास्ट मैसेज (शुद्ध हिंदी)</span>
+        </span>
+        <button type="button" onclick="copyText('promo-hindi-full', this)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg border border-slate-600 transition-colors cursor-pointer text-[11px] font-hindi">
+          कॉपी करें
+        </button>
+      </div>
+      <textarea id="promo-hindi-full" rows="6" readonly class="w-full p-2.5 rounded-lg bg-slate-950 border border-slate-800 font-hindi text-xs text-slate-200 select-all focus:outline-none">🚀 अब बिना किसी महंगे सॉफ्टवेयर या लॉगिन के बनाएं प्रोफेशनल GST और नॉन-GST बिल वो भी Auto-Pay UPI QR कोड के साथ!
+
+👉 फ्री में बिल बनाएं: https://upibillmaker.com
+
+✨ मुख्य विशेषताएं:
+✔ 6 तैयार टेम्पलेट्स (दुकान/किराना, मेडिकल स्टोर, रेस्टोरेंट, होटल, मकान किराया रसीद, ट्यूशन फीस)
+✔ ग्राहक QR कोड स्कैन करके मात्र 5 सेकंड में GPay, PhonePe, Paytm से पेमेंट कर सकते हैं
+✔ तुरंत A4 साइज PDF और PNG डाउनलोड करें या सीधे व्हाट्सएप पर भेजें
+✔ 100% मुफ्त और सुरक्षित (कोई साइन-अप या ऐप डाउनलोड करने की जरूरत नहीं)
+
+इस उपयोगी फ्री टूल को अपने व्यापारी दोस्तों और ग्रुप्स में जरूर शेयर करें! 🇮🇳</textarea>
+    </div>
+
+    <!-- Tab 2: Hinglish Broadcast -->
+    <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-700/80 space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="font-bold text-teal-400 flex items-center gap-1.5">
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+          <span>WhatsApp Broadcast Copy (Hinglish)</span>
         </span>
         <button type="button" onclick="copyText('promo-whatsapp', this)" class="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg border border-slate-600 transition-colors cursor-pointer text-[11px]">
           Copy
@@ -281,7 +316,7 @@
 Share this free tool with your business friends! 🇮🇳</textarea>
     </div>
 
-    <!-- Tab 2: LinkedIn / Professional Post -->
+    <!-- Tab 3: LinkedIn / Professional Post -->
     <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-700/80 space-y-2">
       <div class="flex items-center justify-between">
         <span class="font-bold text-blue-400 flex items-center gap-1.5">
@@ -311,6 +346,65 @@ Share this verified utility with entrepreneurs in your network!</textarea>
   <script>
     if (window.lucide) lucide.createIcons();
 
+    const posterLangData = {
+      hi: {
+        tagline: 'दुकान व व्यापार का फ्री GST व कच्चा बिल मेकर • ऑटो-पे UPI QR',
+        pillFree: '100% मुफ्त हमेशा • नो लॉगिन',
+        badgeSpeed: '⚡ मात्र 30 सेकंड में प्रोफेशनल बिल व रसीद बनाएं',
+        mainHeading: 'दुकान व व्यापार का GST और कच्चा बिल बनाएं <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">ऑटो-पे UPI QR कोड और तुरंत PDF के साथ</span>',
+        t1: ['दुकान व किराना स्टोर', 'A4 GST टैक्स इनवॉइस व बिल'],
+        t2: ['मेडिकल व फार्मेसी', 'डॉक्टर Rx व फॉर्म 20/21 दवा पर्ची'],
+        t3: ['रेस्टोरेंट व कैफे', '80mm थर्मल फूड पर्ची व GST'],
+        t4: ['होटल व गेस्ट हाउस', 'रूम स्टे व गेस्ट फोलियो रसीद'],
+        t5: ['मकान किराया रसीद', 'HRA टैक्स छूट रसीद (Sec 10(13A))'],
+        t6: ['कोचिंग व ट्यूशन फीस', 'छात्र फीस रसीद व फीस बैलेंस'],
+        footerNote: '100% फ्री • किसी भी मोबाइल या कंप्यूटर में तुरंत काम करे',
+        payLabel: 'पेमेंट स्वीकारें:'
+      },
+      en: {
+        tagline: 'Free GST & Non-GST Invoice Maker with Auto-Pay QR',
+        pillFree: '100% Free Forever • No Login',
+        badgeSpeed: '⚡ Instant 30-Second Professional Invoicing',
+        mainHeading: 'Create GST & Non-GST Bills with <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">Auto-Pay UPI QR Code & Instant PDF</span>',
+        t1: ['Retail & Kirana Shop', 'A4 B2B/B2C GST Tax Invoice'],
+        t2: ['Pharmacy & Medical', 'Form 20/21 Chemist & Rx Slip'],
+        t3: ['Restaurant & Cafe', '80mm Thermal Food Slip & 5% GST'],
+        t4: ['Hotel & Homestay', 'Guest Folio & Room Lodging Bill'],
+        t5: ['House Rent Receipt', 'Sec 10(13A) IT HRA Proof'],
+        t6: ['Tuition & Coaching', 'Sec 80C Fee Receipt & Tutor Slip'],
+        footerNote: '100% Free • Works in Any Mobile & PC Browser',
+        payLabel: 'Accepted via:'
+      }
+    };
+
+    function setPosterLang(lang) {
+      const data = posterLangData[lang];
+      if (!data) return;
+
+      document.getElementById('canvas-tagline').innerText = data.tagline;
+      document.getElementById('canvas-pill-free').querySelector('span:last-child').innerText = data.pillFree;
+      document.getElementById('canvas-badge-speed').innerText = data.badgeSpeed;
+      document.getElementById('canvas-main-heading').innerHTML = data.mainHeading;
+
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById(`tpl-title-${i}`).innerText = data[`t${i}`][0];
+        document.getElementById(`tpl-desc-${i}`).innerText = data[`t${i}`][1];
+      }
+
+      document.getElementById('canvas-footer-note') && (document.getElementById('canvas-footer-note').innerText = data.footerNote);
+      document.getElementById('canvas-pay-label').innerText = data.payLabel;
+
+      const btnHi = document.getElementById('lang-btn-hi');
+      const btnEn = document.getElementById('lang-btn-en');
+      if (lang === 'hi') {
+        btnHi.className = 'px-2.5 py-1 rounded-lg bg-emerald-600 text-white transition-all cursor-pointer';
+        btnEn.className = 'px-2.5 py-1 rounded-lg text-slate-300 hover:text-white transition-all cursor-pointer';
+      } else {
+        btnEn.className = 'px-2.5 py-1 rounded-lg bg-emerald-600 text-white transition-all cursor-pointer';
+        btnHi.className = 'px-2.5 py-1 rounded-lg text-slate-300 hover:text-white transition-all cursor-pointer';
+      }
+    }
+
     // High-Resolution 16:11 Poster Downloader via html2canvas
     async function downloadPosterImage() {
       const target = document.getElementById('poster-canvas-target');
@@ -319,7 +413,7 @@ Share this verified utility with entrepreneurs in your network!</textarea>
 
       try {
         btn.disabled = true;
-        btn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> Generating 16:11 Poster...';
+        btn.innerHTML = '<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> पोस्टर तैयार हो रहा है...';
         if (window.lucide) lucide.createIcons();
 
         // 2x scale for crystal-clear HD export
@@ -331,11 +425,11 @@ Share this verified utility with entrepreneurs in your network!</textarea>
         });
 
         const link = document.createElement('a');
-        link.download = 'UPIBillMaker-16x11-Poster.png';
+        link.download = 'UPIBillMaker-Hindi-16x11-Poster.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
 
-        btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> Downloaded!';
+        btn.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-300"></i> डाउनलोड सफल!';
         setTimeout(() => {
           btn.disabled = false;
           btn.innerHTML = origText;
@@ -343,7 +437,7 @@ Share this verified utility with entrepreneurs in your network!</textarea>
         }, 2000);
       } catch (err) {
         console.error('Error generating poster', err);
-        alert('Could not download poster automatically. Please try taking a screenshot or print.');
+        alert('पोस्टर डाउनलोड नहीं हो सका। कृपया स्क्रीनशॉट लें या प्रिंट बटन का उपयोग करें।');
         btn.disabled = false;
         btn.innerHTML = origText;
         if (window.lucide) lucide.createIcons();
@@ -352,7 +446,7 @@ Share this verified utility with entrepreneurs in your network!</textarea>
 
     function sharePosterWhatsApp() {
       const text = encodeURIComponent(
-        `🚀 Create professional GST & Non-GST bills with Auto-Pay UPI QR Code for FREE!\n\n👉 Try Now: https://upibillmaker.com\n\n✔ 6 Templates: Shop, Medical, Restaurant, Hotel, Rent (HRA), Tuition\n✔ Instant PDF & WhatsApp Sharing • 100% Free & No Sign-up required!`
+        `🚀 दुकान व व्यापार का फ्री GST व कच्चा बिल बनाएं वो भी Auto-Pay UPI QR कोड के साथ!\n\n👉 अभी बनाएं: https://upibillmaker.com\n\n✔ 6 टेम्पलेट्स: दुकान, मेडिकल, रेस्टोरेंट, होटल, किराया रसीद, ट्यूशन फीस\n✔ तुरंत PDF डाउनलोड व व्हाट्सएप शेयर • 100% मुफ्त!`
       );
       window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
     }
@@ -373,7 +467,7 @@ Share this verified utility with entrepreneurs in your network!</textarea>
         document.execCommand('copy');
       });
       const orig = btn.innerText;
-      btn.innerText = 'Copied!';
+      btn.innerText = 'कॉपी हो गया!';
       btn.classList.add('bg-emerald-600', 'text-white');
       setTimeout(() => {
         btn.innerText = orig;
