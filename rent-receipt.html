@@ -102,38 +102,48 @@
         print-color-adjust: exact !important;
         color-adjust: exact !important;
       }
-      body {
-        background: #fff !important;
-        color: #0f172a !important;
-        font-size: 11px !important;
+      html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
         height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
         overflow: visible !important;
       }
-      header, footer, nav, section, .no-print, #col-form, .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden, button {
+      /* Hide all non-printable UI elements completely so they take 0 height and no flow space */
+      header, footer, nav, section, .no-print, #col-form,
+      .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden,
+      #logo-maker-modal, #quick-items-modal, #custom-template-modal,
+      #download-toast, button, input, select, textarea, datalist {
         display: none !important;
         height: 0 !important;
+        width: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
+        border: none !important;
+        outline: none !important;
+        position: absolute !important;
+        overflow: hidden !important;
+        clip: rect(0,0,0,0) !important;
       }
-      main {
+      main, #col-preview {
         display: block !important;
-        max-width: 100% !important;
-        padding: 0 !important;
+        position: static !important;
         margin: 0 !important;
-        width: 100% !important;
-      }
-      #col-preview {
-        display: block !important;
-        width: 100% !important;
-        max-width: 100% !important;
         padding: 0 !important;
-        margin: 0 !important;
-      }
-      #col-form {
-        display: none !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        float: none !important;
       }
       /* Strip paper mat container: eliminate outer grey background, border, inner shadow, and padding */
       #rent-preview-viewport {
@@ -152,25 +162,49 @@
         max-height: none !important;
         overflow: visible !important;
         display: block !important;
+        position: static !important;
         contain: none !important;
         transform: none !important;
+        -webkit-transform: none !important;
       }
       /* Authentic Rent Receipt sheet: spans full printable A4 page with crisp authentic emerald border */
-      #rent-receipt-preview {
-        box-shadow: none !important;
-        border: 2px solid #065f46 !important;
-        border-radius: 0 !important;
+      #rent-receipt-preview,
+      div#rent-receipt-preview {
+        display: block !important;
+        position: static !important;
+        margin: 0 auto !important;
+        padding: 18px 22px !important;
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        box-sizing: border-box !important;
         transform: none !important;
-        margin: 0 auto !important;
-        padding: 24px 28px !important;
-        page-break-inside: avoid !important;
+        -webkit-transform: none !important;
+        transform-origin: initial !important;
+        -webkit-transform-origin: initial !important;
+        box-shadow: none !important;
+        border: 2px solid #065f46 !important;
+        border-radius: 0 !important;
         background: #ffffff !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        overflow: visible !important;
+      }
+      #rent-receipt-preview table,
+      #rent-receipt-preview tr,
+      #rent-receipt-preview td,
+      #rent-receipt-preview th {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
       .page-break-avoid {
         page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
       .editable-field, .editable-field:hover, .editable-field:focus {
         background: transparent !important;
@@ -1676,19 +1710,38 @@
       const container = document.getElementById('rent-receipt-preview');
       const viewport = document.getElementById('rent-preview-viewport');
       if (container) {
+        container.style.removeProperty('transform');
+        container.style.removeProperty('-webkit-transform');
+        container.style.removeProperty('transform-origin');
+        container.style.removeProperty('-webkit-transform-origin');
+        container.style.removeProperty('min-width');
+        container.style.removeProperty('max-width');
+        container.style.removeProperty('width');
         container.style.transform = 'none';
+        container.style.webkitTransform = 'none';
         container.style.minWidth = '0';
         container.style.width = '100%';
         container.style.maxWidth = '100%';
       }
       if (viewport) {
+        viewport.style.removeProperty('height');
+        viewport.style.removeProperty('min-height');
+        viewport.style.removeProperty('max-height');
         viewport.style.height = 'auto';
       }
     }
 
+    function restoreRentScaleAfterPrint() {
+      window.removeEventListener('focus', restoreRentScaleAfterPrint);
+      window.removeEventListener('touchstart', restoreRentScaleAfterPrint);
+      setTimeout(() => {
+        fitRentPreviewToScreen();
+      }, 150);
+    }
+
     window.addEventListener('beforeprint', resetRentPreviewScaleForPrint);
     window.addEventListener('afterprint', () => {
-      fitRentPreviewToScreen();
+      restoreRentScaleAfterPrint();
     });
 
     // High Reliability Rent Receipt Print Invocation
@@ -1699,11 +1752,19 @@
       const colPreview = document.getElementById('col-preview');
       if (colPreview) colPreview.classList.remove('hidden');
       resetRentPreviewScaleForPrint();
+
+      // Listen for window re-focus or touch after user dismisses print sheet
+      window.addEventListener('focus', restoreRentScaleAfterPrint, { once: true });
+      window.addEventListener('touchstart', restoreRentScaleAfterPrint, { once: true });
+
       window.print();
-      setTimeout(fitRentPreviewToScreen, 500);
+      // NOTE: Never call setTimeout(fitRentPreviewToScreen) here!
     }
 
     function fitRentPreviewToScreen() {
+      if (window.matchMedia && window.matchMedia('print').matches) {
+        return;
+      }
       const container = document.getElementById('rent-receipt-preview');
       const viewport = document.getElementById('rent-preview-viewport');
       if (!container || !viewport) return;

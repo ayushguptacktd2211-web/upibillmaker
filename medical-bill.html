@@ -146,28 +146,42 @@
         background: #ffffff !important;
         color: #000000 !important;
         width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
         height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
         overflow: visible !important;
       }
-      header, footer, nav, section, .no-print, #col-form, .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden, button {
+      /* Hide all non-printable UI elements completely so they take 0 height and no flow space */
+      header, footer, nav, section, .no-print, #col-form,
+      .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden,
+      #logo-maker-modal, #quick-items-modal, #custom-template-modal,
+      #download-toast, button, input, select, textarea, datalist {
         display: none !important;
         height: 0 !important;
+        width: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
+        border: none !important;
+        outline: none !important;
+        position: absolute !important;
+        overflow: hidden !important;
+        clip: rect(0,0,0,0) !important;
       }
-      main {
+      main, #col-preview {
         display: block !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        max-width: 100% !important;
-        width: 100% !important;
-      }
-      #col-preview {
-        display: block !important;
+        position: static !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
+        min-width: 0 !important;
         max-width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        float: none !important;
       }
       /* Strip paper mat container: eliminate outer grey background, border, inner shadow, and padding */
       #medical-preview-viewport {
@@ -186,24 +200,45 @@
         max-height: none !important;
         overflow: visible !important;
         display: block !important;
+        position: static !important;
         contain: none !important;
         transform: none !important;
+        -webkit-transform: none !important;
       }
       /* Real Indian Medical / Pharmacy Rx bill sheet: spans full printable A4 page with crisp authentic teal border */
-      #medical-bill-preview {
+      #medical-bill-preview,
+      div#medical-bill-preview {
         display: block !important;
-        position: relative !important;
+        position: static !important;
         margin: 0 auto !important;
-        padding: 16px 20px !important;
+        padding: 14px 18px !important;
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        box-sizing: border-box !important;
         transform: none !important;
+        -webkit-transform: none !important;
+        transform-origin: initial !important;
+        -webkit-transform-origin: initial !important;
         box-shadow: none !important;
         border: 1.5px solid #0f766e !important;
         border-radius: 0 !important;
         background: #ffffff !important;
-        page-break-inside: avoid;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        overflow: visible !important;
+      }
+      #medical-bill-preview table,
+      #medical-bill-preview tr,
+      #medical-bill-preview td,
+      #medical-bill-preview th {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
       .editable-field, .editable-field:hover, .editable-field:focus {
         background: transparent !important;
@@ -2318,19 +2353,38 @@
       const container = document.getElementById('medical-bill-preview');
       const viewport = document.getElementById('medical-preview-viewport');
       if (container) {
+        container.style.removeProperty('transform');
+        container.style.removeProperty('-webkit-transform');
+        container.style.removeProperty('transform-origin');
+        container.style.removeProperty('-webkit-transform-origin');
+        container.style.removeProperty('min-width');
+        container.style.removeProperty('max-width');
+        container.style.removeProperty('width');
         container.style.transform = 'none';
+        container.style.webkitTransform = 'none';
         container.style.minWidth = '0';
         container.style.width = '100%';
         container.style.maxWidth = '100%';
       }
       if (viewport) {
+        viewport.style.removeProperty('height');
+        viewport.style.removeProperty('min-height');
+        viewport.style.removeProperty('max-height');
         viewport.style.height = 'auto';
       }
     }
 
+    function restoreMedScaleAfterPrint() {
+      window.removeEventListener('focus', restoreMedScaleAfterPrint);
+      window.removeEventListener('touchstart', restoreMedScaleAfterPrint);
+      setTimeout(() => {
+        fitMedPreviewToScreen();
+      }, 150);
+    }
+
     window.addEventListener('beforeprint', resetMedPreviewScaleForPrint);
     window.addEventListener('afterprint', () => {
-      fitMedPreviewToScreen();
+      restoreMedScaleAfterPrint();
     });
 
     // High Reliability Medical Bill Print Invocation
@@ -2341,11 +2395,19 @@
       const colPreview = document.getElementById('col-preview');
       if (colPreview) colPreview.classList.remove('hidden');
       resetMedPreviewScaleForPrint();
+
+      // Listen for window re-focus or touch after user dismisses print sheet
+      window.addEventListener('focus', restoreMedScaleAfterPrint, { once: true });
+      window.addEventListener('touchstart', restoreMedScaleAfterPrint, { once: true });
+
       window.print();
-      setTimeout(fitMedPreviewToScreen, 500);
+      // NOTE: Never call setTimeout(fitMedPreviewToScreen) here!
     }
 
     function fitMedPreviewToScreen() {
+      if (window.matchMedia && window.matchMedia('print').matches) {
+        return;
+      }
       const container = document.getElementById('medical-bill-preview');
       const viewport = document.getElementById('medical-preview-viewport');
       if (!container || !viewport) return;

@@ -830,29 +830,42 @@
         background: #ffffff !important;
         color: #000000 !important;
         width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
         height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
         overflow: visible !important;
       }
-      /* Hide all non-printable UI elements completely so they take 0 height */
-      header, footer, nav, section, .no-print, #col-main-form, .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden, #logo-maker-modal, button {
+      /* Hide all non-printable UI elements completely so they take 0 height and no flow space */
+      header, footer, nav, section, .no-print, #col-main-form,
+      .ad-banner-slot, .adsbygoogle, #floating-view-btn, .lg\:hidden,
+      #logo-maker-modal, #quick-items-modal, #custom-template-modal,
+      #download-toast, button, input, select, textarea, datalist {
         display: none !important;
         height: 0 !important;
+        width: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
+        border: none !important;
+        outline: none !important;
+        position: absolute !important;
+        overflow: hidden !important;
+        clip: rect(0,0,0,0) !important;
       }
-      main, #tool-section {
+      main, #tool-section, #col-main-preview {
         display: block !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        max-width: 100% !important;
-        width: 100% !important;
-      }
-      #col-main-preview {
-        display: block !important;
+        position: static !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
+        min-width: 0 !important;
         max-width: 100% !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        float: none !important;
       }
       /* Strip paper mat container: eliminate outer grey background, border, inner shadow, and padding */
       #invoice-preview-viewport {
@@ -871,31 +884,58 @@
         max-height: none !important;
         overflow: visible !important;
         display: block !important;
+        position: static !important;
         contain: none !important;
         transform: none !important;
+        -webkit-transform: none !important;
       }
       /* Real Indian Tax Invoice sheet: spans full printable A4 page with crisp authentic dark border */
-      #invoice-preview-container {
+      #invoice-preview-container,
+      #invoice-preview-container[class*="format-"],
+      div#invoice-preview-container {
         display: block !important;
-        position: relative !important;
+        position: static !important;
         margin: 0 auto !important;
-        padding: 16px 20px !important;
+        padding: 14px 18px !important;
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        box-sizing: border-box !important;
         transform: none !important;
+        -webkit-transform: none !important;
+        transform-origin: initial !important;
+        -webkit-transform-origin: initial !important;
         box-shadow: none !important;
         border: 1.5px solid #0f172a !important;
         border-radius: 0 !important;
         background: #ffffff !important;
-        page-break-inside: avoid;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: avoid !important;
+        break-after: avoid !important;
+        overflow: visible !important;
       }
       /* Thermal POS slip format override */
       #invoice-preview-container.format-rest-thermal {
         max-width: 380px !important;
+        width: 380px !important;
         border: 1.5px dashed #0f172a !important;
         padding: 12px !important;
         margin: 0 auto !important;
+      }
+      #invoice-preview-container table,
+      #invoice-preview-container tr,
+      #invoice-preview-container td,
+      #invoice-preview-container th,
+      #sec-invoice-header,
+      #sec-billed-to,
+      #sec-bottom-ledger,
+      #upi-payment-block {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
       }
       .editable-field, .editable-field:hover, .editable-field:focus {
         background: transparent !important;
@@ -4874,19 +4914,38 @@
       const viewport = document.getElementById('invoice-preview-viewport');
       if (container) {
         const isThermal = container.classList.contains('format-rest-thermal');
+        container.style.removeProperty('transform');
+        container.style.removeProperty('-webkit-transform');
+        container.style.removeProperty('transform-origin');
+        container.style.removeProperty('-webkit-transform-origin');
+        container.style.removeProperty('min-width');
+        container.style.removeProperty('max-width');
+        container.style.removeProperty('width');
         container.style.transform = 'none';
+        container.style.webkitTransform = 'none';
         container.style.minWidth = '0';
         container.style.width = isThermal ? '380px' : '100%';
         container.style.maxWidth = isThermal ? '380px' : '100%';
       }
       if (viewport) {
+        viewport.style.removeProperty('height');
+        viewport.style.removeProperty('min-height');
+        viewport.style.removeProperty('max-height');
         viewport.style.height = 'auto';
       }
     }
 
+    function restoreScaleAfterPrint() {
+      window.removeEventListener('focus', restoreScaleAfterPrint);
+      window.removeEventListener('touchstart', restoreScaleAfterPrint);
+      setTimeout(() => {
+        fitPreviewToScreen();
+      }, 150);
+    }
+
     window.addEventListener('beforeprint', resetPreviewScaleForPrint);
     window.addEventListener('afterprint', () => {
-      fitPreviewToScreen();
+      restoreScaleAfterPrint();
     });
 
     // High Reliability Print Invocation
@@ -4897,8 +4956,14 @@
       const colPreview = document.getElementById('col-main-preview');
       if (colPreview) colPreview.classList.remove('hidden');
       resetPreviewScaleForPrint();
+
+      // Listen for window re-focus or touch after user dismisses print sheet
+      window.addEventListener('focus', restoreScaleAfterPrint, { once: true });
+      window.addEventListener('touchstart', restoreScaleAfterPrint, { once: true });
+
       window.print();
-      setTimeout(fitPreviewToScreen, 500);
+      // NOTE: Never call setTimeout(fitPreviewToScreen) here!
+      // On iOS Safari & mobile Chrome, window.print() is asynchronous.
     }
 
     // Download 100% Guaranteed High-Resolution A4 PDF via jsPDF & html2canvas
@@ -6768,6 +6833,9 @@
 
     // Automatic Responsive Mobile Scaling for Invoice Preview (Centered, never forced 100%)
     function fitPreviewToScreen() {
+      if (window.matchMedia && window.matchMedia('print').matches) {
+        return;
+      }
       const container = document.getElementById('invoice-preview-container');
       const viewport = document.getElementById('invoice-preview-viewport');
       if (!container || !viewport) return;
