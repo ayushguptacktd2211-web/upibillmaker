@@ -480,7 +480,7 @@
               </div>
               <div>
                 <h3 id="bill-share-modal-title" class="font-heading font-bold text-slate-900 text-xs sm:text-sm leading-tight">Share Bill / Invoice</h3>
-                <p id="bill-share-modal-subtitle" class="text-slate-500 text-[10.5px]">Choose format to share with customer or anyone:</p>
+                <p id="bill-share-modal-subtitle" class="text-slate-500 text-[10.5px]">Select format to share or download:</p>
               </div>
             </div>
             <button type="button" onclick="closeBillShareModal()" class="w-6 h-6 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-200/60 flex items-center justify-center transition-colors cursor-pointer" aria-label="Close">
@@ -507,8 +507,8 @@
               </div>
               <div class="flex items-center gap-1.5">
                 <button type="button" id="btn-share-text-any" onclick="shareBillTextToAny()" class="flex-1 py-1.5 px-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white text-[11px] font-bold rounded-lg flex items-center justify-center gap-1 transition-all shadow-2xs cursor-pointer">
-                  <i data-lucide="send" class="w-3 h-3"></i>
-                  <span>Share to Any Contact</span>
+                  <i data-lucide="message-circle" class="w-3 h-3"></i>
+                  <span>Share on WhatsApp</span>
                 </button>
                 <button type="button" id="btn-share-text-phone" onclick="shareBillTextToPhone()" class="hidden py-1.5 px-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-[11px] font-semibold rounded-lg items-center gap-1 transition-all cursor-pointer shrink-0">
                   <i data-lucide="phone" class="w-3 h-3"></i>
@@ -538,7 +538,7 @@
               <div class="flex items-center gap-1.5">
                 <button type="button" id="btn-share-bill-png" onclick="shareBillPNG()" class="flex-1 py-1.5 px-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-[11px] font-bold rounded-lg flex items-center justify-center gap-1 transition-all shadow-2xs cursor-pointer">
                   <i data-lucide="share-2" class="w-3 h-3"></i>
-                  <span>Share Image to Contact</span>
+                  <span>Share Image</span>
                 </button>
                 <button type="button" onclick="triggerDirectDownloadPNG()" class="py-1.5 px-2.5 bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 text-[11px] font-semibold rounded-lg flex items-center gap-1 transition-all cursor-pointer shrink-0">
                   <i data-lucide="download" class="w-3 h-3"></i>
@@ -564,7 +564,7 @@
               <div class="flex items-center gap-1.5">
                 <button type="button" id="btn-share-bill-pdf" onclick="shareBillPDF()" class="flex-1 py-1.5 px-2.5 bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white text-[11px] font-bold rounded-lg flex items-center justify-center gap-1 transition-all shadow-2xs cursor-pointer">
                   <i data-lucide="share-2" class="w-3 h-3"></i>
-                  <span>Share PDF File</span>
+                  <span>Share PDF</span>
                 </button>
                 <button type="button" onclick="triggerDirectDownloadPDF()" class="py-1.5 px-2.5 bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 text-[11px] font-semibold rounded-lg flex items-center gap-1 transition-all cursor-pointer shrink-0">
                   <i data-lucide="download" class="w-3 h-3"></i>
