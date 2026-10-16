@@ -2,12 +2,11 @@
 <html lang="hi">
 <head>
   <meta charset="UTF-8">
-  <title>UPIBillMaker 16:11 Official Hindi Poster (White Edition)</title>
+  <title>UPIBillMaker 16:11 Clean Centered Poster</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500;600;700;800;900&family=Outfit:wght@700;800;900&family=Poppins:wght@600;700;800;900&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@600;700;800;900&family=Outfit:wght@800;900&family=Poppins:wght@700;800;900&family=Space+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -22,264 +21,151 @@
     .font-heading { font-family: 'Noto Sans Devanagari', 'Outfit', sans-serif; }
   </style>
 </head>
-<body class="relative flex flex-col justify-between p-12 select-none bg-white">
+<body class="relative flex flex-col justify-between items-center text-center p-16 select-none bg-white">
 
-  <!-- Subtle Clean Decorative Backdrop Elements -->
-  <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-emerald-100/60 via-teal-50/40 to-transparent rounded-full blur-3xl pointer-events-none"></div>
-  <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-100/50 via-slate-100/50 to-transparent rounded-full blur-3xl pointer-events-none"></div>
-  
-  <!-- Outer Border Container for Clean Poster Look -->
-  <div class="absolute inset-5 rounded-[36px] border-4 border-slate-200/90 pointer-events-none"></div>
+  <!-- Subtle Minimal Background Aura -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[700px] bg-gradient-to-tr from-emerald-50 via-teal-50/50 to-transparent rounded-full blur-3xl pointer-events-none"></div>
 
-  <!-- 1. Header Bar -->
-  <header class="relative z-10 flex items-center justify-between pb-5 border-b-2 border-slate-200">
-    <!-- Brand Logo (Huge & Bold) -->
-    <div class="flex items-center gap-5">
-      <div class="w-20 h-20 rounded-3xl bg-emerald-600 flex items-center justify-center text-white shadow-xl shadow-emerald-600/30">
-        <i data-lucide="qr-code" class="w-12 h-12"></i>
+  <!-- 1. Header: Official Clean Logo & Badges -->
+  <header class="relative z-10 w-full flex items-center justify-between pb-6 border-b border-slate-200">
+    <!-- Official Logo -->
+    <div class="flex items-center gap-4">
+      <div class="w-16 h-16 rounded-2xl shadow-lg shadow-emerald-600/20 overflow-hidden shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+          <defs>
+            <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#059669"/>
+              <stop offset="100%" stop-color="#047857"/>
+            </linearGradient>
+            <linearGradient id="paperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#f8fafc"/>
+            </linearGradient>
+          </defs>
+          <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+          <rect x="8" y="8" width="496" height="496" rx="104" fill="none" stroke="#34d399" stroke-width="6" stroke-opacity="0.4"/>
+          <path d="M124 84 H324 L388 148 V420 C388 428.8 380.8 436 372 436 H140 C131.2 436 124 428.8 124 420 Z" fill="url(#paperGrad)"/>
+          <path d="M324 84 V140 C324 144.4 327.6 148 332 148 H388 Z" fill="#a7f3d0"/>
+          <text x="256" y="260" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="130" font-weight="900" fill="#047857" text-anchor="middle">₹</text>
+          <rect x="160" y="295" width="170" height="14" rx="7" fill="#10b981"/>
+          <rect x="160" y="325" width="115" height="12" rx="6" fill="#6ee7b7"/>
+          <rect x="160" y="352" width="135" height="12" rx="6" fill="#6ee7b7"/>
+          <rect x="290" y="315" width="85" height="85" rx="16" fill="#0f172a"/>
+          <rect x="302" y="327" width="26" height="26" rx="5" fill="#ffffff"/>
+          <rect x="308" y="333" width="14" height="14" rx="2" fill="#0f172a"/>
+          <rect x="337" y="327" width="26" height="26" rx="5" fill="#ffffff"/>
+          <rect x="343" y="333" width="14" height="14" rx="2" fill="#0f172a"/>
+          <rect x="302" y="362" width="26" height="26" rx="5" fill="#ffffff"/>
+          <rect x="308" y="368" width="14" height="14" rx="2" fill="#0f172a"/>
+        </svg>
       </div>
-      <div>
-        <div class="font-brand font-black text-5xl text-slate-900 tracking-tight flex items-center gap-1">
-          <span>UPI</span><span class="text-emerald-600">BillMaker</span><span class="text-xl text-slate-400 font-sans font-semibold ml-1">.com</span>
+      <div class="text-left">
+        <div class="font-brand font-black text-4xl text-slate-900 tracking-tight flex items-center">
+          <span>UPI</span><span class="text-emerald-600">BillMaker</span><span class="text-xl text-slate-400 font-sans font-bold ml-1">.com</span>
         </div>
-        <p class="text-xl text-emerald-800 font-bold mt-1">
-          दुकान व व्यापार का 100% फ्री डिजिटल बिल मेकर • ऑटो-पे UPI QR
-        </p>
+        <p class="text-base text-emerald-800 font-bold">100% फ्री डिजिटल बिल मेकर</p>
       </div>
     </div>
 
-    <!-- Trust Badges (Big & Bold) -->
-    <div class="flex items-center gap-4">
-      <div class="flex items-center gap-2.5 px-6 py-3 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-emerald-800 text-xl font-black shadow-sm">
-        <span class="w-3.5 h-3.5 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span>100% मुफ्त हमेशा</span>
-      </div>
-      <div class="flex items-center gap-2.5 px-6 py-3 rounded-2xl bg-slate-100 border-2 border-slate-300 text-slate-800 text-xl font-bold shadow-sm">
-        <i data-lucide="shield-check" class="w-6 h-6 text-emerald-600"></i>
-        <span>नो लॉगिन • नो ऐप</span>
-      </div>
+    <!-- Clean Badges -->
+    <div class="flex items-center gap-3 text-lg font-black">
+      <span class="px-5 py-2 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-300">
+        100% मुफ्त हमेशा
+      </span>
+      <span class="px-5 py-2 rounded-xl bg-slate-100 text-slate-700 border border-slate-300">
+        नो लॉगिन • नो ऐप
+      </span>
     </div>
   </header>
 
-  <!-- 2. Main Hero Showcase Section -->
-  <main class="relative z-10 grid grid-cols-12 gap-10 items-center my-auto py-4">
-    <!-- Left Column: Big Headline & Highlights (7 cols) -->
-    <div class="col-span-7 space-y-6">
-      <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-emerald-100/90 text-emerald-900 border-2 border-emerald-300 text-lg font-black tracking-wide">
-        <i data-lucide="zap" class="w-6 h-6 text-amber-500 fill-amber-500"></i>
-        <span>मात्र 30 सेकंड में बनाएं और तुरंत WhatsApp पर भेजें</span>
-      </div>
+  <!-- 2. Main Center Body: Giant Centered Headlines -->
+  <main class="relative z-10 w-full max-w-5xl my-auto flex flex-col items-center justify-center space-y-8">
+    
+    <!-- Question Hook (Large & Centered) -->
+    <div class="text-3xl font-black text-slate-600 tracking-wide">
+      दुकान या व्यापार का बिल बनाना है?
+    </div>
 
-      <h1 class="font-heading font-black text-[56px] leading-[1.2] text-slate-900 tracking-tight">
-        दुकान व व्यापार का GST और कच्चा बिल बनाएं <br>
-        <span class="text-emerald-600 underline decoration-amber-400 decoration-4 underline-offset-8">
-          ऑटो-पे UPI QR कोड
-        </span> 
-        <span class="text-slate-800">व तुरंत PDF के साथ</span>
+    <!-- Main Punchline: "कहाँ बनाएं? सीधे upibillmaker.com पर आएं!" -->
+    <div class="space-y-4">
+      <div class="text-5xl font-black text-slate-800 font-heading">
+        कहाँ बनाएं?
+      </div>
+      <h1 class="text-7xl lg:text-[84px] font-black text-slate-900 font-heading leading-tight tracking-tight">
+        सीधे <span class="text-emerald-600 underline decoration-amber-400 decoration-8 underline-offset-8">upibillmaker.com</span> पर आएं!
       </h1>
-
-      <p class="text-2xl text-slate-700 font-semibold leading-relaxed">
-        हर बिल पर अपने आप UPI QR कोड बनेगा। ग्राहक सीधे <span class="text-emerald-700 font-extrabold">GPay, PhonePe, Paytm</span> से स्कैन करके 5 सेकंड में पेमेंट कर सकते हैं।
-      </p>
-
-      <!-- 2 Main Feature Badges -->
-      <div class="grid grid-cols-2 gap-4 pt-1">
-        <div class="flex items-center gap-4 p-4 rounded-2xl bg-emerald-50/80 border-2 border-emerald-200">
-          <div class="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md">
-            <i data-lucide="printer" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <div class="text-lg font-extrabold text-slate-900">A4 साइज PDF व PNG प्रिंट</div>
-            <div class="text-sm font-semibold text-slate-600">प्रिंट व शेयर के लिए तैयार</div>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-4 p-4 rounded-2xl bg-teal-50/80 border-2 border-teal-200">
-          <div class="w-12 h-12 rounded-xl bg-teal-600 text-white flex items-center justify-center shrink-0 shadow-md">
-            <i data-lucide="send" class="w-6 h-6"></i>
-          </div>
-          <div>
-            <div class="text-lg font-extrabold text-slate-900">1-क्लिक WhatsApp शेयर</div>
-            <div class="text-sm font-semibold text-slate-600">सीधे ग्राहक के मोबाइल पर भेजें</div>
-          </div>
-        </div>
+      <div class="text-6xl font-black text-emerald-700 font-heading pt-2">
+        वो भी बिल्कुल मुफ़्त!
       </div>
     </div>
 
-    <!-- Right Column: Visual Bill Preview & QR Mockup Card (5 cols) -->
-    <div class="col-span-5 relative">
-      <!-- Glow & Shadow behind bill card -->
-      <div class="absolute -inset-2 bg-gradient-to-r from-emerald-300 to-teal-300 rounded-[32px] blur-xl opacity-50"></div>
+    <!-- Punchy Key Features (Clean, Big, Centered) -->
+    <div class="text-3xl font-extrabold text-slate-700 max-w-4xl leading-relaxed pt-2">
+      मात्र 30 सेकंड में बनाएं <span class="text-slate-900 underline decoration-emerald-500">GST व कच्चा बिल</span> <br>
+      <span class="text-emerald-700">Auto-Pay UPI QR कोड</span> के साथ तुरंत पेमेंट पाएं
+    </div>
 
-      <!-- Bill Mockup Card -->
-      <div class="relative bg-white text-slate-900 rounded-[28px] p-8 shadow-2xl border-4 border-emerald-600 space-y-4">
-        <!-- Bill Header -->
-        <div class="flex items-start justify-between border-b-2 border-slate-200 pb-3">
-          <div>
-            <div class="text-xs font-black text-emerald-700 uppercase tracking-widest">GST TAX INVOICE • पक्का बिल</div>
-            <div class="text-2xl font-black text-slate-900 mt-0.5">शर्मा किराना &amp; जनरल स्टोर</div>
-            <div class="text-xs font-bold text-slate-500">GSTIN: 07AAAAA0000A1Z5 • नई दिल्ली</div>
-          </div>
-          <span class="px-3.5 py-1.5 rounded-xl bg-emerald-100 text-emerald-800 text-xs font-black tracking-wider border border-emerald-300">
-            PAID ✔
-          </span>
-        </div>
-
-        <!-- Bill Line Items -->
-        <div class="space-y-2 text-sm font-semibold text-slate-700">
-          <div class="flex justify-between border-b pb-1.5 font-bold text-slate-400 text-xs uppercase">
-            <span>सामान (Item)</span>
-            <span>मात्रा</span>
-            <span>मूल्य (₹)</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-slate-900 font-bold">बासमती प्रीमियम चावल</span>
-            <span class="text-slate-500">5 KG</span>
-            <span class="font-extrabold text-slate-900">₹550.00</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-slate-900 font-bold">फॉर्च्यून सोयाबीन तेल</span>
-            <span class="text-slate-500">2 लीटर</span>
-            <span class="font-extrabold text-slate-900">₹280.00</span>
-          </div>
-          <div class="flex justify-between">
-            <span class="text-slate-900 font-bold">टाटा नमक + चीनी</span>
-            <span class="text-slate-500">1 कॉम्बो</span>
-            <span class="font-extrabold text-slate-900">₹120.00</span>
-          </div>
-          <!-- Total -->
-          <div class="flex justify-between items-center text-slate-900 font-black text-xl border-t-2 border-slate-300 pt-2 mt-2">
-            <span>कुल राशि (Total Due)</span>
-            <span class="text-2xl text-emerald-700 font-black bg-emerald-50 px-3 py-1 rounded-xl border border-emerald-200">₹950.00</span>
-          </div>
-        </div>
-
-        <!-- Integrated Auto-Pay QR Code Box (Big & Clear) -->
-        <div class="rounded-2xl p-4 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-2 border-emerald-300 flex items-center gap-5">
-          <!-- QR Image Graphic -->
-          <div class="w-24 h-24 bg-white p-1.5 rounded-2xl shadow-lg border-2 border-slate-300 flex items-center justify-center shrink-0">
-            <svg class="w-full h-full text-slate-900" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm10-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm14 0h4v4h-4v-4zm-4 4h4v4h-4v-4zm4-4h4v-4h-4v4zm-8-2h2v2h-2v-2zm4 0h2v2h-2v-2zm2-2h2v2h-2v-2zm-6 6h2v2h-2v-2zm6 2h2v2h-2v-2z"/>
-            </svg>
-          </div>
-          <div>
-            <div class="text-xs font-black text-emerald-800 uppercase tracking-wider flex items-center gap-1.5">
-              <i data-lucide="scan" class="w-4 h-4"></i> Auto-Pay UPI QR Code
-            </div>
-            <div class="text-base font-extrabold text-slate-900 mt-0.5">GPay, PhonePe, Paytm से स्कैन करें</div>
-            <div class="text-xs font-bold text-slate-600 mt-1">राशि ₹950 अपने आप भरी हुई आएगी</div>
-          </div>
-        </div>
+    <!-- 3 Core Points (Inline, Bold, Clean) -->
+    <div class="flex items-center justify-center gap-8 text-xl font-bold text-slate-800 pt-2">
+      <div class="flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+        <span>A4 साइज PDF व WhatsApp शेयर</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+        <span>ग्राहक 5 सेकंड में QR स्कैन करके पे करें</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+        <span>कोई सॉफ्टवेयर चार्ज नहीं</span>
       </div>
     </div>
+
   </main>
 
-  <!-- 3. 6 Specialized Industry Templates Grid (Large & Prominent) -->
-  <section class="relative z-10 pt-1 pb-2">
-    <div class="flex items-center justify-between mb-3 px-1">
-      <div class="text-sm font-black uppercase tracking-wider text-emerald-800 flex items-center gap-2">
-        <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
-        <span>6 विशेष भारतीय व्यापार टेम्पलेट्स (Ready-to-Use)</span>
-      </div>
-      <div class="text-sm font-bold text-slate-500">
-        GST टैक्स इनवॉइस व कच्चा बिल दोनों उपलब्ध
-      </div>
+  <!-- 3. Clean Template Pills (Single Line) -->
+  <section class="relative z-10 w-full max-w-5xl border-t border-b border-slate-200 py-4 my-2">
+    <div class="text-sm font-black text-slate-400 uppercase tracking-widest mb-2">
+      सभी व्यापारियों के लिए तैयार टेम्पलेट्स
     </div>
-
-    <div class="grid grid-cols-6 gap-3.5">
-      <!-- 1. Kirana -->
-      <div class="p-4 rounded-2xl bg-white border-2 border-emerald-300 shadow-md hover:shadow-lg transition-all space-y-2">
-        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
-          <i data-lucide="shopping-bag" class="w-6 h-6"></i>
-        </div>
-        <div>
-          <div class="text-lg font-black text-slate-900">दुकान व किराना</div>
-          <div class="text-xs font-bold text-slate-600 mt-0.5">A4 टैक्स बिल व कच्ची पर्ची</div>
-        </div>
-      </div>
-
-      <!-- 2. Medical -->
-      <div class="p-4 rounded-2xl bg-white border-2 border-teal-300 shadow-md hover:shadow-lg transition-all space-y-2">
-        <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center">
-          <i data-lucide="activity" class="w-6 h-6"></i>
-        </div>
-        <div>
-          <div class="text-lg font-black text-slate-900">मेडिकल स्टोर</div>
-          <div class="text-xs font-bold text-slate-600 mt-0.5">डॉक्टर Rx व दवा पर्ची</div>
-        </div>
-      </div>
-
-      <!-- 3. Restaurant -->
-      <div class="p-4 rounded-2xl bg-white border-2 border-amber-300 shadow-md hover:shadow-lg transition-all space-y-2">
-        <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
-          <i data-lucide="utensils" class="w-6 h-6"></i>
-        </div>
-        <div>
-          <div class="text-lg font-black text-slate-900">रेस्टोरेंट व कैफे</div>
-          <div class="text-xs font-bold text-slate-600 mt-0.5">80mm थर्मल फूड पर्ची</div>
-        </div>
-      </div>
-
-      <!-- 4. Hotel -->
-      <div class="p-4 rounded-2xl bg-white border-2 border-indigo-300 shadow-md hover:shadow-lg transition-all space-y-2">
-        <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center">
-          <i data-lucide="hotel" class="w-6 h-6"></i>
-        </div>
-        <div>
-          <div class="text-lg font-black text-slate-900">होटल व गेस्ट हाउस</div>
-          <div class="text-xs font-bold text-slate-600 mt-0.5">रूम स्टे व फोलियो रसीद</div>
-        </div>
-      </div>
-
-      <!-- 5. Rent -->
-      <div class="p-4 rounded-2xl bg-white border-2 border-cyan-300 shadow-md hover:shadow-lg transition-all space-y-2">
-        <div class="w-12 h-12 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center">
-          <i data-lucide="home" class="w-6 h-6"></i>
-        </div>
-        <div>
-          <div class="text-lg font-black text-slate-900">मकान किराया रसीद</div>
-          <div class="text-xs font-bold text-slate-600 mt-0.5">HRA टैक्स छूट रसीद</div>
-        </div>
-      </div>
-
-      <!-- 6. Tuition -->
-      <div class="p-4 rounded-2xl bg-white border-2 border-blue-300 shadow-md hover:shadow-lg transition-all space-y-2">
-        <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
-          <i data-lucide="graduation-cap" class="w-6 h-6"></i>
-        </div>
-        <div>
-          <div class="text-lg font-black text-slate-900">कोचिंग व ट्यूशन फीस</div>
-          <div class="text-xs font-bold text-slate-600 mt-0.5">छात्र फीस रसीद व बैलेंस</div>
-        </div>
-      </div>
+    <div class="flex flex-wrap items-center justify-center gap-4 text-xl font-extrabold text-slate-800">
+      <span class="px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200">दुकान व किराना</span>
+      <span class="px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200">मेडिकल स्टोर</span>
+      <span class="px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200">रेस्टोरेंट व कैफे</span>
+      <span class="px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200">होटल व स्टे</span>
+      <span class="px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200">मकान किराया रसीद</span>
+      <span class="px-4 py-1.5 rounded-lg bg-slate-100 border border-slate-200">कोचिंग फीस</span>
     </div>
   </section>
 
-  <!-- 4. Footer Bar: Website URL & Accepted UPI Apps (Big & Bold) -->
-  <footer class="relative z-10 pt-4 border-t-2 border-slate-200 flex items-center justify-between">
-    <!-- URL Pill -->
+  <!-- 4. Footer Bar: Massive Centered Website URL & Payment Apps -->
+  <footer class="relative z-10 w-full flex items-center justify-between pt-4">
+    <!-- Big Website Button -->
     <div class="flex items-center gap-4">
-      <div class="px-6 py-3 rounded-2xl bg-emerald-600 text-white font-black text-2xl font-brand flex items-center gap-3 shadow-lg shadow-emerald-600/30">
-        <i data-lucide="globe" class="w-6 h-6"></i>
-        <span>upibillmaker.com</span>
+      <div class="px-8 py-3.5 rounded-2xl bg-emerald-600 text-white font-black text-3xl font-brand shadow-lg shadow-emerald-600/30">
+        upibillmaker.com
       </div>
-      <span class="text-base text-slate-600 font-bold">
-        मोबाइल व कंप्यूटर दोनों में सुपरफास्ट • 100% सुरक्षित व प्राइवेट
+      <span class="text-2xl font-black text-slate-800">
+        आज ही आज़माएं — बिल्कुल फ्री!
       </span>
     </div>
 
-    <!-- Supported UPI Badges (High Contrast) -->
-    <div class="flex items-center gap-2.5">
-      <span class="text-sm text-slate-500 font-extrabold uppercase tracking-wider mr-2">पेमेंट स्वीकारें:</span>
-      <span class="px-4 py-2 rounded-xl bg-slate-100 border-2 border-slate-300 text-sm font-black text-slate-800 font-sans shadow-sm">Google Pay</span>
-      <span class="px-4 py-2 rounded-xl bg-slate-100 border-2 border-slate-300 text-sm font-black text-slate-800 font-sans shadow-sm">PhonePe</span>
-      <span class="px-4 py-2 rounded-xl bg-slate-100 border-2 border-slate-300 text-sm font-black text-slate-800 font-sans shadow-sm">Paytm</span>
-      <span class="px-4 py-2 rounded-xl bg-emerald-50 border-2 border-emerald-400 text-sm font-black text-emerald-800 font-sans shadow-sm">BHIM UPI</span>
+    <!-- Supported UPI Badges with Brand Names -->
+    <div class="flex items-center gap-3">
+      <div class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-300 text-base font-black text-slate-800 font-sans">
+        <span class="text-blue-600">G</span><span class="text-red-500">P</span><span class="text-amber-500">a</span><span class="text-emerald-600">y</span>
+      </div>
+      <div class="px-4 py-2 rounded-xl bg-purple-50 border border-purple-200 text-base font-black text-purple-900 font-sans">
+        PhonePe
+      </div>
+      <div class="px-4 py-2 rounded-xl bg-sky-50 border border-sky-200 text-base font-black text-sky-900 font-sans">
+        Paytm
+      </div>
+      <div class="px-4 py-2 rounded-xl bg-emerald-50 border border-emerald-300 text-base font-black text-emerald-800 font-sans">
+        BHIM UPI
+      </div>
     </div>
   </footer>
 
-  <script>
-    if (window.lucide) lucide.createIcons();
-  </script>
 </body>
 </html>
