@@ -2097,20 +2097,35 @@
         }
 
         const canvas = await html2canvas(card, {
-          scale: 3,
+          scale: 3.5,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           logging: false,
+          windowWidth: 1200,
+          windowHeight: 1800,
           onclone: (clonedDoc) => {
+            const clonedCol = clonedDoc.getElementById('col-preview');
+            if (clonedCol) {
+              clonedCol.style.width = '880px';
+              clonedCol.style.minWidth = '880px';
+              clonedCol.style.maxWidth = 'none';
+              clonedCol.style.overflow = 'visible';
+            }
             const clonedCard = clonedDoc.getElementById('food-bill-preview');
             if (clonedCard) {
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
+              clonedCard.style.webkitTransform = 'none';
+              clonedCard.style.setProperty('transform', 'none', 'important');
+              clonedCard.style.setProperty('-webkit-transform', 'none', 'important');
               const targetW = currentRestaurantFormat === 'finedine' ? '560px' : (currentRestaurantFormat === 'fastfood' ? '460px' : '400px');
               clonedCard.style.width = targetW;
+              clonedCard.style.minWidth = targetW;
               clonedCard.style.maxWidth = targetW;
+              clonedCard.style.margin = '0 auto';
+              clonedCard.style.borderRadius = '0';
             }
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
@@ -2172,7 +2187,12 @@
       const canvas = await renderRestaurantCanvas();
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdf = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        compress: true
+      });
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
@@ -2181,10 +2201,10 @@
       const xOffset = (pdfWidth - slipWidthMm) / 2;
       
       if (slipHeightMm <= pdfHeight - 20) {
-        pdf.addImage(imgData, 'PNG', xOffset, 12, slipWidthMm, slipHeightMm, undefined, 'FAST');
+        pdf.addImage(imgData, 'PNG', xOffset, 12, slipWidthMm, slipHeightMm, undefined, 'NONE');
       } else {
         const scaleFactor = (pdfHeight - 20) / slipHeightMm;
-        pdf.addImage(imgData, 'PNG', (pdfWidth - (slipWidthMm * scaleFactor)) / 2, 10, slipWidthMm * scaleFactor, slipHeightMm * scaleFactor, undefined, 'FAST');
+        pdf.addImage(imgData, 'PNG', (pdfWidth - (slipWidthMm * scaleFactor)) / 2, 10, slipWidthMm * scaleFactor, slipHeightMm * scaleFactor, undefined, 'NONE');
       }
 
       return pdf.output('blob');
@@ -2304,7 +2324,8 @@
           onGetPNGBlob: getRestaurantPNGBlob,
           onGetPDFBlob: getRestaurantPDFBlob,
           onDownloadPNG: downloadAsPNG,
-          onDownloadPDF: downloadAsPDF
+          onDownloadPDF: downloadAsPDF,
+          onPrint: printRestaurantBill
         });
       }
     }

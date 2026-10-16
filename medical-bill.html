@@ -2224,20 +2224,34 @@
         }
 
         const canvas = await html2canvas(card, {
-          scale: 3,
+          scale: 3.5,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           logging: false,
-          windowWidth: 1024,
+          windowWidth: 1200,
+          windowHeight: 1800,
           onclone: (clonedDoc) => {
+            const clonedCol = clonedDoc.getElementById('col-preview');
+            if (clonedCol) {
+              clonedCol.style.width = '880px';
+              clonedCol.style.minWidth = '880px';
+              clonedCol.style.maxWidth = 'none';
+              clonedCol.style.overflow = 'visible';
+            }
             const clonedCard = clonedDoc.getElementById('medical-bill-preview');
             if (clonedCard) {
               clonedCard.style.setProperty('box-shadow', 'none', 'important');
               clonedCard.style.setProperty('outline', 'none', 'important');
               clonedCard.style.transform = 'none';
+              clonedCard.style.webkitTransform = 'none';
+              clonedCard.style.setProperty('transform', 'none', 'important');
+              clonedCard.style.setProperty('-webkit-transform', 'none', 'important');
               clonedCard.style.width = '794px';
+              clonedCard.style.minWidth = '794px';
               clonedCard.style.maxWidth = '794px';
+              clonedCard.style.margin = '0 auto';
+              clonedCard.style.borderRadius = '0';
             }
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
@@ -2299,7 +2313,12 @@
       const canvas = await renderMedicalCanvas();
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdf = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        compress: true
+      });
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
@@ -2313,16 +2332,16 @@
         const finalW = maxPrintWidth * scale;
         const finalH = contentHeight * scale;
         const xOffset = margin + (maxPrintWidth - finalW) / 2;
-        pdf.addImage(imgData, 'PNG', xOffset, margin, finalW, finalH, undefined, 'FAST');
+        pdf.addImage(imgData, 'PNG', xOffset, margin, finalW, finalH, undefined, 'NONE');
       } else {
         let heightLeft = contentHeight;
         let position = margin;
-        pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
+        pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'NONE');
         heightLeft -= maxSinglePageHeight;
         while (heightLeft > 0) {
           position = position - maxSinglePageHeight;
           pdf.addPage();
-          pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
+          pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'NONE');
           heightLeft -= maxSinglePageHeight;
         }
       }
@@ -2444,7 +2463,8 @@
           onGetPNGBlob: getMedicalPNGBlob,
           onGetPDFBlob: getMedicalPDFBlob,
           onDownloadPNG: downloadAsPNG,
-          onDownloadPDF: downloadAsPDF
+          onDownloadPDF: downloadAsPDF,
+          onPrint: printMedicalBill
         });
       }
     }

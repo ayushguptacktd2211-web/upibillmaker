@@ -5189,24 +5189,49 @@
         }
 
         const canvas = await html2canvas(invoiceElem, {
-          scale: 2.5,
+          scale: 3.5,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           logging: false,
           scrollX: 0,
           scrollY: 0,
-          windowWidth: 1024,
+          windowWidth: 1200,
+          windowHeight: 1800,
           onclone: (clonedDoc) => {
+            const clonedViewport = clonedDoc.getElementById('invoice-preview-viewport');
+            if (clonedViewport) {
+              clonedViewport.style.width = '840px';
+              clonedViewport.style.minWidth = '840px';
+              clonedViewport.style.maxWidth = 'none';
+              clonedViewport.style.height = 'auto';
+              clonedViewport.style.overflow = 'visible';
+              clonedViewport.style.padding = '0';
+              clonedViewport.style.margin = '0 auto';
+              clonedViewport.style.transform = 'none';
+            }
+            const clonedCol = clonedDoc.getElementById('col-main-preview');
+            if (clonedCol) {
+              clonedCol.style.width = '880px';
+              clonedCol.style.minWidth = '880px';
+              clonedCol.style.maxWidth = 'none';
+              clonedCol.style.overflow = 'visible';
+            }
             const clonedContainer = clonedDoc.getElementById('invoice-preview-container');
             if (clonedContainer) {
               clonedContainer.style.setProperty('box-shadow', 'none', 'important');
               clonedContainer.style.setProperty('outline', 'none', 'important');
+              clonedContainer.style.transform = 'none';
+              clonedContainer.style.webkitTransform = 'none';
+              clonedContainer.style.setProperty('transform', 'none', 'important');
+              clonedContainer.style.setProperty('-webkit-transform', 'none', 'important');
               const isThermal = clonedContainer.classList.contains('format-rest-thermal');
               const targetW = isThermal ? '380px' : '794px';
               clonedContainer.style.width = targetW;
+              clonedContainer.style.minWidth = targetW;
               clonedContainer.style.maxWidth = targetW;
               clonedContainer.style.margin = '0 auto';
+              clonedContainer.style.borderRadius = '0';
             }
             clonedDoc.querySelectorAll('.editable-field').forEach(el => {
               el.removeAttribute('contenteditable');
@@ -5229,7 +5254,7 @@
                 qrSrc = origImg.src;
               }
               if (qrSrc) {
-                cloneQr.innerHTML = `<img src="${qrSrc}" style="width: 80px; height: 80px; display: block; margin: 0 auto; object-fit: contain;" />`;
+                cloneQr.innerHTML = `<img src="${qrSrc}" style="width: 84px; height: 84px; display: block; margin: 0 auto; object-fit: contain; image-rendering: crisp-edges;" />`;
               }
             }
           }
@@ -5268,7 +5293,12 @@
       const canvas = await renderInvoiceCanvas();
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdf = new jsPDF({
+        orientation: 'p',
+        unit: 'mm',
+        format: 'a4',
+        compress: true
+      });
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
@@ -5282,16 +5312,16 @@
         const finalW = maxPrintWidth * scale;
         const finalH = contentHeight * scale;
         const xOffset = margin + (maxPrintWidth - finalW) / 2;
-        pdf.addImage(imgData, 'PNG', xOffset, margin, finalW, finalH, undefined, 'FAST');
+        pdf.addImage(imgData, 'PNG', xOffset, margin, finalW, finalH, undefined, 'NONE');
       } else {
         let heightLeft = contentHeight;
         let position = margin;
-        pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
+        pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'NONE');
         heightLeft -= maxSinglePageHeight;
         while (heightLeft > 0) {
           position = position - maxSinglePageHeight;
           pdf.addPage();
-          pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'FAST');
+          pdf.addImage(imgData, 'PNG', margin, position, maxPrintWidth, contentHeight, undefined, 'NONE');
           heightLeft -= maxSinglePageHeight;
         }
       }
