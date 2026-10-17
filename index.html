@@ -186,8 +186,13 @@
       width: 100%;
       max-width: 100% !important;
       position: relative;
-      contain: paint layout;
+    }
+    #invoice-preview-viewport.is-fit-screen {
       overflow: hidden !important;
+    }
+    #invoice-preview-viewport.is-scrollable {
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
     }
     #invoice-preview-container {
       width: 100%;
@@ -1475,9 +1480,9 @@
         </div>
 
         <!-- Mobile Fit Viewport Wrapper (Paper Mat Container with Generous Left & Right Space) -->
-        <div id="invoice-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
+        <div id="invoice-preview-viewport" class="w-full relative bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
           <!-- The Live Rendered Sheet (Authentic Real Indian Invoice Format) -->
-          <div id="invoice-preview-container" class="format-shop-a4 theme-shop google-anno-skip bg-white rounded-none border border-slate-800 shadow-md p-3.5 sm:p-5 transition-all relative text-slate-900 font-sans">
+          <div id="invoice-preview-container" class="format-shop-a4 theme-shop google-anno-skip bg-white rounded-none border border-slate-800 shadow-md p-3.5 sm:p-5 relative text-slate-900 font-sans">
           
           <!-- Top Tax Invoice Legal Title Bar -->
           <div class="doc-title-bar text-center pb-2 mb-2 border-b border-slate-800 transition-colors">
@@ -1592,7 +1597,52 @@
                 </tr>
               </thead>
               <tbody id="prev-items-body" class="divide-y divide-slate-200 text-slate-800">
-                <!-- Dynamically populated rows with S.No, direct inline editing, and borders -->
+                <tr data-row-index="0" class="border-b border-slate-200 hover:bg-slate-50/50">
+                  <td class="td-sno py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200">1</td>
+                  <td class="td-desc py-2 px-3 font-medium text-slate-900 border-r border-slate-200">
+                    <span contenteditable="true" spellcheck="false" class="editable-field editable-desc block" data-row-idx="0" title="Click to edit item description">Dell 24&quot; FHD IPS Commercial Monitor (P2422H)</span>
+                  </td>
+                  <td class="td-hsn py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200">
+                    <span contenteditable="true" spellcheck="false" class="editable-field editable-hsn inline-block" data-row-idx="0" title="Click to edit HSN/SAC">8471</span>
+                  </td>
+                  <td class="td-qty py-2 px-2 text-center text-slate-800 font-semibold border-r border-slate-200">
+                    <span contenteditable="true" spellcheck="false" class="editable-field editable-qty inline-block" data-row-idx="0" title="Click to edit quantity">1</span>
+                  </td>
+                  <td class="td-rate py-2 px-3 text-right font-mono text-slate-800 border-r border-slate-200">
+                    <span contenteditable="true" spellcheck="false" class="editable-field editable-price inline-block font-semibold" data-row-idx="0" title="Click to edit rate">₹14,500.00</span>
+                  </td>
+                  <td class="td-amount py-2 px-3 text-right font-mono font-bold text-slate-900 prev-row-amount">
+                    ₹14,500.00
+                  </td>
+                  <td class="py-2 px-2 text-center w-6 no-print">
+                    <button type="button" onclick="deleteItemRowByIndex(0)" title="Delete line item" class="text-slate-300 hover:text-rose-600 p-0.5 rounded transition-colors opacity-70 hover:opacity-100 cursor-pointer">
+                      <svg class="w-3.5 h-3.5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                  </td>
+                </tr>
+                <tr data-row-index="1" class="border-b border-slate-200 hover:bg-slate-50/50">
+                  <td class="td-sno py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200">2</td>
+                  <td class="td-desc py-2 px-3 font-medium text-slate-900 border-r border-slate-200">
+                    <span contenteditable="true" spellcheck="false" class="editable-field editable-desc block" data-row-idx="1" title="Click to edit item description">Logitech Wireless Keyboard &amp; Mouse Combo (MK270)</span>
+                  </td>
+                  <td class="td-hsn py-2 px-2 text-center font-mono text-slate-600 border-r border-slate-200">
+                    <span contenteditable="true" spellcheck="false" class="editable-field editable-hsn inline-block" data-row-idx="1" title="Click to edit HSN/SAC">8471</span>
+                  </td>
+                  <td class="td-qty py-2 px-2 text-center text-slate-800 font-semibold border-r border-slate-200">
+                    <span contenteditable="true" spellcheck="false" class="editable-field editable-qty inline-block" data-row-idx="1" title="Click to edit quantity">2</span>
+                  </td>
+                  <td class="td-rate py-2 px-3 text-right font-mono text-slate-800 border-r border-slate-200">
+                    <span contenteditable="true" spellcheck="false" class="editable-field editable-price inline-block font-semibold" data-row-idx="1" title="Click to edit rate">₹1,350.00</span>
+                  </td>
+                  <td class="td-amount py-2 px-3 text-right font-mono font-bold text-slate-900 prev-row-amount">
+                    ₹2,700.00
+                  </td>
+                  <td class="py-2 px-2 text-center w-6 no-print">
+                    <button type="button" onclick="deleteItemRowByIndex(1)" title="Delete line item" class="text-slate-300 hover:text-rose-600 p-0.5 rounded transition-colors opacity-70 hover:opacity-100 cursor-pointer">
+                      <svg class="w-3.5 h-3.5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                  </td>
+                </tr>
               </tbody>
               <tfoot class="no-print">
                 <tr>
@@ -1612,7 +1662,7 @@
             <button type="button" onclick="hideBillSection('amount-in-words')" class="sec-hide-btn no-print" title="Hide amount in words">✕ Hide</button>
             <div>
               <span class="font-bold text-slate-800 text-[11px]">Amount in Words:</span>
-              <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1 text-[11px]">INR Zero Rupees Only</span>
+              <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1 text-[11px]">INR Twenty Thousand Two Hundred Ninety-Six Rupees Only</span>
             </div>
             <div class="text-[9px] text-slate-500 uppercase tracking-widest font-semibold">E. & O.E.</div>
           </div>
@@ -1669,20 +1719,20 @@
               <div class="space-y-1 text-xs">
                 <div class="flex justify-between text-slate-600 text-[11px]">
                   <span>Taxable Value:</span>
-                  <span id="prev-subtotal" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                  <span id="prev-subtotal" class="font-medium text-slate-900 font-mono">₹17,200.00</span>
                 </div>
                 <div id="prev-discount-row" class="flex justify-between text-emerald-700 text-[11px] hidden">
                   <span id="prev-discount-label">Discount:</span>
                   <span id="prev-discount" class="font-medium font-mono">-₹0.00</span>
                 </div>
                 <div id="sec-tax-breakdown-box" class="space-y-1">
-                  <div id="prev-cgst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
+                  <div id="prev-cgst-row" class="flex justify-between text-slate-600 text-[11px]">
                     <span id="prev-cgst-label">CGST (9%):</span>
-                    <span id="prev-cgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                    <span id="prev-cgst" class="font-medium text-slate-900 font-mono">₹1,548.00</span>
                   </div>
-                  <div id="prev-sgst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
+                  <div id="prev-sgst-row" class="flex justify-between text-slate-600 text-[11px]">
                     <span id="prev-sgst-label">SGST (9%):</span>
-                    <span id="prev-sgst" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                    <span id="prev-sgst" class="font-medium text-slate-900 font-mono">₹1,548.00</span>
                   </div>
                   <div id="prev-igst-row" class="flex justify-between text-slate-600 text-[11px] hidden">
                     <span id="prev-igst-label">IGST (18%):</span>
@@ -1691,7 +1741,7 @@
                 </div>
                 <div class="border-t-2 border-slate-900 pt-1.5 flex justify-between items-center text-slate-900">
                   <span class="font-bold text-xs uppercase">Total Due:</span>
-                  <span id="prev-grand-total" class="font-heading font-black text-lg text-slate-900 font-mono">₹0.00</span>
+                  <span id="prev-grand-total" class="font-heading font-black text-lg text-slate-900 font-mono">₹20,296.00</span>
                 </div>
               </div>
 
@@ -6992,22 +7042,28 @@
       const isThermal = container.classList.contains('format-rest-thermal');
       const baseWidth = isThermal ? 380 : 740;
 
-      if (window.innerWidth < 768) {
-        const availableWidth = (viewport.clientWidth || (window.innerWidth - 32)) - 16;
-        if (availableWidth < baseWidth) {
-          const scale = Math.min(1, Math.max(0.35, availableWidth / baseWidth));
-          container.style.width = baseWidth + 'px';
-          container.style.minWidth = baseWidth + 'px';
-          container.style.transformOrigin = 'top center';
-          container.style.transform = `scale(${scale})`;
-          viewport.style.height = Math.ceil(container.offsetHeight * scale + 24) + 'px';
-        } else {
-          container.style.width = isThermal ? '380px' : '';
-          container.style.minWidth = '';
-          container.style.transform = 'none';
-          viewport.style.height = 'auto';
-        }
+      const cs = window.getComputedStyle(viewport);
+      const padLeft = parseFloat(cs.paddingLeft) || 12;
+      const padRight = parseFloat(cs.paddingRight) || 12;
+      const padTop = parseFloat(cs.paddingTop) || 12;
+      const padBottom = parseFloat(cs.paddingBottom) || 12;
+      const padX = padLeft + padRight;
+      const padY = padTop + padBottom;
+
+      const clientWidth = viewport.clientWidth || window.innerWidth;
+      const availableWidth = Math.max(240, clientWidth - padX);
+
+      if (availableWidth < baseWidth) {
+        viewport.classList.add('is-fit-screen');
+        viewport.classList.remove('is-scrollable');
+        const scale = Math.min(1, Math.max(0.35, availableWidth / baseWidth));
+        container.style.width = baseWidth + 'px';
+        container.style.minWidth = baseWidth + 'px';
+        container.style.transformOrigin = 'top center';
+        container.style.transform = `scale(${scale})`;
+        viewport.style.height = Math.ceil(container.offsetHeight * scale + padY + 36) + 'px';
       } else {
+        viewport.classList.remove('is-fit-screen');
         container.style.width = isThermal ? '380px' : '';
         container.style.minWidth = '';
         container.style.transform = 'none';

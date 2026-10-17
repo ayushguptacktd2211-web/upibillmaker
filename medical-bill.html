@@ -762,8 +762,8 @@
       </div>
 
       <!-- Mobile Fit Viewport Wrapper (Paper Mat Container with Generous Left & Right Space) -->
-      <div id="medical-preview-viewport" class="w-full overflow-hidden transition-all relative is-fit-screen bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
-        <div id="medical-bill-preview" class="bg-white p-3.5 sm:p-5 rounded-none border-2 border-teal-700 format-chemist shadow-md relative text-slate-900 font-sans transition-all">
+      <div id="medical-preview-viewport" class="w-full relative bg-slate-100/70 p-3 sm:p-8 rounded-2xl border border-slate-200/80 shadow-inner flex justify-center items-start">
+        <div id="medical-bill-preview" class="bg-white p-3.5 sm:p-5 rounded-none border-2 border-teal-700 format-chemist shadow-md relative text-slate-900 font-sans">
         
         <!-- Centered Pharmacy Tax Invoice Legal Header with Clinical Emblem -->
         <div class="text-center pb-2 mb-2 border-b-2 border-teal-700 bg-teal-50/60 p-2.5 -m-3.5 sm:-m-5 mb-2.5 relative med-header-box">
@@ -781,16 +781,16 @@
           <!-- Left 7 Cols: Pharmacy / Store Info -->
           <div class="sm:col-span-7 sm:pr-3 space-y-0.5 text-xs">
             <span class="text-[9px] font-bold uppercase tracking-wider text-slate-500 block">Dispensed & Billed By:</span>
-            <h3 class="editable-field font-heading font-extrabold text-base sm:text-lg text-slate-900 tracking-tight leading-snug" id="prev-ph-name" contenteditable="true" spellcheck="false" data-bind="pharmacy-name" title="Click to edit pharmacy name">Your Pharmacy Name</h3>
-            <p class="editable-field text-[11px] text-slate-600 block mt-0.5" id="prev-ph-address" contenteditable="true" spellcheck="false" data-bind="pharmacy-address" title="Click to edit address"></p>
+            <h3 class="editable-field font-heading font-extrabold text-base sm:text-lg text-slate-900 tracking-tight leading-snug" id="prev-ph-name" contenteditable="true" spellcheck="false" data-bind="pharmacy-name" title="Click to edit pharmacy name">Sanjeevani Medicos &amp; Healthcare</h3>
+            <p class="editable-field text-[11px] text-slate-600 block mt-0.5" id="prev-ph-address" contenteditable="true" spellcheck="false" data-bind="pharmacy-address" title="Click to edit address">Opp. Civil Hospital Gate, Sector 12</p>
             <p class="text-[11px] text-slate-700 font-mono" id="prev-ph-phone-gst-row">
-              <span id="prev-ph-phone-wrap">Phone: <span id="prev-ph-phone" class="editable-field font-bold" contenteditable="true" spellcheck="false" data-bind="pharmacy-phone"></span></span>
-              <span id="prev-ph-gst-wrap"> | GSTIN: <span id="prev-ph-gstin" class="editable-field font-bold text-slate-900" contenteditable="true" spellcheck="false" data-bind="pharmacy-gstin"></span></span>
+              <span id="prev-ph-phone-wrap">Phone: <span id="prev-ph-phone" class="editable-field font-bold" contenteditable="true" spellcheck="false" data-bind="pharmacy-phone">+91 98765 *****</span></span>
+              <span id="prev-ph-gst-wrap"> | GSTIN: <span id="prev-ph-gstin" class="editable-field font-bold text-slate-900" contenteditable="true" spellcheck="false" data-bind="pharmacy-gstin">07AABCS****P1ZM</span></span>
             </p>
             <div id="prev-dl-row" class="group/sec relative inline-block mt-0.5">
               <button type="button" onclick="hideBillSection('dl-number')" class="sec-hide-btn no-print" title="Hide DL No">✕</button>
               <p class="text-[11px] font-mono font-bold text-teal-800">
-                Drug Lic. (DL) No: <span id="prev-dl-number" class="editable-field" contenteditable="true" spellcheck="false" data-bind="dl-number">DL-20B/**** & DL-21B/****</span>
+                Drug Lic. (DL) No: <span id="prev-dl-number" class="editable-field" contenteditable="true" spellcheck="false" data-bind="dl-number">DL-20B/**** &amp; 21B/****</span>
               </p>
             </div>
           </div>
@@ -801,11 +801,11 @@
               <tbody>
                 <tr class="border-b border-slate-200">
                   <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] w-2/5 border-r border-slate-200">Memo #:</td>
-                  <td class="py-1 px-2 font-mono font-bold text-slate-900" id="prev-inv-no" contenteditable="true" spellcheck="false" class="editable-field" data-bind="med-inv-no" title="Click to edit invoice #">MED-101</td>
+                  <td class="py-1 px-2 font-mono font-bold text-slate-900" id="prev-inv-no" contenteditable="true" spellcheck="false" class="editable-field" data-bind="med-inv-no" title="Click to edit invoice #">MED-2026-401</td>
                 </tr>
                 <tr class="border-b border-slate-200">
                   <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Date:</td>
-                  <td class="py-1 px-2 font-mono text-slate-800 font-medium" id="prev-date"></td>
+                  <td class="py-1 px-2 font-mono text-slate-800 font-medium" id="prev-date">2026-10-17</td>
                 </tr>
                 <tr>
                   <td class="py-1 px-2 font-bold text-slate-600 bg-slate-50 uppercase text-[9px] border-r border-slate-200">Status:</td>
@@ -823,18 +823,18 @@
         </div>
 
         <!-- Doctor & Patient Info Bar: Continuous Accounting Bar -->
-        <div id="prev-pt-dr-bar" class="group/sec relative hidden grid-cols-1 sm:grid-cols-2 gap-2 bg-teal-50/30 border-b border-teal-700 py-1.5 px-2 text-xs">
+        <div id="prev-pt-dr-bar" class="group/sec relative grid grid-cols-1 sm:grid-cols-2 gap-2 bg-teal-50/30 border-b border-teal-700 py-1.5 px-2 text-xs">
           <button type="button" onclick="hideBillSection('pt-dr-bar')" class="sec-hide-btn no-print" title="Hide Doctor & Patient Info">✕ Hide</button>
           <div id="prev-pt-box" class="space-y-0.5">
             <span class="text-teal-700 font-bold uppercase text-[9px] block">Patient Information:</span>
-            <p class="font-bold text-slate-900 text-xs sm:text-sm" id="prev-pt-name"></p>
-            <p class="text-slate-600 text-[11px]" id="prev-pt-age"></p>
+            <p class="font-bold text-slate-900 text-xs sm:text-sm" id="prev-pt-name">Suresh C.</p>
+            <p class="text-slate-600 text-[11px]" id="prev-pt-age">45 Yrs / Male</p>
             <p class="text-slate-700 font-mono text-[10.5px] font-medium hidden" id="prev-pt-aadhaar-row">Patient Aadhaar: <span id="prev-pt-aadhaar" class="font-bold"></span></p>
           </div>
           <div id="prev-dr-box" class="space-y-0.5 sm:text-right">
             <span class="text-teal-700 font-bold uppercase text-[9px] block">Prescribed By Doctor:</span>
-            <p class="font-bold text-teal-950 text-xs sm:text-sm" id="prev-dr-name"></p>
-            <p class="text-slate-600 font-mono text-[11px]" id="prev-dr-reg"></p>
+            <p class="font-bold text-teal-950 text-xs sm:text-sm" id="prev-dr-name">Dr. Arvind M. (MD)</p>
+            <p class="text-slate-600 font-mono text-[11px]" id="prev-dr-reg">Reg No: MCI-*****</p>
           </div>
         </div>
 
@@ -867,7 +867,26 @@
                 <th class="th-amount py-1.5 px-2.5 text-right w-24">Amount (₹)</th>
               </tr>
             </thead>
-            <tbody id="prev-med-body" class="divide-y divide-slate-200 text-slate-800"></tbody>
+            <tbody id="prev-med-body" class="divide-y divide-slate-200 text-slate-800">
+              <tr class="border-b border-slate-200">
+                <td class="td-sno py-1.5 px-2 text-center text-[11px] font-mono border-r border-slate-200">1</td>
+                <td class="td-desc py-1.5 px-2.5 font-medium border-r border-slate-200">Augmentin 625 Duo Tablet (10s)</td>
+                <td class="td-batch py-1.5 px-2 text-center text-[10.5px] font-mono border-r border-slate-200">AUG-8921</td>
+                <td class="td-exp py-1.5 px-2 text-center text-[10.5px] font-mono border-r border-slate-200">08/27</td>
+                <td class="td-qty py-1.5 px-2 text-center font-mono border-r border-slate-200">2</td>
+                <td class="td-rate py-1.5 px-2.5 text-right font-mono border-r border-slate-200">₹204.50</td>
+                <td class="td-amount py-1.5 px-2.5 text-right font-mono font-semibold">₹409.00</td>
+              </tr>
+              <tr class="border-b border-slate-200">
+                <td class="td-sno py-1.5 px-2 text-center text-[11px] font-mono border-r border-slate-200">2</td>
+                <td class="td-desc py-1.5 px-2.5 font-medium border-r border-slate-200">Pan-D Capsule (Strip of 15)</td>
+                <td class="td-batch py-1.5 px-2 text-center text-[10.5px] font-mono border-r border-slate-200">PND-4412</td>
+                <td class="td-exp py-1.5 px-2 text-center text-[10.5px] font-mono border-r border-slate-200">11/26</td>
+                <td class="td-qty py-1.5 px-2 text-center font-mono border-r border-slate-200">1</td>
+                <td class="td-rate py-1.5 px-2.5 text-right font-mono border-r border-slate-200">₹190.00</td>
+                <td class="td-amount py-1.5 px-2.5 text-right font-mono font-semibold">₹190.00</td>
+              </tr>
+            </tbody>
           </table>
         </div>
 
@@ -876,7 +895,7 @@
           <button type="button" onclick="hideBillSection('amount-in-words')" class="sec-hide-btn no-print" title="Hide amount in words">✕ Hide</button>
           <div>
             <span class="font-bold text-slate-800 text-[11px]">Amount in Words:</span>
-            <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1 text-[11px]">INR Zero Rupees Only</span>
+            <span id="prev-amount-in-words" class="italic font-medium text-slate-900 ml-1 text-[11px]">INR Six Hundred and Thirty Seven Rupees and Twenty Eight Paise Only</span>
           </div>
           <div class="text-[9px] text-slate-500 uppercase tracking-widest font-semibold">E. & O.E.</div>
         </div>
@@ -900,7 +919,7 @@
                     <span class="font-bold text-slate-800">Pharmacy Payee UPI:</span>
                     <span id="prev-ph-upi" contenteditable="true" spellcheck="false" class="editable-field font-mono font-bold text-slate-900 tracking-tight" data-bind="pharmacy-upi" title="Click to edit UPI ID">sanjeevanimedicos@demobank</span>
                   </div>
-                  <p class="text-[10px] text-slate-500">Scan to pay exact <span id="prev-qr-amt" class="font-bold text-teal-800">₹0.00</span> via any UPI App.</p>
+                  <p class="text-[10px] text-slate-500">Scan to pay exact <span id="prev-qr-amt" class="font-bold text-teal-800">₹637.28</span> via any UPI App.</p>
                   <p class="text-[10px] text-slate-500">GPay, PhonePe, Paytm, BHIM.</p>
                 </div>
               </div>
@@ -926,20 +945,20 @@
             <div class="space-y-1 text-xs">
               <div class="flex justify-between text-slate-600 text-[11px]">
                 <span>Subtotal:</span>
-                <span id="prev-subtotal" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                <span id="prev-subtotal" class="font-medium text-slate-900 font-mono">₹599.00</span>
               </div>
-              <div id="prev-discount-row" class="flex justify-between text-emerald-700 text-[11px] hidden">
+              <div id="prev-discount-row" class="flex justify-between text-emerald-700 text-[11px]">
                 <span>Discount:</span>
-                <span id="prev-discount" class="font-medium font-mono">-₹0.00</span>
+                <span id="prev-discount" class="font-medium font-mono">-₹30.00</span>
               </div>
               <div id="sec-tax-breakdown-box" class="group/sec relative flex justify-between text-slate-600 text-[11px]">
                 <button type="button" onclick="hideBillSection('tax-breakdown')" class="sec-hide-btn no-print" title="Hide tax">✕ Hide</button>
                 <span id="prev-tax-label">GST (12%):</span>
-                <span id="prev-tax" class="font-medium text-slate-900 font-mono">₹0.00</span>
+                <span id="prev-tax" class="font-medium text-slate-900 font-mono">₹68.28</span>
               </div>
               <div class="border-t-2 border-teal-700 pt-1.5 flex justify-between items-center text-slate-900">
                 <span class="font-bold text-xs uppercase text-teal-900">Total Due:</span>
-                <span id="prev-total" class="font-heading font-black text-lg text-teal-800 font-mono med-grand-total">₹0.00</span>
+                <span id="prev-total" class="font-heading font-black text-lg text-teal-800 font-mono med-grand-total">₹637.28</span>
               </div>
             </div>
 
@@ -989,28 +1008,28 @@
         
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Pharmacy / Hospital Name</label>
-          <input type="text" id="pharmacy-name" placeholder="e.g. Sanjeevani Medicos & Healthcare" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-sm">
+          <input type="text" id="pharmacy-name" value="Sanjeevani Medicos &amp; Healthcare" placeholder="e.g. Sanjeevani Medicos & Healthcare" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-sm">
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Drug License (DL) No (Optional)</label>
-            <input type="text" id="dl-number" placeholder="e.g. DL-20B/1452 & 21B/1453" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300">
+            <input type="text" id="dl-number" value="DL-20B/**** &amp; 21B/****" placeholder="e.g. DL-20B/1452 & 21B/1453" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300">
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">GSTIN (Optional)</label>
-            <input type="text" id="pharmacy-gstin" placeholder="e.g. 07AABCS9900P1ZM" class="w-full font-mono uppercase px-3 py-2 bg-white rounded-lg border border-slate-300">
+            <input type="text" id="pharmacy-gstin" value="07AABCS****P1ZM" placeholder="e.g. 07AABCS9900P1ZM" class="w-full font-mono uppercase px-3 py-2 bg-white rounded-lg border border-slate-300">
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Contact Phone</label>
-            <input type="text" id="pharmacy-phone" placeholder="e.g. +91 98765 *****" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300">
+            <input type="text" id="pharmacy-phone" value="+91 98765 *****" placeholder="e.g. +91 98765 *****" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300">
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Store Address / City</label>
-            <input type="text" id="pharmacy-address" placeholder="e.g. Opp. Civil Hospital Gate, Sector 12" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300">
+            <input type="text" id="pharmacy-address" value="Opp. Civil Hospital Gate, Sector 12" placeholder="e.g. Opp. Civil Hospital Gate, Sector 12" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300">
           </div>
         </div>
 
@@ -1028,7 +1047,7 @@
           
           <div id="med-upi-input-group" class="space-y-1">
             <label class="block font-semibold text-slate-700">Receiver UPI ID (For Direct Medicine Payment)</label>
-            <input type="text" id="pharmacy-upi" placeholder="e.g. sanjeevanimedicos@demobank" class="w-full font-mono px-3 py-2 bg-teal-50 rounded-lg border border-teal-300">
+            <input type="text" id="pharmacy-upi" value="sanjeevanimedicos@demobank" placeholder="e.g. sanjeevanimedicos@demobank" class="w-full font-mono px-3 py-2 bg-teal-50 rounded-lg border border-teal-300">
             <p class="text-[10px] text-slate-400">Untick box above if you want a clean bill without scanner or UPI details.</p>
           </div>
 
@@ -1065,11 +1084,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Patient Name</label>
-            <input type="text" id="patient-name" placeholder="e.g. Suresh C." class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-sm min-h-[42px] h-[42px]">
+            <input type="text" id="patient-name" value="Suresh C." placeholder="e.g. Suresh C." class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 text-sm min-h-[42px] h-[42px]">
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Age / Gender</label>
-            <input type="text" id="patient-age" placeholder="e.g. 45 Yrs / Male" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+            <input type="text" id="patient-age" value="45 Yrs / Male" placeholder="e.g. 45 Yrs / Male" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
           </div>
           <div>
             <div class="flex items-center justify-between min-h-[20px] mb-1">
@@ -1083,22 +1102,22 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Prescribed By Doctor</label>
-            <input type="text" id="doctor-name" placeholder="e.g. Dr. Arvind M. (MD)" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+            <input type="text" id="doctor-name" value="Dr. Arvind M. (MD)" placeholder="e.g. Dr. Arvind M. (MD)" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Doctor Reg No.</label>
-            <input type="text" id="doctor-reg" placeholder="e.g. MCI-*****" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+            <input type="text" id="doctor-reg" value="MCI-*****" placeholder="e.g. MCI-*****" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Invoice / Cash Memo No</label>
-            <input type="text" id="med-inv-no" placeholder="e.g. MED-2026-401" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+            <input type="text" id="med-inv-no" value="MED-2026-401" placeholder="e.g. MED-2026-401" class="w-full font-mono px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Date</label>
-            <input type="date" id="med-date" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
+            <input type="date" id="med-date" value="2026-10-17" class="w-full px-3 py-2 bg-white rounded-lg border border-slate-300 min-h-[42px] h-[42px]">
           </div>
         </div>
       </div>
@@ -1130,14 +1149,27 @@
           <!-- Item 1 -->
           <div class="med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5">
             <div class="flex justify-between items-center">
-              <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" placeholder="Medicine Name & Dosage">
+              <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" value="Augmentin 625 Duo Tablet (10s)" placeholder="Medicine Name & Dosage">
               <button type="button" class="btn-del-med text-rose-500 hover:text-rose-700 px-2">✕</button>
             </div>
             <div class="grid grid-cols-4 gap-1.5">
-              <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Batch No">
-              <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" placeholder="Exp (MM/YY)">
-              <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" placeholder="Qty" value="1">
-              <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" placeholder="Rate ₹">
+              <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="AUG-8921" placeholder="Batch No">
+              <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="08/27" placeholder="Exp (MM/YY)">
+              <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" value="2" placeholder="Qty">
+              <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" value="204.50" placeholder="Rate ₹">
+            </div>
+          </div>
+          <!-- Item 2 -->
+          <div class="med-row bg-slate-50 p-2.5 rounded-lg border border-slate-200 space-y-1.5">
+            <div class="flex justify-between items-center">
+              <input type="text" class="med-name w-3/4 px-2 py-1 bg-white rounded border border-slate-300 font-semibold" value="Pan-D Capsule (Strip of 15)" placeholder="Medicine Name & Dosage">
+              <button type="button" class="btn-del-med text-rose-500 hover:text-rose-700 px-2">✕</button>
+            </div>
+            <div class="grid grid-cols-4 gap-1.5">
+              <input type="text" class="med-batch px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="PND-4412" placeholder="Batch No">
+              <input type="text" class="med-exp px-1.5 py-1 bg-white rounded border border-slate-300 font-mono text-center" value="11/26" placeholder="Exp (MM/YY)">
+              <input type="number" class="med-qty px-1.5 py-1 bg-white rounded border border-slate-300 text-center" value="1" placeholder="Qty">
+              <input type="number" class="med-rate px-1.5 py-1 bg-white rounded border border-slate-300 text-right font-mono" value="190.00" placeholder="Rate ₹">
             </div>
           </div>
         </div>
@@ -1145,7 +1177,7 @@
         <div class="grid grid-cols-2 gap-2 pt-2">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Discount (₹)</label>
-            <input type="number" id="med-discount" placeholder="0" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
+            <input type="number" id="med-discount" value="30" placeholder="0" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">Medicine GST Rate</label>
@@ -2589,19 +2621,31 @@
       const viewport = document.getElementById('medical-preview-viewport');
       if (!container || !viewport) return;
 
-      if (window.innerWidth < 768 && isMedFitToScreen) {
+      const cs = window.getComputedStyle(viewport);
+      const padLeft = parseFloat(cs.paddingLeft) || 12;
+      const padRight = parseFloat(cs.paddingRight) || 12;
+      const padTop = parseFloat(cs.paddingTop) || 12;
+      const padBottom = parseFloat(cs.paddingBottom) || 12;
+      const padX = padLeft + padRight;
+      const padY = padTop + padBottom;
+
+      const baseWidth = 680;
+      const clientWidth = viewport.clientWidth || window.innerWidth;
+      const availableWidth = Math.max(260, clientWidth - padX);
+
+      if (availableWidth < baseWidth && isMedFitToScreen) {
         viewport.classList.add('is-fit-screen');
         viewport.classList.remove('is-scrollable');
-        const baseWidth = 680;
-        const availableWidth = (viewport.clientWidth || (window.innerWidth - 32)) - 16;
         const scale = Math.min(1, Math.max(0.35, availableWidth / baseWidth));
 
         container.style.width = baseWidth + 'px';
         container.style.minWidth = baseWidth + 'px';
         container.style.transformOrigin = 'top center';
         container.style.transform = `scale(${scale})`;
-        viewport.style.height = Math.ceil(container.offsetHeight * scale + 24) + 'px';
+        // Add exact padY plus 36px buffer so bottom border, signature and watermark NEVER get cut off on tablet or mobile
+        viewport.style.height = Math.ceil(container.offsetHeight * scale + padY + 36) + 'px';
       } else {
+        viewport.classList.remove('is-fit-screen');
         container.style.width = '100%';
         container.style.minWidth = 'auto';
         container.style.transform = 'none';
@@ -2744,7 +2788,6 @@
       try { renderQuickMedChips(); } catch(e) {}
       try { initSectionVisibility(); } catch(e) {}
       try { fitMedPreviewToScreen(); } catch(e) {}
-      setTimeout(fitMedPreviewToScreen, 150);
       try { updateMedFloatingBtnState(); } catch(e) {}
 
       window.addEventListener('beforeunload', () => {
