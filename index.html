@@ -1516,7 +1516,7 @@
                 <div id="prev-seller-gstin-box" class="pt-0.5 text-[11px] text-slate-800 font-mono">
                   <span class="font-bold">GSTIN: <span id="prev-seller-gstin" contenteditable="true" spellcheck="false" class="editable-field" data-bind="seller-gstin" title="Click to edit GSTIN">07AABCS****B1Z8</span></span>
                   <span class="text-slate-400 mx-1.5">•</span>
-                  <span>State: <span id="prev-seller-state" class="font-medium">07 - Delhi</span></span>
+                  <span>State: <span id="prev-seller-state" contenteditable="true" spellcheck="false" class="editable-field font-medium" data-bind="seller-state" title="Click to edit State">07 - Delhi</span></span>
                 </div>
               </div>
             </div>
@@ -2022,21 +2022,66 @@
                          class="w-full text-sm font-mono font-bold uppercase px-3 py-2 bg-white rounded-lg border border-indigo-300 focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold text-slate-700 mb-1">Seller State / Code</label>
-                  <select id="seller-state" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500">
-                    <option value="07 - Delhi" selected>07 - Delhi</option>
-                    <option value="27 - Maharashtra">27 - Maharashtra</option>
-                    <option value="09 - Uttar Pradesh">09 - Uttar Pradesh</option>
-                    <option value="19 - West Bengal">19 - West Bengal</option>
-                    <option value="33 - Tamil Nadu">33 - Tamil Nadu</option>
-                    <option value="29 - Karnataka">29 - Karnataka</option>
-                    <option value="24 - Gujarat">24 - Gujarat</option>
-                    <option value="08 - Rajasthan">08 - Rajasthan</option>
-                    <option value="06 - Haryana">06 - Haryana</option>
-                    <option value="03 - Punjab">03 - Punjab</option>
-                    <option value="10 - Bihar">10 - Bihar</option>
-                    <option value="36 - Telangana">36 - Telangana</option>
-                  </select>
+                  <div class="flex items-center justify-between mb-1">
+                    <label for="seller-state" class="block text-xs font-semibold text-slate-700">Seller State / Code</label>
+                    <button type="button" id="seller-state-toggle-btn" onclick="toggleSellerStateMode()" class="text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1 cursor-pointer">
+                      <span id="seller-state-toggle-text">✍️ Type Manually</span>
+                    </button>
+                  </div>
+                  <!-- Dropdown Select Mode -->
+                  <div id="seller-state-select-wrapper">
+                    <select id="seller-state" onchange="handleSellerStateSelect(this.value)" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500">
+                      <option value="01 - Jammu & Kashmir">01 - Jammu & Kashmir</option>
+                      <option value="02 - Himachal Pradesh">02 - Himachal Pradesh</option>
+                      <option value="03 - Punjab">03 - Punjab</option>
+                      <option value="04 - Chandigarh">04 - Chandigarh</option>
+                      <option value="05 - Uttarakhand">05 - Uttarakhand</option>
+                      <option value="06 - Haryana">06 - Haryana</option>
+                      <option value="07 - Delhi" selected>07 - Delhi</option>
+                      <option value="08 - Rajasthan">08 - Rajasthan</option>
+                      <option value="09 - Uttar Pradesh">09 - Uttar Pradesh</option>
+                      <option value="10 - Bihar">10 - Bihar</option>
+                      <option value="11 - Sikkim">11 - Sikkim</option>
+                      <option value="12 - Arunachal Pradesh">12 - Arunachal Pradesh</option>
+                      <option value="13 - Nagaland">13 - Nagaland</option>
+                      <option value="14 - Manipur">14 - Manipur</option>
+                      <option value="15 - Mizoram">15 - Mizoram</option>
+                      <option value="16 - Tripura">16 - Tripura</option>
+                      <option value="17 - Meghalaya">17 - Meghalaya</option>
+                      <option value="18 - Assam">18 - Assam</option>
+                      <option value="19 - West Bengal">19 - West Bengal</option>
+                      <option value="20 - Jharkhand">20 - Jharkhand</option>
+                      <option value="21 - Odisha">21 - Odisha</option>
+                      <option value="22 - Chhattisgarh">22 - Chhattisgarh</option>
+                      <option value="23 - Madhya Pradesh">23 - Madhya Pradesh</option>
+                      <option value="24 - Gujarat">24 - Gujarat</option>
+                      <option value="26 - Dadra & Nagar Haveli and Daman & Diu">26 - Dadra & Nagar Haveli and Daman & Diu</option>
+                      <option value="27 - Maharashtra">27 - Maharashtra</option>
+                      <option value="29 - Karnataka">29 - Karnataka</option>
+                      <option value="30 - Goa">30 - Goa</option>
+                      <option value="31 - Lakshadweep">31 - Lakshadweep</option>
+                      <option value="32 - Kerala">32 - Kerala</option>
+                      <option value="33 - Tamil Nadu">33 - Tamil Nadu</option>
+                      <option value="34 - Puducherry">34 - Puducherry</option>
+                      <option value="35 - Andaman & Nicobar Islands">35 - Andaman & Nicobar Islands</option>
+                      <option value="36 - Telangana">36 - Telangana</option>
+                      <option value="37 - Andhra Pradesh">37 - Andhra Pradesh</option>
+                      <option value="38 - Ladakh">38 - Ladakh</option>
+                      <option value="97 - Other Territory">97 - Other Territory</option>
+                      <option value="__custom__">✍️ Other / Type Custom State Manually...</option>
+                    </select>
+                  </div>
+                  <!-- Manual Input Mode (Shown on toggle or when __custom__ is selected) -->
+                  <div id="seller-state-manual-wrapper" class="hidden">
+                    <div class="relative">
+                      <input type="text" id="seller-state-custom" placeholder="Type State Name or Code (e.g. 05 - Uttarakhand)"
+                             class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-indigo-400 focus:ring-2 focus:ring-indigo-500 pr-20">
+                      <button type="button" onclick="toggleSellerStateMode(false)" class="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 border border-slate-300 px-2 py-1 rounded transition-colors cursor-pointer">
+                        Use List
+                      </button>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-1">Manual Mode: Type any state or GST code manually</p>
+                  </div>
                 </div>
               </div>
 
@@ -3734,13 +3779,164 @@
       });
     }
 
-    // Auto-Uppercase GSTIN Inputs
+    // Official GST State Code Map (01 to 38, 97)
+    const GST_STATE_MAP = {
+      '01': '01 - Jammu & Kashmir',
+      '02': '02 - Himachal Pradesh',
+      '03': '03 - Punjab',
+      '04': '04 - Chandigarh',
+      '05': '05 - Uttarakhand',
+      '06': '06 - Haryana',
+      '07': '07 - Delhi',
+      '08': '08 - Rajasthan',
+      '09': '09 - Uttar Pradesh',
+      '10': '10 - Bihar',
+      '11': '11 - Sikkim',
+      '12': '12 - Arunachal Pradesh',
+      '13': '13 - Nagaland',
+      '14': '14 - Manipur',
+      '15': '15 - Mizoram',
+      '16': '16 - Tripura',
+      '17': '17 - Meghalaya',
+      '18': '18 - Assam',
+      '19': '19 - West Bengal',
+      '20': '20 - Jharkhand',
+      '21': '21 - Odisha',
+      '22': '22 - Chhattisgarh',
+      '23': '23 - Madhya Pradesh',
+      '24': '24 - Gujarat',
+      '26': '26 - Dadra & Nagar Haveli and Daman & Diu',
+      '27': '27 - Maharashtra',
+      '29': '29 - Karnataka',
+      '30': '30 - Goa',
+      '31': '31 - Lakshadweep',
+      '32': '32 - Kerala',
+      '33': '33 - Tamil Nadu',
+      '34': '34 - Puducherry',
+      '35': '35 - Andaman & Nicobar Islands',
+      '36': '36 - Telangana',
+      '37': '37 - Andhra Pradesh',
+      '38': '38 - Ladakh',
+      '97': '97 - Other Territory'
+    };
+
+    function getEffectiveSellerState() {
+      const manualWrap = document.getElementById('seller-state-manual-wrapper');
+      const customInp = document.getElementById('seller-state-custom');
+      const selectEl = document.getElementById('seller-state');
+
+      if (manualWrap && !manualWrap.classList.contains('hidden') && customInp && customInp.value.trim()) {
+        return customInp.value.trim();
+      }
+      if (selectEl && selectEl.value && selectEl.value !== '__custom__') {
+        return selectEl.value;
+      }
+      if (customInp && customInp.value.trim()) {
+        return customInp.value.trim();
+      }
+      return '07 - Delhi';
+    }
+
+    function setEffectiveSellerState(stateVal) {
+      if (!stateVal) return;
+      const selectEl = document.getElementById('seller-state');
+      const manualWrap = document.getElementById('seller-state-manual-wrapper');
+      const selectWrap = document.getElementById('seller-state-select-wrapper');
+      const customInp = document.getElementById('seller-state-custom');
+      const toggleText = document.getElementById('seller-state-toggle-text');
+
+      let matched = false;
+      if (selectEl) {
+        const cleanVal = stateVal.trim().toLowerCase();
+        for (let i = 0; i < selectEl.options.length; i++) {
+          const optVal = selectEl.options[i].value.toLowerCase();
+          const optText = selectEl.options[i].text.toLowerCase();
+          if (optVal === cleanVal || optText === cleanVal || optVal.startsWith(cleanVal) || cleanVal.startsWith(optVal)) {
+            selectEl.selectedIndex = i;
+            matched = true;
+            break;
+          }
+        }
+      }
+
+      if (matched) {
+        if (selectWrap) selectWrap.classList.remove('hidden');
+        if (manualWrap) manualWrap.classList.add('hidden');
+        if (toggleText) toggleText.innerText = '✍️ Type Manually';
+      } else {
+        if (customInp) customInp.value = stateVal;
+        if (selectWrap) selectWrap.classList.add('hidden');
+        if (manualWrap) manualWrap.classList.remove('hidden');
+        if (toggleText) toggleText.innerText = '📋 Choose from List';
+      }
+      if (typeof updateInvoice === 'function') updateInvoice();
+    }
+
+    function toggleSellerStateMode(forceManual) {
+      const selectWrap = document.getElementById('seller-state-select-wrapper');
+      const manualWrap = document.getElementById('seller-state-manual-wrapper');
+      const toggleText = document.getElementById('seller-state-toggle-text');
+      const customInp = document.getElementById('seller-state-custom');
+      const selectEl = document.getElementById('seller-state');
+
+      const isCurrentlyManual = manualWrap && !manualWrap.classList.contains('hidden');
+      const willBeManual = (forceManual !== undefined) ? forceManual : !isCurrentlyManual;
+
+      if (willBeManual) {
+        if (selectWrap) selectWrap.classList.add('hidden');
+        if (manualWrap) manualWrap.classList.remove('hidden');
+        if (toggleText) toggleText.innerText = '📋 Choose from List';
+        if (customInp && !customInp.value && selectEl && selectEl.value && selectEl.value !== '__custom__') {
+          customInp.value = selectEl.value;
+        }
+        if (customInp) customInp.focus();
+      } else {
+        if (manualWrap) manualWrap.classList.add('hidden');
+        if (selectWrap) selectWrap.classList.remove('hidden');
+        if (toggleText) toggleText.innerText = '✍️ Type Manually';
+        if (selectEl && selectEl.value === '__custom__') {
+          selectEl.value = '07 - Delhi';
+        }
+      }
+      if (typeof updateInvoice === 'function') updateInvoice();
+      if (typeof saveBusinessToLocal === 'function') saveBusinessToLocal();
+    }
+
+    function handleSellerStateSelect(val) {
+      if (val === '__custom__') {
+        toggleSellerStateMode(true);
+      } else {
+        if (typeof updateInvoice === 'function') updateInvoice();
+        if (typeof saveBusinessToLocal === 'function') saveBusinessToLocal();
+      }
+    }
+
+    // Auto-Uppercase GSTIN Inputs & Auto-Detect State Code
     const sellerGstinInp = document.getElementById('seller-gstin');
     if (sellerGstinInp) {
       sellerGstinInp.addEventListener('input', function() {
         this.value = this.value.toUpperCase();
+        const code = this.value.trim().substring(0, 2);
+        if (GST_STATE_MAP[code]) {
+          const matched = GST_STATE_MAP[code];
+          const selectEl = document.getElementById('seller-state');
+          const manualWrap = document.getElementById('seller-state-manual-wrapper');
+          if (selectEl && manualWrap && manualWrap.classList.contains('hidden')) {
+            selectEl.value = matched;
+            if (typeof updateInvoice === 'function') updateInvoice();
+          }
+        }
       });
     }
+
+    const sellerCustomStateInp = document.getElementById('seller-state-custom');
+    if (sellerCustomStateInp) {
+      sellerCustomStateInp.addEventListener('input', function() {
+        if (typeof updateInvoice === 'function') updateInvoice();
+        if (typeof saveBusinessToLocal === 'function') saveBusinessToLocal();
+      });
+    }
+
     const buyerGstinInp = document.getElementById('buyer-gstin');
     if (buyerGstinInp) {
       buyerGstinInp.addEventListener('input', function() {
@@ -3846,7 +4042,7 @@
             bankAcc: document.getElementById('seller-bank-acc')?.value || '',
             bankIfsc: document.getElementById('seller-bank-ifsc')?.value || '',
             gstin: document.getElementById('seller-gstin')?.value || '',
-            state: document.getElementById('seller-state')?.value || 'Delhi',
+            state: (typeof getEffectiveSellerState === 'function') ? getEffectiveSellerState() : (document.getElementById('seller-state')?.value || '07 - Delhi'),
             signatory: document.getElementById('signatory-name')?.value || '',
             isGst: !!document.getElementById('enable-gst')?.checked,
             taxRate: document.getElementById('tax-rate')?.value || '18',
@@ -3999,7 +4195,11 @@
           setVal('seller-bank-acc', draft.seller.bankAcc);
           setVal('seller-bank-ifsc', draft.seller.bankIfsc);
           setVal('seller-gstin', draft.seller.gstin);
-          setVal('seller-state', draft.seller.state);
+          if (typeof setEffectiveSellerState === 'function') {
+            setEffectiveSellerState(draft.seller.state || '07 - Delhi');
+          } else {
+            setVal('seller-state', draft.seller.state);
+          }
           setVal('signatory-name', draft.seller.signatory);
           if (draft.seller.isGst !== undefined && document.getElementById('enable-gst')) {
             document.getElementById('enable-gst').checked = draft.seller.isGst;
@@ -4177,7 +4377,7 @@
           address: document.getElementById('seller-address')?.value || '',
           upi: document.getElementById('seller-upi')?.value || '',
           gstin: document.getElementById('seller-gstin')?.value || '',
-          state: document.getElementById('seller-state')?.value || '',
+          state: (typeof getEffectiveSellerState === 'function') ? getEffectiveSellerState() : (document.getElementById('seller-state')?.value || ''),
           isGst: document.getElementById('enable-gst')?.checked,
           signatory: document.getElementById('signatory-name')?.value || '',
           logo: savedLogoBase64
@@ -4197,7 +4397,10 @@
           if (d.address && document.getElementById('seller-address')) document.getElementById('seller-address').value = d.address;
           if (d.upi && document.getElementById('seller-upi')) document.getElementById('seller-upi').value = d.upi;
           if (d.gstin && document.getElementById('seller-gstin')) document.getElementById('seller-gstin').value = d.gstin;
-          if (d.state && document.getElementById('seller-state')) document.getElementById('seller-state').value = d.state;
+          if (d.state) {
+            if (typeof setEffectiveSellerState === 'function') setEffectiveSellerState(d.state);
+            else if (document.getElementById('seller-state')) document.getElementById('seller-state').value = d.state;
+          }
           if (d.isGst !== undefined && document.getElementById('enable-gst')) {
             document.getElementById('enable-gst').checked = d.isGst;
             document.getElementById('enable-gst').dispatchEvent(new Event('change'));
@@ -4392,7 +4595,7 @@
       const sellerAddress = document.getElementById('seller-address').value.trim() || '';
       const sellerUPI = document.getElementById('seller-upi').value.trim();
       const sellerGSTIN = document.getElementById('seller-gstin').value.trim();
-      const sellerState = document.getElementById('seller-state').value;
+      const sellerState = (typeof getEffectiveSellerState === 'function') ? getEffectiveSellerState() : (document.getElementById('seller-state')?.value || '07 - Delhi');
       const signatory = document.getElementById('signatory-name').value.trim() || 'Authorized Signatory';
 
       // Safe update only if not currently active element being typed in
@@ -4943,12 +5146,18 @@
         // Non-table direct bind fields
         const bindId = target.getAttribute('data-bind');
         if (bindId) {
-          const formInput = document.getElementById(bindId);
-          if (formInput) {
-            formInput.value = target.innerText.trim();
-            saveBusinessToLocal();
+          if (bindId === 'seller-state') {
+            if (typeof setEffectiveSellerState === 'function') {
+              setEffectiveSellerState(target.innerText.trim());
+            }
+          } else {
+            const formInput = document.getElementById(bindId);
+            if (formInput) {
+              formInput.value = target.innerText.trim();
+              saveBusinessToLocal();
+            }
           }
-          if (bindId === 'seller-upi' || bindId === 'seller-name' || bindId === 'invoice-no') {
+          if (bindId === 'seller-upi' || bindId === 'seller-name' || bindId === 'invoice-no' || bindId === 'seller-state') {
             updateInvoice();
           }
           return;
