@@ -1101,14 +1101,14 @@
           <i data-lucide="receipt" class="w-4 h-4"></i>
           <span>Invoice Maker</span>
         </a>
-        <a href="scanner-maker" class="px-3 py-1.5 rounded-lg text-purple-700 hover:bg-purple-50 font-semibold flex items-center gap-1.5 transition-colors">
+        <a href="scanner-maker" class="px-3 py-1.5 rounded-lg text-slate-700 hover:text-purple-700 hover:bg-purple-50 font-semibold flex items-center gap-1.5 transition-colors">
           <i data-lucide="scan-line" class="w-4 h-4 text-purple-600"></i>
-          <span>UPI Scanner Maker</span>
+          <span>UPI Standee Maker</span>
         </a>
         
         <!-- Clean Templates Dropdown -->
         <div class="relative group">
-          <button type="button" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors">
+          <button type="button" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer">
             <i data-lucide="layout-grid" class="w-4 h-4 text-slate-500"></i>
             <span>All Templates</span>
             <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 group-hover:rotate-180 transition-transform"></i>
@@ -1140,28 +1140,20 @@
             </div>
           </div>
         </div>
+
+        <a href="#faq" class="px-3 py-1.5 rounded-lg text-slate-700 hover:bg-slate-100 font-semibold flex items-center gap-1.5 transition-colors">
+          <i data-lucide="help-circle" class="w-4 h-4 text-slate-500"></i>
+          <span>FAQs</span>
+        </a>
       </nav>
 
-      <!-- Header Right: Quick Tool Links & Mobile Menu Toggle -->
+      <!-- Header Right: Clean Share & Mobile Menu Toggle (Zero Duplicates) -->
       <div class="flex items-center gap-2">
-        <!-- Direct UPI Standee Maker button -->
-        <a href="scanner-maker" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg transition-colors shadow-2xs" title="Generate printable UPI QR counter standees & stickers">
-          <i data-lucide="scan-line" class="w-3.5 h-3.5 text-purple-600"></i>
-          <span class="hidden sm:inline">UPI Standee Maker</span>
-          <span class="sm:hidden font-bold">Standee Maker</span>
-        </a>
-
         <!-- Website Share Button -->
-        <button type="button" onclick="shareWebsite()" class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors cursor-pointer shadow-2xs" title="Share UPI Bill Maker with friends & businesses">
+        <button type="button" onclick="shareWebsite()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-lg transition-colors cursor-pointer shadow-2xs" title="Share UPI Bill Maker with friends & businesses">
           <i data-lucide="share-2" class="w-3.5 h-3.5 text-emerald-600"></i>
-          <span class="hidden sm:inline">Share</span>
+          <span>Share</span>
         </button>
-
-        <!-- Create Bill Action Button (Desktop) -->
-        <a href="#tool-section" class="hidden md:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm transition-all shadow-brand-600/20 cursor-pointer">
-          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-          <span>Create Bill Now</span>
-        </a>
 
         <!-- Mobile Hamburger Menu Button -->
         <button type="button" id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer" aria-label="Open Navigation Menu">
